@@ -1,0 +1,415 @@
+﻿@{
+    ViewBag.Title = "Measuringpointslist LTS";
+}
+@section jumbotronsect {
+    <h2>Measuringpoints List (LTS)</h2>
+}
+@section infomodaltext {
+    <h2>Measuringpoints Data</h2>
+    <p>
+        Contains Information about snow conditions (snow height, date of last snow etc...)
+        Data is daily updated, data provider is LTS.
+    </p>
+    <p>
+        
+    </p>
+}
+<div class="col-sm-12" ng-app="weather" ng-controller="weatherListController" ng-init="init('Measuringpoints',500)">
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-inline">
+            <div class="pull-left">
+                <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="query" autofocus><p>&nbsp; {{ meinecommons.length }} Measuringpoints</p>
+            </div>
+            <div class="pull-right">
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    @*<label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-inline">
+            <br />
+            <a ng-click="editCommon('new')" class="btn btn-small btn-success">New</a>
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="min-width: 20%;">Shortname</th>
+                        <th style="min-width: 20%;">Location</th>
+                        <th style="width: 130px;"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="common in meinecommons = (commons | filter:query)">
+
+                        <td><a ng-click="showInfoModal(common)">{{ common.Shortname }}</a></td>
+                        <td>{{ common.LocationInfo.RegionInfo.Name[lang] }} - {{ common.LocationInfo.TvInfo.Name[lang] }}</td>
+                        <td>
+                            <div class=" btn-group-vertical">
+                                @if (@ViewBag.globalmodify == true || @ViewBag.commonmodify == true)
+                                {
+                                    <a ng-click="editCommon(common)" class="btn btn-responsive btn-info">edit</a>
+                                }
+                                @if (@ViewBag.globaldelete == true || @ViewBag.commondelete == true)
+                                {
+                                    <a ng-click="deleteCommon(common.Id)" ng-disabled="true" class="btn btn-responsive btn-danger">delete</a>
+                                }
+                                <a ng-click="showInfoModal(common)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pull-left">
+                <a ng-click="editCommon('new')" class="btn btn-small btn-success">New</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="CommonInfoModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelInfoModal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">                
+                <div class="col-sm-12">
+
+                    <div style="max-width:420px;height:320px">
+                        <leaflet lf-center="leafletcoords" max-width="420px" height="320px"></leaflet>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                   
+                        <br />
+                        <h2>{{ common.Shortname }}</h2>    
+                    
+                    <p ng-show="common.LastSnowDate != null">
+                        <strong>Last Update Date</strong><br />
+                        {{ common.LastUpdate | moment:'DD/MM/YYYY' }}
+                    </p>                
+
+                    <p ng-show="common.LocationInfo != null">
+                        <strong>Location</strong><br />
+                        {{ common.LocationInfo.RegionInfo.Name[lang] }} - {{ common.LocationInfo.TvInfo.Name[lang] }}
+                    </p>
+
+                    <p ng-show="common.SnowHeight != null">
+                        <strong>Snow Height</strong><br />
+                        {{ common.SnowHeight }} cm
+                    </p>
+
+                    <p ng-show="common.newSnowHeight != null">
+                        <strong>new Snow Height</strong><br />
+                        {{ common.newSnowHeight }} cm
+                    </p>
+
+                    <p ng-show="common.LastSnowDate != null">
+                        <strong>Last Snow Date</strong><br />
+                        {{ common.LastSnowDate | moment:'DD/MM/YYYY' }}
+                    </p>
+
+                    <p ng-show="common.Temperature != null">
+                        <strong>Temperature</strong><br />
+                        {{ common.Temperature }}
+                    </p>
+
+                   
+
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+
+                        <br />
+
+                        <h2>Weather Observation</h2>
+
+                        <div ng-repeat="observation in common.WeatherObservation">                            
+
+                            <p ng-show="observation.WeatherStatus != null">
+                                <strong>Weatherdesc:</strong><br />
+                                {{ observation.WeatherStatus['de'] }}<br />
+                                <img data-ng-src="{{ '../img/weather/' + observation.Level + observation.LevelId + '.gif' }}" id="logourl" style="width:75px;" @*class="pull-right"*@ />
+                            </p>
+
+                        </div>                        
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelInfoModal()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="CommonCrudModal.html">
+        <form name="commonform">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancelCrudModal()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit</h4>
+
+
+
+            </div>
+            <div class="modal-body">
+                <div class="btn-group pull-right">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    @*<label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>*@
+                </div>
+                <tabset>
+                    <tab heading="Detail">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputId" class="col-sm-4 control-label">Id</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="newcommon" required>
+                                            <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="!newcommon" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Shortname</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Shortname" ng-model="common.Shortname" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputOwnerId" class="col-sm-4 control-label">OwnerId</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputOwnerId" ng-model="common.OwnerId" readonly>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="form-group" ng-repeat="area in common.AreaIds">
+                                        <label for="inputAreaId" class="col-sm-4 control-label">AreaId</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputAreaId" ng-model="area" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputLastSnowDate" class="col-sm-4 control-label">Last Update</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputLastUpdate" ng-model="common.LastUpdate" readonly/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <div class="form-group">
+                                    <label for="inputActive" class="col-sm-4 control-label">Active</label>
+                                    <div class="col-sm-8">
+                                        <input type="checkbox" class="bigcheckbox" id="checkboxActive" ng-model="common.Active">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputSmgActive" class="col-sm-4 control-label">SmgActive</label>
+                                    <div class="col-sm-8">
+                                        <input type="checkbox" class="bigcheckbox" id="checkboxActive" ng-model="common.SmgActive">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            </div>
+                    </tab>
+                  
+                    <tab heading="Gps">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    @*<h4>Gps Point</h4>*@
+                                    <div class="form-group">
+                                        <label for="inputGpstype" class="col-sm-4 control-label">Gpstype</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputGpstype" placeholder="Gpstype" ng-model="common.Gpstype" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLatitude" class="col-sm-4 control-label">Latitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputLatitude" ng-model="common.Latitude">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLongitude" class="col-sm-4 control-label">Longitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputLongitude" placeholder="Longitude" ng-model="common.Longitude">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAltitude" class="col-sm-4 control-label">Altitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputAltitude" ng-model="common.Altitude">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAltitudeUnitofMeasure" class="col-sm-4 control-label">Altitude Unit</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control pull-left" id="inputAltitudeUnitofMeasure" ng-model="common.AltitudeUnitofMeasure">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+                   
+                    <tab heading="Observation">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputSnowHeight" class="col-sm-4 control-label">SnowHeight</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputSnowHeight" ng-model="common.SnowHeight" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputnewSnowHeight" class="col-sm-4 control-label">newSnowHeight</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputnewSnowHeight" ng-model="common.newSnowHeight" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputTemperature" class="col-sm-4 control-label">Temperature</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputTemperature" ng-model="common.Temperature" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLastSnowDate" class="col-sm-4 control-label">LastSnowDate</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputLastSnowDate" ng-model="common.LastSnowDate" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div ng-repeat="observation in common.WeatherObservation">
+
+                                        <div class="form-group">
+                                            <label for="inputObservationId" class="col-sm-4 control-label">Id</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="inputObservationId" ng-model="observation.Id" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputLevel" class="col-sm-4 control-label">Level</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="inputLevel" ng-model="observation.Level" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputLevelId" class="col-sm-4 control-label">LevelId</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="inputLevelId" ng-model="observation.LevelId" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputWeatherStatus" class="col-sm-4 control-label">WeatherStatus</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="inputWeatherStatus" ng-model="observation.WeatherStatus[lang]" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+                </tabset>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success" ng-click="addCrud(common,commonform.$valid)" ng-show="newcommon">Create</button>
+                <button class="btn btn-warning" ng-click="updateCrud(common,commonform.$valid)" ng-show="!newcommon">Save</button>
+                <button class="btn btn-info" ng-click="cancelCrudModal()">Cancel</button>
+            </div>
+        </form>
+    </script>
+
+</div>
+
+@section Styles{
+    <style type="text/css">
+        .marker-labels {
+            background-color: #808080;
+            opacity: 0.5;
+            font-size: 14px;
+            font-weight: bold;
+            border-style: solid;
+            border-color: black;
+            border-width: 1px;
+        }
+
+        #map {
+            height: 320px;
+            width: 840px;
+        }
+
+        .infoWindowContent {
+            font-size: 14px !important;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+    </style>
+
+}
+
+@section Scripts {
+    @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
+    @*<script src="~/NgScripts/appfactory.js"></script>*@
+<script src="~/NgScripts/appconfig.js"></script>
+<script src="~/NgScripts/WeatherController.js?ver=20190806"></script>
+@*<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>*@
+}

@@ -1,0 +1,1377 @@
+﻿
+@{
+    ViewBag.Title = "SlopeList LTS";
+}
+@section jumbotronsect {
+    <h2>Slope Activities List (LTS)</h2>
+}
+@section infomodaltext {
+    <h2>Activity Data / Slope</h2>
+    <p>All data is syncronized daily from LTS TIC Web Interface (Activity Data).</p>
+    <p>
+        All data is daily updated also present on the container ODHActivityPoi.
+    </p>
+
+    <p>Only CC0 Images are displayed</p>
+}
+
+<div class="col-sm-12" ng-app="activity" ng-controller="activityListController" ng-init="init('Piste','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp')">
+
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-inline">
+
+                <div class="pull-right">
+                    <div class="btn-group" ng-click="changeLanguage()">
+
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <br />
+            <div class="form-inline">
+                <div class="pull-right">
+                    <span class="btn btn-default"> Elements: {{ totalcount }} </span>
+                    <input type="button" id="prevpage" ng-click="changePage(-1,true)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                    &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                    <input type="button" id="nextpage" ng-click="changePage(+1,true)" class="btn btn-info" value="next" ng-disabled="page == totalpages || totalpages == 0" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <br />
+        <div class="col-sm-3 col-xs-12 table-bordered filtertable">
+            <div class="form-inline">
+                <br />
+                <div class="form-group col-sm-12">
+                    <input type="button" id="filterbutton" ng-click="applyFilter(1)" class="btn btn-info" value="Filter" />
+                    <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
+                </div>
+
+                @*<div class="form-group col-sm-12">
+                        <h6>Name</h6>
+                        <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="filter" autofocus>
+                    </div>*@
+
+                <div class="form-group col-sm-12" ng-controller="PoinameTypeAheadController">
+                    <h6>Activity Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
+                    <typeaheadpoi items="items" templateurl="PoiNameTemplate" prompt="Name" title="name" subtitle="typ" model="$parent.SelectedActivityName" idmodel="$parent.SelectedActivityId" on-select="onItemSelected()" />
+                </div>
+
+                <div class="form-group col-sm-12" ng-controller="LocationTypeAheadController">
+                    <h6>Location<small class="btn-link pull-right" ng-click="clearLocationFilter()">Clear</small></h6>
+                    <typeaheadpoi items="locitems" templateurl="LocationNameTemplate" prompt="Tourismverein" title="name" subtitle="typ" model="$parent.SelectedLocationName" submodel="$parent.SelectedLocationTyp" idmodel="$parent.SelectedLocationId" on-select="onItemSelected()" />
+                </div>
+
+                <div class="form-group col-sm-12" ng-controller="SkiAreaTypeAheadController">
+                    <h6>Skiregion/Skigebiet<small class="btn-link pull-right" ng-click="clearSkiAreaFilter()">Clear</small></h6>
+                    <typeaheadpoi items="skiitems" templateurl="SkiAreaNameTemplate" prompt="Name" title="name" subtitle="typ" model="$parent.SelectedSkiAreaName" submodel="$parent.SelectedSkiAreaTyp" idmodel="$parent.SelectedSkiAreaIds" on-select="onItemSelected()" />
+                </div>
+
+                <div class="form-group col-sm-12" ng-controller="SmgTagNameTypeAheadController">
+                    <h6>ODH Tag<small class="btn-link pull-right" ng-click="clearTagFilter()">Clear</small></h6>
+                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
+                </div>
+
+                <div class="form-group col-sm-12 col-xs-6">
+                    <h6>Difficulty<small class="btn-link pull-right" ng-click="clearDifficultyFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkDifficultyModel.1" btn-checkbox>blue</label>
+                        <label class="btn btn-default" ng-model="checkDifficultyModel.2" btn-checkbox>red</label>
+                        <label class="btn btn-default" ng-model="checkDifficultyModel.3" btn-checkbox>black</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12 col-xs-6">
+                    <h6>Type<small class="btn-link pull-right" ng-click="clearTypeFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.1" btn-checkbox>not defined</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.2" btn-checkbox>alpine skiing</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.3" btn-checkbox>Snowpark</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.4" btn-checkbox>Circuit</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.5" btn-checkbox>Other slopes</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <h6>TIC Active<small class="btn-link pull-right" ng-click="clearTICActiveFilter()">Clear</small></h6>
+                    <select class="form-control" id="selectTyp" ng-model="active">
+                        <option value="null">all</option>
+                        <option value="true">active</option>
+                        <option value="false">not active</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <h6>ODH active<small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
+                    <select class="form-control" id="selectTyp" ng-model="smgactive">
+                        <option value="null">all</option>
+                        <option value="true">active</option>
+                        <option value="false">not active</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <br />
+                    <input type="button" id="filterbutton" ng-click="applyFilter(1)" class="btn btn-info" value="Filter" />
+                    <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
+                    <br />
+                    <br />
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-9 col-xs-12 table-responsive">
+
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width:160px">MainImage</th>
+                        <th class="hidden-xs">Shortname</th>
+                        <th class="hidden-xs">Type</th>
+                        <th class="hidden-xs">Location</th>
+                        @*<th class="hidden-sm hidden-lg hidden-md">Details</th>*@
+                        <th style="min-width: 80px;">TIC Active</th>
+                        <th style="min-width: 80px;">ODH active</th>
+                        <th style="min-width: 80px;">Outdooractive</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="activity in activities | filter:query">
+                        <td>
+                            <div style="max-width:150px;min-height:75px">
+                                <img class="img-thumbnail img-responsive" @*style="max-height:150px;max-width:150px"*@ ng-src="{{  activity.ImageGallery[0] != NULL && activity.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ activity.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(activity)" />
+                            </div>
+                        </td>
+                        @*<td>{{ activity.Id }}</td>*@
+                        <td class="hidden-xs">{{ activity.Detail[lang].Title }}</td>
+                        <td class="hidden-xs">{{ activity.AdditionalPoiInfos[lang].MainType }} - {{ activity.AdditionalPoiInfos[lang].SubType }}</td>
+                        <td class="hidden-xs">{{ activity.LocationInfo.RegionInfo.Name[lang] }} - {{ activity.LocationInfo.TvInfo.Name[lang] }}</td>
+                        @*<td class="hidden-sm hidden-lg hidden-md">
+                                {{ activity.Detail[lang].Title }}<br />
+                                {{ activity.AdditionalPoiInfos[lang].MainType }} - {{ activity.AdditionalPoiInfos[lang].SubType }}<br />
+                                {{ activity.LocationInfo.RegionInfo.Name[lang] }} - {{ activity.LocationInfo.TvInfo.Name[lang] }}<br />
+                                <div class="glyphicon glyphicon-ok" ng-show="activity.Active"></div>
+                                <div class="glyphicon glyphicon-remove" ng-show="activity.Active == false"></div>
+                                &nbsp;
+                                <div class="glyphicon glyphicon-ok" ng-show="activity.SmgActive"></div>
+                                <div class="glyphicon glyphicon-remove" ng-show="activity.SmgActive == false"></div>
+                            </td>*@
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="activity.Active"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="activity.Active == false"></div>
+                        </td>
+
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="activity.SmgActive" style="color:green"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="activity.SmgActive == false" style="color:red"></div>
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-success" ng-show="activity.OutdooractiveID > 0" href="https://regio.outdooractive.com/oar-suedtirol-alto-adige/r/{{ activity.OutdooractiveID }}/" target="_blank">Outdooractive</a>
+                        </td>
+                        <td>
+                            <div class="btn-group-vertical">
+                                @if (@ViewBag.globalmodify == true || @ViewBag.activitymodify == true || @ViewBag.globaldetail == true)
+                                {
+                                    <a ng-click="editactivity(activity)" class="btn btn-responsive btn-info">edit</a>
+                                }
+                                @if (@ViewBag.globaldelete == true || @ViewBag.activitydelete == true)
+                                {
+                                    <a ng-click="deleteactivity(activity.Id)" class="btn btn-responsive btn-danger">delete</a>
+                                }
+                                @if (@ViewBag.globalupdate == true || @ViewBag.activityupdate == true)
+                                {
+                                    <a ng-click="updateactivity(activity.Id)" class="btn btn-responsive btn-warning">Update</a>
+                                }
+                                @*@if (@ViewBag.globalmodify == true || @ViewBag.activitymodify == true)
+                                {
+                                    <a ng-click="opentypeselectormodal(activity)" class="btn btn-responsive btn-primary">to ODH</a>
+                                }*@
+                                <a ng-click="showInfoModal(activity)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-inline">
+                @if (@ViewBag.globalcreate == true || @ViewBag.activitycreate == true)
+                {
+                    <div class="pull-left">
+                        <a ng-click="editactivity('new')" class="btn btn-small btn-success">New</a>
+                    </div>
+                }
+                <div class="pull-right">
+                    <span class="btn btn-default"> Elements: {{ totalcount }} </span>
+                    <input type="button" id="prevpage" ng-click="changePage(-1,true)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                    &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                    <input type="button" id="nextpage" ng-click="changePage(+1,true)" class="btn btn-info" value="next" ng-disabled="page == totalpages || totalpages == 0" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="myActivityModal.html">
+        <form name="activityform">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Activity Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="btn-group pull-left">
+                            <p>
+                                Available Languages:
+                                <label class="btn btn-default" ng-repeat="activitylang in activity.HasLanguage">{{activitylang}}</label>
+                            </p>
+                        </div>
+
+                        <div class="btn-group pull-right">
+                            <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                            <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                            <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <tabset>
+
+                            <tab heading="General">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label for="inputId" class="col-sm-4 control-label">Id</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="activity.Id" ng-show="newactivity" required>
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="activity.Id" ng-show="!newactivity" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputName" class="col-sm-4 control-label">Shortname</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputName" placeholder="Shortname" ng-model="activity.Shortname" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputSmgId" class="col-sm-4 control-label">Outdooractive Id</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputSmgId" ng-model="activity.OutdooractiveID" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputName" class="col-sm-4 control-label">Last Changed</label>
+                                                <div class="col-sm-8">
+                                                    <div class="form-control">{{ activity.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputName" class="col-sm-4 control-label">TIC Active</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="form-control" id="checkboxActive" ng-model="activity.Active" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputName" class="col-sm-4 control-label">ODH active</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="form-control" id="checkboxSmgActive" ng-model="activity.SmgActive" disabled>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTourismorganization" ng-model="activity.TourismorganizationId" readonly>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group">
+                                                <label for="inputArea" class="col-sm-4 control-label">LTS Area</label>
+                                                <div class="col-sm-8">
+                                                    <ul class="list-group" style="margin-bottom:0px">
+                                                        <li class="list-group-item" style="padding:0px" ng-repeat="area in activity.AreaId"><input type="text" class="form-control notextareamaxwitdth" id="inputArea" ng-model="area" readonly></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputPoiType" class="col-sm-4 control-label">Type</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputPoiType" ng-model="activity.Type" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputSubTyp" class="col-sm-4 control-label">SubType</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputSubTyp" ng-model="activity.SubType" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputPoiType" class="col-sm-4 control-label">PoiType</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputPoiType" ng-model="activity.PoiType" readonly>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Properties">
+                                <br />
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputTyp" class="col-sm-4 control-label">Difficulty</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="selectTyp" ng-model="activity.Difficulty" disabled>
+                                                        <option>leicht</option>
+                                                        <option>wenig schwierig</option>
+                                                        <option>mäßig schwierig</option>
+                                                        <option>schwierig</option>
+                                                        <option>sehr schwierig</option>
+                                                        <option>extrem schwierig</option>
+                                                        <option>blau</option>
+                                                        <option>rot</option>
+                                                        <option>schwarz</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputHighlight" class="col-sm-4 control-label">Highlight</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="checkbox" id="inputHighlight" ng-model="activity.Highlight" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputIsOpen" class="col-sm-4 control-label">Open</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="checkbox" id="inputIsOpen" ng-model="activity.IsOpen" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputIsPrepared" class="col-sm-4 control-label">Prepared</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="checkbox" id="inputIsPrepared" ng-model="activity.IsPrepared" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputIsWithLigth" class="col-sm-4 control-label">WithLight</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="checkbox" id="inputIsWithLigth" ng-model="activity.IsWithLigth" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputHasRentals" class="col-sm-4 control-label">HasRental</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="checkbox" id="inputHasRentals" ng-model="activity.HasRentals" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputRunToValley" class="col-sm-4 control-label">RuntoValley</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="checkbox" id="inputRunToValley" ng-model="activity.RunToValley" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputLiftAvailable" class="col-sm-4 control-label">LiftAvailable</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="checkbox" id="inputLiftAvailable" ng-model="activity.LiftAvailable" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputFeetClimb" class="col-sm-4 control-label">FeetClimb</label>
+                                                <div class="col-sm-8">
+                                                    <input type="checkbox" class="checkbox" id="inputFeetClimb" ng-model="activity.FeetClimb" disabled>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-sm-6">
+
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputAltitudeDifference" class="col-sm-4 control-label">Altitudedifference</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputAltitudeDifference" placeholder="Altitudedifference" ng-model="activity.AltitudeDifference" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAltitudeHighestPoint" class="col-sm-4 control-label">Altitude Highest</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputAltitudeHighestPoint" placeholder="AltitudeHighestPoint" ng-model="activity.AltitudeHighestPoint" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAltitudeLowestPoint" class="col-sm-4 control-label">Altitude Lowest</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputAltitudeLowestPoint" placeholder="AltitudeLowestPoint" ng-model="activity.AltitudeLowestPoint" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAltitudeSumUp" class="col-sm-4 control-label">Altitude SumUp</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputAltitudeSumUp" placeholder="AltitudeSumUp" ng-model="activity.AltitudeSumUp" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAltitudeSumDown" class="col-sm-4 control-label">Altitude Highest</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputAltitudeSumDown" placeholder="AltitudeSumDown" ng-model="activity.AltitudeSumDown" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputDistanceLength" class="col-sm-4 control-label">Length</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputDistanceLength" placeholder="Length" ng-model="activity.DistanceLength" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAltitudeDifference" class="col-sm-4 control-label">Duration</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputDistanceDuration" placeholder="DistanceDuration" ng-model="activity.DistanceDuration" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputexpostion" class="col-sm-4 control-label">Exposition</label>
+                                                <div class="col-sm-8">
+                                                    <ul class="list-group" style="margin-bottom:0px">
+                                                        <li class="list-group-item" style="padding:0px" ng-repeat="exposition in activity.Exposition"><input type="text" class="form-control" id="inputexpostion" ng-model="exposition" readonly></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </tab>
+
+                            <tab heading="Detail">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" placeholder="Title" ng-model="activity.Detail[lang].Title" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputBaseText" class="col-sm-2 control-label">BaseText</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="8" class="form-control notextareamaxwitdth" id="inputBaseText" placeholder="BaseText" ng-model="activity.Detail[lang].BaseText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputGetThereText" class="col-sm-2 control-label">GetThereText</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="4" class="form-control notextareamaxwitdth" id="inputGetThereText" placeholder="GetThereText" ng-model="activity.Detail[lang].GetThereText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAdditionalText" class="col-sm-2 control-label">Additional Text</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="4" class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" ng-model="activity.Detail[lang].AdditionalText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </tab>
+
+                            <tab heading="Gps">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-horizontal">
+
+                                            <ul class="list-group">
+                                                <li class="list-group-item" ng-repeat="gps in activity.GpsInfo">
+                                                    <span>{{ gps.Gpstype }} - {{ gps.Latitude }} - {{ gps.Longitude }} - {{ gps.Altitude }}m</span>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Track">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-horizontal">
+
+                                            <ul class="list-group">
+                                                <li class="list-group-item" ng-repeat="gps in activity.GpsTrack">
+                                                    <span ng-show="gps.GpxTrackDesc[lang] != null"><a ng-href="{{ gps.GpxTrackUrl }}" target="_blank">{{ gps.GpxTrackDesc[lang] }}</a></span>
+                                                    <span ng-show="gps.GpxTrackDesc[lang] == null"><a ng-href="{{ gps.GpxTrackUrl }}" target="_blank">Track</a></span>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Contact">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputCompanyName" class="col-sm-4 control-label">CompanyName</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyName" placeholder="CompanyName" ng-model="activity.ContactInfos[lang].CompanyName" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAddress" class="col-sm-4 control-label">Address</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address" ng-model="activity.ContactInfos[lang].Address" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputCity" class="col-sm-4 control-label">City</label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control" id="inputZipCode" placeholder="ZipCode" ng-model="activity.ContactInfos[lang].ZipCode" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputCity" placeholder="City" ng-model="activity.ContactInfos[lang].City" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputCountryName" class="col-sm-4 control-label">Country</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" id="inputCountryCode" placeholder="CountryCode" ng-model="activity.ContactInfos[lang].CountryCode" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputCountryName" placeholder="CountryName" ng-model="activity.ContactInfos[lang].CountryName" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputGivenname" class="col-sm-4 control-label">Name</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" id="inputNamePrefix" placeholder="Prefix" ng-model="activity.ContactInfos[lang].NamePrefix" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control" id="inputSurname" placeholder="Surname" ng-model="activity.ContactInfos[lang].Surname" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputGivenname" placeholder="Givenname" ng-model="activity.ContactInfos[lang].Givenname" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputEmail" class="col-sm-4 control-label">Email</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Email" ng-model="activity.ContactInfos[lang].Email" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputPhonenumber" class="col-sm-4 control-label">Phonenumber</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Phonenumber" ng-model="activity.ContactInfos[lang].Phonenumber" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputFaxnumber" class="col-sm-4 control-label">Faxnumber</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Faxnumber" ng-model="activity.ContactInfos[lang].Faxnumber" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputUrl" class="col-sm-4 control-label">Url</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputUrl" placeholder="Url" ng-model="activity.ContactInfos[lang].Url" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputVat" class="col-sm-4 control-label">Vat / Tax</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="inputVat" placeholder="Vat" ng-model="activity.ContactInfos[lang].Vat" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTax" placeholder="Tax" ng-model="activity.ContactInfos[lang].Tax" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Additional">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-horizontal">
+
+                                            @*<div class="form-group">
+                                                    <label for="inputDifficulty" class="col-sm-2 control-label">Difficulty</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control notextareamaxwitdth" id="inputDifficulty" placeholder="Difficulty" ng-model="activity.AdditionalPoiInfos[lang].Difficulty" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                    </div>
+                                                </div>*@
+
+                                            <div class="form-group">
+                                                <label for="inputMainType" class="col-sm-2 control-label">MainType</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMainType" placeholder="MainType" ng-model="activity.AdditionalPoiInfos[lang].MainType" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputSubType" class="col-sm-2 control-label">SubType</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputSubType" placeholder="SubType" ng-model="activity.AdditionalPoiInfos[lang].SubType" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputNovelty" class="col-sm-2 control-label">Novelty</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="4" type="text" class="form-control notextareamaxwitdth" id="inputNovelty" placeholder="Novelty" ng-model="activity.AdditionalPoiInfos[lang].Novelty" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Images">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-horizontal">
+                                            <h4>Images (LTS)</h4>
+
+                                            <div class="row">
+
+                                                <div class="col-sm-2"><b>Image</b></div>
+                                                <div class="col-sm-1"><b>Position</b></div>
+                                                <div class="col-sm-1"><b>License</b></div>
+                                                <div class="col-sm-2"><b>Title</b></div>
+                                                <div class="col-sm-5"><b>Description</b></div>
+                                                <div class="col-sm-1"><b>Copyright</b></div>
+                                            </div>
+
+                                            <div class="row" ng-repeat="bild in activity.ImageGallery | filter: isLTSImage">
+
+                                                <div class="col-sm-2">
+                                                    <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&H=150' }}" style="max-height:150px; max-width:200px;" />
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    {{ bild.ListPosition }}
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    {{ bild.License }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ bild.ImageTitle[lang] }}
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    {{ bild.ImageDesc[lang] }}<br />
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    {{ bild.CopyRight }}<br />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-sm-6">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group" ng-controller="FileUploadController">
+                                                    <label for="inputBild" class="col-sm-4 control-label">Bilder SMG</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="file" class="btn btn-default btn-file" nv-file-select="" uploader="uploader" />
+                                                        <div>
+                                                            <div class="progress" style="height:100%">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width:60%"></div>
+
+                                                                <div ng-repeat="item in uploader.queue">
+                                                                    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                        <span class="glyphicon glyphicon-upload"></span> Upload
+                                                                    </button>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div ng-repeat="smgbild in activity.ImageGallery | filter: isSMGImage">
+                                                        <div class="col-sm-4" style="text-align:right">
+                                                            <img class="img-rounded" ng-src="{{ smgbild.ImageUrl }}" style="max-height:85px;" />
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <span class="input-group-btn" style="vertical-align:top;">
+                                                                    <button type="button" class="btn btn-default" ng-click="deletebild(smgbild.ImageName, smgbild.ImageUrl)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                                </span>
+                                                                <input type="text" class="form-control" id="inputBildTitel" placeholder="BildTitel" ng-model="smgbild.ImageTitle[lang]">
+                                                                <textarea cols="3" class="form-control" id="inputBildBeschreibung" placeholder="BildBeschreibung" ng-model="smgbild.ImageDesc[lang]"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>*@
+                                </div>
+                            </tab>
+                            <tab heading="Season">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-horizontal">
+
+                                            <div ng-repeat="operationschedule in activity.OperationSchedule">
+
+                                                <div class="form-group">
+                                                    <label for="inputOperationScheduleName" class="col-sm-2 control-label">Name</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" id="inputOperationScheduleName" class="form-control" ng-model="operationschedule.OperationscheduleName['de']" disabled>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputOperationScheduleNameStart" class="col-sm-2 control-label">Start</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-control">
+                                                            {{ operationschedule.Start | moment:'DD/MM/YYYY' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">Stop</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-control">
+                                                            {{ operationschedule.Stop | moment:'DD/MM/YYYY' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputOperationScheduleType" class="col-sm-2 control-label">Type</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-control">
+                                                            {{ operationschedule.Type }}
+                                                        </div>
+                                                        <ul>
+                                                            <li>1 = Standard</li>
+                                                            <li>2 = only day + month recurring (year not to consider)</li>
+                                                            <li>3 = only month recurring (season: year and day not to consider)</li>
+                                                        </ul>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group" ng-repeat="operationscheduletime in operationschedule.OperationScheduleTime">
+                                                    <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">OperationSchedule Time</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-control">{{ operationscheduletime.Start }} - {{ operationscheduletime.End }} - {{ operationscheduletime.State }} - {{ operationscheduletime.Timecode }}</div>
+                                                        @*<select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.State" disabled>
+                                                                <option value="1">closed</option>
+                                                                <option value="2">open</option>
+                                                                <option value="0">Undefined</option>
+                                                            </select>
+                                                            <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode" disabled>
+                                                                <option value="0">Undefined</option>
+                                                                <option value="1">General Opening Time</option>
+                                                                <option value="2">Time range for warm meals</option>
+                                                                <option value="3">Time range for pizza</option>
+                                                                <option value="4">Time range for snack's</option>
+                                                            </select>*@
+                                                        <div class="btn-group-horizontal">
+                                                            <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Mon</label>
+                                                            <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tue</label>
+                                                            <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wed</label>
+                                                            <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thu</label>
+                                                            <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Fri</label>
+                                                            <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Sat</label>
+                                                            <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sun</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Ratings">
+                                <br />
+                                <div class="row">
+
+                                    <div class="col-sm-12">
+
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputStamina" class="col-sm-4 control-label">Stamina</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputStamina" placeholder="Stamina" ng-model="activity.Ratings.Stamina" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputExperience" class="col-sm-4 control-label">Experience</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputExperience" placeholder="Experience" ng-model="activity.Ratings.Experience" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputLandscape" class="col-sm-4 control-label">Landscape</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputLandscape" placeholder="Landscape" ng-model="activity.Ratings.Landscape" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputDifficulty" class="col-sm-4 control-label">Difficulty</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputDifficulty" placeholder="Difficulty" ng-model="activity.Ratings.Difficulty" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputTechnique" class="col-sm-4 control-label">Technique</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inputTechnique" placeholder="Technique" ng-model="activity.Ratings.Technique" readonly>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </tab>
+
+                            <tab heading="Location">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputRegion" class="col-sm-4 control-label">Region / TVB</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="inputRegion" class="form-control notextareamaxwitdth" placeholder="Region" ng-model="activity.LocationInfo.RegionInfo.Name[lang]" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="inputTourismorganization" class="form-control notextareamaxwitdth" placeholder="Tourismorganization" ng-model="activity.LocationInfo.TvInfo.Name[lang]" disabled>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputArea" class="col-sm-4 control-label">Area</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="inputArea" class="form-control notextareamaxwitdth" placeholder="Area" ng-model="activity.LocationInfo.AreaInfo.Name[lang]" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputMunicipality" class="col-sm-4 control-label">Municipality</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="inputMunicipality" class="form-control notextareamaxwitdth" placeholder="Municipality" ng-model="activity.LocationInfo.MunicipalityInfo.Name[lang]" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputDistrict" class="col-sm-4 control-label">District</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="inputDistrict" class="form-control notextareamaxwitdth" placeholder="District" ng-model="activity.LocationInfo.DistrictInfo.Name[lang]" disabled>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="ODH Tags">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <label class="col-sm-4 control-label"></label>
+                                            <div class="col-sm-8 input-group">
+                                                <div ng-controller="SmgTagNameModalTypeAheadController">
+                                                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.smgtagname" idmodel="$parent.smgtagid" on-select="onItemSelected()" />
+                                                </div>
+                                                <span class="input-group-btn" style="vertical-align:top">
+                                                    <button type="button" class="btn btn-default" value="+" ng-click="addtag(smgtagid)" disabled><i class="glyphicon glyphicon-plus"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="input-group" ng-repeat="tag in activity.SmgTags">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="deletetag(tag)" disabled><i class="glyphicon glyphicon-minus"></i></button>
+                                                </span>
+                                                <input type="text" class="form-control" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </tab>
+
+                        </tabset>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                @if (@ViewBag.globalmodify == true || @ViewBag.activitymodify == true)
+                {
+                    <button class="btn btn-responsive btn-primary" ng-click="opentypeselectormodal(activity)">to ODH</button>
+                }
+                @*<button class="btn btn-success" ng-click="addactivity(activity,activityform.$valid)" ng-show="newactivity">Create</button>
+                    <button class="btn btn-warning" ng-click="updateactivity(activity,activityform.$valid)" ng-show="!newactivity">Save</button>*@
+                <button class="btn btn-info" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="myActivityInfoModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelslidemodal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Activity Info</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <carousel interval="myInterval">
+                            <slide data-ng-repeat="slide in slides" active="slide.active">
+                                <img data-ng-src="{{slide.ImageUrl + '&H=320'}}" style="margin:auto;max-width:420px" class="img-rounded">
+                                <div class="carousel-caption">
+                                    <h4>{{slide.ImageTitle[lang]}}</h4>
+                                    <p>{{slide.ImageDesc[lang]}}</p>
+                                </div>
+                            </slide>
+                        </carousel>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+
+                    <div style="max-width:420px;height:320px">
+                        <leaflet lf-center="leafletcoords" max-width="420px" height="320px"></leaflet>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <br />
+                    <h2>{{ activity.Detail[lang].Title }}</h2>
+                    <h4>{{ activity.AdditionalPoiInfos[lang].MainType }} - {{ activity.AdditionalPoiInfos[lang].SubType }}</h4>
+
+
+                    <p ng-show="activity.Detail[lang].IntroText != '' && activity.Detail[lang].IntroText != null">
+                        <strong>Introtext</strong><br />
+                        {{ activity.Detail[lang].IntroText }}
+                    </p>
+
+                    <div ng-show="activity.Detail[lang].BaseText != null && activity.Detail[lang].BaseText != ''">
+                        <strong>Basistext</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].BaseText"></p>
+                    </div>
+
+
+                    <div ng-show="activity.Detail[lang].GetThereText != '' && activity.Detail[lang].GetThereText != null">
+                        <strong>Anfahrtstext</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].GetThereText"></p>
+                    </div>
+
+                    <p ng-show="activity.Detail[lang].AdditionalText != '' && activity.Detail[lang].AdditionalText != null">
+                        <strong>Zusatztext</strong><br />
+                        {{ activity.Detail[lang].AdditionalText }}
+                    </p>
+
+
+                </div>
+            </div>
+
+            @*Contactinfos*@
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th colspan="2">Aktivität Details</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Schwierigkeit
+                            </td>
+                            <td>
+                                {{ activity.Difficulty }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Höhenunterschied
+                            </td>
+                            <td>
+                                {{ activity.AltitudeDifference }} m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Länge
+                            </td>
+                            <td>
+                                {{ activity.DistanceLength }} m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Dauer
+                            </td>
+                            <td>
+                                {{ activity.DistanceDuration }} h
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>
+                                <p ng-show="activity.Highlight">Highlight</p>
+                                <p ng-show="activity.IsOpen">Geöffnet</p>
+                                <p ng-show="activity.IsPrepared">Prepared</p>
+                                <p ng-show="activity.IsWithLigth">Beleuchtet</p>
+                                <p ng-show="activity.HasRentals">Verleih</p>
+                                <p ng-show="activity.RunToValley">Talfahrt möglich</p>
+                            </td>
+                        </tr>
+                        <tr ng-show="activity.AdditionalPoiInfos[lang].Novelty != null">
+                            <td>News</td>
+                            <td>
+                                <p>{{ activity.AdditionalPoiInfos[lang].Novelty }}</p>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div class="col-sm-6">
+
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th colspan="2">Contactinfo</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Organisation
+                            </td>
+                            <td>
+                                {{ activity.ContactInfos[lang].CompanyName }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Adresse
+                            </td>
+                            <td>
+                                {{ activity.ContactInfos[lang].Address }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ort
+                            </td>
+                            <td>
+                                {{ activity.ContactInfos[lang].ZipCode }} - {{ activity.ContactInfos[lang].City }}
+                            </td>
+                        </tr>
+                        <tr ng-show="activity.ContactInfos[lang].Surname != ''">
+                            <td>
+                                Ansprechpartner
+                            </td>
+                            <td>
+                                {{ activity.ContactInfos[lang].Surname }}&nbsp;{{ activity.ContactInfos[lang].Givenname }}
+                            </td>
+                        </tr>
+                        <tr ng-show="">
+                            <td>
+                                Tel / Fax
+                            </td>
+                            <td>
+                                {{ activity.ContactInfos[lang].Phonenumber }}<br />
+                                {{ activity.ContactInfos[lang].Faxnumber }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                E-Mail
+                            </td>
+                            <td>
+                                {{ activity.ContactInfos[lang].Email }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Web
+                            </td>
+                            <td>
+                                {{ activity.ContactInfos[lang].Url }}
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p ng-show="activity.OperationSchedule != '' && activity.OperationSchedule != null">
+                        <strong>Season</strong><br />
+                        <div ng-repeat=" operationschedule in activity.OperationSchedule">
+                            <strong ng-show="operationschedule.OperationscheduleName[lang] != ''">{{ operationschedule.OperationscheduleName[lang] }}</strong>
+                            {{ operationschedule.Start | moment:'DD/MM/YYYY' }} -  {{ operationschedule.Stop | moment:'DD/MM/YYYY' }}
+                            <div ng-repeat="operationscheduletime in operationschedule.OperationScheduleTime">
+
+                                <div ng-show="operationscheduletime.State == 1">
+                                    Closed on:
+                                    {{ operationscheduletime.Start }} - {{ operationscheduletime.End }}
+
+                                    <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode" disabled>
+                                        <option value="1">General Opening Time</option>
+                                        <option value="2">Time range for warm meals</option>
+                                        <option value="3">Time range for pizza</option>
+                                        <option value="4">Time range for snack's</option>
+                                    </select>
+
+                                    <div class="btn-group-horizontal">
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Monday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tuesday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wednesday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thuresday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Friday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Saturday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sunday</label>
+                                    </div>
+
+
+                                </div>
+                                <div ng-show="operationscheduletime.State == 2">
+                                    Opened:
+                                    {{ operationscheduletime.Start }} - {{ operationscheduletime.End }}
+
+                                    <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode" disabled>
+                                        <option value="1">General Opening Time</option>
+                                        <option value="2">Time range for warm meals</option>
+                                        <option value="3">Time range for pizza</option>
+                                        <option value="4">Time range for snack's</option>
+                                    </select>
+                                    <div class="btn-group-horizontal">
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Monday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tuesday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wednesday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thuresday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Friday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Saturday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sunday</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelslidemodal()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="mySuedtirolTypeSelectorModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="canceltypeselectormodal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Select Type</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <div ng-controller="TypeSelectController">
+
+                        <div class="form-group">
+                            <label for="inputMainType" class="col-sm-4 control-label">Main Type</label>
+                            <div class="col-sm-8">
+                                <select class="form-control notextareamaxwitdth" ng-model="typeselector.Type" ng-change="changemaintype(typeselector.Type)">
+                                    <option ng-repeat="option in maintypeslist" value="{{option.Key}}" ng-selected="option.Key == typeselector.Type">{{option.TypeNames[lang]}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputMainType" class="col-sm-4 control-label">Sub Type</label>
+                            <div class="col-sm-8">
+                                <select class="form-control notextareamaxwitdth" ng-model="typeselector.SubType" ng-change="changesubtype(typeselector.SubType)">
+                                    <option ng-repeat="option in subtypeslist" value="{{option.Key}}" ng-selected="option.Key == typeselector.SubType">{{option.TypeNames[lang]}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputMainType" class="col-sm-4 control-label">Poi Type</label>
+                            <div class="col-sm-8">
+                                <select class="form-control notextareamaxwitdth" ng-model="typeselector.PoiType" @*ng-change="changepoitype(typeselector.PoiType)"*@>
+                                    <option ng-repeat=" option in poitypeslist" value="{{option.Key}}" ng-selected="option.Key == typeselector.PoiType">
+                                        {{option.name}} - {{ option.parent }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="copytosmgpoi(activity)">Copy to ODH</button>
+            <button class="btn btn-info" ng-click="canceltypeselectormodal()">Cancel</button>
+        </div>
+    </script>
+
+</div>
+
+@section Styles{
+    <style type="text/css">
+    </style>
+    <link rel="stylesheet" href="~/Content/angular.rangeSlider.css" />
+}
+
+
+@section Scripts {
+    @*<script type="text/javascript" src="~/Scripts/angular.min.js"></script>
+        <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>*@
+
+    @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
+    @*<script src="~/NgScripts/appfactory.js"></script>*@
+    <script src="~/NgScripts/appconfig.js"></script>
+    <script src="~/NgScripts/ActivityController.js?version=20191119"></script>
+    @*<script src="~/Scripts/rangeSlider/angular.rangeSlider.js"></script>
+            <script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>
+        <script src="~/Scripts/angular-route.min.js"></script>*@
+}

@@ -1,0 +1,521 @@
+﻿@{
+    ViewBag.Title = "Snow Report (Skiareas)";
+}
+@section jumbotronsect {
+    <h2>Snow Report (LTS)</h2>
+}
+@section infomodaltext {
+    <h2>Snowreport Data</h2>
+    <p>
+        Detailed Report of all South Tyrolean Skiareas.<br />
+        An aggregation of different Datatypes to get a complete skiarea report. Lifts, Slopes, Skitracks, Sledges (status and conditions) data provider LTS (daily updated), Measuringpoints (snow height...) data provider LTS (daily updated), Skiareas basic data provided by IDM (IDM Redaction).
+        Skiarea basic data is available in languages de,it,en,pl,cs,nl,fr,ru, all other data in de,it,en.
+    </p>
+    <p>
+
+    </p>
+}
+<div class="col-sm-12" ng-app="snowreport" ng-controller="SnowreportListController" ng-init="init(50)">
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-inline">
+            <div class="pull-left">
+                <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="query" autofocus><p>&nbsp; {{ meinecommons.length }} Skiareas</p>
+            </div>
+            <div class="pull-right" ng-click="changeLanguage()">
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-sm-12 form-inline">
+            <br />
+            <a ng-click="editCommon('new')" class="btn btn-small btn-primary">New</a>
+            <br />
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-sm-12 table-responsive">
+
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width: 120px;">MainImage</th>
+                        <th style="min-width: 20%;">Name</th>
+                        <th style="min-width: 20%;">Shortname</th>
+                        <th style="width: 120px;">Logo</th>                        
+                        <th style="min-width: 40%;">Location</th>     
+                        @*<th style="width: 120px;">Skimap</th>*@ 
+                        <th>Skimap</th>    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="common in meinecommons = (commons | filter:query)">
+                        <td>
+                            <div style="max-width:150px;min-height:75px">
+                                <img class="img-thumbnail" @*style="max-height:150px;max-width:150px"*@ ng-src="{{  common.ImageGallery[0] != NULL && common.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ common.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(common)" />
+                            </div>
+                        </td>
+                        <td>{{ common.Detail[lang].Title }}</td>
+                        <td>{{ common.Shortname }}</td>
+                        <td>
+                            <div style="max-width:100px;min-height:75px">
+                                <img class="img-thumbnail" @*style="max-height:100px;max-width:100px"*@ ng-src="{{  common.ContactInfos[lang].LogoUrl != NULL && common.ContactInfos[lang].LogoUrl || '../img/noimage.png' }}" title="{{ common.ContactInfos[lang].CompanyName}}" />
+                            </div>
+                        </td>
+                        <td>{{ common.LocationInfo.RegionInfo.Name[lang] }} - {{ common.LocationInfo.TvInfo.Name[lang] }}</td>
+                        @*<td>
+                            <div style="max-width:100px;min-height:75px">
+                                <img class="img-thumbnail" ng-src="{{  common.SkiAreaMapURL != NULL && common.SkiAreaMapURL + '&width=100' || '../img/noimage.png' }}" title="Skimap" ng-click="showSkiMapModal(common.SkiAreaMapURL)" />
+                            </div>
+                        </td>*@
+                    <td>
+                        <a ng-click="showInfoModal(common)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myPopupModal" ng-click="showSkiMapModal(common.SkiAreaMapURL)">SkiMap</button>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+
+    <div id="myPopupModal" class="modal modal-wide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" align="center">
+                    @*<img src="http://webapps.smg.bz.it/imageresizer/ImageHandler.ashx?src=images/pois/schneeschuhwandern/8274912f-73e7-4e3c-853a-5da298ab59cc.jpg" class="img-responsive">*@
+                    <img data-ng-src="{{skimapurl + '&width=1280'}}" class="img-responsive">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="CommonInfoModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelInfoModal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <carousel interval="myInterval">
+                            <slide data-ng-repeat="slide in slides" active="slide.active">
+                                <img data-ng-src="{{slide.ImageUrl + '&H=320'}}" style="margin:auto;max-width:420px" class="img-rounded">
+                                <div class="carousel-caption">
+                                    <h4>{{slide.ImageTitle[lang]}}</h4>
+                                    <p>{{slide.ImageDesc[lang]}}</p>
+                                </div>
+                            </slide>
+                        </carousel>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+
+                    <div style="max-width:420px;height:320px">
+                        <leaflet lf-center="leafletcoords" max-width="420px" height="320px"></leaflet>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p class="form-group">
+                        <br />
+                        <h2>{{ common.Detail[lang].Title }}</h2>
+
+                    <p ng-show="common.Detail[lang].Header != null">
+                        <strong>Header</strong><br />
+                        {{ common.Detail[lang].Header }}
+                    </p>
+
+                    <p ng-show="common.Detail[lang].IntroText != null">
+                        <strong>Introtext</strong><br />
+                        {{ common.Detail[lang].IntroText }}
+                    </p>
+
+                    <p ng-show="common.Detail[lang].BaseText != null">
+                        <strong>Basistext</strong><br />
+                        {{ common.Detail[lang].BaseText }}
+                    </p>
+
+                    <p ng-show="common.Detail[lang].GetThereText != null">
+                        <strong>Anfahrtstext</strong><br />
+                        {{ common.Detail[lang].GetThereText }}
+                    </p>
+
+                    <p ng-show="common.Detail[lang].AdditionalText != null">
+                        <strong>Zusatztext</strong><br />
+                        {{ common.Detail[lang].AdditionalText }}
+                    </p>
+
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+
+                        <br />
+
+                        <h2>Contact</h2>
+
+                        <img data-ng-src="{{common.ContactInfos[lang].LogoUrl}}" id="logourl" style="width:150px;" class="pull-right" />
+
+                        <p ng-show="common.ContactInfos[lang].CompanyName != null">
+                            <strong>Organization</strong><br />
+                            {{ common.ContactInfos[lang].CompanyName }}
+                        </p>
+
+
+
+                        <p ng-show="common.ContactInfos[lang].Address != ''">
+                            <strong>Address</strong><br />
+                            {{ common.ContactInfos[lang].Address }} - {{ common.ContactInfos[lang].ZipCode }} {{ common.ContactInfos[lang].City }} {{ common.ContactInfos[lang].CountryName }}
+                        </p>
+
+                        <p ng-show="common.ContactInfos[lang].ZipCode != ''">
+                            <strong>Contact</strong><br />
+                            {{ common.ContactInfos[lang].Phonenumber }}<br />
+                            {{ common.ContactInfos[lang].Email }}<br />
+                            {{ common.ContactInfos[lang].Url }}
+                        </p>
+
+                        <p>
+                            <strong>Total Slope KM</strong><br />
+                            {{ common.TotalSlopeKm }} km
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <tabset>
+                        <tab heading="Weather">
+                            <br />
+                            <div class="row">
+                               
+                                <div class="col-sm-12">
+
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <tr>                                                
+                                                <th style="min-width: 20%;">Name</th>
+                                                <th style="min-width: 40%;">Snow Height</th>
+                                                <th style="min-width: 15%;">New Snow</th>
+                                                <th style="min-width: 15%;">Altitude</th>
+                                                <th style="min-width: 15%;">Temperature</th>
+                                                <th style="min-width: 15%;">LastSnowDate</th>
+                                                <th style="min-width: 10%;">Weather</th>
+                                                <th style="min-width: 10%;">Weatherimg</th>
+                                                <th style="min-width: 10%;">Last Update</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="measuringpoint in measuringpoints">
+                                                <td>{{ measuringpoint.Shortname }}</td>
+                                                <td>{{ measuringpoint.SnowHeight }} cm</td>
+                                                <td>{{ measuringpoint.newSnowHeight }} cm</td>
+                                                <td>{{ measuringpoint.Altitude }} m</td>
+                                                <td>{{ measuringpoint.Temperature }}</td>
+                                                <td>{{ measuringpoint.LastSnowDate  | moment:'DD/MM/YYYY' }}</td>
+                                                <td>{{ measuringpoint.WeatherObservation[0].WeatherStatus[lang] }}</td>
+                                                <td>
+                                                    <div align="left">
+                                                        <img data-ng-src="{{ '../img/weather/' + measuringpoint.WeatherObservation[0].Level + measuringpoint.WeatherObservation[0].LevelId + '.gif' }}" id="weatherimg" style="width:75px;" @*class="pull-right"*@ />
+                                                    </div>
+                                                </td>
+                                                <td>{{ measuringpoint.LastUpdate  | moment:'DD/MM/YYYY' }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                        </tab>
+                        <tab heading="Lifts">
+                            <br />
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th style="min-width: 80px;">Image</th>
+                                                <th style="min-width: 20%;">Name</th>
+                                                <th style="min-width: 40%;">Type</th>
+                                                <th style="min-width: 15%;">Altitude</th>
+                                                <th style="min-width: 15%;">Length</th>
+                                                <th style="min-width: 10%;">Status</th>
+                                                <th style="min-width: 10%;">Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="lift in lifts">
+                                                <td>
+                                                    <div align="left">
+                                                        <img class="img-thumbnail" style="max-height:80px;max-width:80px" ng-src="{{  lift.ImageGallery[0] != NULL && lift.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ lift.ImageGallery[0].ImageDesc['de']}}" />
+                                                    </div>
+                                                </td>
+                                                <td>{{ lift.Detail[lang].Title }}</td>
+                                                <td>{{ lift.AdditionalPoiInfos[lang].SubType }}</td>
+                                                <td>{{ lift.AltitudeDifference }}</td>
+                                                <td>{{ lift.DistanceLength }}</td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="lift.IsOpen"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="lift.IsOpen == false"></div>
+                                                </td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="lift.Active"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="lift.Active == false"></div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                        </tab>
+                        <tab heading="Slopes">
+                            <br />
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th style="min-width: 80px;">Image</th>
+                                                <th style="min-width: 20%;">Name</th>
+                                                <th style="min-width: 30%;">Type</th>
+                                                <th style="min-width: 10%;">Altitude</th>
+                                                <th style="min-width: 10%;">Length</th>
+                                                <th style="min-width: 10%;">Difficulty</th>
+                                                <th style="min-width: 10%;">Status</th>
+                                                <th style="min-width: 10%;">Prepared</th>
+                                                <th style="min-width: 10%;">Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="slope in slopes">
+                                                <td>
+                                                    <div align="left">
+                                                        <img class="img-thumbnail" style="max-height:80px;max-width:80px" ng-src="{{  slope.ImageGallery[0] != NULL && slope.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ slope.ImageGallery[0].ImageDesc['de']}}" />
+                                                    </div>
+                                                </td>
+                                                <td>{{ slope.Detail[lang].Title }}</td>
+                                                <td>{{ slope.AdditionalPoiInfos[lang].SubType }}</td>
+                                                <td>{{ slope.AltitudeDifference }}</td>
+                                                <td>{{ slope.DistanceLength }}</td>
+                                                <td>{{ slope.AdditionalPoiInfos[lang].Difficulty }}</td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="slope.IsOpen"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="slope.IsOpen == false"></div>
+                                                </td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="slope.IsPrepared"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="slope.IsPrepared == false"></div>
+                                                </td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="slope.Active"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="slope.Active == false"></div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                        </tab>
+                        <tab heading="Slides">
+                            <br />
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th style="min-width: 80px;">Image</th>
+                                                <th style="min-width: 20%;">Name</th>
+                                                <th style="min-width: 30%;">Type</th>
+                                                <th style="min-width: 10%;">Altitude</th>
+                                                <th style="min-width: 10%;">Length</th>
+                                                <th style="min-width: 10%;">Status</th>
+                                                <th style="min-width: 10%;">Prepared</th>
+                                                <th style="min-width: 10%;">Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sledge in sledges">
+                                                <td>
+                                                    <div align="left">
+                                                        <img class="img-thumbnail" style="max-height:80px;max-width:80px" ng-src="{{  sledge.ImageGallery[0] != NULL && sledge.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ sledge.ImageGallery[0].ImageDesc['de']}}" />
+                                                    </div>
+                                                </td>
+                                                <td>{{ sledge.Detail[lang].Title }}</td>
+                                                <td>{{ sledge.AdditionalPoiInfos[lang].SubType }}</td>
+                                                <td>{{ sledge.AltitudeDifference }}</td>
+                                                <td>{{ sledge.DistanceLength }}</td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="sledge.IsOpen"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="sledge.IsOpen == false"></div>
+                                                </td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="sledge.IsPrepared"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="sledge.IsPrepared == false"></div>
+                                                </td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="sledge.Active"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="sledge.Active == false"></div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                        </tab>
+                        <tab heading="Skitracks">
+                            <br />
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th style="min-width: 80px;">Image</th>
+                                                <th style="min-width: 20%;">Name</th>
+                                                <th style="min-width: 30%;">Type</th>
+                                                <th style="min-width: 10%;">Altitude</th>
+                                                <th style="min-width: 10%;">Length</th>
+                                                <th style="min-width: 10%;">Difficulty</th>
+                                                <th style="min-width: 10%;">Status</th>
+                                                <th style="min-width: 10%;">Prepared</th>
+                                                <th style="min-width: 10%;">Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="skitrack in skitracks">
+                                                <td>
+                                                    <div align="left">
+                                                        <img class="img-thumbnail" style="max-height:80px;max-width:80px" ng-src="{{  skitrack.ImageGallery[0] != NULL && skitrack.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ skitrack.ImageGallery[0].ImageDesc['de']}}" />
+                                                    </div>
+                                                </td>
+                                                <td>{{ skitrack.Detail[lang].Title }}</td>
+                                                <td>{{ skitrack.AdditionalPoiInfos[lang].SubType }}</td>
+                                                <td>{{ skitrack.AdditionalPoiInfos[lang].Difficulty }}</td>
+                                                <td>{{ skitrack.AltitudeDifference }}</td>
+                                                <td>{{ skitrack.DistanceLength }}</td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="skitrack.IsOpen"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="skitrack.IsOpen == false"></div>
+                                                </td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="skitrack.IsPrepared"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="skitrack.IsPrepared == false"></div>
+                                                </td>
+                                                <td>
+                                                    <div class="glyphicon glyphicon-ok" ng-show="skitrack.Active"></div>
+                                                    <div class="glyphicon glyphicon-remove" ng-show="skitrack.Active == false"></div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                        </tab>
+                        <tab heading="Webcam">
+                            <br />
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <div ng-repeat="webcam in common.Webcam">
+                                        Webcamurl
+
+                                        <img class="img-thumbnail" style="max-height:250px;max-width:250px" ng-src="{{  webcam.Webcamurl != NULL && webcam.Webcamurl || '../img/noimage.png' }}" title="{{ webcam.Webcamname[lang]}}" />
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelInfoModal()">Cancel</button>
+        </div>
+    </script>
+
+    @*<script type="text/ng-template" id="SkiMapModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelInfoModal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Skimap</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12">                   
+                    <img data-ng-src="{{skimapurl + '&width=850'}}" class="img-rounded">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelInfoModal()">Cancel</button>
+        </div>
+    </script>*@
+
+</div>
+
+@section Styles{
+    <style type="text/css">
+      
+    </style>
+
+}
+
+@section Scripts {
+    @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@    
+@*<script src="~/NgScripts/appfactory.js"></script>*@
+<script src="~/NgScripts/appconfig.js"></script>
+    <script src="~/NgScripts/SnowReportController.js?ver=20191105"></script>
+@*<script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>*@
+}

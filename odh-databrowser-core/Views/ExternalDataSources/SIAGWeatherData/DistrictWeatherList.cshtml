@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "District Weather Information";
+}
+@section jumbotronsect {
+    <h2>District Weather Information</h2>
+}
+@section infomodaltext {
+    <h2>Weather Data</h2>
+    <p>
+        South Tyrolean Weather Information of the 7 districts. Updated at 07:00 and 11:00. Includes Today's weather and 5 days evolution of every district.
+        All data is requested live trough the Weather service of the province BZ. Data available in languages de, it, en.
+    </p>
+}
+
+<div class="col-sm-12" ng-app="weathersiag" ng-controller="weathersiagListController" ng-init="init('districtweather')">
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-inline">
+            <div class="pull-left">
+                <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="query" autofocus><p>&nbsp; {{ mydistrictweathers.length }} District Weather</p>
+            </div>
+            <div class="pull-right" ng-click="changeLanguage()" @*ng-change="changeLanguage()"*@>
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th style="min-width: 20%;">Date</th>
+                    <th style="min-width: 20%;">Location</th>
+                    <th style="width: 130px;"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="districtweatherinfo in mydistrictweathers = (districtweather | filter:query)">
+
+                    <td>{{ districtweatherinfo.date | moment:'DD/MM/YYYY' }}</td>
+                    <td>{{ districtweatherinfo.DistrictName }}</td>
+                    <td>
+                        <a ng-click="showInfoModal(districtweatherinfo)" class="btn btn-small btn-info">details</a>                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+            </div>
+    </div>
+    
+
+    <script type="text/ng-template" id="WeatherInfoModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelInfoModal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>{{ districtforecast.DistrictName }}</h3>
+                </div>
+            </div>
+            <div class="row" ng-repeat="forecast in districtforecast.BezirksForecast">
+
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>{{ forecast.date | moment:'DD/MM/YYYY' }}</strong>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-8">
+                                <p>{{ forecast.WeatherDesc }}</p>
+                                <label class="alert alert-danger">Temp Max: {{ forecast.MaxTemp }}°</label>
+                                <label class="alert alert-info">Temp Min: {{ forecast.MinTemp }}°</label>
+                                <p>Freeze: <label class="glyphicon glyphicon-star" ng-show="forecast.Freeze > 0"></label><label class="glyphicon glyphicon-star" ng-show="forecast.Freeze > 1"></label><label class="glyphicon glyphicon-star" ng-show="forecast.Freeze > 2"></label></p>
+                                <p>Thunderstorm: <label class="glyphicon glyphicon-star" ng-show="forecast.Thunderstorm > 0"></label><label class="glyphicon glyphicon-star" ng-show="forecast.Thunderstorm > 1"></label><label class="glyphicon glyphicon-star" ng-show="forecast.Thunderstorm > 2"></label></p>
+                                <p>Rain from: {{ forecast.RainFrom }}mm - {{ forecast.RainTo }}mm</p>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <img class="img-responsive" style="max-height:250px;max-width:700px" ng-src="{{  forecast.WeatherImgUrl !=NULL && forecast.WeatherImgUrl || '../img/noimage.png' }}" title="{{ forecast.WeatherDesc }}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelInfoModal()">Cancel</button>
+        </div>
+    </script>
+
+
+        </div>
+
+
+        @section Scripts {            
+@*<script src="~/NgScripts/appfactory.js"></script>*@
+            <script src="~/NgScripts/appconfig.js"></script>
+            <script src="~/NgScripts/WeatherSiagController.js?ver=20191105"></script>
+            @*<script src="~/Scripts/moment.js"></script>
+            <script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>*@
+        }

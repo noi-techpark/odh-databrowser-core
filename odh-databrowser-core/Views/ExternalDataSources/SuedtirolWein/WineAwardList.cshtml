@@ -1,0 +1,545 @@
+﻿@{
+    ViewBag.Title = "WineAwardsList";
+}
+@section jumbotronsect {
+<h2>Wine Awards List (Suedtirol Wein)</h2>
+    }
+
+@section infomodaltext {
+    <h2>Suedtirol Wein Awards</h2>
+    <p>all data is syncronized from the Suedtirol Wein Interface on scheduled dates.</p>    
+}
+
+<div class="col-sm-12" ng-app="common" ng-controller="commonListController" ng-init="init('WineAward',1000)">
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-inline">
+            <div class="pull-left">
+                <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="query" autofocus><p>&nbsp; {{ meinecommons.length }} Wine Awards</p>
+            </div>
+            <div class="pull-right">
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    @*<label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-inline">
+            <br />
+            <a ng-click="editCommon('new')" class="btn btn-small btn-info">New</a>
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 table-responsive">
+
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>MainImage</th>
+                        <th>Name</th>
+                        @*<th style="width: 110px;">Logo</th>*@
+                        <th>Wine</th>
+                        <th>SW Active</th>
+                        <th>ODH active</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="common in meinecommons = (commons | filter:query | orderBy : 'Shortname')">
+                        <td>
+                            <div>
+                                <img style="max-height:150px" class="img-thumbnail img-responsive" @*style="max-height:150px;max-width:150px"*@ ng-src="{{  common.ImageGallery[0] != NULL && common.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ common.ImageGallery[0].ImageTitle['de']}}" ng-click="showInfoModal(common)" />
+                            </div>
+                        </td>
+                        <td>{{ common.Detail[lang].Title }}</td>
+                        @*<td>
+                <div style="max-width:100px;min-height:75px">
+                    <img class="img-thumbnail" ng-src="{{  common.ContactInfos[lang].LogoUrl != NULL && common.ContactInfos[lang].LogoUrl || '../img/noimage.png' }}" title="{{ common.ContactInfos[lang].CompanyName}}" />
+                </div>
+            </td>*@
+                        <td>{{ common.Detail[lang].Header }}</td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="common.Active"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="common.Active == false"></div>
+                        </td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="common.SmgActive" style="color:green"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="common.SmgActive == false" style="color:red"></div>
+                        </td>
+                        <td align="right">
+                            <div class="btn-group-vertical">
+                                @if (@ViewBag.globalmodify == true || @ViewBag.commonmodify == true || @ViewBag.globaldetail == true)
+                                {
+                                    <a ng-click="editCommon(common)" class="btn btn-responsive btn-info">edit</a>
+                                }
+                                @if (@ViewBag.globaldelete == true || @ViewBag.commondelete == true)
+                                {
+                                    <a ng-click="deleteCommon(common.Id)" ng-disabled="true" class="btn btn-responsive btn-danger">delete</a>
+                                }
+                                <a ng-click="showInfoModal(common)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pull-left">
+                @if (@ViewBag.globalcreate == true || @ViewBag.commoncreate == true)
+                {
+                    <a ng-click="editCommon('new')" class="btn btn-small btn-info">New</a>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/ng-template" id="CommonInfoModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelInfoModal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <carousel interval="myInterval">
+                            <slide data-ng-repeat="slide in slides" active="slide.active">
+                                <img data-ng-src="{{slide.ImageUrl}}" style="margin:auto;max-width:630px" class="img-rounded">
+                                <div class="carousel-caption">
+                                    <h4>{{slide.ImageTitle[lang]}}</h4>
+                                    <p>{{slide.ImageDesc[lang]}}</p>
+                                </div>
+                            </slide>
+                        </carousel>
+                    </div>
+                </div>
+                @*<div class="col-sm-6">
+
+                    <div ng-controller="MapCtrl" style="width:630px;height:470px" ng-init="initcontainer('maplarge')">
+                        <div id="maplarge" class="img-rounded"></div>
+                        <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+                        </div>
+                    </div>
+                </div>*@
+            
+                <div class="col-sm-6">
+                   
+                        <br />
+                        <h2>{{ common.Detail[lang].Title }}</h2>
+
+                    <p ng-show="common.Detail[lang].Header != null && common.Detail[lang].Header != ''">
+                        <strong>Header</strong><br />
+                        {{ common.Detail[lang].Header }}
+                    </p>
+
+                    <p ng-show="common.Detail[lang].SubHeader != null && common.Detail[lang].SubHeader != ''">
+                        <strong>SubHeader</strong><br />
+                        {{ common.Detail[lang].SubHeader }}
+                    </p>
+
+                    <div ng-show="common.Detail[lang].IntroText != null && common.Detail[lang].IntroText != ''">
+                        <strong>Introtext</strong><br />
+                        <p ng-bind-html="common.Detail[lang].IntroText"></p>
+                    </div>
+
+                    <div ng-show="common.Detail[lang].BaseText != null && common.Detail[lang].BaseText != ''">
+                        <strong>Basistext</strong><br />
+                        <p ng-bind-html="common.Detail[lang].BaseText"></p>
+                    </div>
+
+                    <p ng-show="common.Detail[lang].GetThereText != null && common.Detail[lang].GetThereText != ''">
+                        <strong>Anfahrtstext</strong><br />
+                        {{ common.Detail[lang].GetThereText }}
+                    </p>
+
+                    <p ng-show="common.Detail[lang].AdditionalText != null && common.Detail[lang].AdditionalText != ''">
+                        <strong>Zusatztext</strong><br />
+                        {{ common.Detail[lang].AdditionalText }}
+                    </p>
+
+                    <p>
+                        <strong>Jahr</strong><br />
+                        {{ common.Vintage }}
+                    </p>
+                    <p>
+                        <strong>Jahr Auszeichnung</strong><br />
+                        {{ common.Awardyear }}
+                    </p>
+                    <p>
+                        <strong>Auszeichnungen</strong><br />
+                        <div ng-repeat="award in common.Awards">
+                            {{ award }}
+                        </div>
+                        
+                    </p>
+
+                </div>
+            
+                
+
+                </div>        
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelInfoModal()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="CommonCrudModal.html">
+        <form name="commonform">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancelCrudModal()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit</h4>
+
+
+
+            </div>
+            <div class="modal-body">
+                <div class="btn-group pull-right">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                </div>
+                <tabset>
+                    <tab heading="General">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputId" class="col-sm-2 control-label">Id</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="newcommon" required>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="!newcommon" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Shortname</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputName" placeholder="Shortname" ng-model="common.Shortname" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputCustomId" class="col-sm-2 control-label">CustomId</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputCustomId" ng-model="common.CustomId" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputCompanyId" class="col-sm-2 control-label">CompanyId</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyId" ng-model="common.CompanyId" readonly>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="inputVintage" class="col-sm-2 control-label">Vintage</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputVintage" ng-model="common.Vintage" readonly>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="inputAwardyear" class="col-sm-2 control-label">Awardyear</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAwardyear" ng-model="common.Awardyear" readonly>
+                                        </div>
+                                    </div>                                                                       
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group" ng-repeat="award in common.Awards">
+                                        <label for="inputAwardyear" class="col-sm-2 control-label">Awards</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAwardyear" ng-model="award" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Last Changed</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control">{{ common.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">SW Active</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" class="smallcheckbox" id="checkboxActive" ng-model="common.Active" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">ODH active</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" class="smallcheckbox" id="checkboxSmgActive" ng-model="common.SmgActive" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+                  
+                    <tab heading="Detail">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" ng-model="common.Detail[lang].Title">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputHeader" class="col-sm-2 control-label">Header</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputHeader" rows="2" ng-model="common.Detail[lang].Header"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSubHeader" class="col-sm-2 control-label">SubHeader</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputSubHeader" rows="2" ng-model="common.Detail[lang].SubHeader"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputMetaTitle" class="col-sm-2 control-label">Meta Title</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputMetaTitle" rows="2" ng-model="common.Detail[lang].MetaTitle"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputGetThereText" class="col-sm-2 control-label">GetThere Text</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputGetThereText" rows="3" ng-model="common.Detail[lang].GetThereText"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAdditionalText" class="col-sm-2 control-label">AdditionalText</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" rows="3" ng-model="common.Detail[lang].AdditionalText"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAdditionalText" class="col-sm-2 control-label">Meta Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" rows="3" ng-model="common.Detail[lang].MetaDesc"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputBaseText" class="col-sm-2 control-label">Introtext</label>
+
+
+                                        <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
+
+                                            <text-angular name="htmlcontentintro" ng-model="common.Detail[lang].IntroText">
+
+                                            </text-angular>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputBaseText" class="col-sm-2 control-label">Base Text</label>
+
+
+                                        <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
+
+                                            <text-angular name="htmlcontentbase" ng-model="common.Detail[lang].BaseText">
+
+                                            </text-angular>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </tab>
+                    <tab heading="Images">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div ng-controller="FileUploadController">
+                                        <h4>Upload Images</h4>
+                                        <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                                        <input type="file" class="btn btn-default btn-file notextareamaxwitdth" nv-file-select="" uploader="uploader" multiple /><br />
+
+                                        <p>Queue length: {{ uploader.queue.length }}</p>
+                                        <table class="table" style="font-size:smaller">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50%">Name</th>
+                                                    <th ng-show="uploader.isHTML5">Size</th>
+                                                    <th ng-show="uploader.isHTML5">Progress</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in uploader.queue">
+                                                    <td>
+                                                        <strong>{{ item.file.name }}</strong>
+                                                        <!-- Image preview -->
+                                                        <!--auto height-->
+                                                        <!--<div ng-thumb="{ file: item.file, width: 100 }"></div>-->
+                                                        <!--auto width-->
+                                                        <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        <!--fixed width and height -->
+                                                        <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
+                                                    </td>
+                                                    <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                    <td ng-show="uploader.isHTML5">
+                                                        <div class="progress" style="margin-bottom: 0;">
+                                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                            <span class="glyphicon glyphicon-upload"></span> @*Upload*@
+                                                        </button>
+                                                        <br />
+                                                        <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                                            <span class="glyphicon glyphicon-ban-circle"></span> @*Cancel*@
+                                                        </button>
+                                                        <br />
+                                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                            <span class="glyphicon glyphicon-trash"></span> @*Remove*@
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                            <div>
+                                                Queue progress:
+                                                <div class="progress" style="">
+                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                                                <span class="glyphicon glyphicon-upload"></span> Upload all
+                                            </button>
+                                            <button type="button" class="btn btn-warning" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                                            </button>
+                                            <button type="button" class="btn btn-danger" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                                <span class="glyphicon glyphicon-trash"></span> Remove all
+                                            </button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <h4>Image Gallery (Title/Alttext/Position)</h4>
+                                    <div ng-repeat="bild in common.ImageGallery">
+                                        <div class="col-sm-2" style="text-align:right">
+                                            <img class="img-thumbnail" ng-src="{{ bild.ImageUrl }}" style="max-height:85px;" />
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-btn" style="vertical-align:top;">
+                                                    <button type="button" class="btn btn-default" ng-click="deleteImage(bild.ImageName, bild.ImageUrl)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </span>
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputBildTitel" placeholder="BildTitel" ng-model="bild.ImageTitle[lang]">
+                                                <textarea rows="2" class="form-control notextareamaxwitdth" id="inputBildBeschreibung" placeholder="BildBeschreibung" ng-model="bild.ImageDesc[lang]"></textarea><br />
+                                                <input type="number" class="form-control notextareamaxwitdth" id="inputBildListPosition" placeholder="Position" ng-model="bild.ListPosition">
+                                                <input type="checkbox" class="smallcheckbox" id="checkboxActive" ng-model="bild.IsInGallery">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success" ng-click="addCrud(common,commonform.$valid)" ng-show="newcommon">Create</button>
+                <button class="btn btn-warning" ng-click="updateCrud(common,commonform.$valid)" ng-show="!newcommon">Save</button>
+                <button class="btn btn-info" ng-click="cancelCrudModal()">Cancel</button>
+            </div>
+        </form>
+    </script>
+
+</div>
+
+@section Styles{
+    <style type="text/css">
+      
+    </style>
+
+}
+
+@section Scripts {
+    @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@    
+@*<script src="~/NgScripts/appfactory.js"></script>*@
+<script src="~/NgScripts/appconfig.js"></script>
+<script src="~/NgScripts/CommonController.js"></script>
+@*<script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>
+<script src="~/Scripts/angular-route.min.js"></script>*@
+<script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular-sanitize.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min.js'></script>
+}

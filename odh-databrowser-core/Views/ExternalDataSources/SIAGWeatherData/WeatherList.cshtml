@@ -1,0 +1,277 @@
+﻿@{
+    ViewBag.Title = "Weather Information";
+}
+@section jumbotronsect {
+    <h2>Weather Information</h2>
+}
+
+@section infomodaltext {
+    <h2>Weather Data</h2>
+    <p>
+        South Tyrolean Weather Information general. Updated at 07:00 and 11:00. South Tyrolean Weather Details of today, tomorrow, Mountainweather today, tomorrow, Stationweather today, tomorrow and 4 days evolution.
+        All data is requested live trough the Weather service of the province BZ. Data available in languages de, it, en.
+    </p>
+}
+
+<div class="col-sm-12" ng-app="weathersiag" ng-controller="weathersiagListController" ng-init="init('weather')">
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-inline">
+
+            <div class="pull-right" ng-click="changeLanguage()">
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br />
+            <br />
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+            @*<h4>{{ weather.Id }} - {{ weather.date }}</h4>*@
+
+
+            <div class="panel panel-default" ng-repeat="condition in weather.Conditions">
+                <div class="panel-heading">
+                    <h5>{{ condition.date | moment:'DD/MM/YYYY' }}</h5>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-8">
+                        <strong>{{ condition.Title }}</strong>
+                        <p>{{ condition.WeatherCondition }}</p>
+                        <p>{{ condition.Weatherdesc }}</p>
+                        <p>{{ condition.Temperatures }}</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <img class="img-responsive" style="max-height:250px;max-width:700px" ng-src="{{  condition.WeatherImgurl !=NULL && condition.WeatherImgurl || '../img/noimage.png' }}" title="{{ condition.Title }}" />
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h5>Evolution:</h5></div>
+                <div class="panel-body">
+                    <strong>{{ weather.evolutiontitle }}</strong>
+                    <p>{{ weather.evolution }}</p>
+
+                    <div class="row">
+                        <div class="col-sm-2 table-bordered" ng-repeat="forecast in weather.Forecast">
+                            <h5>{{ forecast.date | moment:'DD/MM/YYYY' }}</h5>
+                            <div class="alert alert-danger">{{ forecast.TempMaxmin }}° / {{ forecast.TempMaxmax  }}°</div>
+                            <div class="alert alert-info">{{ forecast.TempMinmin }}° / {{ forecast.TempMinmax }}°</div>
+                            <div style="height:50px;">{{ forecast.Weatherdesc }}</div>
+                            <img class="img-responsive" style="max-width:200px" ng-src="{{  forecast.WeatherImgurl !=NULL && forecast.WeatherImgurl || '../img/noimage.png' }}" title="{{ forecast.Weatherdesc }}" />                            
+                            <p>{{ forecast.Reliability }} %</p>
+                        </div> 
+                    </div>
+
+                    
+
+                </div>
+            </div>
+            
+            
+   
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" ng-repeat="mountain in weather.Mountain">
+
+            <div class="panel panel-default">
+                <div class="panel-heading"><h5>Mountain: {{ mountain.date | moment:'DD/MM/YYYY' }}</h5></div>
+                <div class="panel-body">
+
+                    <p>{{ mountain.Title }}</p>
+                    <p>{{ mountain.Conditions }}</p>
+                    <p>{{ mountain.Weatherdesc }}</p>
+                    <p>Zerolimit: {{ mountain.Zerolimit }}</p>
+                    <img class="img-responsive" style="max-height:250px;max-width:700px" ng-src="{{  mountain.MountainImgurl !=NULL && mountain.MountainImgurl || '../img/noimage.png' }}" title="{{ mountain.Title }}" />
+                    <p>Reliability: {{ mountain.Reliability }} %</p>
+                    <p>Sunrise {{ mountain.Sunrise }} / Sunset {{ mountain.Sunset }}</p>
+                    <p>Moonrise {{ mountain.Moonrise }} / Moonset {{ mountain.Moonset }}</p>
+
+                    <p>{{ mountain.Northdesc }}</p>
+                    <img class="img-responsive" style="max-height:250px;max-width:700px" ng-src="{{  mountain.Northimgurl !=NULL && mountain.Northimgurl || '../img/noimage.png' }}" title="{{ mountain.Title }}" />
+
+                    <p>{{ mountain.Southdesc }}</p>
+                    <img class="img-responsive" style="max-height:250px;max-width:700px" ng-src="{{  mountain.Southimgurl !=NULL && mountain.Southimgurl || '../img/noimage.png' }}" title="{{ mountain.Title }}" />
+
+                    <p>Temperatures: 1000m - {{ mountain.Temp1000 }}° / 2000m - {{ mountain.Temp2000 }}° / 3000m - {{ mountain.Temp3000 }}° / 4000m - {{ mountain.Temp4000 }}° </p>
+                    <p>{{ mountain.Winddesc }}</p>
+                    <img class="img-responsive" style="max-height:250px;max-width:700px" ng-src="{{  mountain.WindImgurl !=NULL && mountain.WindImgurl || '../img/noimage.png' }}" title="{{ mountain.Winddesc }}" />
+
+                </div>
+            </div>                                
+                    
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+
+                <div class="panel-heading"><h5>Station data</h5></div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+
+                        <div class="col-sm-2 table-bordered" ng-repeat="stationdata in weather.Stationdata">
+                            <h5>{{ stationdata.date | moment:'DD/MM/YYYY' }}</h5>
+                            <div class="alert alert-danger">{{ stationdata.Maxtemp }}° </div>
+                            <div class="alert alert-info">{{ stationdata.MinTemp }}° </div>
+                            <p>{{ stationdata.CityName }}</p>
+                            <div style="height:50px">{{ stationdata.WeatherDesc }}</div>
+                            <img class="img-responsive" style="max-width:200px" ng-src="{{  stationdata.WeatherImgUrl !=NULL && stationdata.WeatherImgUrl || '../img/noimage.png' }}" title="{{ stationdata.WeatherDesc }}" />
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+
+    
+
+            @*<table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="min-width: 20%;">Shortname</th>
+                        <th style="min-width: 20%;">Location</th>
+                        <th style="width: 130px;"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="weatherinfo in meinecommons = (commons | filter:query)">
+
+                        <td><a ng-click="showInfoModal(common)">{{ common.Shortname }}</a></td>
+                        <td>{{ common.LocationInfo.RegionInfo.Name[lang] }} - {{ common.LocationInfo.TvInfo.Name[lang] }}</td>
+                        <td>
+                            <a ng-click="editCommon(common)" class="btn btn-small btn-warning">edit</a>
+                            <a ng-click="deleteCommon(common.Id)" ng-disabled="true" class="btn btn-small btn-danger">delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>*@
+
+
+
+            <script type="text/ng-template" id="CommonInfoModal.html">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancelInfoModal()" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div style="max-width:420px;height:320px">
+                                <leaflet lf-center="leafletcoords" max-width="420px" height="320px"></leaflet>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="form-group">
+                                <br />
+                                <h2>{{ common.Shortname }}</h2>
+                            </p>
+
+                            <p ng-show="common.LocationInfo != null">
+                                <strong>Location</strong><br />
+                                {{ common.LocationInfo.RegionInfo.Name[lang] }} - {{ common.LocationInfo.TvInfo.Name[lang] }}
+                            </p>
+
+                            <p ng-show="common.SnowHeight != null">
+                                <strong>Snow Height</strong><br />
+                                {{ common.SnowHeight }} cm
+                            </p>
+
+                            <p ng-show="common.newSnowHeight != null">
+                                <strong>new Snow Height</strong><br />
+                                {{ common.newSnowHeight }} cm
+                            </p>
+
+                            <p ng-show="common.LastSnowDate != null">
+                                <strong>Last Snow Date</strong><br />
+                                {{ common.LastSnowDate | moment:'DD/MM/YYYY' }}
+                            </p>
+
+                            <p ng-show="common.Temperature != null">
+                                <strong>Temperature</strong><br />
+                                {{ common.Temperature }}
+                            </p>
+
+
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+
+                                <br />
+
+                                <h2>Weather Observation</h2>
+
+                                <div ng-repeat="observation in common.WeatherObservation">
+
+                                    <p ng-show="observation.WeatherStatus != null">
+                                        <strong>Weatherdesc:</strong><br />
+                                        {{ observation.WeatherStatus['de'] }}<br />
+                                        <img data-ng-src="{{ '../img/weather/' + observation.Level + observation.LevelId + '.gif' }}" id="logourl" style="width:75px;" @*class="pull-right"*@ />
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-info" ng-click="cancelInfoModal()">Cancel</button>
+                </div>
+            </script>
+
+
+        </div>
+
+
+        @section Scripts {            
+@*<script src="~/NgScripts/appfactory.js"></script>*@
+            <script src="~/NgScripts/appconfig.js"></script>
+            <script src="~/NgScripts/WeatherSiagController.js?ver=20191105"></script>
+            @*<script src="~/Scripts/moment.js"></script>
+            <script src="~/Scripts/angular-route.min.js"></script>
+            <script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>*@
+        }

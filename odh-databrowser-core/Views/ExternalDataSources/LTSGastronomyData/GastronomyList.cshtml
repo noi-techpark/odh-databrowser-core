@@ -1,0 +1,1126 @@
+﻿@{
+    ViewBag.Title = "Gastronomy List LTS";
+}
+@section jumbotronsect {
+    <h2>Gastronomy List (LTS)</h2>
+}
+@section infomodaltext {
+    <h2>Gastronomy Data</h2>
+    <p>All data is syncronized daily from LTS TIC Web Interface (Gastronomy Data).</p>
+    <p>
+        Data contains South Tyrolean Gastronomy structures.
+        All data is daily updated also present on the container ODHActivityPoi Gastronomy.
+    </p>
+    <p>Only CC0 Images are displayed</p>
+}
+<div class="col-sm-12" ng-app="gastronomy" ng-controller="gastronomyListController" ng-init="init('Gastronomy','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp')">
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="form-inline">
+                <div class="pull-right">
+                    <div class="btn-group" ng-click="changeLanguage()">
+                        @*<button type="button" class="btn btn-default active" ng-click="setlang('de')">de</button>
+                            <button type="button" class="btn btn-default" ng-click="setlang('it')">it</button>
+                            <button type="button" class="btn btn-default" ng-click="setlang('en')">en</button>*@
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <br />
+            <div class="form-inline">
+                <div class="pull-right">
+                    <span class="btn btn-default">Elements:{{ totalcount }} </span>
+                    <input type="button" id="prevpage" ng-click="changePage(-1,true)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                    &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                    <input type="button" id="nextpage" ng-click="changePage(+1,true)" class="btn btn-info" value="next" ng-disabled="page == totalpages || totalpages == 0" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <br />
+        <div class="col-sm-3 col-xs-12 table-bordered filtertable">
+            <div class="form-inline">
+                <br />
+                <div class="form-group col-sm-12">
+                    <input type="button" id="filterbutton" ng-click="applyFilter(1)" class="btn btn-info" value="Filter" />
+                    <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
+                </div>
+                @*<div class="form-group col-sm-12">
+                        <h6>Name</h6>
+                        <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="filter" autofocus>
+                    </div>*@
+                <div class="form-group col-sm-12" ng-controller="GastronameTypeAheadController">
+                    <h6>Gastronomy Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
+                    <typeaheadgastro items="items" templateurl="GastroNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedGastroName" idmodel="$parent.SelectedGastroId" on-select="onItemSelected()" />
+                </div>
+                <div class="form-group col-sm-12" ng-controller="LocationTypeAheadController">
+                    <h6>Location<small class="btn-link pull-right" ng-click="clearLocationFilter()">Clear</small></h6>
+                    <typeaheadgastro items="locitems" templateurl="LocationNameTemplate" prompt="Location" title="name" subtitle="typ" model="$parent.SelectedLocationName" submodel="$parent.SelectedLocationTyp" idmodel="$parent.SelectedLocationId" on-select="onItemSelected()" />
+                </div>
+
+                <div class="form-group col-sm-12" ng-controller="SmgTagNameTypeAheadController">
+                    <h6>ODH Tag<small class="btn-link pull-right" ng-click="clearTagFilter()">Clear</small></h6>
+                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <h6>TIC Active<small class="btn-link pull-right" ng-click="clearTICActiveFilter()">Clear</small></h6>
+                    <select class="form-control" id="selectTyp" ng-model="active">
+                        <option value="null">all</option>
+                        <option value="true">active</option>
+                        <option value="false">not active</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <h6>ODH active<small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
+                    <select class="form-control" id="selectTyp" ng-model="smgactive">
+                        <option value="null">all</option>
+                        <option value="true">active</option>
+                        <option value="false">not active</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-12 col-xs-6">
+                    <h6>Category Codes<small class="btn-link pull-right" ng-click="clearCategoryFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.1" btn-checkbox>Restaurant</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.2" btn-checkbox>Bar / Coffee Shop / Bistro</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.3" btn-checkbox>Pub / Disco</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.4" btn-checkbox>Apres Ski</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.5" btn-checkbox>Snack-point</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.6" btn-checkbox>Pizzeria</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.7" style="white-space: normal;" btn-checkbox>Farmhouse tavern</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.8" btn-checkbox>Restaurant in the farm</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.9" btn-checkbox>Farm inn</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.10" style="white-space: normal;" btn-checkbox>Restaurant for chestnut-eating</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.11" btn-checkbox>Fast food</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.12" btn-checkbox>Cafeteria</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.13" style="white-space: normal;" btn-checkbox>Vinotheque</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.14" btn-checkbox>Ice cream parlor</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.15" btn-checkbox>Tavern</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.16" btn-checkbox>Guesthouse</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.17" btn-checkbox>Beer garden</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.18" btn-checkbox>Mountain refuge</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.19" btn-checkbox>Alpine hut</label>
+                        <label class="btn btn-default" ng-model="checkCatCodesModel.20" btn-checkbox>Ski hut</label>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+                <div class="form-group col-sm-12 col-xs-6 hidden-xs">
+                    <h6>Facility Codes CreditCard<small class="btn-link pull-right" ng-click="clearFacilityFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.1" style="white-space: normal;" btn-checkbox>Credit card</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.2" btn-checkbox>Bank card/Maestro</label>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+
+                <div class="form-group col-sm-12 col-xs-6 hidden-xs">
+                    <h6>Facility Codes Features<small class="btn-link pull-right" ng-click="clearFacilityFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.3" btn-checkbox>Handicapped accessible</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.4" style="white-space: normal;" btn-checkbox>Garden</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.5" btn-checkbox>Smoking room</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.6" btn-checkbox>Playroom</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.7" btn-checkbox>Playground</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.8" style="white-space: normal;" btn-checkbox>Car parks</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.9" btn-checkbox>Underground car park</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.10" btn-checkbox>Dogs allowed</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.11" btn-checkbox>Beer garden</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.12" btn-checkbox>Terrace</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.13" btn-checkbox>Conservatory</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.14" style="white-space: normal;" btn-checkbox>Buses welcome</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.15" btn-checkbox>beer bar / pub</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.28" btn-checkbox>Free Wi-Fi</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.29" style="white-space: normal;" btn-checkbox>Baby animals/petting zoo</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.30" style="white-space: normal;" btn-checkbox>Slow Food</label>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+                <div class="form-group col-sm-12 col-xs-6 hidden-xs">
+                    <h6>Facility Codes Quality<small class="btn-link pull-right" ng-click="clearFacilityFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.16" style="white-space: normal;" btn-checkbox>Gault Millau</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.17" style="white-space: normal;" btn-checkbox>Guida Espresso</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.18" btn-checkbox>Gambero Rosso</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.19" btn-checkbox>Feinschmecker</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.20" style="white-space: normal;" btn-checkbox>Aral gourmands' atlas</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.21" btn-checkbox>Varta guide</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.22" btn-checkbox>Bertelsmann</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.23" style="white-space: normal;" btn-checkbox>Alto Adige Wine Culture Award</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.24" btn-checkbox>Michelin</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.25" btn-checkbox>Red Rooster</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.26" btn-checkbox>Tafelspitz</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.27" btn-checkbox>Südtiroler Gasthaus</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.31" btn-checkbox>Il Gatti Massobrio</label>
+                        <label class="btn btn-default" ng-model="checkFacCodesModel.32" btn-checkbox>Guida Osterie d'Italia</label>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+
+
+                <div class="form-group col-sm-12 col-xs-6 hidden-xs">
+                    <h6>Facility Codes Cuisine<small class="btn-link pull-right" ng-click="clearCuisineFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.1" style="white-space: normal;" btn-checkbox>Vegetarian menu</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.2" style="white-space: normal;" btn-checkbox>Cuisine without glutine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.3" style="white-space: normal;" btn-checkbox>Lactose-free food</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.4" btn-checkbox>Vegan cuisine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.5" btn-checkbox>Hot meals</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.6" style="white-space: normal;" btn-checkbox>South tyrolean cuisine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.7" btn-checkbox>Gourmet cuisine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.8" btn-checkbox>Italian cuisine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.9" style="white-space: normal;" btn-checkbox>International cuisine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.10" btn-checkbox>Pizza</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.11" btn-checkbox>Fish specialities</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.12" btn-checkbox>Oriental cuisine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.13" btn-checkbox>Game/venison dishes</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.14" style="white-space: normal;" btn-checkbox>Home-made food products</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.15" btn-checkbox>Dietary cuisine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.16" btn-checkbox>Grill specialities</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.17" btn-checkbox>Ladin cuisine</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.18" btn-checkbox>Snack</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.19" btn-checkbox>Fish speciality weeks</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.20" btn-checkbox>Asparagus speciality weeks</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.21" btn-checkbox>Lamb speciality weeks</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.22" btn-checkbox>Game, venison weeks</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.23" style="white-space: normal;" btn-checkbox>First courses weeks</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.24" btn-checkbox>Pasta weeks</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.25" btn-checkbox>Herb specialities weeks</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.26" btn-checkbox>Children's menus</label>
+                        <label class="btn btn-default" ng-model="checkCuisineCodesModel.27" btn-checkbox>Business/workers' menus</label>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+                <div class="form-group col-sm-12 col-xs-6 hidden-xs">
+                    <h6>Dish Codes<small class="btn-link pull-right" ng-click="clearDishcodeFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkDishCodesModel.1" btn-checkbox>Dishes</label>
+                        <label class="btn btn-default" ng-model="checkDishCodesModel.2" btn-checkbox>First course</label>
+                        <label class="btn btn-default" ng-model="checkDishCodesModel.3" btn-checkbox>Main course</label>
+                        <label class="btn btn-default" ng-model="checkDishCodesModel.4" btn-checkbox>Dessert</label>
+                        <label class="btn btn-default" ng-model="checkDishCodesModel.5" btn-checkbox>Dish of the day</label>
+                        <label class="btn btn-default" ng-model="checkDishCodesModel.6" btn-checkbox>Set menu</label>
+                        <label class="btn btn-default" ng-model="checkDishCodesModel.7" btn-checkbox>Set gourmet menu</label>
+                        <label class="btn btn-default" ng-model="checkDishCodesModel.8" btn-checkbox>Family celebrations</label>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+                <div class="form-group col-sm-12 col-xs-6 hidden-xs">
+                    <h6>Ceremony Codes<small class="btn-link pull-right" ng-click="clearCeremonyCodeFilter()">Clear</small></h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkCeremonyCodesModel.1" btn-checkbox>Family celebrations</label>
+                        <label class="btn btn-default" ng-model="checkCeremonyCodesModel.2" btn-checkbox>Wedding receptions</label>
+                        <label class="btn btn-default" ng-model="checkCeremonyCodesModel.3" btn-checkbox>Birthday parties</label>
+                        <label class="btn btn-default" ng-model="checkCeremonyCodesModel.4" btn-checkbox>Company dinners</label>
+                        <label class="btn btn-default" ng-model="checkCeremonyCodesModel.5" btn-checkbox>Christmas dinners</label>
+                        <label class="btn btn-default" ng-model="checkCeremonyCodesModel.6" btn-checkbox>New year's eve dinners</label>
+                        <label class="btn btn-default" ng-model="checkCeremonyCodesModel.7" style="white-space: normal;" btn-checkbox>Seminars/conferences</label>
+                        <label class="btn btn-default" ng-model="checkCeremonyCodesModel.8" btn-checkbox>Conventions</label>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <input type="button" id="filterbutton" ng-click="applyFilter(1)" class="btn btn-info" value="Filter" />
+                    <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm-9 col-xs-12 table-responsive">
+
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width:160px">MainImage</th>
+                        <th style="min-width: 80px;">Name</th>
+                        <th style="min-width: 80px;">Fraction - Region - TV</th>
+                        <th style="min-width: 80px;">TIC Active</th>
+                        <th style="min-width: 80px;">ODH active</th>
+
+                        <th style="width:20px;"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="gastronomy in gastronomies | filter:query">
+                        <td>
+                            <div style="max-width:150px;min-height:75px">
+                                <img class="img-thumbnail img-responsive" @*style="max-height:150px;max-width:150px"*@ ng-src="{{  gastronomy.ImageGallery[0] != NULL && gastronomy.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ gastronomy.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(gastronomy)" />
+                            </div>
+                        </td>
+                        @*<td>{{ activity.Id }}</td>*@
+                        <td>{{ gastronomy.ContactInfos[lang].CompanyName }}</td>
+                        <td>{{ gastronomy.LocationInfo.DistrictInfo.Name[lang] }} - {{ gastronomy.LocationInfo.TvInfo.Name[lang] }} - {{ gastronomy.LocationInfo.RegionInfo.Name[lang] }}</td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="gastronomy.Active"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="gastronomy.Active == false"></div>
+                        </td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="gastronomy.SmgActive" style="color:green"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="gastronomy.SmgActive == false" style="color:red"></div>
+                        </td>
+                        <td>
+                            <div class="btn-group-vertical">
+                                @if (@ViewBag.globalmodify == true || @ViewBag.gastromodify == true || @ViewBag.globaldetail == true)
+                                {
+                                    <a ng-click="editgastronomy(gastronomy)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
+                                }
+                                @if (@ViewBag.globaldelete == true || @ViewBag.gastrodelete == true)
+                                {
+                                    <a ng-click="deletegastronomy(gastronomy.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
+                                }
+                                @if (@ViewBag.globalupdate == true || @ViewBag.gastroupdate == true)
+                                {
+                                    <a ng-click="updategastronomy(gastronomy.Id)" class="btn btn-responsive btn-warning" style="width:70px;">Update</a>
+                                }
+                                <a ng-click="showInfoModal(gastronomy)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-inline">
+                <div class="pull-right">
+                    <span class="btn btn-default"> Elements: {{ totalcount }} </span>
+                    <input type="button" id="prevpage" ng-click="changePage(-1,true)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                    &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                    <input type="button" id="nextpage" ng-click="changePage(+1,true)" class="btn btn-info" value="next" ng-disabled="page == totalpages || totalpages == 0" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="myGastronomyModal.html">
+        <form name="gastronomyform">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Gastronomy Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="btn-group pull-right">
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                    </div>
+                </div>
+                <tabset>
+                    <tab heading="General">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputId" class="col-sm-4 control-label">Id</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="gastronomy.Id" ng-show="newgastronomy" required>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="gastronomy.Id" ng-show="!newgastronomy" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Shortname</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputName" placeholder="Shortname" ng-model="gastronomy.Shortname" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDistrictId" class="col-sm-4 control-label">DistrictRID</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputDistrictId" placeholder="DistrictId" ng-model="gastronomy.DistrictId" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Last Changed</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control notextareamaxwitdth">{{ gastronomy.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">TIC Active</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="form-control" id="checkboxActive" ng-model="gastronomy.Active" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">ODH Active</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="form-control" id="checkboxSmgActive" ng-model="gastronomy.SmgActive" disabled>
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group">
+                                            <label for="inputHighlight" class="col-sm-4 control-label">Highlight</label>
+                                            <div class="col-sm-8">
+                                                <input type="checkbox" class="checkbox" id="inputHighlight" ng-model="activity.Highlight" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="inputTourismorganization" ng-model="activity.TourismorganizationId" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputArea" class="col-sm-4 control-label">Area</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="inputArea" ng-model="activity.AreaId[0]" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputTyp" class="col-sm-4 control-label">Typ</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="selectTyp" ng-model="activity.Type" disabled>
+                                                    <option>Hiking</option>
+                                                    <option>Montain</option>
+                                                    <option>Cycling</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputTyp" class="col-sm-4 control-label">SubType</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="selectSubTyp" ng-model="activity.SubType" disabled>
+                                                    <option>hiking</option>
+                                                    <option>winter hiking</option>
+                                                    <option>snowshoeing</option>
+                                                    <option>Familienwandern</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputIsOpen" class="col-sm-4 control-label">Open</label>
+                                            <div class="col-sm-8">
+                                                <input type="checkbox" class="checkbox" id="inputIsOpen" ng-model="activity.IsOpen" disabled>
+                                            </div>
+                                        </div>*@
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputMaxSeatingCapacity" class="col-sm-4 control-label">MaxSeatingCapacity</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputMaxSeatingCapacity" placeholder="MaxSeatingCapacity" ng-model="gastronomy.MaxSeatingCapacity" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAccommodationId" class="col-sm-4 control-label">AccommodationId</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAccommodationId" placeholder="AccommodationId" ng-model="gastronomy.AccommodationId" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputMarketinggroupId" class="col-sm-4 control-label">MarketinggroupId</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputMarketinggroupId" placeholder="MarketinggroupId" ng-model="gastronomy.MarketinggroupId" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Detail">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputTitle" class="col-sm-4 control-label">Title</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" placeholder="Title" ng-model="gastronomy.Detail[lang].Title" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputHeader" class="col-sm-4 control-label">Header</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputHeader" placeholder="Header" ng-model="gastronomy.Detail[lang].Header" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSubHeader" class="col-sm-4 control-label">SubHeader</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputSubHeader" placeholder="SubHeader" ng-model="gastronomy.Detail[lang].SubHeader" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputIntroText" class="col-sm-4 control-label">IntroText</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputIntroText" placeholder="IntroText" ng-model="gastronomy.Detail[lang].IntroText" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputAdditionalText" class="col-sm-4 control-label">AdditionalText</label>
+                                        <div class="col-sm-8">
+                                            <textarea rows="3" class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" ng-model="gastronomy.Detail[lang].AdditionalText" readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputBaseText" class="col-sm-4 control-label">BaseText</label>
+                                        <div class="col-sm-8">
+                                            <textarea rows="6" class="form-control notextareamaxwitdth" id="inputBaseText" placeholder="BaseText" ng-model="gastronomy.Detail[lang].BaseText" readonly></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputGetThereText" class="col-sm-4 control-label">GetThereText</label>
+                                        <div class="col-sm-8">
+                                            <textarea rows="5" class="form-control notextareamaxwitdth" id="inputGetThereText" placeholder="GetThereText" ng-model="gastronomy.Detail[lang].GetThereText" readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Gps">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inpuGpstype" class="col-sm-4 control-label">GPS Type</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inpuGpstype" placeholder="Gpstype" ng-model="gastronomy.Gpstype" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLatitude" class="col-sm-4 control-label">Latitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLatitude" placeholder="Latitude" ng-model="gastronomy.Latitude" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLongitude" class="col-sm-4 control-label">Longitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLongitude" placeholder="Longitude" ng-model="gastronomy.Longitude" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAltitude" class="col-sm-4 control-label">Altitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAltitude" placeholder="Altitude" ng-model="gastronomy.Altitude" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Contact">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputCompanyName" class="col-sm-4 control-label">CompanyName</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyName" placeholder="CompanyName" ng-model="gastronomy.ContactInfos[lang].CompanyName" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAddress" class="col-sm-4 control-label">Address</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address" ng-model="gastronomy.ContactInfos[lang].Address" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputCity" class="col-sm-4 control-label">City</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="inputZipCode" placeholder="ZipCode" ng-model="gastronomy.ContactInfos[lang].ZipCode" readonly>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="inputCity" placeholder="City" ng-model="gastronomy.ContactInfos[lang].City" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputCountryName" class="col-sm-4 control-label">Country</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="inputCountryCode" placeholder="CountryCode" ng-model="gastronomy.ContactInfos[lang].CountryCode" readonly>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="inputCountryName" placeholder="CountryName" ng-model="gastronomy.ContactInfos[lang].CountryName" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputGivenname" class="col-sm-4 control-label">Name</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="inputNamePrefix" placeholder="Prefix" ng-model="gastronomy.ContactInfos[lang].NamePrefix" readonly>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="inputSurname" placeholder="Surname" ng-model="gastronomy.ContactInfos[lang].Surname" readonly>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="inputGivenname" placeholder="Givenname" ng-model="gastronomy.ContactInfos[lang].Givenname" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-4 control-label">Email</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Email" ng-model="gastronomy.ContactInfos[lang].Email" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPhonenumber" class="col-sm-4 control-label">Phonenumber</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Phonenumber" ng-model="gastronomy.ContactInfos[lang].Phonenumber" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputFaxnumber" class="col-sm-4 control-label">Faxnumber</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Faxnumber" ng-model="gastronomy.ContactInfos[lang].Faxnumber" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputUrl" class="col-sm-4 control-label">Url</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputUrl" placeholder="Url" ng-model="gastronomy.ContactInfos[lang].Url" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputVat" class="col-sm-4 control-label">Vat / Tax</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputVat" placeholder="Vat" ng-model="gastronomy.ContactInfos[lang].Vat" readonly>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputTax" placeholder="Tax" ng-model="gastronomy.ContactInfos[lang].Tax" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Images">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <h4>Images (LTS)</h4>
+                                    <div class="row">
+
+                                        <div class="col-sm-2"><b>Image</b></div>
+                                        <div class="col-sm-1"><b>Position</b></div>
+                                        <div class="col-sm-1"><b>License</b></div>
+                                        <div class="col-sm-2"><b>Title</b></div>
+                                        <div class="col-sm-5"><b>Description</b></div>
+                                        <div class="col-sm-1"><b>Copyright</b></div>
+
+                                    </div>
+
+                                    <div class="row" ng-repeat="bild in gastronomy.ImageGallery">
+
+                                        <div class="col-sm-2">
+                                            <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&H=130' }}" style="max-height:130px; max-width:130px;" />
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{ bild.ListPosition }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{ bild.License }}
+                                        </div>
+                                        <div class="col-sm-2">
+                                            {{ bild.ImageTitle[lang] }}
+                                        </div>
+                                        <div class="col-sm-5">
+                                            {{ bild.ImageDesc[lang] }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{ bild.CopyRight }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+
+                    <tab heading="Season">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+
+                                    <div ng-repeat="operationschedule in gastronomy.OperationSchedule">
+
+                                        <div class="form-group">
+                                            <label for="inputOperationScheduleName" class="col-sm-2 control-label">Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" id="inputOperationScheduleName" class="form-control" ng-model="operationschedule.OperationscheduleName['de']" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputOperationScheduleNameStart" class="col-sm-2 control-label">Start</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-control">
+                                                    {{ operationschedule.Start | moment:'DD/MM/YYYY' }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">Stop</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-control">
+                                                    {{ operationschedule.Stop | moment:'DD/MM/YYYY' }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" ng-repeat="operationscheduletime in operationschedule.OperationScheduleTime">
+                                            <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">OperationSchedule Time</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-control">{{ operationscheduletime.Start }} - {{ operationscheduletime.End }} - {{ operationscheduletime.State }} - {{ operationscheduletime.Timecode }}</div>
+                                                <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.State" disabled>
+                                                    <option value="1">closed</option>
+                                                    <option value="2">open</option>
+                                                    <option value="0">Undefined</option>
+                                                </select>
+                                                <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode" disabled>
+                                                    <option value="1">General Opening Time</option>
+                                                    <option value="2">Time range for warm meals</option>
+                                                    <option value="3">Time range for pizza</option>
+                                                    <option value="4">Time range for snack's</option>
+                                                </select>
+                                                <div class="btn-group-horizontal">
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Mon</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tue</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wed</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thu</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Fri</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Sat</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sun</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Location">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputRegion" class="col-sm-4 control-label">Region / TVB</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputRegion" class="form-control notextareamaxwitdth" placeholder="Region" ng-model="gastronomy.LocationInfo.RegionInfo.Name[lang]" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputTourismorganization" class="form-control notextareamaxwitdth" placeholder="Tourismorganization" ng-model="gastronomy.LocationInfo.TvInfo.Name[lang]" disabled>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputMunicipality" class="col-sm-4 control-label">Municipality</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputMunicipality" class="form-control notextareamaxwitdth" placeholder="Municipality" ng-model="gastronomy.LocationInfo.MunicipalityInfo.Name[lang]" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputDistrict" class="col-sm-4 control-label">District</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputDistrict" class="form-control notextareamaxwitdth" placeholder="District" ng-model="gastronomy.LocationInfo.DistrictInfo.Name[lang]" disabled>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Additional">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+
+                                    <ul class="list-group">
+                                        <li class="list-group-item"><strong>Category</strong></li>
+                                        <li class="list-group-item" ng-repeat="gastrocodes in gastronomy.CategoryCodes">
+                                            <p>{{ gastrocodes.Shortname }}</p>
+                                        </li>
+                                    </ul>
+
+
+
+                                    <ul class="list-group">
+                                        <li class="list-group-item"><strong>Facilities</strong></li>
+                                        <li class="list-group-item" ng-repeat="facilities in gastronomy.Facilities">
+                                            <p>{{ facilities.Shortname }}</p>
+                                        </li>
+                                    </ul>
+
+
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+
+                                    <ul class="list-group">
+                                        <li class="list-group-item"><strong>Dishrates</strong></li>
+                                        <li class="list-group-item" ng-repeat="dishrates in gastronomy.DishRates">
+                                            <p>{{ dishrates.Shortname }}</p>
+                                        </li>
+                                    </ul>
+
+                                    <ul class="list-group">
+                                        <li class="list-group-item"><strong>Ceremony Codes</strong></li>
+                                        <li class="list-group-item" ng-repeat="capacityceremony in gastronomy.CapacityCeremony">
+                                            <p>{{ capacityceremony.Shortname }}</p>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="ODHTags">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="SmgTagNameModalTypeAheadController">
+                                            <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.smgtagname" idmodel="$parent.smgtagid" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addtag(smgtagid)"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="tag in gastronomy.SmgTags">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletetag(tag)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+                </tabset>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="addgastronomy(gastronomy,gastronomyform.$valid)" ng-show="newgastronomy">Create</button>
+                <button class="btn btn-primary" ng-click="updategastronomy(gastronomy,gastronomyform.$valid)" ng-show="!newgastronomy">Save</button>
+                <button class="btn btn-info" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="myGastronomyInfoModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelslidemodal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Gastronomy Info</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <carousel interval="myInterval">
+                            <slide data-ng-repeat="slide in slides" active="slide.active">
+                                <img data-ng-src="{{slide.ImageUrl + '&H=320'}}" style="margin:auto;max-width:420px" class="img-rounded">
+                                <div class="carousel-caption">
+                                    <h4>{{slide.ImageTitle[lang]}}</h4>
+                                    <p>{{slide.ImageDesc[lang]}}</p>
+                                </div>
+                            </slide>
+                        </carousel>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div style="max-width:420px;height:320px">
+                        <leaflet lf-center="leafletcoords" max-width="420px" height="320px"></leaflet>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <br />
+                    <h2>{{ gastronomy.ContactInfos[lang].CompanyName }}</h2>
+                    <h4>{{ gastronomy.LocationInfo.TvInfo.Name[lang] }} - {{ gastronomy.LocationInfo.RegionInfo.Name[lang] }}</h4>
+
+                    <p ng-show="gastronomy.Detail[lang].IntroText != '' && gastronomy.Detail[lang].IntroText != null">
+                        <strong>Introtext</strong><br />
+                        {{ gastronomy.Detail[lang].IntroText }}
+                    </p>
+                    <p ng-show="gastronomy.Detail[lang].BaseText != '' && gastronomy.Detail[lang].BaseText != null">
+                        <strong>Basistext</strong>
+                    </p>
+                    <p ng-show="gastronomy.Detail[lang].BaseText != '' && gastronomy.Detail[lang].BaseText != null" ng-bind-html="gastronomy.Detail[lang].BaseText"></p>
+
+                    <p ng-show="gastronomy.Detail[lang].GetThereText != '' && gastronomy.Detail[lang].GetThereText != null">
+                        <strong>Anfahrtstext</strong><br />
+                        {{ gastronomy.Detail['de'].GetThereText }}
+                    </p>
+                    <p ng-show="gastronomy.Detail[lang].AdditionalText != '' && gastronomy.Detail[lang].AdditionalText != null">
+                        <strong>Zusatztext</strong><br />
+                        {{ gastronomy.Detail['de'].AdditionalText }}
+                    </p>
+
+                    <p ng-show="gastronomy.OperationSchedule != '' && gastronomy.OperationSchedule != null">
+                        <strong>Season</strong><br />
+                        <div ng-repeat=" operationschedule in gastronomy.OperationSchedule">
+                            <strong ng-show="operationschedule.OperationscheduleName[lang] != ''">{{ operationschedule.OperationscheduleName[lang] }}</strong>
+                            {{ operationschedule.Start | moment:'DD/MM/YYYY' }} -  {{ operationschedule.Stop | moment:'DD/MM/YYYY' }}
+                            <div ng-repeat="operationscheduletime in operationschedule.OperationScheduleTime">
+
+                                <div ng-show="operationscheduletime.State == 1">
+                                    Closed on:
+                                    {{ operationscheduletime.Start }} - {{ operationscheduletime.End }}
+
+                                    <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode" disabled>
+                                        <option value="1">General Opening Time</option>
+                                        <option value="2">Time range for warm meals</option>
+                                        <option value="3">Time range for pizza</option>
+                                        <option value="4">Time range for snack's</option>
+                                    </select>
+
+                                    <div class="btn-group-horizontal">
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Monday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tuesday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wednesday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thuresday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Friday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Saturday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sunday</label>
+                                    </div>
+
+
+                                </div>
+                                <div ng-show="operationscheduletime.State == 2">
+                                    Opened:
+                                    {{ operationscheduletime.Start }} - {{ operationscheduletime.End }}
+
+                                    <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode" disabled>
+                                        <option value="1">General Opening Time</option>
+                                        <option value="2">Time range for warm meals</option>
+                                        <option value="3">Time range for pizza</option>
+                                        <option value="4">Time range for snack's</option>
+                                    </select>
+                                    <div class="btn-group-horizontal">
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Monday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tuesday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wednesday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thuresday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Friday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Saturday</label>
+                                        <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sunday</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </p>
+
+                    <ul class="list-group" ng-show="gastronomy.CategoryCodes != null">
+                        <li class="list-group-item"><strong>Category</strong></li>
+                        <li class="list-group-item" ng-repeat="gastrocodes in gastronomy.CategoryCodes">
+                            <p>{{ gastrocodes.Shortname }}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th colspan="2">Contactinfo</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Organisation
+                            </td>
+                            <td>
+                                {{ gastronomy.ContactInfos[lang].CompanyName }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Adresse
+                            </td>
+                            <td>
+                                {{ gastronomy.ContactInfos[lang].Address }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ort
+                            </td>
+                            <td>
+                                {{ gastronomy.ContactInfos[lang].ZipCode }} - {{ gastronomy.ContactInfos[lang].City }}
+                            </td>
+                        </tr>
+                        <tr ng-show="activity.ContactInfos[lang].Surname != ''">
+                            <td>
+                                Ansprechpartner
+                            </td>
+                            <td>
+                                {{ gastronomy.ContactInfos[lang].Surname }}&nbsp;{{ gastronomy.ContactInfos[lang].Givenname }}
+                            </td>
+                        </tr>
+                        <tr ng-show="activity.ContactInfos[lang].Phonenumber != ''">
+                            <td>
+                                Tel / Fax
+                            </td>
+                            <td>
+                                {{ gastronomy.ContactInfos[lang].Phonenumber }}<br />
+                                {{ gastronomy.ContactInfos[lang].Faxnumber }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                E-Mail
+                            </td>
+                            <td>
+                                {{ gastronomy.ContactInfos[lang].Email }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Web
+                            </td>
+                            <td>
+                                {{ gastronomy.ContactInfos[lang].Url }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-6">
+                    <ul class="list-group" ng-show="gastronomy.Facilities != null">
+                        @*<li class="list-group-item" ng-repeat="facilities in gastronomy.Facilities | filter:{Language:'de'}">*@
+                        <li class="list-group-item"><strong>Facilities</strong></li>
+                        <li class="list-group-item" ng-repeat="facilities in gastronomy.Facilities">
+                            <p>{{ facilities.Shortname }}</p>
+                        </li>
+                    </ul>
+                    <ul class="list-group" ng-show="gastronomy.DishRates != null">
+                        <li class="list-group-item"><strong>Dishrates</strong></li>
+                        <li class="list-group-item" ng-repeat="dishrates in gastronomy.DishRates">
+                            <p>{{ dishrates.Shortname }}</p>
+                        </li>
+                    </ul>
+                    <ul class="list-group" ng-show="gastronomy.CapacityCeremony != null">
+                        <li class="list-group-item"><strong>Ceremony Codes</strong></li>
+                        <li class="list-group-item" ng-repeat="capacityceremony in gastronomy.CapacityCeremony">
+                            <p>{{ capacityceremony.Shortname }}</p>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelslidemodal()">Cancel</button>
+        </div>
+    </script>
+</div>
+@section Styles{
+    <style type="text/css">
+    </style>
+}
+
+@section Scripts {
+    @*<script type="text/javascript" src="~/Scripts/angular.min.js"></script>
+        <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>*@
+    @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
+    @*<script src="~/NgScripts/appfactory.js"></script>*@
+    <script src="~/NgScripts/appconfig.js"></script>
+    <script src="~/NgScripts/GastronomyController.js?version=20200330"></script>
+    @*<script src="~/Scripts/angular-sanitize.min.js"></script>*@
+
+}

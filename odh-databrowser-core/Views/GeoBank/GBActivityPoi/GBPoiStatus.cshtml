@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewBag.Title = "Status GBPoisActivities";
+}
+@section jumbotronsect {<h2>Status ODH Pois & Activities</h2>
+}
+@section infomodaltext {
+    <h2>Open Data Hub Pois & Activities Status</h2>
+    <p>Count of active Pois and Activities of various interfaces
+       </p>
+}
+
+<h3>Active Poi's</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>POI's Overview</th>
+            <th>LTS Pois</th>
+            <th>Magnolia Pois</th>
+            <th>Created Content</th>
+            <th>Siag Museum Data</th>
+            <th>Gastronomy Data</th>
+            <th>Suedtirol Wein</th>
+            <th>Vertical Live</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Wellness & Entspannung</td>
+            <td>@ViewBag.WellnessLTS</td>
+            <td>@ViewBag.WellnessMagnolia</td>
+            <td>@ViewBag.WellnessCreated</td>            
+            <td>@ViewBag.WellnessOther</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Winter</td>
+            <td>@ViewBag.WinterLTS</td>
+            <td>@ViewBag.WinterMagnolia</td>
+            <td>@ViewBag.WinterCreated</td> 
+            <td>@ViewBag.WinterOther</td> 
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Sommer</td>
+            <td>@ViewBag.SommerLTS</td>
+            <td>@ViewBag.SommerMagnolia</td>
+            <td>@ViewBag.SommerCreated</td>
+            <td>@ViewBag.SommerOther</td>
+            <td>0</td>            
+            <td>0</td>
+            <td>@ViewBag.SommerVerticalLife</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Kultur & Sehenswürdigkeiten</td>
+            <td>@ViewBag.KulturLTS</td>
+            <td>@ViewBag.KulturMagnolia</td>
+            <td>@ViewBag.KulturCreated</td>
+            <td>@ViewBag.KulturOther</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Essen & Trinken</td>
+            <td>@ViewBag.EssenLTS</td>
+            <td>@ViewBag.EssenMagnolia</td>
+            <td>@ViewBag.EssenCreated</td>
+            <td>@ViewBag.EssenOther</td>
+            <td>@ViewBag.EssenLTSGastro</td>
+            <td>@ViewBag.EssenSuedtirolWein</td>
+            <td>0</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Anderes</td>
+            <td>@ViewBag.AnderesLTS</td>
+            <td>@ViewBag.AnderesMagnolia</td>
+            <td>@ViewBag.AnderesCreated</td>
+            <td>@ViewBag.AnderesOther</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><b>Gesamt</b></td>
+            <td><b>@ViewBag.PoisLTS</b></td>
+            <td><b>@ViewBag.PoisMagnolia</b></td>
+            <td><b>@ViewBag.PoisCreated</b></td>
+            <td><b>@ViewBag.PoisOther</b></td>
+            <td><b>@ViewBag.EssenLTSGastro</b></td>
+            <td><b>@ViewBag.EssenSuedtirolWein</b></td>
+            <td><b>@ViewBag.SommerVerticalLife</b></td>
+            <td><b>@ViewBag.TotalPois (@ViewBag.TotalPoisTotal *with Gastronomys)</b></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h3>Active Activities</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Activities Overview</th>
+            <th>LTS ActivityData</th>
+            <th>Magnolia Activities</th>
+            <th>Created Content</th>            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Wellness & Entspannung</td>
+            <td>@ViewBag.AWellnessLTS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Winter</td>
+            <td>@ViewBag.AWinterLTS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Sommer</td>
+            <td>@ViewBag.ASommerLTS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Kultur & Sehenswürdigkeiten</td>
+            <td>@ViewBag.AKulturLTS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Essen & Trinken</td>
+            <td>@ViewBag.AEssenLTS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Anderes</td>
+            <td>@ViewBag.AAnderesLTS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><b>Gesamt</b></td>
+            <td><b>@ViewBag.APoisLTS</b></td>
+            <td></td>
+            <td></td>
+            <td><b>@ViewBag.APoisLTS</b></td>
+        </tr>
+    </tbody>
+</table>

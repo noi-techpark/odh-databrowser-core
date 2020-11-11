@@ -1,0 +1,828 @@
+﻿<form name="eventshortform">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Event NOI Details</h4>
+	</div>
+	<div class="modal-body">
+
+        <tabset>
+            <tab heading="General">
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputId" class="col-sm-2 control-label">Id</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="eventshort.Id" readonly>
+                                </div>
+                            </div>
+   
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputEventDescriptionDE" class="col-sm-2 control-label">Title(DE)</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="inputEventDescriptionDE" name="inputEventDescriptionDE" placeholder="Event Title DE" ng-model="eventshort.EventDescriptionDE" ng-show="eventshort.Source != 'EBMS'" required>
+                                    <input type="text" class="form-control" id="inputEventDescriptionDEebms" placeholder="Event Title DE" ng-model="eventshort.EventDescriptionDE" ng-show="eventshort.Source == 'EBMS'" disabled>
+                                </div>
+                                <span class="text-danger col-sm-2" ng-show="eventshortform.inputEventDescriptionDE.$error.required">
+                                    Required
+                                </span>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputEventDescriptionIT" class="col-sm-2 control-label">Title(IT)</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="inputEventDescriptionIT" placeholder="Event Title IT" ng-model="eventshort.EventDescriptionIT" ng-show="eventshort.Source != 'EBMS'">
+                                    <input type="text" class="form-control" id="inputEventDescriptionITebms" placeholder="Event Title IT" ng-model="eventshort.EventDescriptionIT" ng-show="eventshort.Source == 'EBMS'" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEventDescriptionEN" class="col-sm-2 control-label">Title(EN)</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="inputEventDescriptionEN" placeholder="Event Title EN" ng-model="eventshort.EventDescriptionEN" ng-show="eventshort.Source != 'EBMS'">
+                                    <input type="text" class="form-control" id="inputEventDescriptionENebms" placeholder="Event Title EN" ng-model="eventshort.EventDescriptionEN" ng-show="eventshort.Source == 'EBMS'" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputEventDescriptionDE" class="col-sm-2 control-label">Desc(DE)</label>
+                                <div class="col-sm-8">
+                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextDE" placeholder="Event Text DE" ng-model="eventshort.EventTextDE"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputEventDescriptionIT" class="col-sm-2 control-label">Desc(IT)</label>
+                                <div class="col-sm-8">
+                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextIT" placeholder="Event Text IT" ng-model="eventshort.EventTextIT"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEventDescriptionEN" class="col-sm-2 control-label">Desc(EN)</label>
+                                <div class="col-sm-8">
+                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextEN" placeholder="Event Text EN" ng-model="eventshort.EventTextEN"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px" ng-show="eventshort.Display5 == null || eventshort.Display5 == ''">
+                                <label for="inputOrganizer" class="col-sm-2 control-label">Organizer</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control notextareamaxwitdth" id="inputOrganizer" placeholder="Organizer" ng-model="eventshort.CompanyName">
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-show="eventshort.Display5 != null && eventshort.Display5 != ''" style="margin-bottom:0px">
+                                <label for="inputOrganizer" class="col-sm-2 control-label">Organizer</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control notextareamaxwitdth" id="inputOrganizer" placeholder="Organizer" ng-model="eventshort.Display5" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputName" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="form-control bigcheckbox" id="checkboxExternalOrganizer" ng-model="eventshort.ExternalOrganizer">
+                                </div>
+                                <label for="inputName" class="col-sm-6 control-label" style="text-align:left">Organizer external to NOI Techpark</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputName" class="col-sm-2 control-label">Active</label>
+                                <div class="col-sm-4">
+                                    <input type="checkbox" class="form-control bigcheckbox" id="checkboxActive" ng-model="eventshort.isActive" ng-show="eventshort.Source != 'EBMS'">
+                                    <input type="checkbox" class="form-control bigcheckbox" id="checkboxActiveebms" ng-model="eventshort.isActive" ng-show="eventshort.Source == 'EBMS'" disabled>                                    
+                                </div>
+
+                                <label for="inputName" class="col-sm-2 control-label">noi.bz.it Active</label>
+                                <div class="col-sm-4">
+                                    <input type="checkbox" class="bigcheckbox" id="checkboxActive" ng-model="eventshort.ActiveWeb">
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-horizontal">
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputVideoUrl" class="col-sm-2 control-label">Web Page</label>
+                                <div class="col-sm-8">
+                                    <input type="url" id="inputWebAddress" name="inputWebAddress" class="form-control notextareamaxwitdth" placeholder="Web Url" ng-model="eventshort.WebAddress">
+                                </div>
+                                <span class="col-sm-2 text-danger" ng-show="eventshortform.inputWebAddress.$error.url">
+                                    Not valid!
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputWebAddress" class="col-sm-2 control-label">Video</label>
+                                <div class="col-sm-8">
+                                    <input type="url" id="inputVideoUrl" name="inputVideoUrl" class="form-control notextareamaxwitdth" placeholder="Video Url" ng-model="eventshort.VideoUrl">
+                                </div>
+                                <span class="col-sm-2 text-danger" ng-show="eventshortform.inputVideoUrl.$error.url">
+                                    Not valid!
+                                </span>
+                            </div>
+
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputDate" class="col-sm-2 control-label">Date Start</label>
+                                <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
+                                    <div class="input-group">
+
+                                        <input type="text" class="form-control notextareamaxwitdth" name="inputStartDate" datepicker-popup="{{format}}" ng-model="eventshort.eventstartonlydate" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ ng-required="true" close-text="Close" ng-change="updateeventdate(eventshort.eventstartonlydate)" readonly />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event)" ng-show="eventshort.Source != 'EBMS'"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="text-danger" ng-show="eventshortform.inputStartDate.$error.required">
+                                    Required
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputStartTime" class="col-sm-2 control-label">Start Time</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputStartTime" name="inputStartTime" class="form-control notextareamaxwitdth" ng-model="eventshort.eventstartonlytime" placeholder="__:__" ui-Time ng-show="eventshort.Source != 'EBMS'" required>
+                                    <input type="text" id="inputStartTimeebms" class="form-control notextareamaxwitdth" ng-model="eventshort.eventstartonlytime" placeholder="__:__" ui-Time  ng-show="eventshort.Source == 'EBMS'" disabled>
+                                </div>
+                                <span class="text-danger" ng-show="eventshortform.inputStartTime.$error.required">
+                                    Required
+                                </span>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputDate" class="col-sm-2 control-label">Date End</label>
+                                <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
+                                    <div class="input-group">
+
+                                        <input type="text" name="inputEnddate" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="eventshort.eventendonlydate" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ ng-required="true" close-text="Close" readonly />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event)" ng-show="eventshort.Source != 'EBMS'"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="text-danger" ng-show="eventshortform.inputEnddate.$error.required">
+                                    Required
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEndtime" class="col-sm-2 control-label">End Time</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputEndtime" name="inputEndtime" class="form-control notextareamaxwitdth" ng-model="eventshort.eventendonlytime" placeholder="__:__" ui-Time ng-show="eventshort.Source != 'EBMS'" required>
+                                    <input type="text" id="inputEndtimeebms" class="form-control notextareamaxwitdth" ng-model="eventshort.eventendonlytime" placeholder="__:__" ui-Time ng-show="eventshort.Source == 'EBMS'" disabled>
+                                </div>
+                                <span class="text-danger" ng-show="eventshortform.inputEndtime.$error.required">
+                                    Required
+                                </span>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputAnchorVenue" class="col-sm-2 control-label">Room</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputAnchorVenue" name="inputAnchorVenue" class="form-control" placeholder="Room Name" ng-model="eventshort.AnchorVenue" ng-show="eventshort.Source != 'EBMS'" required>
+                                    <input type="text" id="inputAnchorVenueebms" class="form-control" placeholder="Room Name" ng-model="eventshort.AnchorVenue" ng-show="eventshort.Source == 'EBMS'" disabled>
+                                </div>
+                                <span class="text-danger" ng-show="eventshortform.inputAnchorVenue.$error.required">
+                                    Required
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputTyp" class="col-sm-2 control-label">Location</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control notextareamaxwitdth" id="selectTyp" ng-model="eventshort.EventLocation" ng-show="eventshort.Source != 'EBMS'">
+                                        @if (@ViewBag.virtualvillageadmin == true)
+                                        {
+                                            <option value="VV">Virtual Village</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="NOI">NOI</option>
+                                            <option value="EC">Eurac</option>
+                                            <option value="VV">Virtual Village</option>
+                                            <option value="OUT">Other</option>
+                                        }
+                                    </select>
+                                    <input type="text" id="inputLocation" class="form-control notextareamaxwitdth" placeholder="Location" ng-model="eventshort.EventLocation" ng-show="eventshort.Source == 'EBMS'" disabled>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="inputTyp" class="col-sm-2 control-label">Technology Field</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <select class="form-control notextareamaxwitdth" id="selectTechnologyFields" ng-model="technologyFieldId">
+                                            <option value="Alpine">Alpine</option>
+                                            <option value="Automotive/Automation">Automotive/Automation</option>
+                                            <option value="Digital">Digital</option>
+                                            <option value="Food">Food</option>
+                                            <option value="Green">Green</option>
+
+                                       </select>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addtechnologyfield(technologyFieldId)"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group" ng-repeat="tagfield in eventshort.TechnologyFields">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletetechnologyfield(tagfield)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tagfield" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputTyp" class="col-sm-2 control-label">Tagging Field</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <select class="form-control notextareamaxwitdth" id="selectCustomTagFields" ng-model="taggingFieldId">
+                                            <option value="Arts&Culture">Arts&Culture</option>
+                                            <option value="Square">Square</option>
+                                            <option value="Camp4Company">Camp4Company</option>
+                                            <option value="MiniNOI">MiniNOI</option>
+                                            <option value="Out of the Lab">Out of the Lab</option>
+                                        </select>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addcustomfield(taggingFieldId)"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group" ng-repeat="customtagfield in eventshort.CustomTagging">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletecustomfield(customtagfield)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="customtagfield" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <label for="inputSoldOut" class="col-sm-2 control-label">Sold Out</label>
+                                <div class="col-sm-4">
+                                    <input type="checkbox" class="bigcheckbox" id="checkboxSoldOut" ng-model="eventshort.SoldOut">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Manage Rooms</label>
+                            <div class="col-sm-8 btn-group">
+                                <label class="btn btn-default" ng-model="eventshort.hasmoreRooms" ng-disabled="eventshort.Source == 'EBMS' || !neweventshort" btn-checkbox>Room Management</label>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-sm-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row" ng-show="eventshort.hasmoreRooms">
+                    <div class="col-sm-12">
+                       
+                        <h5>Room Management (Add and change Rooms)</h5>
+                    </div>
+                    <div class="col-sm-6 form-horizontal">
+
+                        <div ng-if="eventshort.Source == 'Content'">
+                            <div class="form-horizontal">
+                                <div class="form-group" style="margin-bottom:0px">
+                                    <label for="inputDate" class="col-sm-2 control-label">Date Start</label>
+                                    <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
+                                        <div class="input-group">
+
+                                            <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="newroom.roomstartonlydate" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ ng-required="true" close-text="Close" ng-change="updateroomdate(newroom.roomstartonlydate)" readonly />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputLaenge" class="col-sm-2 control-label">Start Time</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="inputOperationScheduleTimeStart" class="form-control notextareamaxwitdth" ng-model="newroom.roomstartonlytime" placeholder="__:__" ui-Time>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom:0px">
+                                    <label for="inputDate" class="col-sm-2 control-label">Date End</label>
+                                    <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="newroom.roomendonlydate" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ ng-required="true" close-text="Close" readonly />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputLaenge" class="col-sm-2 control-label">End Time</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="inputOperationScheduleTimeStart" class="form-control notextareamaxwitdth" ng-model="newroom.roomendonlytime" placeholder="__:__" ui-Time>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom:0px">
+                                    <label for="inputSpaceDesc" class="col-sm-2 control-label">Room</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="inputSpaceDesc" class="form-control notextareamaxwitdth" ng-model="newroom.SpaceDesc">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom:0px">
+                                    <label for="inputSubtitle" class="col-sm-2 control-label">Subtitle</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="inputSubtitle" class="form-control notextareamaxwitdth" ng-model="newroom.Subtitle">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputSpaceAbbrev" class="col-sm-2 control-label">Location</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control notextareamaxwitdth" id="selectSpace" ng-model="newroom.SpaceType">
+                                            @if (@ViewBag.virtualvillageadmin == true)
+                                            {                                                
+                                                <option value="VV">Virtual Village</option>                                          
+                                            }
+                                            else
+                                            {
+                                                <option value="NO">NOI</option>
+                                                <option value="EC">Eurac</option>
+                                                <option value="VV">Virtual Village</option>
+                                                <option value="OUT">Other</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputSpaceAbbrev" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-8">
+                                        <span class="btn btn-default center-block" value="+" ng-click="addroom(newroom)"><i class="glyphicon glyphicon-plus"></i></span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 form-horizontal">
+
+                        <div ng-repeat="room in eventshort.RoomBooked">
+
+                            <div class="form-group" ng-if="eventshort.Source == 'Content'">
+                                <label for="inputSpace" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-8">
+                                    <span class="btn btn-default center-block" ng-click="deleteroom(room)"><i class="glyphicon glyphicon-minus"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputSpace" class="col-sm-2 control-label">Date Start</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputSpace" class="form-control notextareamaxwitdth" ng-value="room.StartDate | moment:'DD/MM/YYYY HH:mm'" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputSpace" class="col-sm-2 control-label">Date End</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputSpace" class="form-control notextareamaxwitdth" ng-value="room.EndDate | moment:'DD/MM/YYYY HH:mm'" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px" ng-if="eventshort.Source == 'EBMS'">
+                                <label for="inputSpace" class="col-sm-2 control-label">Space</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputSpace" class="form-control notextareamaxwitdth" ng-model="room.Space" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputSpaceDesc" class="col-sm-2 control-label">Room</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputSpaceDesc" class="form-control notextareamaxwitdth" ng-model="room.SpaceDesc" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px" ng-if="eventshort.Source == 'Content'">
+                                <label for="inputSubtitle" class="col-sm-2 control-label">Subtitle</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputSubtitle" class="form-control notextareamaxwitdth" ng-model="room.Subtitle">
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px" ng-if="eventshort.Source == 'EBMS'">
+                                <label for="inputSubtitle" class="col-sm-2 control-label">Subtitle</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="inputSubtitle" class="form-control notextareamaxwitdth" ng-model="room.Subtitle" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputSpaceAbbrev" class="col-sm-2 control-label">Special</label>
+                                <div class="col-sm-4">
+
+                                    <div ng-if="eventshort.Source == 'Content'">
+                                        <select class="form-control notextareamaxwitdth" id="selectSpace" ng-model="room.Comment">
+                                            <option value="x">Set room to inactive</option>
+                                        </select>
+
+                                    </div>
+                                    <div ng-if="eventshort.Source == 'EBMS'">
+                                        <input type="text" id="inputComment" class="form-control" ng-model="room.Comment" readonly>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-sm-4">
+                                    @*<input type="text" id="inputSpaceType" class="form-control" ng-model="room.SpaceType"
+                                           ng-if="" readonly>*@
+
+                                    <div class="form-control" ng-if="eventshort.EventLocation == 'EC'" readonly>Eurac</div>
+                                    <div class="form-control" ng-if="eventshort.EventLocation == 'NOI'" readonly>NOI</div>
+                                    <div class="form-control" ng-if="eventshort.EventLocation == 'OUT'" readonly>Other</div>
+                                    <div class="form-control" ng-if="eventshort.EventLocation == 'VV'" readonly>Virtual Village</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputSpaceAbbrev" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-8">
+                                    &nbsp;
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </tab>
+
+            <tab heading="Images">
+                <br />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-horizontal">
+                            <div class="form-group" ng-controller="FileUploadController">
+
+                                <div class="col-sm-12">
+                                    <h4>Upload Images</h4>
+
+                                    <input type="file" class="btn btn-default btn-file notextareamaxwitdth" style="width:100%" nv-file-select="" uploader="uploader" />
+                                    <div>
+                                        <div class="progress" style="height:100%">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width:60%"></div>
+
+                                            <div ng-repeat="item in uploader.queue">
+                                                <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                    <span class="glyphicon glyphicon-upload"></span> Upload
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-horizontal">
+                            <h4>Image Gallery <small>Copyright, License, Position</small></h4>
+
+                            <div class="row" ng-repeat="smgbild in eventshort.ImageGallery">
+                                <div class="col-sm-2" style="text-align:right">
+                                    <a ng-href="{{ smgbild.ImageUrl }}" target="_blank">
+                                        <img data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">
+                                    </a>
+                                    <div class="pull-right" ng-controller="FileUploadControllerSingle" ng-init="init(smgbild.ImageUrl)">
+                                        <input type="file" class="btn btn-xs btn-default btn-file" style="width: 95px;" nv-file-select="" uploader="uploader" />
+                                        <button type="button" class="btn btn-xs btn-success" style="width: 95px;" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                                            <span class="glyphicon glyphicon-upload"></span> Change
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-btn" style="vertical-align:top;">
+                                            <button type="button" class="btn btn-default" ng-click="deletebild(smgbild.ImageUrl)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        @*<div class="col-sm-12" style="padding-left:0px">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputBildTitel" placeholder="Title" ng-model="smgbild.ImageTitle[lang]">
+                                    </div>*@
+                                        <div class="col-sm-12" style="padding-left:0px">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputBildCopyright" placeholder="Author" ng-model="smgbild.CopyRight">
+                                        </div>
+
+                                        <div class="col-sm-8" style="padding-left:0px">
+                                            <select class="form-control notextareamaxwitdth" id="selectImageLicenseType" ng-model="smgbild.License">
+                                                <option value="" disabled>Select License</option>
+                                                <option value="CC0">CC0</option>
+                                                <option value="Proprietary">Proprietary</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-4" style="padding-left:0px">
+                                            <input type="number" class="form-control col-xs-2" id="inputBildListPosition" placeholder="Position" ng-model="smgbild.ListPosition">
+                                        </div>
+                                        @*<div class="col-sm-2" style="padding-left:0px">
+                                        <input type="checkbox" class="smallcheckbox col-sm" id="checkboxActive" ng-model="smgbild.IsInGallery">
+                                    </div>*@
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </tab>
+
+            <tab heading="Pdf">
+                <br />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-horizontal">
+                            <div class="form-group" ng-controller="FileUploadControllerPDF">
+
+                                <div class="col-sm-12">
+                                    <h4>Upload PDF</h4>
+
+                                    <input type="file" class="btn btn-default btn-file notextareamaxwitdth" style="width:100%" nv-file-select="" uploader="uploaderpdf" />
+                                    <div>
+                                        <div class="progress" style="height:100%">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploaderpdf.progress + '%' }" style="width:60%"></div>
+
+                                            <div ng-repeat="item in uploaderpdf.queue">
+                                                <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                    <span class="glyphicon glyphicon-upload"></span> Upload
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-horizontal">
+                            <h4>PDF Documents</h4>
+
+                            <div class="row" ng-repeat="esdocument in eventshort.EventDocument">
+                                <div class="col-sm-6" style="text-align:right">
+                                    <a ng-href="{{ esdocument.DocumentUrl }}" target="_blank">Linked Document</a>
+                                </div>
+                                <div class="col-sm-4 input-group" style="padding-left:0px">
+                                    <select class="form-control notextareamaxwitdth" id="selectDocumentLanguage" ng-model="esdocument.Language">
+                                        <option value="de">de</option>
+                                        <option value="it">it</option>
+                                        <option value="en">en</option>
+                                    </select>
+                                    <span class="input-group-btn" style="vertical-align:top;">
+                                        <button type="button" class="btn btn-default" ng-click="deletedocument(esdocument.DocumentUrl)"><i class="glyphicon glyphicon-minus"></i></button>
+                                    </span>
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+
+
+            @*<tab heading="Company" ng-show="eventshort.Source == 'EBMS'" >
+            <br />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="inputCompanyName" class="col-sm-2 control-label">Company</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyName" placeholder="CompanyName" ng-model="eventshort.CompanyName">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:0px">
+                            <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address" ng-model="eventshort.CompanyAddressLine1">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0px">
+                            <label for="inputAddress" class="col-sm-2 control-label">Address2</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address 2" ng-model="eventshort.CompanyAddressLine2">
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress" class="col-sm-2 control-label">Address3</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address 3" ng-model="eventshort.CompanyAddressLine3">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:0px">
+                            <label for="inputCity" class="col-sm-2 control-label">City</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="inputZipCode" placeholder="ZipCode" ng-model="eventshort.CompanyPostalCode">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputCity" placeholder="City" ng-model="eventshort.CompanyCity">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputCountryName" class="col-sm-2 control-label">Country</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputCountryName" placeholder="CountryName" ng-model="eventshort.CompanyCountry">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-sm-2 control-label">E-Mail</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Email" ng-model="eventshort.CompanyMail">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPhonenumber" class="col-sm-2 control-label">Phone</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Phonenumber" ng-model="eventshort.CompanyPhone">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputFaxnumber" class="col-sm-2 control-label">Fax</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Faxnumber" ng-model="eventshort.CompanyFax">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputUrl" class="col-sm-2 control-label">Url</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputUrl" placeholder="Url" ng-model="eventshort.CompanyUrl">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputCompanyId" class="col-sm-2 control-label">CompanyId</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyId" placeholder="CompanyId" ng-model="eventshort.CompanyId">
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab heading="Contact" ng-show="eventshort.Source == 'EBMS'">
+            <br />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="inputCompanyName" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyName" placeholder="Firstname" ng-model="eventshort.ContactFirstName">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyName" placeholder="Lastname" ng-model="eventshort.ContactLastName">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:0px">
+                            <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address" ng-model="eventshort.ContactAddressLine1">
+                            </div>
+
+                        </div>
+                        <div class="form-group" style="margin-bottom:0px">
+                            <label for="inputAddress" class="col-sm-2 control-label">Address2</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address 2" ng-model="eventshort.ContactAddressLine2">
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress" class="col-sm-2 control-label">Address3</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address 3" ng-model="eventshort.ContactAddressLine3">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:0px">
+                            <label for="inputCity" class="col-sm-2 control-label">City</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="inputZipCode" placeholder="ZipCode" ng-model="eventshort.ContactPostalCode">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputCity" placeholder="City" ng-model="eventshort.ContactCity">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputCountryName" class="col-sm-2 control-label">Country</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputCountryName" placeholder="CountryName" ng-model="eventshort.ContactCountry">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-sm-2 control-label">E-Mail</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Email" ng-model="eventshort.ContactEmail">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPhonenumber" class="col-sm-2 control-label">Phone</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Phonenumber" ng-model="eventshort.ContactPhone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPhonenumber" class="col-sm-2 control-label">CellPhone</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Cellphonenumber" ng-model="eventshort.ContactCell">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputFaxnumber" class="col-sm-2 control-label">Fax</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Faxnumber" ng-model="eventshort.ContactFax">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputVat" class="col-sm-2 control-label">ContactCode</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputVat" placeholder="Contactcode" ng-model="eventshort.ContactCode">
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </tab>*@
+        </tabset>
+
+
+
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="addeventshort(eventshort,eventshortform.$valid, eventshortform.$error)" ng-show="neweventshort" ng-if="eventshort.Source == 'Content'">Create</button>
+		<button class="btn btn-primary" ng-click="updateeventshort(eventshort,eventshortform.$valid, eventshortform.$error)" ng-show="!neweventshort" @*ng-if="eventshort.Source == 'Content'"*@>Save</button>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	</div>
+</form>

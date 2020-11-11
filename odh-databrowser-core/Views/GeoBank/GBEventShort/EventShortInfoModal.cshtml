@@ -1,0 +1,66 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="cancelslidemodal()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Event NOI Eurac Info</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div>
+                <carousel interval="myInterval">
+                    <slide data-ng-repeat="slide in slides" active="slide.active">
+                        <img data-ng-src="{{slide.ImageUrl + '&H=320'}}" style="margin:auto;max-width:420px" class="img-rounded">
+                        <div class="carousel-caption">
+                            <h4>{{slide.ImageTitle[lang]}}</h4>
+                            <p>{{slide.ImageDesc[lang]}}</p>
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+        </div>
+       
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br />
+            <h2>
+                <div ng-if="lang == 'de'">{{ eventshort.EventDescriptionDE }}</div>
+                <div ng-if="lang == 'it'">{{ eventshort.EventDescriptionIT }}</div>
+                <div ng-if="lang == 'en'">{{ eventshort.EventDescriptionEN }}</div>
+            </h2>
+            <h3>
+                <div ng-if="lang == 'de'">{{ eventshort.EventTextDE }}</div>
+                <div ng-if="lang == 'it'">{{ eventshort.EventTextIT }}</div>
+                <div ng-if="lang == 'en'">{{ eventshort.EventTextEN }}</div>
+            </h3>
+
+            <p>Startdate: {{ eventshort.StartDate | moment:'DD/MM/YYYY HH:mm' }}</p>
+            <p>Enddate: {{ eventshort.EndDate | moment:'DD/MM/YYYY HH:mm' }}</p>
+            <p>Location: {{ eventshort.EventLocation }}</p>
+            <p>AnchorVenue: {{ eventshort.AnchorVenue }}</p>
+
+            <p>TechnologyFields</p>
+            <p ng-repeat="tech in eventshort.TechnologyFields">
+                {{ tech }}
+            </p>
+
+            <p>Tags</p>
+            <p ng-repeat="tag in eventshort.CustomTagging">
+                {{ tag }}
+            </p>
+
+            <b>Room Info:</b>
+            <div ng-repeat="room in eventshort.RoomBooked">
+                <p>Startdate: {{ room.StartDate | moment:'DD/MM/YYYY HH:mm' }}</p>
+                <p>Enddate: {{ room.EndDate | moment:'DD/MM/YYYY HH:mm' }}</p>
+                <p>SpaceDesc: {{ room.SpaceDesc }}</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-info" ng-click="cancelslidemodal()">Cancel</button>
+</div>

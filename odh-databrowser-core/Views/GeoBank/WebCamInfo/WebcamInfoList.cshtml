@@ -1,0 +1,399 @@
+﻿@{
+    ViewBag.Title = "Webcam List";
+}
+@section jumbotronsect {
+    <h3>Webcam List (LTS)</h3>
+}
+@section infomodaltext {
+    <h3>Webcam Data</h3>
+    <p>All data is syncronized daily from LTS TIC Web Interface (Webcam Data).</p>
+    <p>
+        All data is transferred and is daily updated.
+    </p>
+}
+<div class="col-sm-12" ng-app="webcam" ng-controller="webcamListController" ng-init="init()">
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="form-inline">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        @*<button type="button" class="btn btn-default active" ng-click="setlang('de')">de</button>
+                            <button type="button" class="btn btn-default" ng-click="setlang('it')">it</button>
+                            <button type="button" class="btn btn-default" ng-click="setlang('en')">en</button>*@
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <br />
+            <div class="form-inline">
+                @if (@ViewBag.globalcreate == true || @ViewBag.webcamcreate == true || @ViewBag.commoncreate == true)
+                {
+                    <div class="pull-left">
+                        <a ng-click="editwebcam('new')" class="btn btn-small btn-success">New</a>
+                    </div>
+                }
+                <div class="pull-right">
+                    <span class="btn btn-default">Elements:{{ totalcount }} </span>
+                    <input type="button" id="prevpage" ng-click="changePage(-1)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                    &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                    <input type="button" id="nextpage" ng-click="changePage(+1)" class="btn btn-info" value="next" ng-disabled="page == totalpages" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <br />
+        <div class="col-sm-3 col-xs-12 table-bordered filtertable">
+            <div class="form-inline">
+                <br />
+                <div class="form-group col-sm-12">
+                    <input type="button" id="filterbutton" ng-click="applyFilter(1)" class="btn btn-info" value="Filter" />
+                    <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
+                </div>
+
+                <div class="form-group col-sm-12" ng-controller="WebcamTypeAheadController">
+                    <h6>Webcam Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
+                    <typeaheadwebcam items="items" templateurl="WebcamNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedWebcamName" idmodel="$parent.SelectedWebcamId" on-select="onItemSelected()" />
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <h6>Source<small class="btn-link pull-right" ng-click="clearSourceFilter()">Clear</small></h6>
+                    <select class="form-control" id="selectTyp" ng-model="source">
+                        <option value="null">all</option>
+                        <option value="LTS">LTS</option>
+                        <option value="Content">IDM Content</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <h6>Source Active<small class="btn-link pull-right" ng-click="clearTICActiveFilter()">Clear</small></h6>
+                    <select class="form-control" id="selectTyp" ng-model="active">
+                        <option value="null">all</option>
+                        <option value="true">active</option>
+                        <option value="false">not active</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <h6>ODH active<small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
+                    <select class="form-control" id="selectTyp" ng-model="smgactive">
+                        <option value="null">all</option>
+                        <option value="true">active</option>
+                        <option value="false">not active</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-12">
+                    <br />
+                    <br />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-9 col-xs-12 table-responsive">
+
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width:160px">Webcam Image</th>
+                        <th style="min-width: 80px;">Name</th>
+                        <th style="min-width: 80px;">Source</th>
+                        <th class="hidden-xs" style="min-width: 80px;">Source active</th>
+                        <th class="hidden-xs" style="min-width: 80px;">ODH active</th>
+                        <th style="width:20px;"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="webcam in webcams | filter:query">
+                        <td>
+                            <div style="max-width:150px;min-height:75px">
+                                <img class="img-thumbnail img-responsive" ng-src="{{  webcam.Webcamurl || '../img/noimage.png' }}" title="{{ webcam.Shortname }}" ng-click="showInfoModal(webcam)" />
+                            </div>
+                        </td>
+                        <td>{{ webcam.Webcamname[lang] }}</td>
+                        <td>{{ webcam.Source }}</td>
+                        <td class="hidden-xs">
+                            <div class="glyphicon glyphicon-ok" ng-show="webcam.Active"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="webcam.Active == false"></div>
+                        </td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="webcam.SmgActive" style="color:green"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="webcam.SmgActive == false" style="color:red"></div>
+                        </td>
+                        <td>
+                            <div class="btn-group-vertical">
+                                @if (@ViewBag.globalmodify == true || @ViewBag.webcammodify == true || @ViewBag.globaldetail == true)
+                                {
+                                    <a ng-click="editwebcam(webcam)" class="btn btn-responsive btn-default" style="width:70px;">edit</a>
+                                }
+                                @if (@ViewBag.globaldelete == true || @ViewBag.webcamdelete == true)
+                                {
+                                    <a ng-click="deletewebcam(webcam.Id)" class="btn btn-responsive btn-primary" ng-show="webcam.Source == 'Content'" style="width:70px;">delete</a>
+                                }
+                                @if (@ViewBag.globalupdate == true || @ViewBag.webcamupdate == true)
+                                {
+                                    <a ng-click="updatewebcam(webcam.Id)" class="btn btn-responsive btn-warning" ng-show="webcam.Source == 'LTS'" style="width:70px;">Update</a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-inline">
+                @if (@ViewBag.globalcreate == true || @ViewBag.webcamcreate == true || @ViewBag.commoncreate == true)
+                {
+                    <div class="pull-left">
+                        <a ng-click="editwebcam('new')" class="btn btn-small btn-success">New</a>
+                    </div>
+                }
+                <div class="pull-right">
+                    <span class="btn btn-default"> Elements: {{ totalcount }} </span>
+                    <input type="button" id="prevpage" ng-click="changePage(-1)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                    &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                    <input type="button" id="nextpage" ng-click="changePage(+1)" class="btn btn-info" value="next" ng-disabled="page == totalpages" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="myWebcamModal.html">
+        <form name="webcamform">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Webcam Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="btn-group pull-right">
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                    </div>
+                </div>
+                <tabset>
+                    <tab heading="General">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputId" class="col-sm-4 control-label">Id</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="webcam.Id" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Shortname</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputName" placeholder="Shortname" ng-model="webcam.Shortname" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputName" placeholder="Shortname" ng-model="webcam.Shortname" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">ODH Active</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="form-control notextareamaxwitdth" id="checkboxSmgActive" ng-model="webcam.SmgActive" ng-show="webcam.Source == 'LTS'" disabled>
+                                            <input type="checkbox" class="form-control notextareamaxwitdth" id="checkboxSmgActive" ng-model="webcam.SmgActive" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">TIC Active</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="form-control notextareamaxwitdth" id="checkboxActive" ng-model="webcam.Active" ng-show="webcam.Source == 'LTS'" disabled>
+                                            <input type="checkbox" class="form-control notextareamaxwitdth" id="checkboxActive" ng-model="webcam.Active" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+
+
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-4 control-label">Last Changed</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-control">{{ webcam.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-4 control-label">Source</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="selectTyp" ng-model="webcam.Source" disabled>
+                                            <option value="null">None</option>
+                                            <option value="LTS">LTS</option>
+                                            <option value="Content">Content</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Detail">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputTitle" class="col-sm-4 control-label">Webcamname</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" placeholder="Webcamname" ng-model="webcam.Webcamname[lang]" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" placeholder="Webcamname" ng-model="webcam.Webcamname[lang]" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputHeader" class="col-sm-4 control-label">Webcamurl</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputHeader" placeholder="Webcamurl" ng-model="webcam.Webcamurl" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputHeader" placeholder="Webcamurl" ng-model="webcam.Webcamurl" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSubHeader" class="col-sm-4 control-label">Streamurl</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputSubHeader" placeholder="Streamurl" ng-model="webcam.Streamurl" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputSubHeader" placeholder="Streamurl" ng-model="webcam.Streamurl" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputIntroText" class="col-sm-4 control-label">Previewurl</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputIntroText" placeholder="Previewurl" ng-model="webcamPreviewurl" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputIntroText" placeholder="Previewurl" ng-model="webcamPreviewurl" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Gps">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inpuGpstype" class="col-sm-4 control-label">GPS Type</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inpuGpstype" placeholder="Gpstype" ng-model="webcam.GpsInfo.Gpstype" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inpuGpstype" placeholder="Gpstype" ng-model="webcam.GpsInfo.Gpstype" ng-show="webcam.Source != 'LTS'" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLatitude" class="col-sm-4 control-label">Latitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLatitude" placeholder="Latitude" ng-model="webcam.GpsInfo.Latitude" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLatitude" placeholder="Latitude" ng-model="webcam.GpsInfo.Latitude" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLongitude" class="col-sm-4 control-label">Longitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLongitude" placeholder="Longitude" ng-model="webcam.GpsInfo.Longitude" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLongitude" placeholder="Longitude" ng-model="webcam.GpsInfo.Longitude" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAltitude" class="col-sm-4 control-label">Altitude</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAltitude" placeholder="Altitude" ng-model="webcam.GpsInfo.Altitude" ng-show="webcam.Source == 'LTS'" readonly>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAltitude" placeholder="Altitude" ng-model="webcam.GpsInfo.Altitude" ng-show="webcam.Source != 'LTS'">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                </tabset>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="addwebcam(webcam,webcamform.$valid)" ng-show="newwebcam">Create</button>
+                <button class="btn btn-primary" ng-click="updatewebcam(webcam,webcamform.$valid)" ng-show="!newwebcam">Save</button>
+                <button class="btn btn-info" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="myWebcamInfoModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelmodal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Webcam Info</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <img data-ng-src="{{webcam.Webcamurl}}" style="margin:auto;max-width:420px" class="img-rounded">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div style="max-width:420px;height:320px">
+                        <leaflet lf-center="leafletcoords" max-width="420px" height="320px"></leaflet>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <br />
+                    <h2>{{ webcam.Webcamname[lang] }}</h2>
+
+                    <p ng-show="webcam.Source != ''">
+                        <strong>Zusatztext</strong><br />
+                        {{ webcam.Source }}
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelmodal()">Cancel</button>
+        </div>
+    </script>
+</div>
+@section Styles{
+    <style type="text/css">
+    </style>
+}
+
+@section Scripts {
+    <script src="~/NgScripts/appconfig.js"></script>
+    <script src="~/NgScripts/WebcamInfoController.js?ver=20200115"></script>
+}

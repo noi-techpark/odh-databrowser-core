@@ -1,0 +1,1019 @@
+﻿@{
+    ViewBag.Title = "Accommodation List";
+}
+@section jumbotronsect {<h2>Accommodation List (Open Data Hub active)</h2>
+}
+
+@section infomodaltext {
+						<h2>Accommodation Data (Open Data Hub active)</h2>
+    <p>All data is syncronized daily from LTS TIC Web Interface.</p>
+    <p>The property ODH active is set into TIC Web (aktiv für suedtirol.info). Only data with ODH active true is displayed.</p>
+    <p>The Room Info for each accommodation is syncronized from TIC Web Interface. If an accommodation is available on Booking Suedtirol the room data is syncronized from Booking Suedtirol MSS Interface.</p>
+    <p>A manual Update Operation can be performed (depending on current Rights). The Update performs a whole data update including Rooms.</p>
+}
+
+<div class="col-sm-12" ng-app="accommodation" ng-controller="accommodationListController" ng-init="init('Accommodation','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp','true')">
+    <div class="splash" ng-show="isloading">
+        <h2>
+            Loading
+        </h2>
+        <span>
+            <i class="fa fa-spinner fa-5x fa-spin active"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 form-inline">
+
+            <div class="pull-right">
+                <span class="btn btn-default"> Elements: {{ totalcount }}</span>
+                <input type="button" id="prevpage" ng-click="changePage(-1,true)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                <input type="button" id="nextpage" ng-click="changePage(+1,true)" class="btn btn-info" value="next" ng-disabled="page == totalpages || totalpages == 0" />
+            </div>
+
+            <div class="pull-left" ng-click="changeLanguage()">
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-3 col-xs-12 table-bordered filtertable">
+            <div class="form-inline">
+                <div class="form-group col-sm-12">
+                    @*<h4>Filters</h4>*@
+                    <br />
+                    <input type="button" id="filterbutton" ng-click="applyFilter()" class="btn btn-info" value="Filter" />
+                    <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
+                </div>
+                
+                <div class="form-group col-sm-12" ng-controller="HotelnameTypeAheadController">
+                    <h6>Accommodation Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
+                    <typeaheadhotel items="hotelitems" templateurl="AccoNameTemplate" prompt="Hotelname" title="name" model="$parent.SelectedAccoName" idmodel="$parent.SelectedAccoId" on-select="onItemSelected()" />
+                </div>
+                               
+                <div class="form-group col-sm-12" ng-controller="LocationTypeAheadController">
+                    <h6>Location<small class="btn-link pull-right" ng-click="clearLocationFilter()">Clear</small></h6>
+                    <typeaheadloc items="locitems" templateurl="LocationNameTemplate" prompt="Location" title="name" subtitle="typ" model="$parent.SelectedLocationName" submodel="$parent.SelectedLocationTyp" idmodel="$parent.SelectedLocationId" on-select="onItemSelected()" />
+                </div>                         
+
+                <div class="form-group col-sm-12">
+                    @*<label class="col-sm-4 control-label">Typ</label>*@
+
+                    <h6>Typ<small class="btn-link pull-right" ng-click="clearTypeFilter()">Clear</small></h6>
+                    <select class="form-control" id="selectAccoType" ng-model="typefilter" style="width:100%">
+                        <option value="null" selected>alle</option>
+                        <option value="1">Hotel &amp; Pension</option>
+                        <option value="2">Bed &amp; Breakfast</option>
+                        <option value="4">Urlaub auf dem Bauernhof</option>
+                        <option value="8">Camping</option>
+                        <option value="16">Jugendherberge</option>
+                        <option value="32">Schutzhütten &amp; Berggasthöfe</option>
+                        <option value="64">Ferienwohnungen</option>
+                    </select>
+                </div>
+
+                    <div class="form-group col-sm-12" ng-controller="SmgTagNameTypeAheadController">
+                        <h6>ODH Tag<small class="btn-link pull-right" ng-click="clearTagFilter()">Clear</small></h6>
+                        <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
+                    </div>
+
+                    @*<div class="form-group col-sm-12">
+                        <h6>Active</h6>
+                        <select class="form-control" id="selectTyp" ng-model="active">
+                            <option value="null">all</option>
+                            <option value="true">active</option>
+                            <option value="false">not active</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                        <h6>SMG Active</h6>
+                        <select class="form-control" id="selectTyp" ng-model="smgactive">
+                            <option value="null">all</option>
+                            <option value="true">active</option>
+                            <option value="false">not active</option>
+                        </select>
+                    </div>*@
+
+                    <div class="form-group col-sm-12">
+                        <h6>Kategorie (Sterne/Blumen/Sonnen)<small class="btn-link pull-right" ng-click="clearCategoryFilter()">Clear</small></h6>
+                        <div class="btn-group">
+                            <label class="btn btn-default" ng-model="checkCatModel.1" btn-checkbox>none</label>
+                            <label class="btn btn-default" ng-model="checkCatModel.2" btn-checkbox>1</label>
+                            <label class="btn btn-default" ng-model="checkCatModel.3" btn-checkbox>2</label>
+                            <label class="btn btn-default" ng-model="checkCatModel.4" btn-checkbox>3</label>
+                            <label class="btn btn-default" ng-model="checkCatModel.5" btn-checkbox>4</label>
+                            <label class="btn btn-default" ng-model="checkCatModel.6" btn-checkbox>5</label>
+                        </div>
+                    </div>
+
+                    @*<div class="form-group col-sm-12">
+                        <h6>Meereshöhe </h6>
+                        <div range-slider min="0" max="100" model-min="range.min" model-max="range.max"></div>                        
+                    </div>*@
+
+                    <div class="form-group col-sm-6 hidden-xs" style="padding-right: 2px">
+                        <h6>Ausstattung<small class="btn-link pull-right" ng-click="clearAusstattungFilter()">Clear</small></h6>
+                        <div class="btn-group-vertical">
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.1" btn-checkbox>Group-friendly</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.2" btn-checkbox>Meeting rooms</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.3" btn-checkbox>Swimming pool</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.4" btn-checkbox>Sauna</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.5" btn-checkbox>Garage</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.6" btn-checkbox>Pick-up service</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.7" btn-checkbox>WLAN</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.8" btn-checkbox>Barrier-free</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.9" style="white-space: normal;" btn-checkbox>Special menus for allergy sufferers</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkFeatModel.10" btn-checkbox>Pets welcome</label>
+                            @*<label class="btn btn-sm btn-default" ng-model="checkFeatModel.11" btn-checkbox>Gruppenfreundlich</label>*@
+                        </div>
+
+                        <h6>Badge<small class="btn-link pull-right" ng-click="clearBadgeFilter()">Clear</small></h6>
+                        <div class="btn-group-vertical">
+                            <label class="btn btn-sm btn-default" ng-model="checkBadgeModel.1" btn-checkbox>Wellnesshotel</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkBadgeModel.2" btn-checkbox>Familienhotel</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkBadgeModel.3" btn-checkbox>Bikehotel</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkBadgeModel.4" btn-checkbox>Bauernhof</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkBadgeModel.5" btn-checkbox>Südtiro Für Alle</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkBadgeModel.6" btn-checkbox>Wanderhotel</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkBadgeModel.7" btn-checkbox>Südtirol Privat</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkBadgeModel.8" btn-checkbox>Vinum Hotel</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 hidden-xs" style="padding-left: 2px">
+                        <h6>Themen<small class="btn-link pull-right" ng-click="clearThemeFilter()">Clear</small></h6>
+                        <div class="btn-group-vertical">
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.1" btn-checkbox>For gourmets</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.2" btn-checkbox>At altitude</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.3" style="white-space: normal;" btn-checkbox>Regional wellness offerings</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.4" style="white-space: normal;" btn-checkbox>South Tyrol on two wheels</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.5" btn-checkbox>With family</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.6" btn-checkbox>Hiking</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.7" style="white-space: normal;" btn-checkbox>In the vineyards</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.8" btn-checkbox>Urban vibe</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.9" style="white-space: normal;" btn-checkbox>At the ski resort</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.10" style="white-space: normal;" btn-checkbox>Mediterranean South Tyrol</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.11" btn-checkbox>In the Dolomites</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.12" style="white-space: normal;" btn-checkbox>Alpine South Tyrol</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.13" btn-checkbox>Small & charming</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.14" style="white-space: normal;" btn-checkbox>Huts & mountain inns</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.15" style="white-space: normal;" btn-checkbox>Rural way of life</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.16" btn-checkbox>Bonus Vacanze</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.17" btn-checkbox>Christmas markets</label>
+
+                        </div>
+                    </div>
+
+                <div class="form-group col-sm-12">
+                    <br />
+                    <input type="button" id="filterbutton" ng-click="applyFilter()" class="btn btn-info" value="Filter" />
+                    <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
+                    <br />
+                    <br />
+                </div>
+
+                </div>
+
+            </div>
+
+        <div class="col-sm-9 col-xs-12 table-responsive">
+          
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width:160px">Bild</th>
+                        <th style="min-width: 80px;">Name</th>
+                        @*<th style="min-width: 80px;">Badges</th>*@
+                        <th style="min-width: 80px;">Kategorie</th>
+                        <th style="min-width: 80px;">Typ</th>
+                        <th style="min-width: 80px;">Region/Ort/Fraktion</th>
+                        <th style="min-width: 80px;">TIC active</th>
+                        <th style="min-width: 80px;">ODH active</th>
+                        <th style="min-width:80px;"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="accommodation in accommodations | filter:query">
+                        <td>
+                            <div style="max-width:150px;min-height:75px">
+                                <img class="img-thumbnail img-responsive" @*style="max-height:150px;max-width:150px"*@ ng-src="{{  accommodation.ImageGallery[0] != NULL && accommodation.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ accommodation.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(accommodation)" />
+                            </div>
+                        </td>
+                        <td>{{ accommodation.AccoDetail[lang].Name }}</td>
+
+                        <td>
+                            <img ng-src="../img/acco/{{accommodation.AccoCategoryId}}.png">
+                            <div ng-repeat="badge in accommodation.BadgeIds">
+                                <img ng-src="../img/acco/{{badge}}.png" style="width:45px">
+                            </div>
+                        </td>
+                        <td>{{ accommodation.AccoTypeId }}</td>
+                        <td>{{ accommodation.LocationInfo.RegionInfo.Name[lang] }} / {{ accommodation.LocationInfo.TvInfo.Name[lang] }} / {{ accommodation.LocationInfo.DistrictInfo.Name[lang] }}</td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="accommodation.Active"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="accommodation.Active == false"></div>
+                        </td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="accommodation.SmgActive" style="color:green"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="accommodation.SmgActive == false" style="color:red"></div>
+                        </td>
+                        <td>
+                            <div class="btn-group-vertical">
+                                @if (@ViewBag.globalmodify == true || @ViewBag.accomodify == true || @ViewBag.globaldetail == true)
+                                {
+                                    <a ng-click="editaccommodation(accommodation)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
+                                }
+                                @if (@ViewBag.globaldelete == true || @ViewBag.accodelete == true)
+                                {
+                                    <a ng-click="deleteaccommodation(accommodation.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
+                                }
+                                @if (@ViewBag.globalupdate == true || @ViewBag.accoupdate == true)
+                                {
+                                    <a ng-click="updateacco(accommodation.Id)" class="btn btn-responsive btn-warning" style="width:70px;">Update</a>
+                                }
+
+                                <a ng-click="showInfoModal(accommodation)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+
+                            </div>
+                        </td>
+                        @*<td>
+                        <a ng-click="deleteaaccommodation(accommodation.Id)" class="btn btn-small btn-danger" ng-disabled="true">delete</a>
+                    </td>*@
+                    </tr>
+                </tbody>
+            </table>
+          
+            <div class="pull-right">
+                <span class="btn btn-default"> Elements: {{ totalcount }}</span>
+                <input type="button" id="prevpage" ng-click="changePage(-1,true)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                <input type="button" id="nextpage" ng-click="changePage(+1,true)" class="btn btn-info" value="next" ng-disabled="page == totalpages || totalpages == 0" />
+            </div>
+
+        </div>
+                </div>
+
+
+
+                    <script type="text/ng-template" id="myAccommodationModal.html">
+                        <form name="accommodationform">
+                            <div class="modal-header">
+                                <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Accommodation Details</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="btn-group pull-left">
+                                            <p>
+                                                Available Languages:&nbsp;
+                                                <label class="label label-default" ng-repeat="accolang in accommodation.HasLanguage">{{accolang}}</label>
+                                            </p>
+                                        </div>
+
+                                        <div class="btn-group pull-right">
+                                            <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                                            <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                                            <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                                            <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                                            <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                                            <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                                            <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                                            <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-sm-12">
+                                        <tabset>
+                                            <tab heading="Base">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label for="inputId" class="col-sm-4 control-label">Id</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="accommodation.Id" ng-show="newaccommodation" required>
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="accommodation.Id" ng-show="!newaccommodation" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputName" class="col-sm-4 control-label">Shortname</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputShortname" placeholder="Shortname" ng-model="accommodation.Shortname" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputHgvId" class="col-sm-4 control-label">HgvId</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputHgvId" placeholder="HgvId" ng-model="accommodation.HgvId" readonly>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTourismVereinId" class="col-sm-4 control-label">TourismVereinId</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTourismVereinId" placeholder="TourismVereinId" ng-model="accommodation.TourismVereinId" readonly>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputDistrictId" class="col-sm-4 control-label">DistrictId</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputDistrictId" placeholder="DistrictId" ng-model="accommodation.DistrictId" readonly>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputUnits" class="col-sm-4 control-label">Units</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputUnits" placeholder="Units" ng-model="accommodation.Units" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputBeds" class="col-sm-4 control-label">Beds</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputBeds" placeholder="Beds" ng-model="accommodation.Beds" readonly>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTyp" class="col-sm-4 control-label">Category</label>
+                                                                <div class="col-sm-8">
+                                                                    <select class="form-control notextareamaxwitdth" id="accocategory" ng-model="accommodation.AccoCategoryId" disabled>
+                                                                        <option>1star</option>
+                                                                        <option>1flower</option>
+                                                                        <option>1sun</option>
+                                                                        <option>2stars</option>
+                                                                        <option>2flowers</option>
+                                                                        <option>2suns</option>
+                                                                        <option>3stars</option>
+                                                                        <option>3flowers</option>
+                                                                        <option>3suns</option>
+                                                                        <option>4stars</option>
+                                                                        <option>4flowers</option>
+                                                                        <option>4suns</option>
+                                                                        <option>4sstars</option>
+                                                                        <option>5stars</option>
+                                                                        <option>5flowers</option>
+                                                                        <option>5suns</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputTyp" class="col-sm-4 control-label">Type</label>
+                                                                <div class="col-sm-8">
+                                                                    <select class="form-control notextareamaxwitdth" id="accotype" ng-model="accommodation.AccoTypeId" disabled>
+                                                                        <option>HotelPension</option>
+                                                                        <option>BedBreakfast</option>
+                                                                        <option>Mountain</option>
+                                                                        <option>Farm</option>
+                                                                        <option>Camping</option>
+                                                                        <option>Youth</option>
+                                                                        <option>Notdefined</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputBoardinfo" class="col-sm-4 control-label">Boardings</label>
+                                                                <div class="col-sm-8">
+                                                                    <ul class="list-group notextareamaxwitdth" style="margin-bottom:0px">
+                                                                        <li class="list-group-item notextareamaxwitdth" style="padding:0px" ng-repeat="service in accommodation.BoardIds"><input type="text" class="form-control" id="inputservice" ng-model="service" readonly></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+
+                                                            <div class="form-group">
+                                                                <label for="inputName" class="col-sm-4 control-label">Last Changed</label>
+                                                                <div class="col-sm-8">
+                                                                    <div class="form-control">{{ accommodation.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputHasRoom" class="col-sm-4 control-label">Room</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputHasRoom" placeholder="HasRoom" ng-model="accommodation.HasRoom" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputHasApartment" class="col-sm-4 control-label">Apartment</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputHasApartment" placeholder="HasApartment" ng-model="accommodation.HasApartment" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputIsGastronomy" class="col-sm-4 control-label">Gastronomy</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputIsGastronomy" placeholder="IsGastronomy" ng-model="accommodation.IsGastronomy" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputIsCamping" class="col-sm-4 control-label">Camping</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputIsCamping" placeholder="IsCamping" ng-model="accommodation.IsCamping" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTVMember" class="col-sm-4 control-label">TVMember</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputTVMember" placeholder="TVMember" ng-model="accommodation.TVMember" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputIsBookable" class="col-sm-4 control-label">IsBookable</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputIsBookable" placeholder="IsBookable" ng-model="accommodation.IsBookable" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputActive" class="col-sm-4 control-label">TIC Active</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputActive" placeholder="Active" ng-model="accommodation.Active" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputSmgActive" class="col-sm-4 control-label">ODH Active</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputSmgActive" placeholder="SmgActive" ng-model="accommodation.SmgActive" disabled>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tab>
+
+                                            <tab heading="Detail">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label for="inputName" class="col-sm-4 control-label">Name</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputName" placeholder="Name" ng-model="accommodation.AccoDetail[lang].Name" readonly>
+                                                                </div>
+
+                                                                <label for="inputStreet" class="col-sm-4 control-label">Street</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputStreet" placeholder="Street" ng-model="accommodation.AccoDetail[lang].Street" readonly>
+                                                                </div>
+
+                                                                <label for="inputZip" class="col-sm-4 control-label">Zip</label>
+                                                                <div class="col-sm-3">
+                                                                    <input type="text" class="form-control" id="inputZip" placeholder="Zip" ng-model="accommodation.AccoDetail[lang].Zip" readonly>
+                                                                </div>
+                                                                <div class="col-sm-5">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputCity" placeholder="City" ng-model="accommodation.AccoDetail[lang].City" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputPhone" class="col-sm-4 control-label">Phone</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputPhone" placeholder="Phone" ng-model="accommodation.AccoDetail[lang].Phone" readonly>
+                                                                </div>
+
+                                                                <label for="inputMobile" class="col-sm-4 control-label">Mobile</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMobile" placeholder="Mobile" ng-model="accommodation.AccoDetail[lang].Mobile" readonly>
+                                                                </div>
+
+                                                                <label for="inputFax" class="col-sm-4 control-label">Fax</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputFax" placeholder="Fax" ng-model="accommodation.AccoDetail[lang].Fax" readonly>
+                                                                </div>
+
+                                                                <label for="inputEmail" class="col-sm-4 control-label">E-Mail</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Email" ng-model="accommodation.AccoDetail[lang].Email" readonly>
+                                                                </div>
+
+                                                                <label for="inputWebsite" class="col-sm-4 control-label">Web</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputWebsite" placeholder="Website" ng-model="accommodation.AccoDetail[lang].Website" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputGivenname" class="col-sm-4 control-label">Name</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputNameNameAddition" placeholder="NameAddition" ng-model="accommodation.AccoDetail[lang].NameAddition" readonly>
+                                                                </div>
+
+                                                                <label for="inputGivenname" class="col-sm-4 control-label"></label>
+                                                                <div class="col-sm-4">
+                                                                    <input type="text" class="form-control" id="inputLastname" placeholder="Lastname" ng-model="accommodation.AccoDetail[lang].Lastname" readonly>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputFirstname" placeholder="Firstname" ng-model="accommodation.AccoDetail[lang].Firstname" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputIndependentURL" class="col-sm-4 control-label">Independent URL</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputIndependentURL" placeholder="NameAddition" ng-model="accommodation.IndependentData.IndependentDescription[lang].BacklinkUrl" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label for="inputBaseText" class="col-sm-4 control-label">Short Description</label>
+                                                                <div class="col-sm-8">
+                                                                    <textarea rows="8" class="form-control notextareamaxwitdth" id="inputBaseText" placeholder="Short Desc" ng-model="accommodation.AccoDetail[lang].Shortdesc" readonly></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputGetThereText" class="col-sm-4 control-label">Long Description</label>
+                                                                <div class="col-sm-8">
+                                                                    <textarea rows="8" class="form-control notextareamaxwitdth" id="inputGetThereText" placeholder="Long Desc" ng-model="accommodation.AccoDetail[lang].Longdesc" readonly></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label for="inputIndependentText" class="col-sm-4 control-label">Independent</label>
+                                                                <div class="col-sm-8">
+                                                                    <textarea rows="4" class="form-control notextareamaxwitdth" id="inputIndependentText" placeholder="Long Desc" ng-model="accommodation.IndependentData.IndependentDescription[lang].Description" readonly></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tab>
+
+                                            <tab heading="Gps">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label for="inpuGpstype" class="col-sm-4 control-label">GPS Type</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inpuGpstype" placeholder="Gpstype" ng-model="accommodation.Gpstype" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputLatitude" class="col-sm-4 control-label">Latitude</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputLatitude" placeholder="Latitude" ng-model="accommodation.Latitude" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputLongitude" class="col-sm-4 control-label">Longitude</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputLongitude" placeholder="Longitude" ng-model="accommodation.Longitude" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputAltitude" class="col-sm-4 control-label">Altitude</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputAltitude" placeholder="Altitude" ng-model="accommodation.Altitude" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tab>
+
+                                            <tab heading="Images">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-horizontal">
+                                                            <h4>Images (LTS)</h4>
+                                                            <div class="row">
+                                                                <div class="col-sm-2"><b>Image</b></div>
+                                                                <div class="col-sm-1"><b>Position</b></div>
+                                                                <div class="col-sm-1"><b>License</b></div>
+                                                                <div class="col-sm-2"><b>Title</b></div>
+                                                                <div class="col-sm-5"><b>Description</b></div>
+                                                                <div class="col-sm-1"><b>Copyright</b></div>
+                                                            </div>
+
+                                                            <div class="row" ng-repeat="bild in accommodation.ImageGallery">
+
+                                                                <div class="col-sm-2">
+                                                                    <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&H=130' }}" style="max-height:130px; max-width:130px;" />
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    {{ bild.ListPosition }}
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    {{ bild.License }}
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    {{ bild.ImageTitle[lang] }}
+                                                                </div>
+                                                                <div class="col-sm-5">
+                                                                    {{ bild.ImageDesc[lang] }}
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    {{ bild.CopyRight }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </tab>
+
+                                            <tab heading="Feature">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <h4>Features</h4>
+
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item" ng-repeat="feature in accommodation.Features">
+                                                                    {{ feature.Name }}
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <h4>Special Features</h4>
+
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item" ng-repeat="specialfeature in accommodation.SpecialFeaturesIds">
+                                                                    {{ specialfeature }}
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tab>
+                                            <tab heading="Theme/Badge">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <h4>Themes</h4>
+
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item" ng-repeat="theme in accommodation.ThemeIds">
+                                                                    {{ theme }}
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <h4>Badges</h4>
+
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item" ng-repeat="badge in accommodation.BadgeIds">
+                                                                    <img ng-src="../img/acco/{{badge}}.png" style="width:45px">
+                                                                    {{ badge }}
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tab>
+                                            <tab heading="Booking/Rating">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <h4>Booking</h4>
+
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item" ng-repeat="bookinginfo in accommodation.AccoBookingChannel">
+                                                                    <img ng-src="../img/acco/{{ bookinginfo.Id }}.gif">
+
+                                                                    {{ bookinginfo.Portalname }}
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+                                                            <h4>Ratings</h4>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTrustYouID" class="col-sm-4 control-label">TrustYouID</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTrustYouID" placeholder="TrustYouID" ng-model="accommodation.TrustYouID" readonly>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTrustYouScore" class="col-sm-4 control-label">TrustYouScore</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTrustYouScore" placeholder="TrustYouScore" ng-model="accommodation.TrustYouScore" readonly>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTrustYouResults" class="col-sm-4 control-label">TrustYouResults</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTrustYouResults" placeholder="TrustYouResults" ng-model="accommodation.TrustYouResults" readonly>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTrustYouState" class="col-sm-4 control-label">TrustYouState</label>
+
+                                                                <div class="col-sm-8">
+                                                                    <select class="form-control notextareamaxwitdth" id="accocategory" ng-model="accommodation.TrustYouState" disabled>
+                                                                        <option value="0">undefined</option>
+                                                                        <option value="1">do not display</option>
+                                                                        <option value="2">display</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTrustYouActive" class="col-sm-4 control-label">TrustYouActive</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="checkbox" style="margin:0px" class="form-control" id="inputTrustYouActive" placeholder="TrustYouActive" ng-model="accommodation.TrustYouActive" readonly>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tab>
+                                            <tab heading="Location">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+
+                                                            <div class="form-group">
+                                                                <label for="inputRegion" class="col-sm-4 control-label">Region / TVB</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" id="inputRegion" class="form-control notextareamaxwitdth" placeholder="Region" ng-model="accommodation.LocationInfo.RegionInfo.Name[lang]" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" id="inputTourismorganization" class="form-control notextareamaxwitdth" placeholder="Tourismorganization" ng-model="accommodation.LocationInfo.TvInfo.Name[lang]" disabled>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+
+                                                            <div class="form-group">
+                                                                <label for="inputMunicipality" class="col-sm-4 control-label">Municipality</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" id="inputMunicipality" class="form-control notextareamaxwitdth" placeholder="Municipality" ng-model="accommodation.LocationInfo.MunicipalityInfo.Name[lang]" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputDistrict" class="col-sm-4 control-label">District</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" id="inputDistrict" class="form-control notextareamaxwitdth" placeholder="District" ng-model="accommodation.LocationInfo.DistrictInfo.Name[lang]" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tab>
+                                            <tab heading="ODH Tag">
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+
+                                                            <label class="col-sm-4 control-label"></label>
+                                                            <div class="col-sm-8 input-group">
+                                                                <div ng-controller="SmgTagNameModalTypeAheadController">
+                                                                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.smgtagname" idmodel="$parent.smgtagid" on-select="onItemSelected()" />
+                                                                </div>
+                                                                <span class="input-group-btn" style="vertical-align:top">
+                                                                    <button type="button" class="btn btn-default" value="+" ng-click="addtag(smgtagid)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-horizontal">
+
+                                                            <div class="input-group" ng-repeat="tag in accommodation.SmgTags">
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" ng-click="deletetag(tag)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                                </span>
+                                                                <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </tab>
+                                        </tabset>
+                                    </div>                                    
+                                </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" ng-click="addaccommodation(accommodation,accommodationform.$valid)" ng-show="newaccommodation">Create</button>
+                                <button class="btn btn-primary" ng-click="updateaccommodation(accommodation,accommodationform.$valid)" ng-show="!newaccommodation">Save</button>
+                                <button class="btn btn-info" ng-click="cancel()">Cancel</button>
+                            </div>
+                        </form>
+                    </script>
+
+                    <script type="text/ng-template" id="myAccommodationInfoModal.html">
+                        <div class="modal-header">
+                            <button type="button" class="close" ng-click="cancelslidemodal()" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Accommodation Info</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <carousel interval="myInterval">
+                                            <slide data-ng-repeat="slide in slides" active="slide.active">
+                                                <img data-ng-src="{{slide.ImageUrl + '&H=320'}}" style="margin:auto;max-width:420px" class="img-rounded">
+                                                <div class="carousel-caption">
+                                                    <h4>{{slide.ImageTitle[lang]}}</h4>
+                                                    <p>{{slide.ImageDesc[lang]}}</p>
+                                                </div>
+                                            </slide>
+                                        </carousel>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div style="max-width:420px;height:320px">
+                                        <leaflet lf-center="leafletcoords" max-width="420px" height="320px"></leaflet>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <br />
+                                    @*<p>{{ accommodation.Latitude }} hallo</p>*@
+                                    <h2>{{ accommodation.AccoDetail[lang].Name }}</h2>
+                                    <h4>{{ accommodation.LocationInfo.TvInfo.Name[lang] }} - {{ accommodation.LocationInfo.RegionInfo.Name[lang] }}</h4>
+
+                                    <p ng-show="accommodation.AccoDetail[lang].NameAddition != ''">
+                                        <strong>Ansprechpartner</strong><br />
+                                        {{ accommodation.AccoDetail[lang].NameAddition }}
+                                    </p>
+                                    @*<p ng-show="accommodation.AccoDetail[lang].Shortdesc != ''">
+                                            <strong>Kurztext</strong><br />
+                                            {{ accommodation.AccoDetail[lang].Shortdesc | xmlTOlf }}
+                                        </p>*@
+                                    <div ng-show="accommodation.AccoDetail[lang].Shortdesc != ''">
+                                        <strong>Kurztext html</strong><br />
+                                        <p ng-bind-html="accommodation.AccoDetail[lang].Shortdesc"></p>
+                                    </div>
+
+                                    @*<p ng-show="accommodation.AccoDetail[lang].Longdesc != ''">
+                                            <strong>Langtext</strong><br />
+                                            {{ accommodation.AccoDetail['de'].Longdesc | xmlTOlf }}
+                                        </p>*@
+
+                                    <div ng-show="accommodation.AccoDetail[lang].Longdesc != ''">
+                                        <strong>Langtext html</strong><br />
+                                        <p ng-bind-html="accommodation.AccoDetail[lang].Longdesc"></p>
+                                    </div>
+
+                                    <div ng-show="accommodation.IndependentData != null">
+                                        <strong>IndependentData</strong>
+                                        <p ng-bind-html="accommodation.IndependentData.IndependentDescription['de'].Description"></p>                                        
+                                        <a href="{{accommodation.IndependentData.IndependentDescription['de'].BacklinkUrl}}" target="_blank">{{ accommodation.IndependentData.IndependentDescription['de'].BacklinkUrl }}</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-controller="RoomDetailController">
+
+                                <div class="splash" ng-show="isAccoDetailloading">
+                                    <h2>
+                                        Loading
+                                    </h2>
+                                    <span>
+                                        <i class="fa fa-spinner fa-5x fa-spin active"></i>
+                                    </span>
+                                </div>
+
+                                <div class="col-sm-12">
+
+                                    <h4>Room Infos</h4>
+
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Zimmername</th>
+                                                <th>Description</th>
+                                                <th style="min-width:20%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="accoroom in accommodationrooms">
+                                                <td>
+                                                    {{ accoroom.AccoRoomDetail[lang].Name }} <br />
+                                                    {{ accoroom.Roomtype }}
+                                                </td>
+                                                <td>
+                                                    <p ng-bind-html="accoroom.AccoRoomDetail[lang].Shortdesc"></p><br />
+                                                    @*<p ng-bind-html="accoroom.AccoRoomDetail[lang].Longdesc"></p>*@
+                                                </td>
+                                                <td>
+                                                    <carousel interval="myInterval">
+                                                        <slide data-ng-repeat="roomslide in accoroom.ImageGallery" active="roomslide.active">
+                                                            <img data-ng-src="{{roomslide.ImageUrl + '&H=150'}}" style="margin:auto;max-width:150px" class="img-rounded">
+                                                            <div class="carousel-caption">
+                                                                <h4>{{roomslide.ImageTitle[lang]}}</h4>
+                                                                <p>{{roomslide.ImageDesc[lang]}}</p>
+                                                            </div>
+                                                        </slide>
+                                                    </carousel>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12" ng-show="activity.OperationscheduleName != null">
+                                    <h4>Öffnungszeiten</h4>
+                                    <p>{{ accommodation.OperationscheduleName }}</p>
+                                    <p>{{ accommodation.Start }} - {{ gastronomy.Stop }}</p>
+                                    @*<ul>
+                                            <li ng-repeat=""></li>
+                                        </ul>*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-info" ng-click="cancelslidemodal()">Cancel</button>
+                        </div>
+                    </script>
+
+                </div>
+@section Styles{
+    <style type="text/css">
+     
+        .pull-bottom {
+            display: inline-block;
+            vertical-align: bottom;
+            float: none;
+        }
+    </style>
+
+    <link rel="stylesheet" href="~/Content/angular.rangeSlider.css" />
+}
+
+@section Scripts {
+        
+    @*<script src="~/NgScripts/appfactory.js"></script>*@
+    <script src="~/NgScripts/appconfig.js"></script>
+    <script src="~/NgScripts/AccommodationController.js?version=20190712"></script>
+    
+}

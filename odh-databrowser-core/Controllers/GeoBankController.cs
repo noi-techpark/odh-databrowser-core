@@ -290,222 +290,222 @@ namespace SuedtirolManagerPG.Controllers
         //    return View("~/Views/GeoBank/GBActivityPoi/GBPoiStatus.cshtml");
         //}
 
-        //#endregion
+        #endregion
 
-        //#region GBEvents
+        #region GBEvents
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBEventVisible")]
-        //public ActionResult EventList()
-        //{
-        //    return View("~/Views/GeoBank/GBEvent/EventList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBEventVisible")]
+        public ActionResult EventList()
+        {
+            return View("~/Views/GeoBank/GBEvent/EventList.cshtml");
+        }
 
-        //#endregion
+        #endregion
 
-        //#region GBEventShort
+        #region GBEventShort
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,EventShortVisible")]
-        //public ActionResult EventShortList()
-        //{
-        //    return View("~/Views/GeoBank/GBEventShort/EventShortList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,EventShortVisible")]
+        public ActionResult EventShortList()
+        {
+            return View("~/Views/GeoBank/GBEventShort/EventShortList.cshtml");
+        }
 
-        //#endregion
+        #endregion
 
-        //#region GBArticles        
+        #region GBArticles        
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult BaseArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/BaseArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult BaseArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/BaseArticleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult RecipeArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/RecipeArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult RecipeArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/RecipeArticleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult BookArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/BookArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult BookArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/BookArticleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult CatalogArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/CatalogArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult CatalogArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/CatalogArticleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult TouroperatorArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/TouroperatorArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult TouroperatorArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/TouroperatorArticleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult EventArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/EventArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult EventArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/EventArticleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult PressArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/PressArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult PressArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/PressArticleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult B2BArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/B2BArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult B2BArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/B2BArticleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
-        //public ActionResult ContentArticleList()
-        //{
-        //    return View("~/Views/GeoBank/GBArticle/ContentArticleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBArticleVisible")]
+        public ActionResult ContentArticleList()
+        {
+            return View("~/Views/GeoBank/GBArticle/ContentArticleList.cshtml");
+        }
 
-        //#endregion
+        #endregion
 
-        //#region GBAccos
+        #region GBAccos
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBAccoVisible")]
-        //public ActionResult AccoList()
-        //{
-        //    return View("~/Views/GeoBank/GBAccommodation/AccommodationSimpleList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBAccoVisible")]
+        public ActionResult AccoList()
+        {
+            return View("~/Views/GeoBank/GBAccommodation/AccommodationSimpleList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBAccoVisible")]
-        //public ActionResult AccoSearchList()
-        //{
-        //    return View("~/Views/GeoBank/GBAccommodation/AccommodationList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBAccoVisible")]
+        public ActionResult AccoSearchList()
+        {
+            return View("~/Views/GeoBank/GBAccommodation/AccommodationList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBAccoVisible")]
-        //public ActionResult AccoRoomList()
-        //{
-        //    return View("~/Views/GeoBank/GBAccommodation/AccoRoomList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBAccoVisible")]
+        public ActionResult AccoRoomList()
+        {
+            return View("~/Views/GeoBank/GBAccommodation/AccoRoomList.cshtml");
+        }
 
-        //#endregion
+        #endregion
 
-        //#region GBPackages
+        #region GBPackages
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBPackageVisible")]
-        //public ActionResult PackageList()
-        //{
-        //    return View("~/Views/GeoBank/GBPackage/PackageList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBPackageVisible")]
+        public ActionResult PackageList()
+        {
+            return View("~/Views/GeoBank/GBPackage/PackageList.cshtml");
+        }
 
-        ////[Authorize(Roles = "DataVisible,GeobankVisible,GBPackageVisible")]
-        //public ActionResult PackageSearch()
-        //{
-        //    return View("~/Views/GeoBank/GBPackage/PackageSearch.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,GeobankVisible,GBPackageVisible")]
+        public ActionResult PackageSearch()
+        {
+            return View("~/Views/GeoBank/GBPackage/PackageSearch.cshtml");
+        }
 
-        //#endregion
+        #endregion
 
-        //#region LTS Webcams
+        #region LTS Webcams
 
-        ////[Authorize(Roles = "DataVisible,ExternalDataSourcesVisible,LTSMeasuringpointsVisible")]
-        //public ActionResult WebcamInfoList()
-        //{
-        //    return View("~/Views/GeoBank/WebcamInfo/WebcamInfoList.cshtml");
-        //}
+        //[Authorize(Roles = "DataVisible,ExternalDataSourcesVisible,LTSMeasuringpointsVisible")]
+        public ActionResult WebcamInfoList()
+        {
+            return View("~/Views/GeoBank/WebcamInfo/WebcamInfoList.cshtml");
+        }
 
-        //#endregion
+        #endregion
 
-        //#region GBVenues
+        #region GBVenues
 
-        //public ActionResult VenueList()
-        //{
-        //    return View("~/Views/GeoBank/GBVenue/VenueList.cshtml");
-        //}
+        public ActionResult VenueList()
+        {
+            return View("~/Views/GeoBank/GBVenue/VenueList.cshtml");
+        }
 
-        //#endregion
-
-
-        //#region PartialViews
-
-        //public ActionResult TypeAheadNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/TypeAheadNameTemplate.cshtml");
-        //}
-
-        //public ActionResult ArticleNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/ArticleNameTemplate.cshtml");
-        //}
-
-        //public ActionResult SmgTagNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/SmgTagNameTemplate.cshtml");
-        //}
-
-        //public ActionResult AccoNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/AccoNameTemplate.cshtml");
-        //}
-
-        //public ActionResult LocationNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/LocationNameTemplate.cshtml");
-        //}        
-
-        //public ActionResult PackageNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/PackageNameTemplate.cshtml"); 
-        //}        
-
-        //public ActionResult PoiNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/PoiNameTemplate.cshtml");
-        //}        
-
-        //public ActionResult RelatedContentNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/RelatedContentNameTemplate.cshtml");
-        //}        
-
-        //public ActionResult EventNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/EventNameTemplate.cshtml");
-        //}
-
-        //public ActionResult SkiAreaNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/SkiAreaNameTemplate.cshtml");
-        //}
+        #endregion
 
 
-        //public ActionResult EventShortCRUDModal()
-        //{
-        //    return PartialView("~/Views/GeoBank/GBEventShort/EventShortCRUDModal.cshtml");
-        //}
+        #region PartialViews
 
-        //public ActionResult EventShortInfoModal()
-        //{
-        //    return PartialView("~/Views/GeoBank/GBEventShort/EventShortInfoModal.cshtml");
-        //}
+        public ActionResult TypeAheadNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/TypeAheadNameTemplate.cshtml");
+        }
 
-        //public ActionResult EventShortNameTemplate()
-        //{
-        //    return PartialView("~/Views/GeoBank/GBEventShort/EventShortNameTemplate.cshtml");
-        //}
+        public ActionResult ArticleNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/ArticleNameTemplate.cshtml");
+        }
+
+        public ActionResult SmgTagNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/SmgTagNameTemplate.cshtml");
+        }
+
+        public ActionResult AccoNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/AccoNameTemplate.cshtml");
+        }
+
+        public ActionResult LocationNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/LocationNameTemplate.cshtml");
+        }
+
+        public ActionResult PackageNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/PackageNameTemplate.cshtml");
+        }
+
+        public ActionResult PoiNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/PoiNameTemplate.cshtml");
+        }
+
+        public ActionResult RelatedContentNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/RelatedContentNameTemplate.cshtml");
+        }
+
+        public ActionResult EventNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/EventNameTemplate.cshtml");
+        }
+
+        public ActionResult SkiAreaNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/SkiAreaNameTemplate.cshtml");
+        }
 
 
-        //public ActionResult WebcamNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/WebcamNameTemplate.cshtml");
-        //}
+        public ActionResult EventShortCRUDModal()
+        {
+            return PartialView("~/Views/GeoBank/GBEventShort/EventShortCRUDModal.cshtml");
+        }
 
-        //public ActionResult VenueNameTemplate()
-        //{
-        //    return PartialView("~/Views/PartialViews/VenueNameTemplate.cshtml");
-        //}
+        public ActionResult EventShortInfoModal()
+        {
+            return PartialView("~/Views/GeoBank/GBEventShort/EventShortInfoModal.cshtml");
+        }
+
+        public ActionResult EventShortNameTemplate()
+        {
+            return PartialView("~/Views/GeoBank/GBEventShort/EventShortNameTemplate.cshtml");
+        }
+
+
+        public ActionResult WebcamNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/WebcamNameTemplate.cshtml");
+        }
+
+        public ActionResult VenueNameTemplate()
+        {
+            return PartialView("~/Views/PartialViews/VenueNameTemplate.cshtml");
+        }
 
 
         #endregion

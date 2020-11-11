@@ -1,0 +1,17 @@
+﻿<input class="form-control" type="text" ng-model="model" placeholder="{{prompt}}" ng-keydown="selected=false" />
+<input class="form-control" type="hidden" ng-model="submodel" placeholder="Typ" ng-keydown="selected=false" />
+<input class="form-control" type="hidden" ng-model="idmodel" placeholder="Id" ng-keydown="selected=false" />
+<div class="item" ng-hide="!model.length || selected">
+    <table class="table table-striped table-condensed">
+        <tr ng-repeat="item in items | filter:model  track by $index" ng-click="handleSelection(item.name, item.typ, item.id)" style="cursor:pointer" ng-class="{active:isCurrent($index)}" ng-mouseenter="setCurrent($index)">
+            @*<td style="width:30%">
+                <img style="max-width:75px;float:left" ng-src="../Upload/Teilnehmer/{{item[bild]}}" title="{{item[bild]}}" />
+            </td>*@
+            <td style="width:100%">
+                <div class="title">{{ item.name }}</div>
+                <div class="subtitle"><h6>{{item.typ}}</h6></div>
+                <div class="subtitle"><h6>{{item.id}}</h6></div>
+            </td>
+        </tr>
+    </table>
+</div>

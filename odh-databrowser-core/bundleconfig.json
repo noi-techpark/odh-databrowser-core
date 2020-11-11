@@ -1,0 +1,63 @@
+[
+  {
+    "outputFileName": "wwwroot/bundles/jquery.min.js",
+    "inputFiles": [
+      "wwwroot/js/jquery-{version}.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/jqueryval.min.js",
+    "inputFiles": [
+      "wwwroot/js/jquery.validate.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/bootstrap.min.js",
+    "inputFiles": [
+      "wwwroot/js/bootstrap.js",
+      "wwwroot/js/respond.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/moment.min.js",
+    "inputFiles": [
+      "wwwroot/js/moment.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/googlemaps.min.js",
+    "inputFiles": [
+      "wwwroot/js/googlemaps.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/angular.min.js",
+    "inputFiles": [
+      "wwwroot/js/angular.js",
+      "wwwroot/js/angular-ui/ui-bootstrap-tpls.js",
+      "wwwroot/js/angular-route.min.js",
+      "wwwroot/js/rangeSlider/angular.rangeSlider.js",
+      "wwwroot/js/file-Upload/angular-file-upload.min.js",
+      "wwwroot/js/angular-sanitize.min.js",
+      "wwwroot/js/textAngular-sanitize.min.js",
+      "wwwroot/js/textAngular.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/leaflet.min.js",
+    "inputFiles": [
+      "wwwroot/js/leaflet-{version}.js",
+      "wwwroot/js/angular-leaflet-directive.min.js",
+      "wwwroot/js/gpx.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/content.min.css",
+    "inputFiles": [
+      "wwwroot/css/bootstrap.yeti.css",
+      "wwwroot/css/font-awesome.css",
+      "wwwroot/css/leaflet.css",
+      "wwwroot/css/site.css"
+    ]
+  }
+]

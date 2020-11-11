@@ -1,48 +1,587 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - odh_databrowser_core</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/bundles/content.min.css" />
+    @*@Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon">*@
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">odh_databrowser_core</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header hidden-md">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+                @Html.ActionLink("ODH Tourism Data Browser", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+                    @if (User.IsInRole("DataAdmin") || @ViewBag.UserManagementVisible == true || @ViewBag.RoleManagementVisible == true)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                @if (User.IsInRole("DataAdmin") || @ViewBag.UserManagementVisible == true)
+                                {
+                                    <li>@Html.ActionLink("User Administration", "Index", "UserAdmin", new { area = "" }, null)</li>
+                                }
+                                @if (User.IsInRole("DataAdmin") || @ViewBag.RoleManagementVisible == true)
+                                {
+                                    <li>@Html.ActionLink("Roles Administration", "Index", "Role", new { area = "" }, null)</li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    @if (@ViewBag.GBConfigVisible == true || @ViewBag.LTSConfigVisible == true || @ViewBag.GBTagsAndTypesVisible == true)
+                    {
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Config<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                @if (@ViewBag.GBConfigVisible == true || @ViewBag.GBTagsAndTypesVisible == true)
+                                {
+
+                                    <li>@Html.ActionLink("ODH Data Types", "IDMTypeList", "GBConfig", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("ODH Tags", "IDMTagList", "GBConfig", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("App Suggestions", "AppSuggestionList", "GBConfig", new { area = "" }, null)</li>
+                                    @*<li>@Html.ActionLink("ODH SyncProfiles", "SyncProfileList", "GBConfig", new { area = "" }, null)</li>*@
+                                }
+                                @if (@ViewBag.GBConfigVisible == true || @ViewBag.LTSConfigVisible == true)
+                                {
+                                    <li>@Html.ActionLink("LTS Areas", "LTSAreaList", "GBConfig", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("LTS Marketinggroups", "LTSMarketingGroupList", "GBConfig", new { area = "" }, null)</li>
+                                }
+                            </ul>
+                        </li>
+
+                    }
+                    @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.LocationVisible == true ||
+                        @ViewBag.GBPoiVisible == true || @ViewBag.GBAccoVisible == true || @ViewBag.GBPackageVisible == true ||
+                         @ViewBag.GBEventVisible == true || @ViewBag.GBEventShortVisible == true || @ViewBag.GBArticleVisible == true)
+                    {
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODH Data<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.LocationVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Location@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Regions", "RegionList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("MetaRegions", "MetaRegionList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("ExperienceaAreas", "ExperienceAreaList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Tourismverein", "TourismVereinList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Municipalities", "MunicipalityList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Districts", "DistrictList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Skiregion", "SkiregionList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Skiareas", "SkiareaList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Natureparks", "NatureparksList", "GeoBank", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.GBPoiVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Activities & Pois@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+
+                                            <li>@Html.ActionLink("Alle", "AllSmgPoiList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Wellness & Relaxation", "WellnessList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Winter", "WinterList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Summer", "SummerList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Culture & Attractions", "CultureList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Eating & Drinking", "EatingList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Other", "OtherList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("State", "GBPoiStatus", "GeoBank", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.GBAccoVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Accommodations@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Accommodations", "AccoList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Accommodation Search", "AccoSearchList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Accommodation Rooms", "AccoRoomList", "GeoBank", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.GBPackageVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Packages@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Packages", "PackageList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Package Search", "PackageSearch", "GeoBank", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.GBEventVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Events", "EventList", "GeoBank", new { area = "" }, null)</li>                                            
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true ||  @ViewBag.GBVenueVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Venues@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">                                            
+                                            <li>@Html.ActionLink("Venues", "VenueList", "GeoBank", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.GBEventShortVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events NOI@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Events Eurac NOI", "EventShortList", "GeoBank", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.GBArticleVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Articles@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Recipe Article", "RecipeArticleList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Base Article", "BaseArticleList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Event Article", "EventArticleList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Book Article", "BookArticleList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Catalog Article", "CatalogArticleList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("TourOperator Article", "TouroperatorArticleList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Press Article", "PressArticleList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("B2B Article", "B2BArticleList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Content Article", "ContentArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.GBWebcamVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Webcams", "WebCamInfoList", "GeoBank", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+
+                    }
+                    @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSActivityVisible == true ||
+                        @ViewBag.LTSPoiVisible == true || @ViewBag.LTSGastroVisible == true || @ViewBag.LTSAccoVisible == true ||
+                        @ViewBag.LTSEventVisible == true || @ViewBag.HgvPackageVisible == true || @ViewBag.SuedtirolWeinVisible == true ||
+                        @ViewBag.SiagMuseumDataVisible == true || @ViewBag.ArchappDataVisible == true || @ViewBag.LTSMeasuringpointsVisible == true ||
+                        @ViewBag.SnowReportVisible == true || @ViewBag.WeatherVisible == true)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">external Datasources<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSActivityVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS ActivityData</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Alle", "AllActivitiesList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Berge", "AlpineList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Radfahren", "BikeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Ortstouren", "CityTourList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Pferde", "EquestrianismList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Wandern", "HikeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Laufen und Fitness", "RunningFitnessList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Loipen", "SkitrackList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Pisten", "SlopeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Aufstiegsanlagen", "LiftList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Rodeln", "SlideList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSPoiVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS PoiData</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Alle", "AllPoisList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Sport und Freizeit", "ActiveList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Handwerk", "ArtisanList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Ärzte, Apotheken", "HealthList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Verkehr und Transport", "MobilityTrafficList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Nachtleben und Unterhaltung", "NightlifeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Öffentliche Einrichtungen", "ServiceList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Dienstleister", "ServiceProviderList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Geschäfte", "ShopList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Kultur und Sehenswürdigkeiten", "SightseenList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSGastroVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS GastronomyData</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Gastronomies", "GastronomyList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSAccoVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS AccommodationData</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Accommodation Search", "AccommodationList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Accommodation List", "AccommodationSimpleList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSEventVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS EventData</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Events", "EventList", "ExternalDataSources", new { area = "" }, null)</li>                                            
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.VenueVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS VenueData</a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Venues", "VenueList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.HgvPackageVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">HGV Packages</a>
+                                        <ul class="dropdown-menu">
+
+                                            <li>@Html.ActionLink("Packages Search", "PackageSearch", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Packages List", "PackageList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.SuedtirolWeinVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Suedtirol Wein</a>
+                                        <ul class="dropdown-menu">
+
+                                            <li>@Html.ActionLink("Suedtirol Wein", "SuedtirolWeinList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Wine Awards", "WineAwardList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                                        </ul>
+                                    </li>
+                                }
+                                @*@if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.VerticalLifeVisible == true)
+        {
+            <li class="dropdown-submenu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Vertical Life</a>
+                <ul class="dropdown-menu">
+
+                    <li>@Html.ActionLink("Vertical Life", "VerticalLifeList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                </ul>
+            </li>
+        }*@
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.SiagMuseumDataVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Siag Museum Data</a>
+                                        <ul class="dropdown-menu">
+
+                                            <li>@Html.ActionLink("Siag Museum Data", "SiagMuseumDataList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.ArchappDataVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Archapp Poi Data</a>
+                                        <ul class="dropdown-menu">
+
+                                            <li>@Html.ActionLink("Archapp Poi Data", "ArchappDataList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.WeatherVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Weather Data@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            @if (@ViewBag.globalvisible == true || @ViewBag.commonvisible == true)
+                                            {
+                                                <li>@Html.ActionLink("Weather Information", "WeatherList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Weather District Information", "DistrictWeatherList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Weather Realtime Information", "RealtimeWeatherList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSMeasuringpointsVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Weather Data@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            @if (@ViewBag.globalvisible == true || @ViewBag.commonvisible == true)
+                                            {
+                                                <li>@Html.ActionLink("Measuring Points", "MeasuringPointsList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.SnowReportVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS Snow Report Data@*<b class="caret"></b>*@</a>
+                                        <ul class="dropdown-menu">
+                                            @if (@ViewBag.globalvisible == true || @ViewBag.commonvisible == true)
+                                            {
+
+                                                <li>@Html.ActionLink("Snow Report", "SnowReportList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.WebcamVisible == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Webcam Data</a>
+                                        <ul class="dropdown-menu">
+
+                                            <li>@Html.ActionLink("Webcams", "WebCamInfoList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+               
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODH Open Data<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Location</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Regions", "RegionList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("MetaRegions", "MetaRegionList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("ExperienceaAreas", "ExperienceAreaList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Tourismverein", "TourismVereinList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Municipalities", "MunicipalityList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Districts", "DistrictList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Skiregion", "SkiregionList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Skiareas", "SkiareaList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Areas", "AreaList", "GeoBank", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODH Activities & Pois</a>
+                                    <ul class="dropdown-menu">
+
+                                        <li>@Html.ActionLink("All", "AllSmgPoiList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Wellness & Relaxation", "WellnessList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Winter", "WinterList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Summer", "SummerList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Culture & Attractions", "CultureList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Eating & Drinking", "EatingList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Other", "OtherList", "GeoBank", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS ActivityData</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("All", "AllActivitiesList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Alpine", "AlpineList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Biking", "BikeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("City Tour", "CityTourList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Equestrianism", "EquestrianismList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Hiking", "HikeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Running Fitness", "RunningFitnessList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Skitracks", "SkitrackList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Slopes", "SlopeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Lifts", "LiftList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Sledges", "SlideList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS PoiData</a>
+                                    <ul class="dropdown-menu">
+
+                                        <li>@Html.ActionLink("All", "AllPoisList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Sports and leisure", "ActiveList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Artisan", "ArtisanList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Health", "HealthList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Mobility", "MobilityTrafficList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Nightlife", "NightlifeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Service", "ServiceList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("ServiceProviders", "ServiceProviderList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Shops", "ShopList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Culture Sightseen", "SightseenList", "ExternalDataSources", new { area = "" }, null)</li>
+
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS GastronomyData</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Gastronomies", "GastronomyList", "ExternalDataSources", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Accommodations</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Accommodations", "AccommodationSimpleList", "ExternalDataSources", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Events", "EventList", "GeoBank", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Venues</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Venues", "VenueList", "ExternalDataSources", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events NOI</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Events Eurac NOI", "EventShortList", "GeoBank", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Articles</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Recipe Article", "RecipeArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Base Article", "BaseArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Event Article", "EventArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Book Article", "BookArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Catalog Article", "CatalogArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("TourOperator Article", "TouroperatorArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Press Article", "PressArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("B2B Article", "B2BArticleList", "GeoBank", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Content Article", "ContentArticleList", "GeoBank", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Weather, Snow Data</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Weather Information", "WeatherList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Weather District Information", "DistrictWeatherList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        @*<li>@Html.ActionLink("Weather Realtime Information", "RealtimeWeatherList", "ExternalDataSources", new { area = "" }, null)</li>*@
+                                        <li>@Html.ActionLink("Snow Report", "SnowReportList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Measuring Points", "MeasuringPointsList", "ExternalDataSources", new { area = "" }, null)</li>                                        
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Data</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Wine Awards", "WineAwardList", "ExternalDataSources", new { area = "" }, null)</li>
+                                        <li>@Html.ActionLink("Webcams", "WebcamInfoList", "GeoBank", new { area = "" }, null)</li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </li>
+                    
+                </ul>
+
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </div>
+    <div class="fullwidthcontainer">
+        @RenderSection("headerimgsect", required: false)
     </div>
 
-    <footer class="border-top footer text-muted">
+    <div class="jumbotron" style="margin-bottom:0px;padding-top:15px;padding-bottom:15px">
         <div class="container">
-            &copy; 2020 - odh_databrowser_core - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            @RenderSection("jumbotronsect", required: false)
+            @if (IsSectionDefined("infomodaltext"))
+            {
+                <input type="button" id="infodialogbtn" class="btn btn-info pull-left" value="Info" data-toggle="modal" data-target="#infomodal" />
+            }
+        </div>
+    </div>
+
+    <div class="modal fade" id="infomodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Info</h4>
+                </div>
+                <div class="modal-body">
+                    @RenderSection("infomodaltext", required: false)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <hr />
+            <h6>&copy; @DateTime.Now.Year - Open Data Hub Team</h6>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angularcustom")
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/leaflet")*@
+    <script src="~/bundles/jquery.min.js"></script>
+    <script src="~/bundles/bootstrap.min.js"></script>
+    <script src="~/bundles/moment.min.js"></script>
+    <script src="~/bundles/leaflet.min.js"></script>
+
+
+    @*@Scripts.Render("~/bundles/googlemaps")*@
+    @*@Scripts.Render("~/bundles/angularcustom")*@
+    @RenderSection("scripts", required: false)
+    @RenderSection("styles", required: false)
 </body>
 </html>

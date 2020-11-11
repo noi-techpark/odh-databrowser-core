@@ -1,0 +1,32 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    @*using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))*@
+    <form asp-controller="Account" asp-action="LogOff" asp-model='@(new { area = ""})' method="post" class="navbar-right" id="logoutForm">
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: new { area = "" }, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:localStorage.removeItem('accessToken');$('#logoutForm').submit();">Log off</a></li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: new { area = "" }, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: new { area = "" }, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+    @*TEST IF THIS WORKS IF User is not Logged in could be that a token is in the localstorage*@
+    <script>
+        LogoutUser();
+
+        function LogoutUser() {
+            if (localStorage.getItem('accessToken')) {
+                localStorage.removeItem('accessToken');
+            }
+        }
+
+    </script>
+}

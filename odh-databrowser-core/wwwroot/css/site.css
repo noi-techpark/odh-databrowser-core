@@ -1,71 +1,317 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿body {
+    padding-top: 42px;
+    padding-bottom: 20px;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.fullwidthcontainer{
+    margin-left:0px;
+    margin-right:0px;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
+/*.dropdown-submenu {
+    position: relative;
 }
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+}*/
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: 0px;
+    margin-left: -1px;
+    /*-webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;*/
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    /*-webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;*/
+}
+
+/* Loading Splash Font */
+
+.splash {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    z-index: 1;
+    text-align: center;
+    padding: 10% 0 0 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+.splash .icon-spinner {
+    text-align: center;
+    display: inline-block;
+    font-size: 5em;
+    margin-top: 10px;
+}
+
+/* Responsive Button */
+
+@media (max-width: 768px) {
+  .btn-responsive {
+    padding:2px 4px;
+    font-size:85%;
+    line-height: 1.1;
   }
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+@media (min-width: 769px) and (max-width: 992px) {
+  .btn-responsive {
+    padding:4px 9px;
+    font-size:90%;
+    line-height: 1.2;
+  }
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+/* Modal wide */
+
+.modal.modal-wide .modal-dialog {
+  width: 70%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+/* Responsive Modal */
+@media (min-width: 769px) and (max-width: 992px) {
+    .modal.modal-wide .modal-dialog {
+        width: 90%;
+    }
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+@media (max-width: 768px) {
+    .modal.modal-wide .modal-dialog {
+        width: 100%;
+    }
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+
+#map {
+        height: 320px;
+        width: 420px;
+     }
+
+#maplarge {
+        height: 470px;
+        width: 630px;
+     }
+
+.marker-labels {
+            background-color: #808080;
+            opacity: 0.5;
+            font-size: 14px;
+            font-weight: bold;
+            border-style: solid;
+            border-color: black;
+            border-width: 1px;
+        }
+
+.infoWindowContent {
+            font-size: 14px !important;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+@media (max-width: 768px) {
+        #map {
+            max-height: 300px;
+            max-width: 300px;
+        }
 }
+
+@media (min-width: 769px) and (max-width: 992px) {
+     #map {
+            max-height: 300px;
+            max-width: 250px;
+        }
+}
+
+.filtertable {
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: #EAEAEA;
+}
+
+.filtertablehorizontal{
+    /*padding-left:0px;
+    padding-right:0px;*/
+    background-color:#EEEEEE;
+}
+
+.notextareamaxwitdth{
+    max-width:100%;
+}
+.smalltextareamaxwitdth{
+    max-width:25%;
+}
+
+.bigcheckbox{
+    width:40px; 
+    height:40px;
+}
+
+.smallcheckbox{
+    width:25px; 
+    height:25px;
+}
+
+.jumbotron {
+    background-color: #F5F5F5;
+    padding-bottom:15px;    
+}
+
+.btn-info {
+    background-color: #7A7A7A;
+    border-color: #606060;
+}
+
+.btn-info:hover {
+    background-color: #606060;
+    border-color: #606060;
+}
+
+    .btn-info:active {
+        background-color: #606060;
+        border-color: #606060;
+    }
+    .btn-info:focus {
+        background-color: #606060;
+        border-color: #606060;
+    }
+
+
+.btn-info:disabled {
+    background-color: #5A5A5A;
+    border-color: #606060;
+}
+
+.btn-primary {
+    background-color: #3F3F3F;
+    border-color: #222222;
+}
+
+    .btn-primary:hover {
+        background-color: #2F2F2F;
+        border-color: #222222;
+    }
+
+    .btn-primary:active {
+        background-color: #2F2F2F;
+        border-color: #222222;
+    }
+
+    .btn-primary:disabled {
+        background-color: #5B5B5B;
+        border-color: #3F3F3F;
+    }
+
+.btn-link {
+    color: #3F3F3F;
+}
+
+.homesubs {
+    padding-top: 9px;
+}
+
+    .homesubs a {
+        /*color: #222222;*/
+        font-size: larger;
+        font-weight: 500;
+    }
+
+.btn-homesubicons {
+    border-color: #9AC52D;
+    background-color: #ffffff;
+}
+
+    .btn-homesubicons:hover {
+        background-color: #F3F3F3;
+    }
+
+.glyphicon-homesub {
+    color: #9AC52D;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+    .btn-circle.btn-lg {
+        width: 50px;
+        height: 50px;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 25px;
+    }
+
+    .btn-circle.btn-xl {
+        width: 70px;
+        height: 70px;
+        padding: 10px 16px;
+        font-size: 24px;
+        line-height: 1.33;
+        border-radius: 35px;
+    }

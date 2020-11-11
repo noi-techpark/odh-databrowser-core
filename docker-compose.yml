@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  odh-databrowser-core:
+    image: ${DOCKER_IMAGE:-odh-databrowser-core}:${DOCKER_TAG:-latest}
+    build:
+      context: .
+      dockerfile: odh-databrowser-core/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development

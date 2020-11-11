@@ -5,6 +5,7 @@
     <RootNamespace>odh_databrowser_core</RootNamespace>
     <UserSecretsId>1a81b43d-6a45-4fc1-a2e0-a5f84edf8fa8</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

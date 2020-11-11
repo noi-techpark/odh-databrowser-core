@@ -2,7 +2,8 @@
   {
     "outputFileName": "wwwroot/bundles/jquery.min.js",
     "inputFiles": [
-      "wwwroot/js/jquery-{version}.js"
+      //"wwwroot/js/jquery-{version}.js"
+      "wwwroot/js/jquery-1.10.2.js"
     ]
   },
   {
@@ -53,7 +54,8 @@
   {
     "outputFileName": "wwwroot/bundles/leaflet.min.js",
     "inputFiles": [
-      "wwwroot/js/leaflet-{version}.js",
+      //"wwwroot/js/leaflet-{version}.js",
+      "wwwroot/js/leaflet-0.7.3.js",
       "wwwroot/js/angular-leaflet-directive.min.js",
       "wwwroot/js/gpx.min.js"
     ]

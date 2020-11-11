@@ -2,7 +2,7 @@
 var appconfig = angular.module('appconfig', ['appfactory', 'ngRoute'])
 
 appconfig.value('appconfig', {
-      basePath: '' // Set your base path here
+      basePath: 'https://api.tourism.testingmachine.eu/' // Set your base path here
   });
 
 appconfig.config(function ($httpProvider) {

@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  api:
+    image: ${DOCKER_IMAGE}:${DOCKER_TAG}
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:80
+    restart: unless-stopped
+    ports:
+      - "${SERVER_PORT}:80"

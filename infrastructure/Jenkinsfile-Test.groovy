@@ -5,8 +5,7 @@ pipeline {
         DOCKER_PROJECT_NAME = "odh-databrowser-core"
         DOCKER_IMAGE = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-databrowser-core'
         DOCKER_TAG = "test-$BUILD_NUMBER"
-
-		SERVER_PORT = "2022"                
+	SERVER_PORT = "1022"                
     }
 
     stages {

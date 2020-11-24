@@ -2,12 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace odh_databrowser_core
 {
@@ -22,13 +26,45 @@ namespace odh_databrowser_core
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Users", policy =>
+                policy.RequireRole("Users"));
+            });
+
+            services.AddAuthentication(options =>
+            {                
+                options.DefaultAuthenticateScheme = "oidc";
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddOpenIdConnect(options =>
+            {                
+                options.Authority = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/";
+                options.ClientId = "odh-frontend-core";
+                options.ClientSecret = "";
+                options.RequireHttpsMetadata = false;
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.SaveTokens = true;
+                options.RemoteSignOutPath = "/SignOut";
+                options.SignedOutRedirectUri = "Redirect-here";                
+                //options.ResponseType = "code";    
+                options.SaveTokens = true;
+                options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                //options.CallbackPath = "/";
+            });
+
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Add this line to ensure authentication is enabled
+            app.UseAuthentication();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -39,7 +75,10 @@ namespace odh_databrowser_core
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+
+            
+
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -53,5 +92,23 @@ namespace odh_databrowser_core
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        //private OpenIdConnectOptions CreateOpenIdConnectOptions()
+        //{
+        //    var options = new OpenIdConnectOptions
+        //    {
+        //        SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme,
+        //        Authority = ,
+        //        RequireHttpsMetadata = true,
+        //        ClientId = "odh-fontend-core",
+        //        ClientSecret = "",
+        //        ResponseType = OpenIdConnectResponseType.CodeToken,
+        //        GetClaimsFromUserInfoEndpoint = true,
+        //        SaveTokens = true
+        //    };
+        //    options.Scope.Clear();
+        //    options.Scope.Add("openid");
+        //    return options;
+        //}
     }
 }

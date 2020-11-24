@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -14,12 +16,18 @@ namespace SuedtirolManagerPG.Controllers
         //[Authorize(Roles = "DataVisible,GeobankVisible,LocationVisible")]
         public ActionResult MetaRegionList()
         {
+            string accToken = HttpContext.GetTokenAsync("access_token").Result;
+            string idToken = HttpContext.GetTokenAsync("id_token").Result;
+
             return View("~/Views/GeoBank/Location/MetaRegionList.cshtml");
         }
 
-        //[Authorize(Roles = "DataVisible,GeobankVisible,LocationVisible")]
+        [Authorize(Roles = "DataVisible,GeobankVisible,LocationVisible,DataReader")]
         public ActionResult RegionList()
         {
+            string accToken = HttpContext.GetTokenAsync("access_token").Result;
+            string idToken = HttpContext.GetTokenAsync("id_token").Result;
+
             return View("~/Views/GeoBank/Location/RegionList.cshtml");
         }
 

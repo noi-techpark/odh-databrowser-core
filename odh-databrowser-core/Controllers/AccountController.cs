@@ -23,11 +23,9 @@ namespace odh_databrowser_core.Controllers
             //return View();
         }
 
-        //public ActionResult Logout()
-        //{
-        //    //Authentication.SignOut(CookieAuthenticationDefaults.);
-
-        //    return Ok();
-        //}
+        public ActionResult Logout()
+        {
+            return Ok();
+        }
     }
 }

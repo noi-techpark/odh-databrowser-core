@@ -51,7 +51,8 @@ namespace odh_databrowser_core
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
                 options.RemoteSignOutPath = "/SignOut";
-                //options.SignedOutRedirectUri = "/";                
+                //options.SignedOutRedirectUri = "/";        
+                options.SignedOutCallbackPath = "/Account/Logout";
                 //options.ResponseType = "code";    
                 options.SaveTokens = true;
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;

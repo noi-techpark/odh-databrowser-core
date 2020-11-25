@@ -60,7 +60,7 @@ namespace odh_databrowser_core
                 //options.CallbackPath = "/";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    NameClaimType = "name",
+                    NameClaimType = "preferred_username",
                     ValidateIssuer = true
                 };
             });

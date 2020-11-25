@@ -31,16 +31,8 @@ namespace SuedtirolManagerPG.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult Login()
-        {
-            var auth = User.Identity.IsAuthenticated;
-
-            string accToken = HttpContext.GetTokenAsync("access_token").Result;
-            string idToken = HttpContext.GetTokenAsync("id_token").Result;
-
-            return View();
-        }
+        //[Authorize]
+       
 
         public ActionResult LicenseStatus()
         {

@@ -34,10 +34,11 @@ namespace odh_databrowser_core
             });
 
             services.AddAuthentication(options =>
-            {                
-                options.DefaultAuthenticateScheme = "oidc";
+            {
+                options.DefaultAuthenticateScheme = OpenIdConnectDefaults.AuthenticationScheme; //"oidc";
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = "oidc";
             })
             .AddCookie()
             .AddOpenIdConnect(options =>
@@ -53,6 +54,7 @@ namespace odh_databrowser_core
                 //options.ResponseType = "code";    
                 options.SaveTokens = true;
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                //options.SignInScheme = "oidc";
                 //options.CallbackPath = "/";
             });
 
@@ -64,7 +66,7 @@ namespace odh_databrowser_core
         {
             // Add this line to ensure authentication is enabled
             app.UseAuthentication();
-      
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -81,6 +83,7 @@ namespace odh_databrowser_core
 
             app.UseRouting();
 
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -89,6 +92,8 @@ namespace odh_databrowser_core
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            
 
             //app.UseMvc();
         }

@@ -51,7 +51,7 @@ namespace odh_databrowser_core
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
                 options.RemoteSignOutPath = "/SignOut";
-                options.SignedOutRedirectUri = "Redirect-here";                
+                //options.SignedOutRedirectUri = "/";                
                 //options.ResponseType = "code";    
                 options.SaveTokens = true;
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
@@ -69,10 +69,7 @@ namespace odh_databrowser_core
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // Add this line to ensure authentication is enabled
-            app.UseAuthentication();
-
+        {         
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -89,7 +86,10 @@ namespace odh_databrowser_core
 
             app.UseRouting();
 
-            
+            //app.UseCookiePolicy();
+            app.UseAuthentication();
+
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -98,8 +98,7 @@ namespace odh_databrowser_core
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            
+           
 
             //app.UseMvc();
         }

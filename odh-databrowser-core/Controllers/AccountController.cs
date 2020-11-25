@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace odh_databrowser_core.Controllers
     {
         public ActionResult Login()
         {
-            return Challenge(new AuthenticationProperties() { RedirectUri = "/" }, "oidc");
+            return Challenge(new AuthenticationProperties() { RedirectUri = "/" }, OpenIdConnectDefaults.AuthenticationScheme);
 
             //var auth = User.Identity.IsAuthenticated;
 
@@ -20,5 +22,12 @@ namespace odh_databrowser_core.Controllers
 
             //return View();
         }
+
+        //public ActionResult Logout()
+        //{
+        //    //Authentication.SignOut(CookieAuthenticationDefaults.);
+
+        //    return Ok();
+        //}
     }
 }

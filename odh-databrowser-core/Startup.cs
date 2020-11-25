@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 
 namespace odh_databrowser_core
 {
@@ -56,6 +57,11 @@ namespace odh_databrowser_core
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                 //options.SignInScheme = "oidc";
                 //options.CallbackPath = "/";
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = "name",
+                    ValidateIssuer = true
+                };
             });
 
             services.AddControllersWithViews();

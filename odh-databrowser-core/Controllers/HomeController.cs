@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using System.Linq;
+using System.Security.Claims;
 
 namespace SuedtirolManagerPG.Controllers
 {
@@ -22,10 +24,16 @@ namespace SuedtirolManagerPG.Controllers
 
             //Display Rights:
 
-            //var user = User.Identity.Name;
-            //var user2 = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;
+            var user = User.Identity.Name;
+
+            var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
             //var cookies = this.ControllerContext.HttpContext.Request.Cookies;
+
+            var auth = User.Identity.IsAuthenticated;
+
+            string accToken = HttpContext.GetTokenAsync("access_token").Result;
+            string idToken = HttpContext.GetTokenAsync("id_token").Result;
 
 
             return View();

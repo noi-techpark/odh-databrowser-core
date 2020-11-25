@@ -16,15 +16,23 @@ namespace SuedtirolManagerPG.Controllers
         //[Authorize(Roles = "DataVisible,GeobankVisible,LocationVisible")]
         public ActionResult MetaRegionList()
         {
-            string accToken = HttpContext.GetTokenAsync("access_token").Result;
-            string idToken = HttpContext.GetTokenAsync("id_token").Result;
+            var auth = User.Identity.IsAuthenticated;
+
+            if (auth)
+            {
+                string accToken = HttpContext.GetTokenAsync("access_token").Result;
+                string idToken = HttpContext.GetTokenAsync("id_token").Result;
+            }              
+
 
             return View("~/Views/GeoBank/Location/MetaRegionList.cshtml");
         }
 
-        [Authorize(Roles = "DataVisible,GeobankVisible,LocationVisible,DataReader")]
+        [Authorize]
         public ActionResult RegionList()
         {
+            var auth = User.Identity.IsAuthenticated;
+
             string accToken = HttpContext.GetTokenAsync("access_token").Result;
             string idToken = HttpContext.GetTokenAsync("id_token").Result;
 

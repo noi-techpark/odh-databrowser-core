@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 
 namespace SuedtirolManagerPG.Controllers
@@ -25,6 +27,17 @@ namespace SuedtirolManagerPG.Controllers
 
             //var cookies = this.ControllerContext.HttpContext.Request.Cookies;
 
+
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Login()
+        {
+            var auth = User.Identity.IsAuthenticated;
+
+            string accToken = HttpContext.GetTokenAsync("access_token").Result;
+            string idToken = HttpContext.GetTokenAsync("id_token").Result;
 
             return View();
         }

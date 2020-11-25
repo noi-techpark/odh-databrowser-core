@@ -64,7 +64,7 @@ namespace odh_databrowser_core
         {
             // Add this line to ensure authentication is enabled
             app.UseAuthentication();
-
+      
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -75,9 +75,7 @@ namespace odh_databrowser_core
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             
-
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -91,6 +89,8 @@ namespace odh_databrowser_core
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //app.UseMvc();
         }
 
         //private OpenIdConnectOptions CreateOpenIdConnectOptions()

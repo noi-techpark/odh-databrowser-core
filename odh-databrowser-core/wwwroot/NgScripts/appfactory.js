@@ -10,7 +10,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
 
         var token = getAccessToken();
 
-        //console.log("The token is " + token);
+        console.log("The token is " + token);
 
         if (token) {
 
@@ -20,19 +20,35 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
         }
         else {
 
-            // no token - so bounce to Login and log off cookie
+            console.log("Authorized user" + userAuthorized);
 
-            //$.get("/api/LoginApi/GetLogout", function (data) {
-            //});
+            if (userAuthorized) {
+                var fragment = getFragment();
 
-            //var returnurl = window.location.pathname;
+                if (fragment.access_token) {
 
-            //if (returnurl == "" || returnurl == "/" || returnurl == null)
-            //    window.location = "/Account/Login";
-            //else
-            //    window.location = "/Account/Login?ReturnUrl=" + returnurl;
+                    //console.log(fragment);
+                    //console.log(fragment.access_token);
 
-            console.log("anonymous");
+                    // returning with access token, restore old hash, or at least hide token
+                    window.location.hash = fragment.state || '';
+
+                    setAccessToken(fragment.access_token);
+                } else {
+                    // no token - so bounce to Authorize endpoint in AccountController to sign in or register
+                    //console.log(basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location));
+
+             
+                    //if (userAuthorized)
+                    //    window.location = basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location);
+
+                    var returnurl = window.location.pathname;
+
+                    //window.location = "/Account/Login?ReturnUrl=" + returnurl;
+
+                    window.location = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri=" + encodeURIComponent(window.location); 
+                }
+            }
 
         }
 
@@ -57,11 +73,29 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
 function setAccessToken(accessToken) {
     localStorage.setItem("accessToken", accessToken);
 
-    //console.log("token set: " + accessToken);
+    console.log("token set: " + accessToken);
 };
 
 function getAccessToken() {
     return localStorage.getItem("accessToken");
+};
+
+function getFragment() {
+    if (window.location.hash.indexOf("#") === 0) {
+
+        //var hashsplitted = window.location.hash.split('&');
+
+        //console.log(hashsplitted[1]);
+
+        //var mytoken = hashsplitted[1].substr(13);
+        
+        //console.log("Bearer token from hash: " + mytoken);
+
+        return parseQueryString(window.location.hash.substr(2));
+  
+    } else {
+        return {};
+    }
 };
 
 appfactory.factory('leafletmapsimple', ['leafletData', function (leafletData) {
@@ -193,6 +227,40 @@ function contains(a, obj) {
         }
     }
     return false;
+}
+
+function parseQueryString(queryString) {
+
+    //console.log(queryString);
+
+    var data = {},
+        pairs, pair, separatorIndex, escapedKey, escapedValue, key, value;
+
+    if (queryString === null) {
+        return data;
+    }
+
+    pairs = queryString.split("&");
+
+    for (var i = 0; i < pairs.length; i++) {
+        pair = pairs[i];
+        separatorIndex = pair.indexOf("=");
+
+        if (separatorIndex === -1) {
+            escapedKey = pair;
+            escapedValue = null;
+        } else {
+            escapedKey = pair.substr(0, separatorIndex);
+            escapedValue = pair.substr(separatorIndex + 1);
+        }
+
+        key = decodeURIComponent(escapedKey);
+        value = decodeURIComponent(escapedValue);
+
+        data[key] = value;
+    }
+
+    return data;
 }
 
 appfactory.factory('languageFactory', function() {

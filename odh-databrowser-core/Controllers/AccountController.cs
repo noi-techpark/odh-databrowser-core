@@ -11,9 +11,9 @@ namespace odh_databrowser_core.Controllers
 {
     public class AccountController : Controller
     {
-        public ActionResult Login()
+        public ActionResult Login(string ReturnUrl = "/")
         {
-            return Challenge(new AuthenticationProperties() { RedirectUri = "/" }, OpenIdConnectDefaults.AuthenticationScheme);
+            return Challenge(new AuthenticationProperties() { RedirectUri = ReturnUrl }, OpenIdConnectDefaults.AuthenticationScheme);
 
             //var auth = User.Identity.IsAuthenticated;
 

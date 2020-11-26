@@ -10,8 +10,9 @@
             </li>
             <li>
                 @*<a href="javascript:localStorage.removeItem('accessToken');$('#logoutForm').submit();">Log off</a>*@
-                        @*@Html.ActionLink("Log off", "SignOut", "Account")*@
-                <a href="/SignOut">Log off</a>
+                @*@Html.ActionLink("Log off", "SignOut", "Account")*@
+                @*<a href="/SignOut">Log off</a>*@
+                @Html.ActionLink("Log off", "Logout", "Account")
             </li>
         </ul>
     </form>

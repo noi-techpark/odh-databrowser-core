@@ -52,10 +52,10 @@ namespace odh_databrowser_core
                 options.SaveTokens = true;
                 options.RemoteSignOutPath = "/SignOut";
                 //options.SignedOutRedirectUri = "/";        
-                options.SignedOutCallbackPath = "/Account/Logout";
+                //options.SignedOutCallbackPath = "/Account/Logout";
                 //options.ResponseType = "code";    
                 options.SaveTokens = true;
-                options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                options.ResponseType = OpenIdConnectResponseType.Code;
                 //options.SignInScheme = "oidc";
                 //options.CallbackPath = "/";
                 options.TokenValidationParameters = new TokenValidationParameters

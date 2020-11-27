@@ -88,10 +88,7 @@ namespace odh_databrowser_core
                 app.UseHsts();
             }
 
-            //app.UseForwardedHeaders(new ForwardedHeadersOptions
-            //{
-            //    ForwardedHeaders = ForwardedHeaders.All
-            //});
+            app.UseForwardedHeaders();
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();

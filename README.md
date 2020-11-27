@@ -4,7 +4,7 @@
 
 ## Project Goals/Requirements:
 
-* .Net Core 3
+* .Net Core 5
 * Docker Support
 * Swagger Support
 * Identity Server Integration (Keycloak)
@@ -21,7 +21,7 @@ Clone the repository
 
 `docker-compose up` starts the appliaction on http://localhost:6002/
 
-### .Net Core runtime
+### using .Net Core CLI
 
 Install .Net Core SDK 5\
 go into \odh-databrowser-core\ folder \

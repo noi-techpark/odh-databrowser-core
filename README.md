@@ -12,3 +12,20 @@
 
 Visible under
 https://frontend.tourism.testingmachine.eu/
+
+## Getting started:
+
+Clone the repository
+
+### using Docker
+
+`docker-compose up` starts the appliaction on http://localhost:6002/
+
+### .Net Core runtime
+
+Install .Net Core SDK 5\
+go into \odh-databrowser-core\ folder \
+`dotnet run`
+starts the application on 
+https://localhost:6001/
+http://localhost:6002/

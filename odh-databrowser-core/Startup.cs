@@ -85,7 +85,7 @@ namespace odh_databrowser_core
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+                ForwardedHeaders = ForwardedHeaders.XForwardedHost
             });
 
             //app.UseHttpsRedirection();

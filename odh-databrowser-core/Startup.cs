@@ -90,6 +90,11 @@ namespace odh_databrowser_core
 
             app.UseForwardedHeaders();
 
+            app.UseCookiePolicy(new CookiePolicyOptions()
+            {
+                MinimumSameSitePolicy = SameSiteMode.Lax
+            });
+
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -97,7 +102,6 @@ namespace odh_databrowser_core
 
             //app.UseCookiePolicy();
             app.UseAuthentication();
-
 
             app.UseAuthorization();
 

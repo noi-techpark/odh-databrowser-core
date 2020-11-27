@@ -42,9 +42,9 @@ namespace odh_databrowser_core
 
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = OpenIdConnectDefaults.AuthenticationScheme; //"oidc";
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme; //"oidc";
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 //options.DefaultChallengeScheme = "oidc";
             })
             .AddCookie()

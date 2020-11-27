@@ -42,10 +42,10 @@ namespace odh_databrowser_core
                 options.KnownProxies.Clear();
             });
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
 
             services.AddAuthentication(options =>
             {

@@ -9,4 +9,4 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     ports: 
-      - "6001:80"
+      - "6002:80"

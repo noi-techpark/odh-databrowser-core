@@ -48,7 +48,7 @@ namespace odh_databrowser_core
                 options.Authority = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/";
                 options.ClientId = "odh-frontend-core";
                 options.ClientSecret = "";
-                options.RequireHttpsMetadata = true;
+                options.RequireHttpsMetadata = false;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
                 options.RemoteSignOutPath = "/SignOut";
@@ -85,7 +85,7 @@ namespace odh_databrowser_core
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedHost
+                ForwardedHeaders = ForwardedHeaders.All
             });
 
             //app.UseHttpsRedirection();

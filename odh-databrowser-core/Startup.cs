@@ -92,7 +92,7 @@ namespace odh_databrowser_core
 
             app.UseCookiePolicy(new CookiePolicyOptions()
             {
-                MinimumSameSitePolicy = SameSiteMode.Lax
+                MinimumSameSitePolicy = SameSiteMode.None
             });
 
             //app.UseHttpsRedirection();

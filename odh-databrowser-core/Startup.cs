@@ -40,7 +40,12 @@ namespace odh_databrowser_core
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
                 options.KnownNetworks.Clear();
                 options.KnownProxies.Clear();
-            }); ;
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+            });
 
             services.AddAuthentication(options =>
             {
@@ -92,10 +97,7 @@ namespace odh_databrowser_core
 
             app.UseForwardedHeaders();
 
-            app.UseCookiePolicy(new CookiePolicyOptions()
-            {
-                MinimumSameSitePolicy = SameSiteMode.Strict
-            });
+            app.UseCookiePolicy();           
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();

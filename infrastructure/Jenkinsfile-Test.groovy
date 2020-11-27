@@ -18,7 +18,7 @@ pipeline {
                     echo 'COMPOSE_PROJECT_NAME=${DOCKER_PROJECT_NAME}' >> .env
                     echo 'DOCKER_IMAGE=${DOCKER_IMAGE}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
-		    echo 'DOCKER_TAG=${ASPNETCORE_ENVIRONMENT}' >> .env		    
+		    echo 'ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}' >> .env		    
                     echo 'SERVER_PORT=${SERVER_PORT}' >> .env                                        
                 """
             }

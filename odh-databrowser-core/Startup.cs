@@ -37,7 +37,7 @@ namespace odh_databrowser_core
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
-                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
                 options.KnownNetworks.Clear();
                 options.KnownProxies.Clear();
             });
@@ -95,16 +95,16 @@ namespace odh_databrowser_core
                 app.UseHsts();
             }
 
-            //app.UseForwardedHeaders();
+            app.UseForwardedHeaders();
 
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Headers.TryGetValue("X-Forwarded-Prefix", out var prefix) && prefix.Count() > 0)
-                {
-                    context.Request.PathBase = prefix.First();
-                }
-                await next.Invoke();
-            });
+            //app.Use(async (context, next) =>
+            //{
+            //    if (context.Request.Headers.TryGetValue("X-Forwarded-Prefix", out var prefix) && prefix.Count() > 0)
+            //    {
+            //        context.Request.PathBase = prefix.First();
+            //    }
+            //    await next.Invoke();
+            //});
 
             //app.UseCookiePolicy();           
 

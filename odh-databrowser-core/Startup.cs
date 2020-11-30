@@ -42,10 +42,10 @@ namespace odh_databrowser_core
                 options.KnownProxies.Clear();
             });
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = SameSiteMode.Lax;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            //});
 
             services.AddAuthentication(options =>
             {
@@ -95,17 +95,26 @@ namespace odh_databrowser_core
                 app.UseHsts();
             }
 
-            app.UseForwardedHeaders();
+            //app.UseForwardedHeaders();
 
-            app.UseCookiePolicy();           
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Headers.TryGetValue("X-Forwarded-Prefix", out var prefix) && prefix.Count() > 0)
+                {
+                    context.Request.PathBase = prefix.First();
+                }
+                await next.Invoke();
+            });
+
+            //app.UseCookiePolicy();           
 
             //app.UseHttpsRedirection();
+
             app.UseStaticFiles();
-
-            app.UseRouting();
-
-            //app.UseCookiePolicy();
+                   
             app.UseAuthentication();
+            
+            app.UseRouting();
 
             app.UseAuthorization();
 
@@ -114,10 +123,7 @@ namespace odh_databrowser_core
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
-           
-
-            //app.UseMvc();
+            });          
         }
 
         //private OpenIdConnectOptions CreateOpenIdConnectOptions()

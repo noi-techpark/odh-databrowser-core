@@ -42,10 +42,10 @@ namespace odh_databrowser_core
                 options.KnownProxies.Clear();
             });
 
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    options.MinimumSameSitePolicy = SameSiteMode.Lax;
-            //});
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            });
 
             services.AddAuthentication(options =>
             {
@@ -106,7 +106,7 @@ namespace odh_databrowser_core
             //    await next.Invoke();
             //});
 
-            //app.UseCookiePolicy();           
+            app.UseCookiePolicy();           
 
             //app.UseHttpsRedirection();
 

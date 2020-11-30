@@ -44,7 +44,7 @@ namespace odh_databrowser_core
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddAuthentication(options =>

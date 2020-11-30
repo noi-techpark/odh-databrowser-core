@@ -45,6 +45,7 @@ namespace odh_databrowser_core
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None;
             });
 
             services.AddAuthentication(options =>
@@ -60,7 +61,7 @@ namespace odh_databrowser_core
                 options.Authority = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/";
                 options.ClientId = "odh-frontend-core";
                 options.ClientSecret = "";
-                options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
                 options.RemoteSignOutPath = "/SignOut";

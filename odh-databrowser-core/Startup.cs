@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using odh_databrowser_core.Filters;
 
 namespace odh_databrowser_core
 {
@@ -79,7 +80,13 @@ namespace odh_databrowser_core
                 };
             });
 
-            services.AddControllersWithViews();
+            //not working
+            //services.AddScoped<MyPropertyActionFilter>();
+
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(typeof(MyPropertyActionFilter));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

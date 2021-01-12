@@ -10,7 +10,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
 
         var token = getAccessToken();
 
-        console.log("The token is " + token);
+        //console.log("The token is " + token);
 
         if (token) {
 
@@ -20,7 +20,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
         }
         else {
 
-            console.log("Authorized user" + userAuthorized);
+            //console.log("Authorized user" + userAuthorized);
 
             if (userAuthorized) {
                 var fragment = getFragment();
@@ -73,7 +73,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
 function setAccessToken(accessToken) {
     localStorage.setItem("accessToken", accessToken);
 
-    console.log("token set: " + accessToken);
+    //console.log("token set: " + accessToken);
 };
 
 function getAccessToken() {

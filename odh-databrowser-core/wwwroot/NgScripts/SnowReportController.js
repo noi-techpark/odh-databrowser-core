@@ -29,7 +29,7 @@ app.controller('SnowreportListController', [
         $scope.getCommons = function () {
             $scope.isloading = true;
 
-            $http.get($scope.basePath + '/api/Skiarea').success(function (result) {
+            $http.get($scope.basePath + '/v1/Skiarea').success(function (result) {
 
                 $scope.commons = result;
                 $scope.isloading = false;
@@ -49,28 +49,28 @@ app.controller('SnowreportListController', [
 
 
             //Pisten laden, Lifte Laden, Skitracks laden, Slides Laden, Measuringpoints laden
-            $http.get($scope.basePath + '/api/Activity?pagenumber=1&pagesize=500&activitytype=512&areafilter=ska' + common.Id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Activity?pagenumber=1&pagesize=500&activitytype=512&areafilter=ska' + common.Id).success(function (result) {
 
                 $scope.lifts = result.Items;
                 $scope.loadedlift = true;
             });
 
             //Pisten laden, Lifte Laden, Skitracks laden, Slides Laden, Measuringpoints laden
-            $http.get($scope.basePath + '/api/Activity?pagenumber=1&pagesize=500&activitytype=256&areafilter=ska' + common.Id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Activity?pagenumber=1&pagesize=500&activitytype=256&areafilter=ska' + common.Id).success(function (result) {
 
                 $scope.slopes = result.Items;
                 $scope.loadedslope = true;
             });
 
             //Pisten laden, Lifte Laden, Skitracks laden, Slides Laden, Measuringpoints laden
-            $http.get($scope.basePath + '/api/Activity?pagenumber=1&pagesize=500&activitytype=128&areafilter=ska' + common.Id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Activity?pagenumber=1&pagesize=500&activitytype=128&areafilter=ska' + common.Id).success(function (result) {
 
                 $scope.sledges = result.Items;
                 $scope.loadedslide = true;
             });
 
             //Pisten laden, Lifte Laden, Skitracks laden, Slides Laden, Measuringpoints laden
-            $http.get($scope.basePath + '/api/Activity?pagenumber=1&pagesize=500&activitytype=64&areafilter=ska' + common.Id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Activity?pagenumber=1&pagesize=500&activitytype=64&areafilter=ska' + common.Id).success(function (result) {
 
                 $scope.skitracks = result.Items;
                 $scope.loadedskitrack = true;
@@ -79,7 +79,7 @@ app.controller('SnowreportListController', [
 
             //Measuringpoints laden
 
-            $http.get($scope.basePath + '/api/Weather/Measuringpoint?skiareafilter=' + common.Id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Weather/Measuringpoint?skiareafilter=' + common.Id).success(function (result) {
 
                 $scope.measuringpoints = result;
                 $scope.loadedmeasuringpoints = true;

@@ -408,7 +408,7 @@ app.controller('accommodationListController', [
 
             $scope.setFilters();
             
-            $http.get($scope.basePath + '/api/Accommodation?pagenumber=' + $scope.page + '&pagesize=20&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&pagesize=20&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
                 $scope.accommodations = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -476,9 +476,9 @@ app.controller('accommodationListController', [
             var bokfilter = $scope.bookfilter;
             
 
-            //console.log($scope.basePath + '/api/Accommodation/Available/' + $scope.page + '/20/' + $scope.lang + '/' + $scope.categoryfilter + '/' + $scope.typefilter + '/' + $scope.boardfilter + '/' + $scope.featurefilter + '/' + $scope.themefilter + '/' + $scope.badgefilter + '/' + $scope.accoidfilter + '/' + $scope.locfilter + '/' + $scope.smgtagfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + bokfilter + '/' + $scope.seed);
+            //console.log($scope.basePath + '/v1/Accommodation/Available/' + $scope.page + '/20/' + $scope.lang + '/' + $scope.categoryfilter + '/' + $scope.typefilter + '/' + $scope.boardfilter + '/' + $scope.featurefilter + '/' + $scope.themefilter + '/' + $scope.badgefilter + '/' + $scope.accoidfilter + '/' + $scope.locfilter + '/' + $scope.smgtagfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + bokfilter + '/' + $scope.seed);
 
-            $http.get($scope.basePath + '/api/Accommodation?pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&seed=' + $scope.seed + '&availabilitycheck=true').success(function (result) {
+            $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&seed=' + $scope.seed + '&availabilitycheck=true').success(function (result) {
                 $scope.accommodations = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -489,7 +489,7 @@ app.controller('accommodationListController', [
 
                 if ($scope.checkonlts == true) {
 
-                    $http.get($scope.basePath + '/api/Accommodation?pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&seed=' + $scope.seed + '&availabilitycheck=true').success(function (resultlcs) {
+                    $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&seed=' + $scope.seed + '&availabilitycheck=true').success(function (resultlcs) {
 
 
 
@@ -543,7 +543,7 @@ app.controller('accommodationListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/api/Accommodation/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Accommodation/' + id).success(function (result) {
                     alert("Accommodation deleted!");
 
                     $.each($scope.accommodations, function (i) {
@@ -561,7 +561,7 @@ app.controller('accommodationListController', [
         $scope.updateacco = function (id) {
 
             $scope.isAccoDetailloading = true;
-            $http.get($scope.basePath + '/api/Update/Accommodation/' + id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Update/Accommodation/' + id).success(function (result) {
 
                 console.log(result.replace(/^"(.*)"$/, '$1'));
                 $scope.isAccoDetailloading = false;
@@ -615,19 +615,19 @@ app.controller('accommodationListController', [
             //var bokfilter = 'hgv,htl,exp,bok,pos';
             var bokfilter = $scope.bookfilter;
 
-            //$http.get($scope.basePath + '/api/Accommodation/AvailableSingle/' + $scope.lang + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + accommodation.Id + '/' + bokfilter).success(function (result) {
+            //$http.get($scope.basePath + '/v1/Accommodation/AvailableSingle/' + $scope.lang + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + accommodation.Id + '/' + bokfilter).success(function (result) {
             //    $scope.accommodation = result;
             //    $scope.isDetailloading = false;
             //});
 
             if (channel == "lts") {
-                $http.get($scope.basePath + '/api/Accommodation/' + accommodation.Id + '?availabilitychecklanguage=' + $scope.lang + '&boardfilter=' + $scope.boardfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&availabilitycheck=true').success(function (result) {
+                $http.get($scope.basePath + '/v1/Accommodation/' + accommodation.Id + '?availabilitychecklanguage=' + $scope.lang + '&boardfilter=' + $scope.boardfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&availabilitycheck=true').success(function (result) {
                     $scope.accommodation = result;
                     $scope.isDetailloading = false;
                 });
             }
             else {
-                $http.get($scope.basePath + '/api/Accommodation/' + accommodation.Id + '?availabilitychecklanguage=' + $scope.lang + '&boardfilter=' + $scope.boardfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&availabilitycheck=true').success(function (result) {
+                $http.get($scope.basePath + '/v1/Accommodation/' + accommodation.Id + '?availabilitychecklanguage=' + $scope.lang + '&boardfilter=' + $scope.boardfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&availabilitycheck=true').success(function (result) {
                     $scope.accommodation = result;
                     $scope.isDetailloading = false;
                 });
@@ -857,7 +857,7 @@ var AccommodationModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Accommodation', accommodation).success(function (result) {
+            $http.post($scope.basePath + '/v1/Accommodation', accommodation).success(function (result) {
                 alert("Accommodation added!");
                 $scope.accommodations.push(accommodation);
 
@@ -872,7 +872,7 @@ var AccommodationModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updateaccommodation = function (accommodation, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/Accommodation/' + accommodation.Id, accommodation).success(function (result) {
+            $http.put($scope.basePath + '/v1/Accommodation/' + accommodation.Id, accommodation).success(function (result) {
                 alert("Accommodation updated!");
                 $modalInstance.close();
             });
@@ -980,7 +980,7 @@ app.controller('RoomDetailController', function ($scope, $http) {
 
     $scope.isAccoDetailloading = true;
 
-    $http.get($scope.basePath + '/api/AccommodationRoom?accoid=' + $scope.accommodation.Id).success(function (result) {
+    $http.get($scope.basePath + '/v1/AccommodationRoom?accoid=' + $scope.accommodation.Id).success(function (result) {
         $scope.accommodationrooms = result;
         $scope.isAccoDetailloading = false;
 
@@ -1016,14 +1016,14 @@ var hoteltypeaheadcontroller = app.controller('HotelnameTypeAheadController', fu
     $scope.getHotelFilteredList = function (filtered) {        
 
         if (!filtered) {
-            $http.get($scope.basePath + '/api/AccommodationReduced?language=' + $scope.lang).success(function (data) {
+            $http.get($scope.basePath + '/v1/AccommodationReduced?language=' + $scope.lang).success(function (data) {
                 $scope.hotelitems = data;
             });
         }
         else {
             $scope.setFilters();
 
-            $http.get($scope.basePath + '/api/AccommodationReduced?language=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter).success(function (data) {
+            $http.get($scope.basePath + '/v1/AccommodationReduced?language=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter).success(function (data) {
              $scope.hotelitems = data;
             });             
         }        
@@ -1254,7 +1254,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Accommodation'
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Accommodation'
      }).success(function (data) {
             $scope.items = data;
         });
@@ -1275,7 +1275,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Accommodation'
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Accommodation'
         }).success(function (data) {
             $scope.items = data;
         });

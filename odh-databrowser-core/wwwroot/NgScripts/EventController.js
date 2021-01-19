@@ -99,7 +99,7 @@ app.controller('eventListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/api/Event/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Event/' + id).success(function (result) {
                     alert("Event deleted!");
 
                     //$.each($scope.events, function (i) {
@@ -119,7 +119,7 @@ app.controller('eventListController', [
         $scope.updateevent = function (id) {
 
             $scope.isloading = true;
-            $http.get($scope.basePath + '/api/Update/Event/' + id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Update/Event/' + id).success(function (result) {
 
                 console.log(result);
                 $scope.isloading = false;
@@ -190,7 +190,7 @@ app.controller('eventListController', [
                           
             setFilters();            
 
-            $http.get($scope.basePath + '/api/Event?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.eventidfilter + '&locfilter=' + $scope.locationfilter + '&rancfilter=' + $scope.rancfilter + '&typefilter=' + $scope.typefilter + '&topicfilter=' + $scope.topicfilter + '&orgfilter=' + $scope.orgridfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&begindate=' + $scope.datumvonfilter + '&enddate=' + $scope.datumbisfilter + '&source=' + $scope.source + '&sort=' + $scope.sortdescfilter + '&langfilter=' + $scope.lang).success(function (result) {
+            $http.get($scope.basePath + '/v1/Event?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.eventidfilter + '&locfilter=' + $scope.locationfilter + '&rancfilter=' + $scope.rancfilter + '&typefilter=' + $scope.typefilter + '&topicfilter=' + $scope.topicfilter + '&orgfilter=' + $scope.orgridfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&begindate=' + $scope.datumvonfilter + '&enddate=' + $scope.datumbisfilter + '&source=' + $scope.source + '&sort=' + $scope.sortdescfilter + '&langfilter=' + $scope.lang).success(function (result) {
                 $scope.events = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -492,7 +492,7 @@ var EventModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Event', event).success(function (result) {
+            $http.post($scope.basePath + '/v1/Event', event).success(function (result) {
                 alert("Event added!");
                 $scope.events.push(event);
 
@@ -507,7 +507,7 @@ var EventModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updateevent = function (event, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/Event/' + event.Id, event).success(function (result) {
+            $http.put($scope.basePath + '/v1/Event/' + event.Id, event).success(function (result) {
                 alert("Event updated!");
                 $modalInstance.close();
             });
@@ -652,7 +652,7 @@ var eventtypeaheadcontroller = app.controller('EventTypeAheadController', functi
 
             $http({
                 method: 'Get',
-                url: $scope.basePath + '/api/EventReduced?language=' + lang + '&locfilter=' + locationfilter + '&rancfilter=' + rancfilter + '&typefilter=' + typefilter + '&topicfilter=' + topicfilter + '&orgfilter=' + orgridfilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + '&begindate=' + datumvon + '&enddate=' + datumbis + '&source=' + source
+                url: $scope.basePath + '/v1/EventReduced?language=' + lang + '&locfilter=' + locationfilter + '&rancfilter=' + rancfilter + '&typefilter=' + typefilter + '&topicfilter=' + topicfilter + '&orgfilter=' + orgridfilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + '&begindate=' + datumvon + '&enddate=' + datumbis + '&source=' + source
             }).success(function (data) {
                 $scope.items = data;
             });
@@ -732,7 +732,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Event'
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Event'
         }).success(function (data) {
             $scope.items = data;
         });
@@ -753,7 +753,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Event'
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Event'
         }).success(function (data) {
             $scope.items = data;
         });

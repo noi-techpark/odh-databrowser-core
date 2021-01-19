@@ -45,7 +45,7 @@ app.controller('appsuggestionListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/api/AppSuggestion/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/AppSuggestion/' + id).success(function (result) {
                     alert("appsuggestion deleted!");
 
                     $.each($scope.appsuggestions, function (i) {
@@ -65,7 +65,7 @@ app.controller('appsuggestionListController', [
 
             $scope.isloading = true;
 
-            $http.get($scope.basePath + '/api/AppSuggestion').success(function (result) {
+            $http.get($scope.basePath + '/v1/AppSuggestion').success(function (result) {
                
                 $scope.appsuggestions = result;
                 $scope.isloading = false;
@@ -105,7 +105,7 @@ var AppSuggestionModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/AppSuggestion', appsuggestion).success(function (result) {
+            $http.post($scope.basePath + '/v1/AppSuggestion', appsuggestion).success(function (result) {
                 alert("appsuggestion added!");
                 $scope.appsuggestions.push(appsuggestion);
 
@@ -120,7 +120,7 @@ var AppSuggestionModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updateappsuggestion = function (appsuggestion, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/AppSuggestion/' + appsuggestion.Id, appsuggestion).success(function (result) {
+            $http.put($scope.basePath + '/v1/AppSuggestion/' + appsuggestion.Id, appsuggestion).success(function (result) {
                 alert("appsuggestion updated!");
                 $modalInstance.close();
             });
@@ -231,7 +231,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/SmgTag/Reduced/' + lang + '/SmgPoi,Sommer,Winter,Kultur Sehenswürdigkeiten,Anderes,Wellness Entspannung,Essen Trinken'
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/SmgPoi,Sommer,Winter,Kultur Sehenswürdigkeiten,Anderes,Wellness Entspannung,Essen Trinken'
         }).success(function (data) {
 
 
@@ -241,7 +241,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/SmgTag/Reduced/' + lang + '/Event'
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/Event'
         }).success(function (data) {
 
             data.unshift({ Id: 'Event', Name: 'Event' });
@@ -267,7 +267,7 @@ var accomodaltypeaheadcontroller = app.controller('AccoModalTypeAheadController'
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/Accommodation/GetAccommodationTypeList'
+            url: $scope.basePath + '/v1/Accommodation/GetAccommodationTypeList'
         }).success(function (data) {
 
             $scope.accotypeitems = [];

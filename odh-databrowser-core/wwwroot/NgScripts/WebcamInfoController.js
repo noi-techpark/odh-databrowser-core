@@ -50,7 +50,7 @@ app.controller('webcamListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/api/WebcamInfo/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/WebcamInfo/' + id).success(function (result) {
                     alert("Webcam deleted!");
 
                     $scope.applyFilter($scope.page);
@@ -61,7 +61,7 @@ app.controller('webcamListController', [
         $scope.updatewebcam = function (id) {
 
             $scope.isloading = true;
-            $http.get($scope.basePath + '/api/WebcamInfo/' + id).success(function (result) {
+            $http.get($scope.basePath + '/v1/WebcamInfo/' + id).success(function (result) {
 
                 //noamol filter ausfiahrn
                 $scope.applyFilter($scope.page);
@@ -95,7 +95,7 @@ app.controller('webcamListController', [
             if ($scope.SelectedWebcamId != '')
                 $scope.webcamidfilter = $scope.SelectedWebcamId;
       
-            $http.get($scope.basePath + '/api/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&seed=' + $scope.Seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&seed=' + $scope.Seed).success(function (result) {
                 $scope.webcams = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -181,7 +181,7 @@ app.controller('webcamListController', [
         $scope.showInfoModal = function (webcam) {            
 
             //Test nochmaliger Request auf Detail
-            $http.get($scope.basePath + '/api/WebcamInfo/' + webcam.Id).success(function (result) {
+            $http.get($scope.basePath + '/v1/WebcamInfo/' + webcam.Id).success(function (result) {
                 $scope.webcam = result;
                 $scope.isloading = false;
 
@@ -220,7 +220,7 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/WebcamInfo', webcam).success(function (result) {
+            $http.post($scope.basePath + '/v1/WebcamInfo', webcam).success(function (result) {
                 alert("Webcam added!");
                 $scope.webcams.push(webcam);
 
@@ -235,7 +235,7 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatewebcam = function (webcam, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/WebcamInfo/' + webcam.Id, webcam).success(function (result) {
+            $http.put($scope.basePath + '/v1/WebcamInfo/' + webcam.Id, webcam).success(function (result) {
                 alert("Webcam updated!");
                 $modalInstance.close();
             });
@@ -267,7 +267,7 @@ var webcamtypeaheadcontroller = app.controller('WebcamTypeAheadController', func
         
             $http({
                 method: 'Get',
-                url: $scope.basePath + '/api/WebcamInfoReduced?language=' + lang + '&active=' + active + '&odhactive=' + smgactive + '&source=' + source
+                url: $scope.basePath + '/v1/WebcamInfoReduced?language=' + lang + '&active=' + active + '&odhactive=' + smgactive + '&source=' + source
                 //url: '/json/' + $scope.activitytype + 'Info.json'
             }).success(function (data) {
                 $scope.items = data;

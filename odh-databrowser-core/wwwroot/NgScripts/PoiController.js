@@ -79,7 +79,7 @@ app.controller('poiListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/api/Poi/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Poi/' + id).success(function (result) {
                     alert("Poi deleted!");
 
                     $scope.applyFilter($scope.page);
@@ -99,7 +99,7 @@ app.controller('poiListController', [
         $scope.updatepoi = function (id) {
 
             $scope.isloading = true;
-            $http.get($scope.basePath + '/api/Update/Poi/' + $scope.poitype + '/' + id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Update/Poi/' + $scope.poitype + '/' + id).success(function (result) {
 
                 console.log(result);
                 $scope.isloading = false;
@@ -158,7 +158,7 @@ app.controller('poiListController', [
                         {
                             //alert('gpsinfo do');
 
-                            $http.get($scope.basePath + '/api/Common/GetNearestDistrict/' + poi.GpsInfo[i].Latitude + '/' + poi.GpsInfo[i].Longitude + '/10000').success(function (result) {
+                            $http.get($scope.basePath + '/v1/Common/GetNearestDistrict/' + poi.GpsInfo[i].Latitude + '/' + poi.GpsInfo[i].Longitude + '/10000').success(function (result) {
 
                                 if(result != null)
                                 {
@@ -228,7 +228,7 @@ app.controller('poiListController', [
 
             //alert('/api/Poi/Filtered/' + $scope.poitype + '/' + $scope.page + '/20/' + mypoinamefilter + '/' + $scope.subtypefilter + '/' + mypoilocationfilter);
 
-            $http.get($scope.basePath + '/api/Poi?pagenumber=' + $scope.page + '&pagesize=20&poitype=' + $scope.poitype + '&subtype=' + $scope.subtypefilter + '&idlist=' + $scope.poiidfilter + '&locfilter=' + $scope.locationfilter + '&highlight=' + $scope.highlightfilter + '&active=' + $scope.active + '&smgactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Poi?pagenumber=' + $scope.page + '&pagesize=20&poitype=' + $scope.poitype + '&subtype=' + $scope.subtypefilter + '&idlist=' + $scope.poiidfilter + '&locfilter=' + $scope.locationfilter + '&highlight=' + $scope.highlightfilter + '&active=' + $scope.active + '&smgactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
                 $scope.pois = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -610,7 +610,7 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Poi', poi).success(function (result) {
+            $http.post($scope.basePath + '/v1/Poi', poi).success(function (result) {
                 alert("Poi added!");
                 $scope.pois.push(poi);
 
@@ -625,7 +625,7 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatepoi = function (poi, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/Poi/' + poi.Id, poi).success(function (result) {
+            $http.put($scope.basePath + '/v1/Poi/' + poi.Id, poi).success(function (result) {
                 alert("Poi updated!");
                 $modalInstance.close();
             });
@@ -708,7 +708,7 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     //    for (var i = 0; i < $files.length; i++) {
     //        var $file = $files[i];
     //        $upload.upload({
-    //            url: $scope.basePath + '/api/FileUpload/' + $scope.poi.SubType,
+    //            url: $scope.basePath + '/v1/FileUpload/' + $scope.poi.SubType,
     //            file: $file,
     //            progress: function (e) { }
     //        }).then(function (data, status, headers, config) {
@@ -738,7 +738,7 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         var re = new RegExp(find, 'g');
         var escapeduri = mybildurl.replace(re, '|');
 
-        var deletepath = encodeURI($scope.basePath + '/api/FileDelete/' + escapeduri);
+        var deletepath = encodeURI($scope.basePath + '/v1/FileDelete/' + escapeduri);
         alert("Delete Image" + deletepath);
 
         $http.delete(deletepath).success(function (result) {
@@ -804,7 +804,7 @@ var SuedtirolTypeSelectorModalInstanceCtrl = function ($scope, $modalInstance, $
 
 
         //Kopier olls in SMGPois onni
-        $http.get($scope.basePath + '/api/SmgPoi/ActivityToSmgPoi/' + $scope.typeselector.ActivityID + '/' + mytype + '/' + mysubtype + '/' + mypoitype + '/' + selecteddistrict + '/LTS/PoiData/Partial').success(function (result) {
+        $http.get($scope.basePath + '/v1/SmgPoi/ActivityToSmgPoi/' + $scope.typeselector.ActivityID + '/' + mytype + '/' + mysubtype + '/' + mypoitype + '/' + selecteddistrict + '/LTS/PoiData/Partial').success(function (result) {
 
             console.log(result);
             alert(result.Message);
@@ -825,7 +825,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
     $http({
         method: 'Get',
         //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-        url: $scope.basePath + '/api/SuedtirolType/Filtered/null/0/SmgPoi'
+        url: $scope.basePath + '/v1/SuedtirolType/Filtered/null/0/SmgPoi'
     }).success(function (data) {
         $scope.maintypeslist = data;
     });
@@ -833,7 +833,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
     $http({
         method: 'Get',
         //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-        url: $scope.basePath + '/api/SuedtirolType/Filtered/' + $scope.typeselector.Type + '/1/SmgPoi'
+        url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.typeselector.Type + '/1/SmgPoi'
     }).success(function (data) {
         $scope.subtypeslist = data;
     });
@@ -841,7 +841,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
     $http({
         method: 'Get',
         //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-        url: $scope.basePath + '/api/SuedtirolType/Filtered/' + $scope.typeselector.SubType + '/2/SmgPoi'
+        url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.typeselector.SubType + '/2/SmgPoi'
     }).success(function (data) {
         $scope.poitypeslist = data;
     });
@@ -849,7 +849,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
     $http({
         method: 'Get',
         url: $scope.basePath + '/json/LocInfoFrawithMun' + $scope.lang + '.json'
-        //url: $scope.basePath + '/api/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
+        //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
     }).success(function (data) {
         $scope.districtslist = data;
     });
@@ -862,7 +862,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
         $http({
             method: 'Get',
             //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/api/SuedtirolType/Filtered/' + $scope.typeselector.Type + '/1/SmgPoi'
+            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.typeselector.Type + '/1/SmgPoi'
         }).success(function (data) {
             $scope.subtypeslist = data;
         });
@@ -877,7 +877,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
         $http({
             method: 'Get',
             //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/api/SuedtirolType/Filtered/' + $scope.typeselector.SubType + '/2/SmgPoi'
+            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.typeselector.SubType + '/2/SmgPoi'
         }).success(function (data) {
             $scope.poitypeslist = data;
         });
@@ -939,7 +939,7 @@ var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', functi
 
          $http({
              method: 'Get',
-             url: $scope.basePath + '/api/PoiReduced?language=' + lang + '&poitype=' + poitype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+             url: $scope.basePath + '/v1/PoiReduced?language=' + lang + '&poitype=' + poitype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
         }).success(function (data) {
             $scope.items = data;
         });
@@ -966,7 +966,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + $scope.poi.Type
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + $scope.poi.Type
         }).success(function (data) {
             $scope.items = data;
         });
@@ -992,7 +992,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter + $scope.poitype
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter + $scope.poitype
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1170,7 +1170,7 @@ function getQueryVariable(url, variable) {
 ////Fileupload Test
 //app.controller('FileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
 //    var uploader = $scope.uploader = new FileUploader({
-//        url: $scope.basePath + '/api/FileUpload/pois/' + $scope.poi.SubType
+//        url: $scope.basePath + '/v1/FileUpload/pois/' + $scope.poi.SubType
 //    });
 
 

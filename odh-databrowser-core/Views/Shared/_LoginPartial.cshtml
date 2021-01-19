@@ -8,7 +8,12 @@
             <li>
                 @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: new { area = "" }, htmlAttributes: new { title = "Manage" })
             </li>
-            <li><a href="javascript:localStorage.removeItem('accessToken');$('#logoutForm').submit();">Log off</a></li>
+            <li>
+                @*<a href="javascript:localStorage.removeItem('accessToken');$('#logoutForm').submit();">Log off</a>*@
+                @*@Html.ActionLink("Log off", "SignOut", "Account")*@
+                @*<a href="/SignOut">Log off</a>*@
+                @Html.ActionLink("Log off", "Logout", "Account")
+            </li>
         </ul>
     </form>
 }

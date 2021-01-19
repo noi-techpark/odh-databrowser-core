@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using odh_databrowser_core.Filters;
+using System.Linq;
+using System.Security.Claims;
 
 namespace SuedtirolManagerPG.Controllers
-{
+{    
+    //[MyPropertyActionFilter]
     public class HomeController : Controller
     {
         private readonly NpgsqlConnection _connection;
@@ -13,21 +19,30 @@ namespace SuedtirolManagerPG.Controllers
             _connection = default;
         }
 
-        //[HasPermission("IndexViewer")]
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
 
             //Display Rights:
 
-            //var user = User.Identity.Name;
-            //var user2 = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;
+             //var cookies = this.ControllerContext.HttpContext.Request.Cookies;
 
-            //var cookies = this.ControllerContext.HttpContext.Request.Cookies;
+            //var auth = User.Identity.IsAuthenticated;
 
+            //if (auth)
+            //{
+            //    string accToken = HttpContext.GetTokenAsync("access_token").Result;
+            //    string idToken = HttpContext.GetTokenAsync("id_token").Result;
+
+            //    var user = User.Identity.Name;
+            //    var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            //}
 
             return View();
         }
+
+        //[Authorize]
+       
 
         public ActionResult LicenseStatus()
         {

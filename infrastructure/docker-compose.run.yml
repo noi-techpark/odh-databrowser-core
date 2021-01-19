@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  odh-databrowser-core:
+    image: ${DOCKER_IMAGE}:${DOCKER_TAG}
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: http://+:80
+      ASPNETCORE_OauthServerConfig__Authority: ${OAUTH_AUTORITY}
+      ASPNETCORE_OauthServerConfig__ClientId: ${OAUTH_CLIENTID}   
+    restart: unless-stopped
+    ports:
+      - "${SERVER_PORT}:80"

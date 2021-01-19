@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-sm-12 text-center">
-            <h2>Open Data Hub <small>Tourism Data Browser</small></h2>
+            <h2>Open Data Hub <small>Tourism Data Browser .Net Core</small></h2>
             <h4>Explore South Tyrolean's Open Data</h4>
             <br />
             <h5>Use the databrowser to discover the data or use directly the swagger interface</h5>
@@ -26,7 +26,7 @@
             <div class="text-center">
                 <a href="../swagger" target="_blank"><button type="button" class="btn btn-homesubicons btn-circle btn-xl"><i class="glyphicon glyphicon-calendar glyphicon-paperclip glyphicon-homesub"></i></button></a>
             </div>
-            <h4 class="text-center homesubs"><a class="" href="../swagger" target="_blank">Open Data Hub Api - Swagger</a></h4>
+            <h4 class="text-center homesubs"><a class="" href="https://api.tourism.testingmachine.eu" target="_blank">Open Data Hub Api - Swagger</a></h4>
             <h5 class="text-center">Swagger UI 3 with detailed Api Description.</h5>
         </div>
 
@@ -34,8 +34,8 @@
             <div class="text-center">
                 <a href="../api" target="_blank"><button type="button" class="btn btn-homesubicons btn-circle btn-xl"><i class="glyphicon glyphicon-calendar glyphicon-link glyphicon-homesub"></i></button></a>
             </div>
-            <h4 class="text-center homesubs"><a class="" href="../api" target="_blank">Open Data Hub Api</a></h4>
-            <h5 class="text-center">Open Data Hub Api with links to all endpoints (Quick start).</h5>
+            <h4 class="text-center homesubs"><a class="" href="https://api.tourism.testingmachine.eu/api" target="_blank">Open Data Hub Api</a></h4>
+            <h5 class="text-center">Open Data Hub Api with links to all endpoints (Quick start) .</h5>
         </div>
 
         <div class="col-sm-4">
@@ -75,7 +75,7 @@
             <br />
 
             <h4>
-                User: <b>@Context.User.Identity.Name.ToString()</b> &nbsp;&nbsp;Role:
+                User: <b>@Context.User.Identity.Name</b> &nbsp;&nbsp;Role:
 
                 @if (@ViewBag.isTV == true)
                 {<b>TourismusVerein</b> }

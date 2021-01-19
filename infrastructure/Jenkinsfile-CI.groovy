@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = "app"
         DOCKER_TAG = "latest"
-        SERVER_PORT = "1022" 
     }
 
     stages {
@@ -14,7 +13,6 @@ pipeline {
                 sh "cp .env.example .env"
                 sh "echo 'DOCKER_IMAGE=${DOCKER_IMAGE}' >> .env"
                 sh "echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env"
-                sh "echo 'SERVER_PORT=${SERVER_PORT}' >> .env"
             }
         }
         stage('Test') {

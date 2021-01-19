@@ -59,8 +59,8 @@ namespace odh_databrowser_core
             .AddCookie()
             .AddOpenIdConnect(options =>
             {                
-                options.Authority = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/";
-                options.ClientId = "odh-frontend-core";
+                options.Authority = Configuration.GetSection("OauthServerConfig").GetValue<string>("Authority");
+                options.ClientId = Configuration.GetSection("OauthServerConfig").GetValue<string>("ClientId");
                 options.ClientSecret = "";
                 options.RequireHttpsMetadata = true;
                 options.GetClaimsFromUserInfoEndpoint = true;

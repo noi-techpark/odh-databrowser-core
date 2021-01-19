@@ -63,7 +63,7 @@ app.controller('commonListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/api/Common/' + commontype + '/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Common/' + commontype + '/' + id).success(function (result) {
                     alert(commontype + " deleted!");
 
                     $.each($scope.commons, function (i) {
@@ -82,8 +82,8 @@ app.controller('commonListController', [
         $scope.getCommons = function () {
             $scope.isloading = true;
 
-            //$http.get($scope.basePath + '/api/Common/' + $scope.commontype + 'List/' + $scope.elementstotake).success(function (result) {
-            $http.get($scope.basePath + '/api/' + $scope.commontype).success(function (result) {
+            //$http.get($scope.basePath + '/v1/Common/' + $scope.commontype + 'List/' + $scope.elementstotake).success(function (result) {
+            $http.get($scope.basePath + '/v1/' + $scope.commontype).success(function (result) {
 
                 $scope.commons = result;
 
@@ -145,7 +145,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         if (isvalid) {
            
 
-            $http.post($scope.basePath + '/api/Common/' + $scope.commontype, common).success(function (result) {
+            $http.post($scope.basePath + '/v1/Common/' + $scope.commontype, common).success(function (result) {
                 alert($scope.commontype + " added!");
                 $scope.activities.push(activity);
 
@@ -163,7 +163,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
             console.log(common.OperationSchedule);
 
-            $http.put($scope.basePath + '/api/Common/' + $scope.commontype + '/' + common.Id, common).success(function (result) {
+            $http.put($scope.basePath + '/v1/Common/' + $scope.commontype + '/' + common.Id, common).success(function (result) {
                 alert($scope.commontype + " updated!");
                 $modalInstance.close();
             });
@@ -187,7 +187,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         var re = new RegExp(find, 'g');
         var escapeduri = mybildurl.replace(re, '|');
 
-        //var deletepath = encodeURI($scope.basePath + '/api/FileDelete/' + escapeduri);
+        //var deletepath = encodeURI($scope.basePath + '/v1/FileDelete/' + escapeduri);
         //alert("Delete Image" + deletepath);
 
         //$http.delete(deletepath).success(function (result) {
@@ -653,7 +653,7 @@ var InfoModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 //Fileupload Test
 app.controller('FileUploadController', ['$scope', 'FileUploader', function($scope, FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/api/FileUpload/common/' + $scope.commontype
+        url: $scope.basePath + '/v1/FileUpload/common/' + $scope.commontype
     });
     
 
@@ -729,7 +729,7 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function($scop
 //Fileupload Logo
 app.controller('LogoFileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/api/FileUpload/common/Logo'
+        url: $scope.basePath + '/v1/FileUpload/common/Logo'
     });
 
 
@@ -806,7 +806,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
     }
 
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/api/FileUpload/common/' + $scope.commontype
+        url: $scope.basePath + '/v1/FileUpload/common/' + $scope.commontype
     });
 
     // FILTERS
@@ -889,7 +889,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
 //Skimap Logo Upload
 app.controller('SkiMapFileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/api/FileUpload/SkiMap'
+        url: $scope.basePath + '/v1/FileUpload/SkiMap'
     });
 
 
@@ -1027,7 +1027,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/SmgTag/Reduced/' + lang + '/Common' //+ $scope.commontype
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/Common' //+ $scope.commontype
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1048,7 +1048,7 @@ var regionnamecontroller = app.controller('RegionNameController', function ($sco
         $http({
             method: 'Get',
             url: $scope.basePath + '/json/LocInfoReg' + $scope.lang + '.json'
-            //url: $scope.basePath + '/api/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
+            //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
         }).success(function (data) {
 
             $.each(data, function (i) {
@@ -1070,7 +1070,7 @@ var tourismvereinnamecontroller = app.controller('TourismVereinNameController', 
         $http({
             method: 'Get',
             url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            //url: $scope.basePath + '/api/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
+            //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
         }).success(function (data) {
             
             $.each(data, function (i) {
@@ -1092,7 +1092,7 @@ var districtnamecontroller = app.controller('DistrictNameController', function (
         $http({
             method: 'Get',
             url: $scope.basePath + '/json/LocInfoFra' + $scope.lang + '.json'
-            //url: $scope.basePath + '/api/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
+            //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
         }).success(function (data) {
 
             $.each(data, function (i) {
@@ -1260,7 +1260,7 @@ var relatedcontentsmgpoitypeaheadcontroller = app.controller('SmgRelatedContentA
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/SmgPoi/ReducedRelatedContentAsync/de/Sommer,Winter,Anderes,Wellness Entspannung,Kultur Sehenswürdigkeiten/null/null/' + $scope.relatedcontentlocfilter + '/null/null/true/null/null'
+            url: $scope.basePath + '/v1/SmgPoi/ReducedRelatedContentAsync/de/Sommer,Winter,Anderes,Wellness Entspannung,Kultur Sehenswürdigkeiten/null/null/' + $scope.relatedcontentlocfilter + '/null/null/true/null/null'
         }).success(function (data) {
             //alert('data gekriag' + data.length);
 
@@ -1279,7 +1279,7 @@ var relatedcontentsmgpoitypeaheadcontroller = app.controller('SmgRelatedContentA
 
 //    $http({
 //        method: 'Get',
-//        url: $scope.basePath + '/api/SmgPoi/ReducedEssenTrinkenRelatedContentAsync/de/Essen Trinken/null/null/null/null/null/true/null/null'
+//        url: $scope.basePath + '/v1/SmgPoi/ReducedEssenTrinkenRelatedContentAsync/de/Essen Trinken/null/null/null/null/null/true/null/null'
 //    }).success(function (data) {
 //        //alert('data gekriag' + data.length);
 
@@ -1297,7 +1297,7 @@ var relatedcontentsmgpoitypeaheadcontroller = app.controller('SmgRelatedContentA
 
 //    $http({
 //        method: 'Get',
-//        url: $scope.basePath + '/api/SmgPoi/ReducedEventRelatedContentAsync/de/true/true/null'
+//        url: $scope.basePath + '/v1/SmgPoi/ReducedEventRelatedContentAsync/de/true/true/null'
 //    }).success(function (data) {
 //        //alert('data gekriag' + data.length);
 

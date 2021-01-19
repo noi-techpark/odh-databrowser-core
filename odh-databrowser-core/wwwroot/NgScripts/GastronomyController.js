@@ -79,7 +79,7 @@ app.controller('gastronomyListController', [
                 });
 
                 //Test nochmaliger Request auf Detail
-                //$http.get($scope.basePath + '/api/Gastronomy/' + gastronomy.Id).success(function (result) {
+                //$http.get($scope.basePath + '/v1/Gastronomy/' + gastronomy.Id).success(function (result) {
                 //    $scope.gastronomy = result;
                 //    $scope.isloading = false;
 
@@ -102,7 +102,7 @@ app.controller('gastronomyListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/api/Gastronomy/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Gastronomy/' + id).success(function (result) {
                     alert("Gastronomy deleted!");
 
                     //$.each($scope.gastronomies, function (i) {
@@ -122,7 +122,7 @@ app.controller('gastronomyListController', [
         $scope.updategastronomy = function (id) {
 
             $scope.isloading = true;
-            $http.get($scope.basePath + '/api/Update/Gastronomy/' + id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Update/Gastronomy/' + id).success(function (result) {
 
                 console.log(result.replace(/^"(.*)"$/, '$1'));
                 $scope.isloading = false;
@@ -180,7 +180,7 @@ app.controller('gastronomyListController', [
 
             //console.log($scope.locationfilter);
 
-            $http.get($scope.basePath + '/api/Gastronomy?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.gastroidfilter + '&locfilter=' + $scope.locationfilter + '&dishcodefilter=' + $scope.dishcodefilter + '&ceremonycodefilter=' + $scope.ceremonycodefilter + '&categorycodefilter=' + $scope.categorycodefilter + '&facilitycodefilter=' + $scope.facilitycodefilter + '&cuisinecodefilter=' + $scope.cuisinecodefilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.Seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Gastronomy?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.gastroidfilter + '&locfilter=' + $scope.locationfilter + '&dishcodefilter=' + $scope.dishcodefilter + '&ceremonycodefilter=' + $scope.ceremonycodefilter + '&categorycodefilter=' + $scope.categorycodefilter + '&facilitycodefilter=' + $scope.facilitycodefilter + '&cuisinecodefilter=' + $scope.cuisinecodefilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.Seed).success(function (result) {
                 $scope.gastronomies = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -373,7 +373,7 @@ app.controller('gastronomyListController', [
         $scope.showInfoModal = function (gastronomy) {            
 
             //Test nochmaliger Request auf Detail
-            $http.get($scope.basePath + '/api/Gastronomy/' + gastronomy.Id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Gastronomy/' + gastronomy.Id).success(function (result) {
                 $scope.gastronomy = result;
                 $scope.isloading = false;
 
@@ -616,7 +616,7 @@ var GastronomyModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Gastronomy', gastronomy).success(function (result) {
+            $http.post($scope.basePath + '/v1/Gastronomy', gastronomy).success(function (result) {
                 alert("Gastronomy added!");
                 $scope.gastronomies.push(gastronomy);
 
@@ -631,7 +631,7 @@ var GastronomyModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updategastronomy = function (gastronomy, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/Gastronomy/' + gastronomy.Id, gastronomy).success(function (result) {
+            $http.put($scope.basePath + '/v1/Gastronomy/' + gastronomy.Id, gastronomy).success(function (result) {
                 alert("Gastronomy updated!");
                 $modalInstance.close();
             });
@@ -837,7 +837,7 @@ var gastrotypeaheadcontroller = app.controller('GastronameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/GastronomyReduced?language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+            url: $scope.basePath + '/v1/GastronomyReduced?language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
             //url: '/json/' + $scope.activitytype + 'Info.json'
         }).success(function (data) {
             $scope.items = data;
@@ -847,7 +847,7 @@ var gastrotypeaheadcontroller = app.controller('GastronameTypeAheadController', 
             
         //    $http({
         //        method: 'Get',
-        //        url: $scope.basePath + '/api/GastronomyReduced?language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+        //        url: $scope.basePath + '/v1/GastronomyReduced?language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
         //        //url: '/json/' + $scope.activitytype + 'Info.json'
         //    }).success(function (data) {
         //        $scope.items = data;
@@ -941,7 +941,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Gastronomy'
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Gastronomy'
         }).success(function (data) {
             $scope.items = data;
         });
@@ -962,7 +962,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Gastronomy'
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Gastronomy'
         }).success(function (data) {
             $scope.items = data;
         });

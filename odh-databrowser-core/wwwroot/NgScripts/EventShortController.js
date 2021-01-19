@@ -90,7 +90,7 @@ app.controller('eventshortListController', [
                     var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
                     if (deleteconfirm) {
-                        $http.delete($scope.basePath + '/api/EventShort/' + eventshort.Id).success(function (result) {
+                        $http.delete($scope.basePath + '/v1/EventShort/' + eventshort.Id).success(function (result) {
                             alert("Event deleted!");
 
                             $scope.applyFilter($scope.page);
@@ -106,7 +106,7 @@ app.controller('eventshortListController', [
 		//$scope.updateeventshort = function (id) {
 
 		//    $scope.isloading = true;
-		//    $http.get($scope.basePath + '/api/Update/EventShort/' + id).success(function (result) {
+		//    $http.get($scope.basePath + '/v1/Update/EventShort/' + id).success(function (result) {
 
 		//        console.log(result);
 		//        $scope.isloading = false;
@@ -157,7 +157,7 @@ app.controller('eventshortListController', [
 
 			setFilters();
 
-			$http.get($scope.basePath + '/api/EventShort?pagenumber=' + page + '&pagesize=' + '20' + $scope.queryfilter).success(function (result) {
+			$http.get($scope.basePath + '/v1/EventShort?pagenumber=' + page + '&pagesize=' + '20' + $scope.queryfilter).success(function (result) {
 				$scope.eventsshort = result.Items;
 				$scope.totalpages = result.TotalPages;
 				$scope.totalcount = result.TotalResults;
@@ -339,7 +339,7 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                     //console.log(eventshort.StartDate);
                     //console.log(eventshort.EndDate);
 
-                    $http.post($scope.basePath + '/api/EventShort', eventshort).success(function (result) {
+                    $http.post($scope.basePath + '/v1/EventShort', eventshort).success(function (result) {
                         alert("Event added!");
                         $scope.eventsshort.push(event);
 
@@ -373,7 +373,7 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 else
                     eventshort.Display1 = "N";
 
-                $http.put($scope.basePath + '/api/EventShort/' + eventshort.Id, eventshort).success(function (result) {
+                $http.put($scope.basePath + '/v1/EventShort/' + eventshort.Id, eventshort).success(function (result) {
                     alert("Event updated!");
                     $modalInstance.close();
 
@@ -454,7 +454,7 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             var re = new RegExp(find, 'g');
             var escapeduri = mybildurl.replace(re, '|');
 
-            //var deletepath = encodeURI($scope.basePath + '/api/FileDelete/' + escapeduri);
+            //var deletepath = encodeURI($scope.basePath + '/v1/FileDelete/' + escapeduri);
             //alert("Delete Image" + deletepath);
 
             //$http.delete(deletepath).success(function (result) {
@@ -614,7 +614,7 @@ var eventtypeaheadcontroller = app.controller('EventTypeAheadController', functi
 
 		$http({
 			method: 'Get',
-			url: $scope.basePath + '/api/EventShort/Reduced?language=' + language + queryfilter
+			url: $scope.basePath + '/v1/EventShort/Reduced?language=' + language + queryfilter
 		}).success(function (data) {
 			$scope.items = data;
 		});
@@ -740,7 +740,7 @@ var DatepickerDemoCtrl = function ($scope) {
 app.controller('FileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
 
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/api/FileUpload/eventshort/eventshort',
+        url: $scope.basePath + '/v1/FileUpload/eventshort/eventshort',
         headers: { Authorization: "Bearer " + localStorage.getItem("accessToken")  }
     });
 
@@ -828,7 +828,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
     }
 
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/api/FileUpload/eventshort/eventshort',
+        url: $scope.basePath + '/v1/FileUpload/eventshort/eventshort',
         headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     });
 
@@ -912,7 +912,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
 app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($scope, FileUploader) {
 
     var uploaderpdf = $scope.uploaderpdf = new FileUploader({
-        url: $scope.basePath + '/api/DocFileUpload/pdf',
+        url: $scope.basePath + '/v1/DocFileUpload/pdf',
         headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     });
 

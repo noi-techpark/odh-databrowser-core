@@ -58,7 +58,7 @@ app.controller('venueListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/api/Venue/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Venue/' + id).success(function (result) {
                     alert("Venue deleted!");
 
                     //$.each($scope.events, function (i) {
@@ -78,7 +78,7 @@ app.controller('venueListController', [
         $scope.updatevenue = function (id) {
 
             $scope.isloading = true;
-            $http.get($scope.basePath + '/api/Update/Venue/' + id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Update/Venue/' + id).success(function (result) {
 
                 console.log(result);
                 $scope.isloading = false;
@@ -190,7 +190,7 @@ app.controller('venueListController', [
                 roomcountfilterqs = "&roomcountfilter=" + $scope.roomcountrangefilter;
 
 
-            $http.get($scope.basePath + '/api/Venue?pagenumber=' + $scope.page + '&pagesize=20' + venueidfilterqs + locfilterqs + catfilterqs + featfilterqs + typefilterqs + activefilterqs + odhactivefilterqs + odhtagfilterqs + capacityfilterqs + roomcountfilterqs).success(function (result) {
+            $http.get($scope.basePath + '/v1/Venue?pagenumber=' + $scope.page + '&pagesize=20' + venueidfilterqs + locfilterqs + catfilterqs + featfilterqs + typefilterqs + activefilterqs + odhactivefilterqs + odhtagfilterqs + capacityfilterqs + roomcountfilterqs).success(function (result) {
                 $scope.venues = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -373,7 +373,7 @@ app.controller('venueListController', [
                 $scope.applyFilter($scope.page);
             }
             else {
-                //$http.get($scope.basePath + '/api/Event/Paged/' + $scope.page + '/' + 20 + '/' + $scope.seed).success(function (result) {
+                //$http.get($scope.basePath + '/v1/Event/Paged/' + $scope.page + '/' + 20 + '/' + $scope.seed).success(function (result) {
                 //    $scope.events = result.Items;
                 //    $scope.totalpages = result.TotalPages;
                 //    $scope.totalcount = result.TotalResults;
@@ -540,7 +540,7 @@ var VenueModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Venue', venue).success(function (result) {
+            $http.post($scope.basePath + '/v1/Venue', venue).success(function (result) {
                 alert("venue added!");
                 $scope.venues.push(venue);
 
@@ -555,7 +555,7 @@ var VenueModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatevenue = function (venue, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/Venue/' + venue.Id, venue).success(function (result) {
+            $http.put($scope.basePath + '/v1/Venue/' + venue.Id, venue).success(function (result) {
                 alert("venue updated!");
                 $modalInstance.close();
             });
@@ -731,7 +731,7 @@ var venuetypeaheadcontroller = app.controller('VenueTypeAheadController', functi
       
 	    $http({
                 method: 'Get',
-				url: $scope.basePath + '/api/VenueReduced?language=' + lang 
+				url: $scope.basePath + '/v1/VenueReduced?language=' + lang 
             }).success(function (data) {
                 $scope.items = data;
             });
@@ -805,7 +805,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/SmgTag/Reduced/' + lang + '/Venue'
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/Venue'
         }).success(function (data) {
             $scope.items = data;
         });
@@ -826,7 +826,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/SmgTag/Reduced/' + lang + '/Venue'
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/Venue'
         }).success(function (data) {
             $scope.items = data;
         });

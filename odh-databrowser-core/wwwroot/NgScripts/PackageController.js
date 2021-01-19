@@ -140,7 +140,7 @@ app.controller('hgvpackageListController', [
         $scope.updatepackage = function (id) {
 
             $scope.isAccoDetailloading = true;
-            $http.get($scope.basePath + '/api/Update/Package/' + id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Update/Package/' + id).success(function (result) {
                 
                 console.log(result);
                 $scope.isAccoDetailloading = false;
@@ -278,9 +278,9 @@ app.controller('hgvpackageListController', [
 
             setSubFilter();
 
-            console.log($scope.basePath + '/api/Package/Available/' + $scope.page + '/20/' + $scope.lang + '/' + $scope.accoidfilter + '/' + $scope.locfilter + '/' + $scope.themefilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + $scope.seed);
+            console.log($scope.basePath + '/v1/Package/Available/' + $scope.page + '/20/' + $scope.lang + '/' + $scope.accoidfilter + '/' + $scope.locfilter + '/' + $scope.themefilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + $scope.seed);
 
-            $http.get($scope.basePath + '/api/Package/Available/' + $scope.page + '/20/' + $scope.lang + '/' + $scope.accoidfilter + '/' + $scope.locfilter + '/' + $scope.themefilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + $scope.seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Package/Available/' + $scope.page + '/20/' + $scope.lang + '/' + $scope.accoidfilter + '/' + $scope.locfilter + '/' + $scope.themefilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + $scope.seed).success(function (result) {
                 $scope.hgvpackages = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -401,7 +401,7 @@ app.controller('hgvpackageListController', [
 
             console.log($scope.smgactive);
 
-            $http.get($scope.basePath + '/api/Package/Filtered/' + $scope.page + '/20' + '/' + $scope.packageidfilter + '/' + $scope.accoidfilter + '/' + $scope.locationfilter + '/' + $scope.servicefilter + '/' + $scope.themefilter + '/' + $scope.validfrom + '/' + $scope.validto + '/' + $scope.longshortstayfilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter).success(function (result) {
+            $http.get($scope.basePath + '/v1/Package/Filtered/' + $scope.page + '/20' + '/' + $scope.packageidfilter + '/' + $scope.accoidfilter + '/' + $scope.locationfilter + '/' + $scope.servicefilter + '/' + $scope.themefilter + '/' + $scope.validfrom + '/' + $scope.validto + '/' + $scope.longshortstayfilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter).success(function (result) {
                 $scope.hgvpackages = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -497,7 +497,7 @@ app.controller('hgvpackageListController', [
         $scope.showhotelinfo = function (hgvid) {
            
             $scope.isAccoDetailloading = true;
-            $http.get($scope.basePath + '/api/Accommodation/Hgv/' + hgvid).success(function (result) {
+            $http.get($scope.basePath + '/v1/Accommodation/Hgv/' + hgvid).success(function (result) {
                 $scope.accommodation = result;
                 $scope.isAccoDetailloading = false;
 
@@ -553,7 +553,7 @@ app.controller('hgvpackageListController', [
             //api/Package/AvailableSingle/{language}/{packageid}/{boardfilter}/{arrival}/{departure}/{roominfo}
             console.log('/api/Package/AvailableSingle/' + $scope.lang + '/' + hgvpackage.Id + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo);
 
-            $http.get($scope.basePath + '/api/Package/AvailableSingle/' + $scope.lang + '/' + hgvpackage.Id + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo).success(function (result) {
+            $http.get($scope.basePath + '/v1/Package/AvailableSingle/' + $scope.lang + '/' + hgvpackage.Id + '/' + $scope.boardfilter + '/' + datefrom + '/' + dateto + '/' + roominfo).success(function (result) {
                 $scope.hgvpackage = result;
                 $scope.isDetailloading = false;
             });
@@ -589,7 +589,7 @@ var PackageModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Package', hgvpackage).success(function (result) {
+            $http.post($scope.basePath + '/v1/Package', hgvpackage).success(function (result) {
                 alert("Package added!");
                 $scope.hgvpackages.push(hgvpackage);
 
@@ -604,7 +604,7 @@ var PackageModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatehgvpackage = function (hgvpackage, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/Package/' + hgvpackage.Id, hgvpackage).success(function (result) {
+            $http.put($scope.basePath + '/v1/Package/' + hgvpackage.Id, hgvpackage).success(function (result) {
                 alert("Package updated!");
                 $modalInstance.close();
             });
@@ -699,7 +699,7 @@ app.controller('RoomDetailController', function ($scope, $http) {
 
     $scope.isAccoDetailloading = true;
 
-    $http.get($scope.basePath + '/api/Accommodation/RoomDetail/' + $scope.accommodation.Id).success(function (result) {
+    $http.get($scope.basePath + '/v1/Accommodation/RoomDetail/' + $scope.accommodation.Id).success(function (result) {
         $scope.accommodationrooms = result;
         $scope.isAccoDetailloading = false;
         
@@ -727,7 +727,7 @@ var packagetypeaheadcontroller = app.controller('PackageNameTypeAheadController'
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/Package/Reduced/' + lang + '/' + accoidfilter + '/' + locationfilter + '/' + servicefilter + '/' + themefilter + '/' + validfrom + '/' + validto + '/' + longshortstay + '/' + active + '/' + smgactive + '/' + smgtagfilter
+            url: $scope.basePath + '/v1/Package/Reduced/' + lang + '/' + accoidfilter + '/' + locationfilter + '/' + servicefilter + '/' + themefilter + '/' + validfrom + '/' + validto + '/' + longshortstay + '/' + active + '/' + smgactive + '/' + smgtagfilter
         }).success(function (data) {
             $scope.items = data;
         });
@@ -799,7 +799,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/SmgTag/Reduced/' + lang + '/Package'
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/Package'
         }).success(function (data) {
             $scope.items = data;
         });
@@ -821,7 +821,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/SmgTag/Reduced/' + lang + '/Package'
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/Package'
         }).success(function (data) {
             $scope.items = data;
         });
@@ -842,7 +842,7 @@ var hoteltypeaheadcontroller = app.controller('HotelnameTypeAheadController', fu
     $scope.getHotelFilteredList = function (filtered) {
 
         if (!filtered) {
-            $http.get($scope.basePath + '/api/Accommodation/Reduced/All/' + $scope.lang).success(function (data) {
+            $http.get($scope.basePath + '/v1/Accommodation/Reduced/All/' + $scope.lang).success(function (data) {
                 $scope.hotelitems = data;
             });
         }
@@ -852,7 +852,7 @@ var hoteltypeaheadcontroller = app.controller('HotelnameTypeAheadController', fu
             //console.log('/api/Accommodation/Reduced/Filtered/'+ $scope.categoryfilter + '/' + $scope.typefilter + '/null/' + $scope.featurefilter + '/' + $scope.themefilter + '/' + $scope.badgefilter + '/' + $scope.locfilter);
 
             //do brauchi die language wegen transformer
-            $http.get($scope.basePath + '/api/Accommodation/Reduced/Filtered/' + $scope.lang + '/' + $scope.categoryfilter + '/' + $scope.typefilter + '/null/' + $scope.featurefilter + '/' + $scope.themefilter + '/' + $scope.badgefilter + '/' + $scope.locfilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter).success(function (data) {
+            $http.get($scope.basePath + '/v1/Accommodation/Reduced/Filtered/' + $scope.lang + '/' + $scope.categoryfilter + '/' + $scope.typefilter + '/null/' + $scope.featurefilter + '/' + $scope.themefilter + '/' + $scope.badgefilter + '/' + $scope.locfilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter).success(function (data) {
                 $scope.hotelitems = data;
             });
         }

@@ -64,7 +64,7 @@ app.controller('articleListController', [
                 //scope.article = article;
 
                 //Test nochmaliger Request auf Detail
-                $http.get($scope.basePath + '/api/Article/' + article.Id).success(function (result) {
+                $http.get($scope.basePath + '/v1/Article/' + article.Id).success(function (result) {
                     $scope.article = result;                    
 
                     $scope.isloading = false;                    
@@ -101,7 +101,7 @@ app.controller('articleListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/api/Article/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Article/' + id).success(function (result) {
                     alert("Article deleted!");
 
                     //$.each($scope.articles, function (i) {
@@ -160,7 +160,7 @@ app.controller('articleListController', [
                 $scope.lang = $scope.langlistfilter.substring(0, 2);
 
 
-            $http.get($scope.basePath + '/api/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed).success(function (result) {
                 $scope.articles = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -388,7 +388,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Article/' + $scope.articletype, article).success(function (result) {
+            $http.post($scope.basePath + '/v1/Article/' + $scope.articletype, article).success(function (result) {
                 alert("Article added!");
 
                 console.log(article);
@@ -410,7 +410,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         if (isvalid) {
             alert(article.Id);
 
-            $http.put($scope.basePath + '/api/Article/' + article.Id + '/' + $scope.articletype, article).success(function (result) {
+            $http.put($scope.basePath + '/v1/Article/' + article.Id + '/' + $scope.articletype, article).success(function (result) {
                 alert("Article updated!");
                 $modalInstance.close();
 
@@ -569,7 +569,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         var re = new RegExp(find, 'g');
         var escapeduri = mybildurl.replace(re, '|');
 
-        var deletepath = encodeURI($scope.basePath + '/api/FileDelete/' + escapeduri);
+        var deletepath = encodeURI($scope.basePath + '/v1/FileDelete/' + escapeduri);
         alert("Delete Image" + deletepath);
 
         $http.delete(deletepath).success(function (result) {
@@ -627,7 +627,7 @@ var articletypeaheadcontroller = app.controller('ArticleNameTypeAheadController'
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ArticleReduced?language=' + lang + '&articletype=' + articletype + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+            url: $scope.basePath + '/v1/ArticleReduced?language=' + lang + '&articletype=' + articletype + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
         }).success(function (data) {
             $scope.items = data;
         });
@@ -653,7 +653,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Article,' + $scope.articletype
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Article,' + $scope.articletype
         }).success(function (data) {
             $scope.items = data;
         });
@@ -674,7 +674,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Article,' + $scope.articletype
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Article,' + $scope.articletype
         }).success(function (data) {
             $scope.items = data;
         });
@@ -730,7 +730,7 @@ app.directive('typeaheadarticle', function ($timeout) {
 //Fileupload Test
 app.controller('FileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/api/FileUpload/articles/' + $scope.articletype
+        url: $scope.basePath + '/v1/FileUpload/articles/' + $scope.articletype
     });
 
 
@@ -813,7 +813,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
     }
 
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/api/FileUpload/articles/' + $scope.articletype
+        url: $scope.basePath + '/v1/FileUpload/articles/' + $scope.articletype
     });
 
     // FILTERS

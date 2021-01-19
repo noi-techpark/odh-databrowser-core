@@ -33,7 +33,7 @@ app.controller('weathersiagListController', [
         $scope.getWeather = function () {
             $scope.isloading = true;
 
-            $http.get($scope.basePath + '/api/Weather?language=' + $scope.lang).success(function (result) {
+            $http.get($scope.basePath + '/v1/Weather?language=' + $scope.lang).success(function (result) {
 
                 $scope.weather = result;
                 $scope.isloading = false;
@@ -46,7 +46,7 @@ app.controller('weathersiagListController', [
             $scope.districtweather = [];
 
             for (i = 1; i < 8; i++) {
-                $http.get($scope.basePath + '/api/Weather/District?language=' + $scope.lang + '&locfilter=' + i).success(function (result) {
+                $http.get($scope.basePath + '/v1/Weather/District?language=' + $scope.lang + '&locfilter=' + i).success(function (result) {
 
                     $scope.districtweather.push(result);
                     
@@ -62,7 +62,7 @@ app.controller('weathersiagListController', [
             $scope.realtimeweather = [];
 
             
-            $http.get($scope.basePath + '/api/Weather/WeatherRealtime/' + $scope.lang).success(function (result) {
+            $http.get($scope.basePath + '/v1/Weather/WeatherRealtime/' + $scope.lang).success(function (result) {
 
                 $scope.realtimeweather = result;
                 $scope.isloading = false;

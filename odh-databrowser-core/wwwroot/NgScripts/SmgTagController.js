@@ -45,7 +45,7 @@ app.controller('smgtagListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/api/SmgTag/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/SmgTag/' + id).success(function (result) {
                     alert("SmgTag deleted!");
 
                     $.each($scope.smgtags, function (i) {
@@ -65,7 +65,7 @@ app.controller('smgtagListController', [
 
             $scope.isloading = true;
 
-            $http.get($scope.basePath + '/api/SmgTag').success(function (result) {
+            $http.get($scope.basePath + '/v1/SmgTag').success(function (result) {
                
                 $scope.smgtags = result;
                 $scope.isloading = false;
@@ -103,7 +103,7 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/SmgTag', smgtag).success(function (result) {
+            $http.post($scope.basePath + '/v1/SmgTag', smgtag).success(function (result) {
                 alert("SmgTag added!");
                 $scope.smgtags.push(smgtag);
 
@@ -118,7 +118,7 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatesmgtag = function (smgtag, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/SmgTag/' + smgtag.Id, smgtag).success(function (result) {
+            $http.put($scope.basePath + '/v1/SmgTag/' + smgtag.Id, smgtag).success(function (result) {
                 alert("SmgTag updated!");
                 $modalInstance.close();
             });

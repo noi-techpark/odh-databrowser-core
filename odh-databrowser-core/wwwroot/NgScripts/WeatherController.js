@@ -56,7 +56,7 @@ app.controller('weatherListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/api/' + commontype + '/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/' + commontype + '/' + id).success(function (result) {
                     alert(commontype + " deleted!");
 
                     $.each($scope.commons, function (i) {
@@ -75,7 +75,7 @@ app.controller('weatherListController', [
         $scope.getCommons = function () {
             $scope.isloading = true;
 
-            $http.get($scope.basePath + '/api/Weather/Measuringpoint').success(function (result) {
+            $http.get($scope.basePath + '/v1/Weather/Measuringpoint').success(function (result) {
 
                 $scope.commons = result;
 
@@ -117,7 +117,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.addCrud = function (common, isvalid) {
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Common/' + $scope.commontype, common).success(function (result) {
+            $http.post($scope.basePath + '/v1/Common/' + $scope.commontype, common).success(function (result) {
                 alert($scope.commontype + " added!");
                 $scope.activities.push(activity);
 
@@ -131,7 +131,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.updateCrud = function (common, isvalid) {
         if (isvalid) {
-            $http.put($scope.basePath + '/api/Common/' + $scope.commontype + '/' + common.Id, common).success(function (result) {
+            $http.put($scope.basePath + '/v1/Common/' + $scope.commontype + '/' + common.Id, common).success(function (result) {
                 alert($scope.commontype + " updated!");
                 $modalInstance.close();
             });

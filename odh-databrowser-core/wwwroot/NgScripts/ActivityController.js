@@ -81,7 +81,7 @@ app.controller('activityListController', [
                         });
 
                 //Test nochmaliger Request auf Detail
-                //$http.get($scope.basePath + '/api/Activity/' + activity.Id).success(function (result) {
+                //$http.get($scope.basePath + '/v1/Activity/' + activity.Id).success(function (result) {
                 //    $scope.activity = result;                    
                 //    $scope.isloading = false;
 
@@ -102,7 +102,7 @@ app.controller('activityListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/api/Activity/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Activity/' + id).success(function (result) {
                     alert("Activity deleted!");
 
                     $.each($scope.activities, function (i) {
@@ -120,7 +120,7 @@ app.controller('activityListController', [
         $scope.updateactivity = function (id) {
 
             $scope.isloading = true;
-            $http.get($scope.basePath + '/api/Update/Activity/' + $scope.activitytype + '/' + id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Update/Activity/' + $scope.activitytype + '/' + id).success(function (result) {
 
                 console.log(result);
                 $scope.isloading = false;
@@ -169,7 +169,7 @@ app.controller('activityListController', [
                         if (activity.GpsInfo[i].Gpstype == 'Standpunkt' || activity.GpsInfo[i].Gpstype == 'Startpunkt' || activity.GpsInfo[i].Gpstype == 'Start und Ziel') {
                             //alert('gpsinfo do');
 
-                            $http.get($scope.basePath + '/api/Common/GetNearestDistrict/' + activity.GpsInfo[i].Latitude + '/' + activity.GpsInfo[i].Longitude + '/10000').success(function (result) {
+                            $http.get($scope.basePath + '/v1/Common/GetNearestDistrict/' + activity.GpsInfo[i].Latitude + '/' + activity.GpsInfo[i].Longitude + '/10000').success(function (result) {
 
                                 if (result != null) {
                                     //alert('district gfunden nome:' + result.Id);
@@ -259,9 +259,9 @@ app.controller('activityListController', [
             //alert('/api/Activity/Filtered/' + $scope.page + '/20/' + $scope.activitytype + '/' + $scope.subtypefilter + '/' + myactivitynameIdfilter + '/' + $scope.locationfilter + '/' + $scope.seed);
             //alert($scope.arefilter);
 
-            //console.log($scope.basePath + '/api/Activity/Filtered/' + $scope.page + '/20/' + $scope.activitytype + '/' + $scope.subtypefilter + '/' + $scope.activityidfilter + '/' + $scope.locationfilter + '/' + $scope.areafilter + '/' + $scope.distancerangefilter + '/' + $scope.altituderangefilter + '/' + $scope.durationrangefilter + '/' + $scope.difficultyfilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter + '/' + $scope.seed);
+            //console.log($scope.basePath + '/v1/Activity/Filtered/' + $scope.page + '/20/' + $scope.activitytype + '/' + $scope.subtypefilter + '/' + $scope.activityidfilter + '/' + $scope.locationfilter + '/' + $scope.areafilter + '/' + $scope.distancerangefilter + '/' + $scope.altituderangefilter + '/' + $scope.durationrangefilter + '/' + $scope.difficultyfilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter + '/' + $scope.seed);
 
-            $http.get($scope.basePath + '/api/Activity?pagenumber=' + $scope.page + '&pagesize=20&activitytype=' + $scope.activitytype + '&subtype=' + $scope.subtypefilter + '&idlist=' + $scope.activityidfilter + '&locfilter=' + $scope.locationfilter + '&areafilter=' + $scope.areafilter + '&distancefilter=' + $scope.distancerangefilter + '&altitudefilter=' + $scope.altituderangefilter + '&durationfilter=' + $scope.durationrangefilter + '&highlight=' + $scope.highlightfilter + '&difficultyfilter=' + $scope.difficultyfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Activity?pagenumber=' + $scope.page + '&pagesize=20&activitytype=' + $scope.activitytype + '&subtype=' + $scope.subtypefilter + '&idlist=' + $scope.activityidfilter + '&locfilter=' + $scope.locationfilter + '&areafilter=' + $scope.areafilter + '&distancefilter=' + $scope.distancerangefilter + '&altitudefilter=' + $scope.altituderangefilter + '&durationfilter=' + $scope.durationrangefilter + '&highlight=' + $scope.highlightfilter + '&difficultyfilter=' + $scope.difficultyfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
                 $scope.activities = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -494,7 +494,7 @@ app.controller('activityListController', [
             //$scope.activity = activity;
 
             //Test nochmaliger Request auf Detail
-            $http.get($scope.basePath + '/api/Activity/' + activity.Id).success(function (result) {
+            $http.get($scope.basePath + '/v1/Activity/' + activity.Id).success(function (result) {
                 $scope.activity = result;
                 $scope.isloading = false;
 
@@ -748,7 +748,7 @@ var ActivityModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/api/Activity', activity).success(function (result) {
+            $http.post($scope.basePath + '/v1/Activity', activity).success(function (result) {
                 alert("Activity added!");
                 $scope.activities.push(activity);
 
@@ -765,7 +765,7 @@ var ActivityModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updateactivity = function (activity, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/api/Activity/' + activity.Id, activity).success(function (result) {
+            $http.put($scope.basePath + '/v1/Activity/' + activity.Id, activity).success(function (result) {
                 alert("Activity updated!");
                 $modalInstance.close();
             });
@@ -847,7 +847,7 @@ var ActivityModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     //        for (var i = 0; i < $files.length; i++) {
     //            var $file = $files[i];
     //            $upload.upload({
-    //                url: $scope.basePath + '/api/FileUpload/' + $scope.activitytype,
+    //                url: $scope.basePath + '/v1/FileUpload/' + $scope.activitytype,
     //                file: $file,
     //                progress: function (e) { }
     //            }).then(function (data, status, headers, config) {
@@ -874,7 +874,7 @@ var ActivityModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         var re = new RegExp(find, 'g');
         var escapeduri = mybildurl.replace(re, '|');
 
-        var deletepath = encodeURI($scope.basePath + '/api/FileDelete/' + escapeduri);
+        var deletepath = encodeURI($scope.basePath + '/v1/FileDelete/' + escapeduri);
         alert("Delete Image" + deletepath);
 
         $http.delete(deletepath).success(function (result) {
@@ -940,7 +940,7 @@ var SuedtirolTypeSelectorModalInstanceCtrl = function ($scope, $modalInstance, $
         }
 
         //Kopier olls in SMGPois onni
-        $http.get($scope.basePath + '/api/SmgPoi/ActivityToSmgPoi/' + $scope.typeselector.ActivityID + '/' + mytype + '/' + mysubtype + '/' + mypoitype + '/' + selecteddistrict + '/LTS/ActivityData/Partial').success(function (result) {
+        $http.get($scope.basePath + '/v1/SmgPoi/ActivityToSmgPoi/' + $scope.typeselector.ActivityID + '/' + mytype + '/' + mysubtype + '/' + mypoitype + '/' + selecteddistrict + '/LTS/ActivityData/Partial').success(function (result) {
 
             //console.log(result);
             alert(result.Message);
@@ -961,7 +961,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
     $http({
         method: 'Get',
         //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-        url: $scope.basePath + '/api/SuedtirolType/Filtered/null/0/SmgPoi'
+        url: $scope.basePath + '/v1/SuedtirolType/Filtered/null/0/SmgPoi'
     }).success(function (data) {
         $scope.maintypeslist = data;
     });
@@ -969,7 +969,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
     $http({
         method: 'Get',
         //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-        url: $scope.basePath + '/api/SuedtirolType/Filtered/' + $scope.typeselector.Type + '/1/SmgPoi'
+        url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.typeselector.Type + '/1/SmgPoi'
     }).success(function (data) {
         $scope.subtypeslist = data;
     });
@@ -977,7 +977,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
     $http({
         method: 'Get',
         //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-        url: $scope.basePath + '/api/SuedtirolType/Filtered/' + $scope.typeselector.SubType + '/2/SmgPoi'
+        url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.typeselector.SubType + '/2/SmgPoi'
     }).success(function (data) {
         $scope.poitypeslist = data;
     });
@@ -985,7 +985,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
     $http({
         method: 'Get',
         url: $scope.basePath + '/json/LocInfoFrawithMun' + $scope.lang + '.json'
-        //url: $scope.basePath + '/api/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
+        //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
     }).success(function (data) {
         $scope.districtslist = data;
     });
@@ -998,7 +998,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
         $http({
             method: 'Get',
             //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/api/SuedtirolType/Filtered/' + $scope.typeselector.Type + '/1/SmgPoi'
+            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.typeselector.Type + '/1/SmgPoi'
         }).success(function (data) {
             $scope.subtypeslist = data;
         });
@@ -1013,7 +1013,7 @@ var TypeSelectController = app.controller('TypeSelectController', function ($sco
         $http({
             method: 'Get',
             //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/api/SuedtirolType/Filtered/' + $scope.typeselector.SubType + '/2/SmgPoi'
+            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.typeselector.SubType + '/2/SmgPoi'
         }).success(function (data) {
             $scope.poitypeslist = data;
         });
@@ -1103,7 +1103,7 @@ var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', functi
         
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ActivityReduced?language=' + lang + '&activitytype=' + activitytype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&distancefilter=' + distancerangefilter + '&altitudefilter=' + altituderangefilter + '&durationfilter=' + durationrangefilter + '&highlight=' + highlightfilter + '&difficultyfilter=' + difficultyfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+            url: $scope.basePath + '/v1/ActivityReduced?language=' + lang + '&activitytype=' + activitytype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&distancefilter=' + distancerangefilter + '&altitudefilter=' + altituderangefilter + '&durationfilter=' + durationrangefilter + '&highlight=' + highlightfilter + '&difficultyfilter=' + difficultyfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
             //url: '/json/' + $scope.activitytype + 'Info.json'
         }).success(function (data) {
             $scope.items = data;
@@ -1129,7 +1129,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + $scope.activity.Type
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + $scope.activity.Type
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1155,7 +1155,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/api/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter + $scope.activitytype
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter + $scope.activitytype
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1280,7 +1280,7 @@ function getQueryVariable(url, variable) {
 ////Fileupload Test
 //app.controller('FileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
 //    var uploader = $scope.uploader = new FileUploader({
-//        url: $scope.basePath + '/api/FileUpload/poi/' + $scope.activitytype
+//        url: $scope.basePath + '/v1/FileUpload/poi/' + $scope.activitytype
 //    });
 
 

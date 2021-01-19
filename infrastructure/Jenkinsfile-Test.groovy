@@ -6,7 +6,9 @@ pipeline {
         DOCKER_IMAGE = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-databrowser-core'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 	ASPNETCORE_ENVIRONMENT = "Development"   
-	SERVER_PORT = "1022"                
+	SERVER_PORT = "1022"    
+	OAUTH_AUTORITY = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/"
+	OAUTH_CLIENTID = credentials('odh-tourism-frontend-oauth-clientid')
     }
 
     stages {
@@ -20,6 +22,8 @@ pipeline {
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 		    echo 'ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}' >> .env		    
                     echo 'SERVER_PORT=${SERVER_PORT}' >> .env                                        
+		    echo 'OAUTH_AUTORITY=${OAUTH_AUTORITY}' >> .env        
+		    echo 'OAUTH_CLIENTID=${OAUTH_CLIENTID}' >> .env        
                 """
             }
         }

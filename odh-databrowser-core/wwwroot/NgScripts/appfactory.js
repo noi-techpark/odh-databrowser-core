@@ -10,7 +10,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
 
         var token = getAccessToken();
 
-        //console.log("The token is " + token);
+        console.log("The token is " + token);
 
         if (token) {
 

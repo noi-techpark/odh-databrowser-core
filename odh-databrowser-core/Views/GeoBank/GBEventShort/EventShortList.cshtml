@@ -166,7 +166,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="eventshort in eventsshort">
+                    <tr ng-repeat="eventshort in eventsshort track by $index">
 
                         <td>
                             <div ng-if="lang == 'de'">{{ eventshort.EventDescriptionDE }}</div>

@@ -17,6 +17,12 @@ https://frontend.tourism.testingmachine.eu/
 
 Clone the repository
 
+### Environment Variables
+
+* OAUTH_AUTORITY (Oauth Server Authority URL)
+* OAUTH_CLIENTID (Client ID for accessing Oauth Server)
+
+
 ### using Docker
 
 `docker-compose up` starts the appliaction on http://localhost:6002/

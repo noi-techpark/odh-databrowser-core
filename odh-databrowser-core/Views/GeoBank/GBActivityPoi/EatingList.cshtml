@@ -68,9 +68,9 @@
                 </div>
 
                 @*<div class="form-group col-sm-12">
-                        <h6>Name</h6>
-                        <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="filter" autofocus>
-                    </div>*@
+            <h6>Name</h6>
+            <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="filter" autofocus>
+        </div>*@
 
                 <div class="form-group col-sm-12" ng-controller="PoinameTypeAheadController">
                     <h6>Activity/Poi Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
@@ -95,47 +95,58 @@
                 <div class="form-group col-sm-12">
                     <h6>Type<small class="btn-link pull-right" ng-click="clearTypeFilter()">Clear</small></h6>
                     <div class="btn-group-vertical">
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.1" btn-checkbox>Eating & Drinking</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.1" btn-checkbox>Other Gastronomies</label>
                         <label class="btn btn-default" ng-model="checkSubTypeModel.2" btn-checkbox>Wineries</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.3" btn-checkbox>Restaurants & Taverns</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.4" btn-checkbox>Mountain Huts & Alpine Farms</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.5" btn-checkbox>Countryside Fare</label>
                     </div>
                 </div>
 
-                @*<div class="form-group col-sm-12">
-                        <h6>Typ</h6>
-                        <div class="btn-group-vertical">
-                            <label class="btn btn-default" ng-model="checkSubTypeModel.one" btn-checkbox>Restaurants & Gasthäuser</label>
-                            <label class="btn btn-default" ng-model="checkSubTypeModel.two" btn-checkbox>Hütten & Almen</label>
-                            <label class="btn btn-default" ng-model="checkSubTypeModel.three" btn-checkbox>Bäuerliche Schankbetriebe</label>
-                            <label class="btn btn-default" ng-model="checkSubTypeModel.four" btn-checkbox>Weinkellereien</label>
-                        </div>
-                    </div>*@
-
-                @*<div class="form-group col-sm-12" ng-show="checkSubTypeModel.one">
-                        <h6>Restaurants & Gasthäuser</h6>
-                        <div class="btn-group-vertical">
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.one" btn-checkbox>Restaurants</label>
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.two" btn-checkbox>Gasthäuser & Gasthöfe</label>
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.three" btn-checkbox>Pizzerias</label>
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.four" btn-checkbox>Vinotheken</label>
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.five" btn-checkbox>Bars/Cafés/Bistros</label>
-                        </div>
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.1">
+                    <h6>Other Gastronomies</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Pub / Disco</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Apres Ski</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Snack-point</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Restaurant for chestnut-eating</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" btn-checkbox>Fast food</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>Cafeteria</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.7" btn-checkbox>Ice cream parlor</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.8" btn-checkbox>Beer garden</label>
                     </div>
+                </div>
 
-                    <div class="form-group col-sm-12" ng-show="checkSubTypeModel.two">
-                        <h6>Hütten & Almen</h6>
-                        <div class="btn-group-vertical">
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.one" btn-checkbox>Schutzhütten</label>
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.two" btn-checkbox>Almen</label>
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.three" btn-checkbox>Skihütten</label>
-                        </div>
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.3">
+                    <h6>Restaurants & Taverns</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Restaurants</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Taverns & Inns</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Pizzerias</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Wine Bars</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" btn-checkbox>Bars/Cafés/Bistros</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>Tavern</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.7" btn-checkbox>Guesthouse</label>
                     </div>
+                </div>
 
-                    <div class="form-group col-sm-12" ng-show="checkSubTypeModel.three">
-                        <h6>Bäuerliche Schankbetriebe</h6>
-                        <div class="btn-group-vertical">
-                            <label class="btn btn-default" ng-model="checkPoiTypeModel.one" btn-checkbox>Buschen- und Hofschänke</label>
-                        </div>
-                    </div>*@
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.4">
+                    <h6>Mountain Huts & Alpine Farms</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Mountain Huts</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Alpine Farms</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Ski Huts</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.5">
+                    <h6>Countryside Fare</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Wine & Countryside Taverns</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Restaurant in the farm</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Farm inn</label>
+                    </div>
+                </div>
 
 
                 <div class="form-group col-sm-12">

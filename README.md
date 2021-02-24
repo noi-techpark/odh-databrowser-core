@@ -10,12 +10,20 @@
 * Identity Server Integration (Keycloak)
 * AngularJS
 
-Visible under
-https://frontend.tourism.testingmachine.eu/
+Test instance
+https://frontend.tourism.testingmachine.eu/  
+Production instance
+https://tourism.databrowser.opendatahub.bz.it
 
 ## Getting started:
 
 Clone the repository
+
+### Environment Variables
+
+* OAUTH_AUTORITY (Oauth Server Authority URL)
+* OAUTH_CLIENTID (Client ID for accessing Oauth Server)
+
 
 ### using Docker
 

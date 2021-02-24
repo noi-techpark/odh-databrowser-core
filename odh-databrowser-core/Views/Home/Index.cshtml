@@ -93,6 +93,41 @@
             <table class="table table-bordered" style="padding:4px">
 
                 <tr>
+                    <td style="padding:4px"><b>Global</b></td>
+                    <td style="padding:4px">Read / View / Create / Modify / Delete</td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globalread == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globalvisible == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globalcreate == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globalmodify == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globaldelete == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                </tr>
+
+                <tr>
                     <td style="padding:4px"><b>Common</b></td>
                     <td style="padding:4px">Read / View / Create / Modify / Delete</td>
                     <td style="padding:4px">
@@ -410,35 +445,71 @@
                         { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
                     </td>
                 </tr>
+
                 <tr>
-                    <td style="padding:4px"><b>Global</b></td>
+                    <td style="padding:4px"><b>Event Eurac/NOI</b></td>
                     <td style="padding:4px">Read / View / Create / Modify / Delete</td>
                     <td style="padding:4px">
-                        @if (@ViewBag.globalread == true)
+                        @if (@ViewBag.globalread == true || @ViewBag.eventshortread == true)
                         {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
                         else
                         { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
                     </td>
                     <td style="padding:4px">
-                        @if (@ViewBag.globalvisible == true)
+                        @if (@ViewBag.globalvisible == true || @ViewBag.eventshortvisible == true)
                         {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
                         else
                         { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
                     </td>
                     <td style="padding:4px">
-                        @if (@ViewBag.globalcreate == true)
+                        @if (@ViewBag.globalcreate == true || @ViewBag.eventshortcreate == true)
                         {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
                         else
                         { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
                     </td>
                     <td style="padding:4px">
-                        @if (@ViewBag.globalmodify == true)
+                        @if (@ViewBag.globalmodify == true || @ViewBag.eventshortmodify == true)
                         {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
                         else
                         { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
                     </td>
                     <td style="padding:4px">
-                        @if (@ViewBag.globaldelete == true)
+                        @if (@ViewBag.globaldelete == true || @ViewBag.eventshortdelete == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px"><b>Venue</b></td>
+                    <td style="padding:4px">Read / View / Create / Modify / Delete</td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globalread == true || @ViewBag.venueread == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globalvisible == true || @ViewBag.venuevisible == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globalcreate == true || @ViewBag.venuecreate == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globalmodify == true || @ViewBag.venuemodify == true)
+                        {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
+                        else
+                        { <div class="glyphicon glyphicon-remove glyphiconred"></div>}
+                    </td>
+                    <td style="padding:4px">
+                        @if (@ViewBag.globaldelete == true || @ViewBag.venuedelete == true)
                         {<div class="glyphicon glyphicon-ok glyphicongreen"></div> }
                         else
                         { <div class="glyphicon glyphicon-remove glyphiconred"></div>}

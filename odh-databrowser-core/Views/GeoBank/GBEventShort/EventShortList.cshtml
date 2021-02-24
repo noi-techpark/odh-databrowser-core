@@ -166,7 +166,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="eventshort in eventsshort">
+                    <tr ng-repeat="eventshort in eventsshort track by $index">
 
                         <td>
                             <div ng-if="lang == 'de'">{{ eventshort.EventDescriptionDE }}</div>
@@ -249,5 +249,5 @@
 
     <script src="~/NgScripts/EventShortController.js?version=20200421"></script>
 
-    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/js/jquery.mask.min.js"></script>
 }

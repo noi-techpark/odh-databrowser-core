@@ -1,12 +1,12 @@
-﻿var app = angular.module('poi', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'angularFileUpload', 'appfactory', 'leaflet-directive']);
+﻿var app = angular.module('poi', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'angularFileUpload', 'appfactory', 'leaflet-directive','pathconfig']);
 
 app.controller('poiListController', [
     '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
-    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory, apipath) {
+    function ($scope, $http, $modal, appconfig, leafletData, leafletmapsimple, languageFactory, apipath) {
 
-    console.log(apipath);
+        console.log(apipath);
 
-    $scope.basePath = apipath;
+        $scope.basePath = apipath;
 
         $scope.lang = languageFactory.getLanguage();
 

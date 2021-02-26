@@ -312,3 +312,9 @@ function setLanguageLocalBrowser(lang, backtobrowserlanguage) {
 
     return localStorage.getItem("Language");
 }
+
+appfactory.factory('apipath', function () {
+
+    return 'https://localhost:5001'; 
+});
+

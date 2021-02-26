@@ -1,10 +1,10 @@
 ﻿var app = angular.module('activity', ['ui.bootstrap', 'ui-rangeSlider', 'ngSanitize', 'angularFileUpload', 'appconfig', 'appfactory', 'leaflet-directive']);
 
 app.controller('activityListController', [
-    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory',
-    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory) {
+    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
+    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory, apipath) {
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
 
         $scope.lang = languageFactory.getLanguage();             
 

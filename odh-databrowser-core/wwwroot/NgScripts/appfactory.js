@@ -320,6 +320,22 @@ function setLanguageLocalBrowser(lang, backtobrowserlanguage) {
 
 appfactory.factory('apipath', function () {
 
-    return 'https://localhost:5001'; 
+    return getBasePath(); 
 });
 
+function getBasePath() {
+    //Prod Server
+    //return 'https://tourism.api.opendatahub.bz.it';
+    //Dev Server
+    //return 'https://api.tourism.testingmachine.eu';
+    //Local Server
+    return 'https://localhost:5001';
+}
+
+function getAuthServerPath() {
+
+    //Dev Server
+    //return "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri=";
+    //Prod Server
+    return "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri=";
+}

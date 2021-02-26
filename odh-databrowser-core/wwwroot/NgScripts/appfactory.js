@@ -2,6 +2,11 @@
 
 appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $location) {
 
+    //Dev Server
+    //var authserverpath = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
+    //Prod Server
+    var authserverpath = "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
+   
     var authInterceptorServiceFactory = {};
 
     var _request = function (config) {
@@ -46,7 +51,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
 
                     //window.location = "/Account/Login?ReturnUrl=" + returnurl;
 
-                    window.location = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri=" + encodeURIComponent(window.location); 
+                    window.location = authserverpath + encodeURIComponent(window.location); 
                 }
             }
 

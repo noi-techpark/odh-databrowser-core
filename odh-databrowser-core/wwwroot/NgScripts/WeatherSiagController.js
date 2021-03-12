@@ -1,10 +1,10 @@
-﻿var app = angular.module('weathersiag', ['ui.bootstrap', 'appconfig', 'appfactory']);
+﻿var app = angular.module('weathersiag', ['ui.bootstrap', 'appconfig', 'appfactory', 'pathconfig']);
 
 app.controller('weathersiagListController', [
-    '$scope', '$http', '$modal', 'appconfig', 'languageFactory',
-    function ($scope, $http, $modal, config, languageFactory) {
+    '$scope', '$http', '$modal', 'appconfig', 'languageFactory', 'apipath',
+    function ($scope, $http, $modal, appconfig, languageFactory, apipath) {
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
         $scope.lang = languageFactory.getLanguage();                
         $scope.weather = [];
         $scope.districtweather = [];

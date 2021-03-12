@@ -1,10 +1,10 @@
-﻿var app = angular.module('common', ['ui.bootstrap', 'angularFileUpload', 'ngSanitize', 'appconfig', 'textAngular', 'appfactory', 'leaflet-directive']);
+﻿var app = angular.module('common', ['ui.bootstrap', 'angularFileUpload', 'ngSanitize', 'appconfig', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('commonListController', [
-    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple','languageFactory',
-    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory) {
+    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
+    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory, apipath) {
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
 
         $scope.lang = languageFactory.getLanguage();;
         $scope.commontype = '';

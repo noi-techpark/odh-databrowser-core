@@ -1,10 +1,10 @@
-﻿var app = angular.module('article', ['ui.bootstrap', 'ngSanitize', 'angularFileUpload', 'appconfig', 'textAngular']);
+﻿var app = angular.module('article', ['ui.bootstrap', 'ngSanitize', 'angularFileUpload', 'appconfig', 'textAngular', 'pathconfig']);
 
 app.controller('articleListController', [
-    '$scope', '$http', '$modal', 'appconfig', 'languageFactory',
-    function ($scope, $http, $modal, config, languageFactory) {
+    '$scope', '$http', '$modal', 'appconfig', 'languageFactory', 'apipath',
+    function ($scope, $http, $modal, config, languageFactory, apipath) {
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
         $scope.lang = languageFactory.getLanguage();  
 
         var allowedlanguages = ['de', 'it', 'en', 'nl', 'cs', 'pl', 'fr', 'ru'];

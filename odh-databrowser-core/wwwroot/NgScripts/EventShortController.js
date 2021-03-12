@@ -1,12 +1,12 @@
-﻿var app = angular.module('eventshort', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'textAngular', 'angularFileUpload']);
+﻿var app = angular.module('eventshort', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'textAngular', 'angularFileUpload', 'pathconfig']);
 
 app.controller('eventshortListController', [
-	'$scope', '$http', '$modal', 'appconfig',
-	function ($scope, $http, $modal, config) {
+    '$scope', '$http', '$modal', 'appconfig', 'apipath',
+    function ($scope, $http, $modal, config, apipath) {
 
         $scope.virtualvillagemanager = false;
 
-		$scope.basePath = config.basePath;
+        $scope.basePath = apipath;
 		$scope.lang = 'de';
 
 		$scope.init = function (virtualvillagemanager) {

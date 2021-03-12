@@ -1,10 +1,10 @@
-﻿var app = angular.module('venue', ['ui.bootstrap', 'ui-rangeSlider', 'ngSanitize', 'appconfig', 'appfactory', 'leaflet-directive']);
+﻿var app = angular.module('venue', ['ui.bootstrap', 'ui-rangeSlider', 'ngSanitize', 'appconfig', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('venueListController', [
-    '$scope', '$http', '$modal', '$sanitize', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory',
-    function ($scope, $http, $modal, $sanitize, config, leafletData, leafletmapsimple, languageFactory) {
+    '$scope', '$http', '$modal', '$sanitize', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
+    function ($scope, $http, $modal, $sanitize, appconfig, leafletData, leafletmapsimple, languageFactory, apipath) {
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
         $scope.lang = 'deu';
 
         $scope.globallocfilter = '';

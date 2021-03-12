@@ -1,10 +1,10 @@
-﻿var app = angular.module('weather', ['ui.bootstrap', 'appconfig', 'appfactory', 'leaflet-directive']);
+﻿var app = angular.module('weather', ['ui.bootstrap', 'appconfig', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('weatherListController', [
-    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory',
-    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory) {
+    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
+    function ($scope, $http, $modal, appconfig, leafletData, leafletmapsimple, languageFactory, apipath) {
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
         $scope.lang = languageFactory.getLanguage(); 
         $scope.commontype = '';
         $scope.elementstotake = '';

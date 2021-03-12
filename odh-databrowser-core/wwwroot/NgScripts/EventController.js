@@ -1,10 +1,10 @@
-﻿var app = angular.module('event', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'appfactory', 'textAngular', 'leaflet-directive']);
+﻿var app = angular.module('event', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'appfactory', 'textAngular', 'leaflet-directive', 'pathconfig']);
 
 app.controller('eventListController', [
-    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory',
-    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory) {
+    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
+    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory, apipath) {
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
         $scope.lang = languageFactory.getLanguage();
 
         var allowedlanguages = ['de', 'it', 'en'];

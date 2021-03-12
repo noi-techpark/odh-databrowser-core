@@ -1,8 +1,10 @@
-﻿var app = angular.module('activity', ['ui.bootstrap', 'ui-rangeSlider', 'ngSanitize', 'angularFileUpload', 'appconfig', 'appfactory', 'leaflet-directive']);
+﻿var app = angular.module('activity', ['ui.bootstrap', 'ui-rangeSlider', 'ngSanitize', 'angularFileUpload', 'appconfig', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('activityListController', [
     '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
-    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory, apipath) {
+    function ($scope, $http, $modal, appconfig, leafletData, leafletmapsimple, languageFactory, apipath) {
+
+        console.log(apipath);
 
         $scope.basePath = apipath;
 

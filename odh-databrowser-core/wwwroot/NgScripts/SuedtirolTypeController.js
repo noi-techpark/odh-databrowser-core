@@ -1,10 +1,10 @@
-﻿var app = angular.module('suedtiroltype', ['ui.bootstrap', 'appconfig']);
+﻿var app = angular.module('suedtiroltype', ['ui.bootstrap', 'appconfig', 'pathconfig']);
 
 app.controller('suedtiroltypeListController', [
-    '$scope', '$http', '$modal', 'appconfig',
-    function ($scope, $http, $modal, config) {
+    '$scope', '$http', '$modal', 'appconfig', 'apipath',
+    function ($scope, $http, $modal, appconfig, apipath) {
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
 
         $scope.lang = 'de';
         $scope.suedtiroltypes = [];

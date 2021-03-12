@@ -1,10 +1,11 @@
-﻿var app = angular.module('accommodation', ['ui.bootstrap', 'ngSanitize', 'ui-rangeSlider', 'appconfig', 'appfactory', 'leaflet-directive']);
+﻿var app = angular.module('accommodation', ['ui.bootstrap', 'ngSanitize', 'ui-rangeSlider', 'appconfig', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('accommodationListController', [
-    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory',
-    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, languageFactory) {
+    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
+    function ($scope, $http, $modal, appconfig, leafletData, leafletmapsimple, languageFactory, apipath) {
 
-        $scope.basePath = config.basePath;
+        console.log(apipath);
+        $scope.basePath = apipath;
 
         $scope.lang = languageFactory.getLanguage();        
 

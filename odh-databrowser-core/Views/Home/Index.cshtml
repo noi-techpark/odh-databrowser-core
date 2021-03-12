@@ -12,47 +12,62 @@
             <br />
             <h5>Use the databrowser to discover the data or use directly the swagger interface</h5>
             <h5>Data is collected through various Interfaces and updated on a regular basis</h5>
-            @*<h5>Browse data offered from Open Data Hub Tourism Api.</h5>*@
         </div>
-        @*<div class="col-sm-6 text-center">
-            <h2>News <small></small></h2>
-            <h5>06/08/19 - Events, Snow Measuringpoints and full Activities & Pois available as open data.</h5>
-        </div>*@
-    </div>
-    <hr />
-    <div class="row">
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="text-center">
+                    <environment names="Development">
+                        <h6>Development</h6>
+                    </environment>
+                    <environment names="Local">
+                        <h6>Local</h6>
+                    </environment>
+                    <environment names="Staging">
+                        <h6>Staging</h6>
+                    </environment>
+                    <environment names="Production">
+                        <h6>Production</h6>
+                    </environment>
+                </div>
 
-        <div class="col-sm-4">
-            <div class="text-center">
-                <a href="../swagger" target="_blank"><button type="button" class="btn btn-homesubicons btn-circle btn-xl"><i class="glyphicon glyphicon-calendar glyphicon-paperclip glyphicon-homesub"></i></button></a>
             </div>
-            <h4 class="text-center homesubs"><a class="" href="https://api.tourism.testingmachine.eu" target="_blank">Open Data Hub Api - Swagger</a></h4>
-            <h5 class="text-center">Swagger UI 3 with detailed Api Description.</h5>
         </div>
+        
+        <div class="row">
 
-        <div class="col-sm-4">
-            <div class="text-center">
-                <a href="../api" target="_blank"><button type="button" class="btn btn-homesubicons btn-circle btn-xl"><i class="glyphicon glyphicon-calendar glyphicon-link glyphicon-homesub"></i></button></a>
+            <div class="col-sm-4">
+                <div class="text-center">
+                    <a href="../swagger" target="_blank"><button type="button" class="btn btn-homesubicons btn-circle btn-xl"><i class="glyphicon glyphicon-calendar glyphicon-paperclip glyphicon-homesub"></i></button></a>
+                </div>
+                <h4 class="text-center homesubs"><a class="" href="https://api.tourism.testingmachine.eu" target="_blank">Open Data Hub Api - Swagger</a></h4>
+                <h5 class="text-center">Swagger UI 3 with detailed Api Description.</h5>
             </div>
-            <h4 class="text-center homesubs"><a class="" href="https://api.tourism.testingmachine.eu/api" target="_blank">Open Data Hub Api</a></h4>
-            <h5 class="text-center">Open Data Hub Api with links to all endpoints (Quick start) .</h5>
-        </div>
 
-        <div class="col-sm-4">
-            <div class="text-center">
-                <a href="https://opendatahub.readthedocs.io/en/latest/index.html" target="_blank"><button type="button" class="btn btn-homesubicons btn-circle btn-xl"><i class="glyphicon glyphicon-inbox glyphicon-homesub"></i></button></a>
+            <div class="col-sm-4">
+                <div class="text-center">
+                    <a href="../api" target="_blank"><button type="button" class="btn btn-homesubicons btn-circle btn-xl"><i class="glyphicon glyphicon-calendar glyphicon-link glyphicon-homesub"></i></button></a>
+                </div>
+                <h4 class="text-center homesubs"><a class="" href="https://api.tourism.testingmachine.eu/api" target="_blank">Open Data Hub Api</a></h4>
+                <h5 class="text-center">Open Data Hub Api with links to all endpoints (Quick start) .</h5>
             </div>
-            <h4 class="text-center homesubs"><a href="https://opendatahub.readthedocs.io/en/latest/index.html" target="_blank">Open Data Hub - Documentation</a></h4>
-            <h5 class="text-center">Official Open Data Hub Project Documentation on Read the Docs.</h5>
+
+            <div class="col-sm-4">
+                <div class="text-center">
+                    <a href="https://opendatahub.readthedocs.io/en/latest/index.html" target="_blank"><button type="button" class="btn btn-homesubicons btn-circle btn-xl"><i class="glyphicon glyphicon-inbox glyphicon-homesub"></i></button></a>
+                </div>
+                <h4 class="text-center homesubs"><a href="https://opendatahub.readthedocs.io/en/latest/index.html" target="_blank">Open Data Hub - Documentation</a></h4>
+                <h5 class="text-center">Official Open Data Hub Project Documentation on Read the Docs.</h5>
+
+            </div>
+
 
         </div>
-
-    </div>
 }
 
 <div class="row">
     <div class="col-sm-12 text-center">
-               
+
     </div>
 </div>
 
@@ -528,11 +543,12 @@
             <div class="text-center">
                 <br />
                 <h4>Open Data Notes</h4>
-                <h6>                    
+                <h6>
                     Only Images with CC0 Licenses are displayed.<br /><br />
-                    Get more details with the Info Button on the various sites<br />                    
+                    Get more details with the Info Button on the various sites<br />
                 </h6>
-            </div>            
+
+            </div>
         </div>
 
         <div class="col-sm-4">
@@ -541,7 +557,7 @@
                 <li>@Html.ActionLink("All ODH Activities & Pois", "AllSmgPoiList", "GeoBank", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Events at NOI Techpark", "EventShortList", "GeoBank", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Accommodations", "AccommodationSimpleList", "ExternalDataSources", new { area = "" }, null)</li>
-                <li>@Html.ActionLink("Events", "EventList", "ExternalDataSources", new { area = "" }, null)</li>                
+                <li>@Html.ActionLink("Events", "EventList", "ExternalDataSources", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Activities DataSource LTS", "AllActivitiesList", "ExternalDataSources", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Pois DataSource LTS", "AllPoisList", "ExternalDataSources", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Gastronomies DataSource LTS", "GastronomyList", "ExternalDataSources", new { area = "" }, null)</li>
@@ -554,10 +570,10 @@
                 <li>@Html.ActionLink("Weather Information", "WeatherList", "ExternalDataSources", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Snow Report", "SnowReportList", "ExternalDataSources", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Regions", "RegionList", "GeoBank", new { area = "" }, null)</li>
-                <li>@Html.ActionLink("MetaRegions", "MetaRegionList", "GeoBank", new { area = "" }, null)</li>                
+                <li>@Html.ActionLink("MetaRegions", "MetaRegionList", "GeoBank", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Tourismassociations", "TourismVereinList", "GeoBank", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Municipalities", "MunicipalityList", "GeoBank", new { area = "" }, null)</li>
-                <li>@Html.ActionLink("Districts", "DistrictList", "GeoBank", new { area = "" }, null)</li>                                
+                <li>@Html.ActionLink("Districts", "DistrictList", "GeoBank", new { area = "" }, null)</li>
             </ul>
             <br />
         </div>
@@ -581,7 +597,7 @@
 @section Scripts{
 
     @*<script src="~/NgScripts/appfactory.js"></script>*@
-    <script src="~/NgScripts/appconfig.js"></script>
+    @*<script src="~/NgScripts/appconfig.js"></script>*@
     @*<script src="~/NgScripts/appme.js"></script>*@
 
 }

@@ -64,6 +64,8 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
         if (rejection.status === 401) {
             //$location.path('/Account/Login');
 
+            alert("Error, session expired, Please re-login");
+
             console.log("not allowed");
         }
         return $q.reject(rejection);

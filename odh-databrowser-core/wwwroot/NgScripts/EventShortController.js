@@ -101,25 +101,7 @@ app.controller('eventshortListController', [
                     }
                 }
 			}
-		};
-
-		//$scope.updateeventshort = function (id) {
-
-		//    $scope.isloading = true;
-		//    $http.get($scope.basePath + '/v1/Update/EventShort/' + id).success(function (result) {
-
-		//        console.log(result);
-		//        $scope.isloading = false;
-		//        alert(result);
-
-		//        //noamol filter ausfiahrn
-		//        $scope.applyFilter($scope.page);
-
-		//    }).error(function (data) {
-		//        alert("ERROR:" + data);
-		//    });
-
-		//};
+		};		
 
 		$scope.page = 1;
 		$scope.totalpages = 0;

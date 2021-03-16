@@ -64,8 +64,8 @@
 
                     }
                     @if (@ViewBag.DataVisible == true || @ViewBag.GeobankVisible == true || @ViewBag.LocationVisible == true ||
-                     @ViewBag.GBPoiVisible == true || @ViewBag.GBAccoVisible == true || @ViewBag.GBPackageVisible == true ||
-                      @ViewBag.GBEventVisible == true || @ViewBag.GBEventShortVisible == true || @ViewBag.GBArticleVisible == true)
+                 @ViewBag.GBPoiVisible == true || @ViewBag.GBAccoVisible == true || @ViewBag.GBPackageVisible == true ||
+                  @ViewBag.GBEventVisible == true || @ViewBag.GBEventShortVisible == true || @ViewBag.GBArticleVisible == true)
                     {
 
                         <li class="dropdown">
@@ -184,10 +184,10 @@
 
                     }
                     @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSActivityVisible == true ||
-                     @ViewBag.LTSPoiVisible == true || @ViewBag.LTSGastroVisible == true || @ViewBag.LTSAccoVisible == true ||
-                     @ViewBag.LTSEventVisible == true || @ViewBag.HgvPackageVisible == true || @ViewBag.SuedtirolWeinVisible == true ||
-                     @ViewBag.SiagMuseumDataVisible == true || @ViewBag.ArchappDataVisible == true || @ViewBag.LTSMeasuringpointsVisible == true ||
-                     @ViewBag.SnowReportVisible == true || @ViewBag.WeatherVisible == true)
+                 @ViewBag.LTSPoiVisible == true || @ViewBag.LTSGastroVisible == true || @ViewBag.LTSAccoVisible == true ||
+                 @ViewBag.LTSEventVisible == true || @ViewBag.HgvPackageVisible == true || @ViewBag.SuedtirolWeinVisible == true ||
+                 @ViewBag.SiagMuseumDataVisible == true || @ViewBag.ArchappDataVisible == true || @ViewBag.LTSMeasuringpointsVisible == true ||
+                 @ViewBag.SnowReportVisible == true || @ViewBag.WeatherVisible == true)
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">external Datasources<b class="caret"></b></a>
@@ -556,7 +556,7 @@
     </div>
 
     <div class="container body-content">
-        
+
         @RenderBody()
 
     </div>
@@ -577,6 +577,19 @@
     <script src="~/bundles/jquery.min.js"></script>
     <script src="~/bundles/bootstrap.min.js"></script>
     <script src="~/bundles/angular.min.js"></script>
+    @*<script src="~/NgScripts/pathconfig.js"></script>
+        <script src="~/NgScripts/appfactory.js"></script>
+        <script src="~/NgScripts/appconfig.js"></script>*@
+    <environment names="Local">
+        <script src="~/NgScripts/pathconfig-local.js"></script>
+    </environment>
+    <environment names="Development">
+        <script src="~/NgScripts/pathconfig-dev.js"></script>
+    </environment>
+    <environment names="Production">
+        <script src="~/NgScripts/pathconfig-live.js"></script>
+    </environment>
+
     <script src="~/NgScripts/appfactory.js"></script>
     <script src="~/NgScripts/appconfig.js"></script>
     @*<script src="~/bundles/angularcustom.min.js"></script>*@

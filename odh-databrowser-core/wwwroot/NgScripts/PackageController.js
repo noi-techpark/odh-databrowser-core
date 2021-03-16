@@ -1,8 +1,8 @@
-﻿var app = angular.module('hgvpackage', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'appfactory', 'leaflet-directive']);
+﻿var app = angular.module('hgvpackage', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('hgvpackageListController', [
-    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple',
-    function ($scope, $http, $modal, config, leafletData, leafletmapsimple) {
+    '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'apipath',
+    function ($scope, $http, $modal, config, leafletData, leafletmapsimple, apipath) {
 
         $scope.lang = 'de';
 
@@ -17,7 +17,7 @@ app.controller('hgvpackageListController', [
         $scope.seed = 'null';
         $scope.filtered = false;
 
-        $scope.basePath = config.basePath;
+        $scope.basePath = apipath;
 
         //Package Filter
         $scope.SelectedPackageName = '';

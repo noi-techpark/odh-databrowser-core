@@ -44,13 +44,14 @@
       "wwwroot/js/textAngular.min.js"
     ]
   },
-  //{
-  //  "outputFileName": "wwwroot/bundles/angularcustom.min.js",
-  //  "inputFiles": [
-  //    "wwwroot/NgScripts/appfactory.js",
-  //    "wwwroot/NgScripts/appconfig.js"
-  //  ] 
-  //},
+  {
+    "outputFileName": "wwwroot/bundles/angularcustom.min.js",
+    "inputFiles": [
+      "wwwroot/NgScripts/pathconfig.js",
+      "wwwroot/NgScripts/appfactory.js",
+      "wwwroot/NgScripts/appconfig.js"
+    ] 
+  },
   {
     "outputFileName": "wwwroot/bundles/leaflet.min.js",
     "inputFiles": [

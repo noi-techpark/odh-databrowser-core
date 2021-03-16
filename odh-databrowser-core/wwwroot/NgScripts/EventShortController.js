@@ -1,12 +1,12 @@
-﻿var app = angular.module('eventshort', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'textAngular', 'angularFileUpload']);
+﻿var app = angular.module('eventshort', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'textAngular', 'angularFileUpload', 'pathconfig']);
 
 app.controller('eventshortListController', [
-	'$scope', '$http', '$modal', 'appconfig',
-	function ($scope, $http, $modal, config) {
+    '$scope', '$http', '$modal', 'appconfig', 'apipath',
+    function ($scope, $http, $modal, config, apipath) {
 
         $scope.virtualvillagemanager = false;
 
-		$scope.basePath = config.basePath;
+        $scope.basePath = apipath;
 		$scope.lang = 'de';
 
 		$scope.init = function (virtualvillagemanager) {
@@ -101,25 +101,7 @@ app.controller('eventshortListController', [
                     }
                 }
 			}
-		};
-
-		//$scope.updateeventshort = function (id) {
-
-		//    $scope.isloading = true;
-		//    $http.get($scope.basePath + '/v1/Update/EventShort/' + id).success(function (result) {
-
-		//        console.log(result);
-		//        $scope.isloading = false;
-		//        alert(result);
-
-		//        //noamol filter ausfiahrn
-		//        $scope.applyFilter($scope.page);
-
-		//    }).error(function (data) {
-		//        alert("ERROR:" + data);
-		//    });
-
-		//};
+		};		
 
 		$scope.page = 1;
 		$scope.totalpages = 0;

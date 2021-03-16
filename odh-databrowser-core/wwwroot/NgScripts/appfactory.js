@@ -1,11 +1,11 @@
-﻿var appfactory = angular.module('appfactory', []);
+﻿var appfactory = angular.module('appfactory', ['pathconfig']);
 
-appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $location) {
+appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath', function ($q, $location, authserverpath) {
 
     //Dev Server
     //var authserverpath = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
     //Prod Server
-    var authserverpath = "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
+    //var authserverpath = pathconfig.authserverpath;  //"https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
    
     var authInterceptorServiceFactory = {};
 
@@ -63,6 +63,8 @@ appfactory.factory('authInterceptorService', ['$q', '$location', function ($q, $
     var _responseError = function (rejection) {
         if (rejection.status === 401) {
             //$location.path('/Account/Login');
+
+            alert("Error, session expired, Please re-login");
 
             console.log("not allowed");
         }
@@ -317,3 +319,4 @@ function setLanguageLocalBrowser(lang, backtobrowserlanguage) {
 
     return localStorage.getItem("Language");
 }
+

@@ -1,4 +1,4 @@
-﻿var appfactory = angular.module('appfactory', ['pathconfig']);
+﻿var appfactory = angular.module('appfactory', ['pathconfig'], ['angular-jwt']);
 
 appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath', function ($q, $location, authserverpath) {
 
@@ -6,7 +6,10 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
     //var authserverpath = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
     //Prod Server
     //var authserverpath = pathconfig.authserverpath;  //"https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
-   
+
+    //USE: removeAccessToken()
+    //https://github.com/auth0/angular-jwt
+
     var authInterceptorServiceFactory = {};
 
     var _request = function (config) {
@@ -16,6 +19,11 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
         var token = getAccessToken();
 
         console.log("The token is " + token);
+
+        //var istokenexpired = jwtHelper.isTokenExpired(token);
+
+        //console.log("Token expired: " + istokenexpired);
+
 
         if (token) {
 
@@ -41,9 +49,8 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
                     setAccessToken(fragment.access_token);
                 } else {
                     // no token - so bounce to Authorize endpoint in AccountController to sign in or register
-                    //console.log(basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location));
+                    //console.log(basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location))             
 
-             
                     //if (userAuthorized)
                     //    window.location = basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location);
 
@@ -64,7 +71,12 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
         if (rejection.status === 401) {
             //$location.path('/Account/Login');
 
+            //TO CHECK IF IT IS POSSIBLE TO GET THE TOKEN
+            //TODO FIND A WAY TO REFRESH THE TOKEN
+
             alert("Error, session expired, Please re-login");
+
+            removeAccessToken();
 
             console.log("not allowed");
         }
@@ -79,6 +91,12 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
 
 function setAccessToken(accessToken) {
     localStorage.setItem("accessToken", accessToken);
+
+    //console.log("token set: " + accessToken);
+};
+
+function removeAccessToken() {
+    localStorage.removeItem("accessToken", accessToken);
 
     //console.log("token set: " + accessToken);
 };

@@ -11,12 +11,16 @@ app.controller('eventshortListController', [
 
 		$scope.init = function (virtualvillagemanager) {
 
-           if (virtualvillagemanager) {
-                $scope.virtualvillagemanager = true;
-                $scope.eventlocation = 'VV';
+            console.log("Virtualvillagemanager: " + virtualvillagemanager);            
+          
+            if(virtualvillagemanager != 'False') {
+               $scope.virtualvillagemanager = true;
+               $scope.eventlocation = 'VV';               
             }                
 
-			$scope.changePage(0);
+            $scope.changePage(0);
+
+            console.log("eventlocation =" + $scope.eventlocation);
 		};
 
 		$scope.editeventshort = function (eventshort, operation) {

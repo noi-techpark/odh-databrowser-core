@@ -191,7 +191,7 @@
                                 <label for="inputTyp" class="col-sm-2 control-label">Location</label>
                                 <div class="col-sm-8">
                                     <select class="form-control notextareamaxwitdth" id="selectTyp" ng-model="eventshort.EventLocation" ng-show="eventshort.Source != 'EBMS'">
-                                        @if (@ViewBag.virtualvillageadmin == true)
+                                        @if (@ViewBag.virtualvillageonly == true)
                                         {
                                             <option value="VV">Virtual Village</option>
                                         }
@@ -352,7 +352,7 @@
                                     <label for="inputSpaceAbbrev" class="col-sm-2 control-label">Location</label>
                                     <div class="col-sm-8">
                                         <select class="form-control notextareamaxwitdth" id="selectSpace" ng-model="newroom.SpaceType">
-                                            @if (@ViewBag.virtualvillageadmin == true)
+                                            @if (@ViewBag.virtualvillageonly == true)
                                             {                                                
                                                 <option value="VV">Virtual Village</option>                                          
                                             }

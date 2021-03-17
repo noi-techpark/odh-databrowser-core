@@ -1,6 +1,6 @@
-﻿var appfactory = angular.module('appfactory', ['pathconfig'], ['angular-jwt']);
+﻿var appfactory = angular.module('appfactory', ['pathconfig', 'angular-jwt']);
 
-appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath', function ($q, $location, authserverpath) {
+appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath', 'jwtHelper', function ($q, $location, authserverpath, jwtHelper) {
 
     //Dev Server
     //var authserverpath = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
@@ -18,50 +18,26 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
 
         var token = getAccessToken();
 
-        console.log("The token is " + token);
-
-        //var istokenexpired = jwtHelper.isTokenExpired(token);
-
-        //console.log("Token expired: " + istokenexpired);
-
-
         if (token) {
+            var istokenexpired = jwtHelper.isTokenExpired(token);
+            var expdate = jwtHelper.getTokenExpirationDate(token);
+        }        
 
-            //console.log("bearer token added");
+        console.log("The token is " + token + " expired: " + istokenexpired + " valid until " + expdate);
 
+        if (istokenexpired) {
+            console.log("remove token");
+            removeAccessToken();
+            token = undefined;
+        }          
+
+        if (token) {            
             config.headers.Authorization = 'Bearer ' + token;
         }
-        else {
-
-            //console.log("Authorized user" + userAuthorized);
-
+        else {            
             if (userAuthorized) {
-                var fragment = getFragment();
-
-                if (fragment.access_token) {
-
-                    //console.log(fragment);
-                    //console.log(fragment.access_token);
-
-                    // returning with access token, restore old hash, or at least hide token
-                    window.location.hash = fragment.state || '';
-
-                    setAccessToken(fragment.access_token);
-                } else {
-                    // no token - so bounce to Authorize endpoint in AccountController to sign in or register
-                    //console.log(basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location))             
-
-                    //if (userAuthorized)
-                    //    window.location = basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location);
-
-                    var returnurl = window.location.pathname;
-
-                    //window.location = "/Account/Login?ReturnUrl=" + returnurl;
-
-                    window.location = authserverpath + encodeURIComponent(window.location); 
-                }
+                getMyToken(authserverpath);
             }
-
         }
 
         return config;
@@ -89,6 +65,36 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
     return authInterceptorServiceFactory;
 }]);
 
+
+function getMyToken(authserverpath) {
+    var fragment = getFragment();
+
+    if (fragment.access_token) {
+
+        //console.log(fragment);
+        //console.log(fragment.access_token);
+
+        // returning with access token, restore old hash, or at least hide token
+        window.location.hash = fragment.state || '';
+
+        setAccessToken(fragment.access_token);
+    } else {
+        // no token - so bounce to Authorize endpoint in AccountController to sign in or register
+        //console.log(basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location))             
+
+        //if (userAuthorized)
+        //    window.location = basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location);
+
+        var returnurl = window.location.pathname;
+
+        //window.location = "/Account/Login?ReturnUrl=" + returnurl;
+
+        window.location = authserverpath + encodeURIComponent(window.location);
+    }
+};
+
+
+
 function setAccessToken(accessToken) {
     localStorage.setItem("accessToken", accessToken);
 
@@ -96,7 +102,7 @@ function setAccessToken(accessToken) {
 };
 
 function removeAccessToken() {
-    localStorage.removeItem("accessToken", accessToken);
+    localStorage.removeItem("accessToken");
 
     //console.log("token set: " + accessToken);
 };

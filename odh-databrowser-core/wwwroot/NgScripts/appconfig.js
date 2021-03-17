@@ -1,5 +1,5 @@
 ﻿// Module specific configuration
-var appconfig = angular.module('appconfig', ['appfactory', 'ngRoute','pathconfig'])
+var appconfig = angular.module('appconfig', ['appfactory', 'ngRoute', 'pathconfig','angular-jwt'])
   
 appconfig.value('appconfig', {
 

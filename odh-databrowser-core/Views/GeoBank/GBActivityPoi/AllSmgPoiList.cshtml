@@ -214,7 +214,11 @@
                         </td>
                         @*<td>{{ activity.Id }}</td>*@
                         <td>{{ poi.Detail[lang].Title }}</td>
-                        <td>{{ poi.AdditionalPoiInfos[lang].MainType }} - {{ poi.AdditionalPoiInfos[lang].SubType }} - {{ poi.AdditionalPoiInfos[lang].PoiType }}</td>
+                        <td>
+                            <div ng-repeat="category in poi.AdditionalPoiInfos[lang].Categories">
+                                <small>{{ category }}</small>
+                            </div>
+                        </td>
                         <td>{{ poi.LocationInfo.RegionInfo.Name[lang] }} - {{ poi.LocationInfo.TvInfo.Name[lang] }}</td>
                         <td>
                             <div ng-repeat="thelang in poi.HasLanguage">

@@ -1652,7 +1652,7 @@
 
                     <br />
                     <h2>{{ poi.Detail[lang].Title }}</h2>
-                    <h4>{{ poi.AdditionalPoiInfos[lang].MainType }} - {{ poi.AdditionalPoiInfos[lang].SubType }}</h4>
+                    <h4><div ng-repeat="category in poi.AdditionalPoiInfos[lang].Categories">{{ category }}</div></h4>
                     <h5>{{ poi.PoiType }}</h5>
 
                     <div ng-show="poi.Detail[lang].IntroText != '' && poi.Detail[lang].IntroText != null">

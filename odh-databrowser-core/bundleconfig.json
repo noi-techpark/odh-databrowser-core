@@ -42,6 +42,7 @@
       "wwwroot/js/angular-sanitize.min.js",
       "wwwroot/js/textAngular-sanitize.min.js",
       "wwwroot/js/textAngular.min.js"
+      //"wwwroot/js/angular-jwt.min.js"
     ]
   },
   {

@@ -1,60 +1,49 @@
-﻿var appfactory = angular.module('appfactory', ['pathconfig']);
+﻿var appfactory = angular.module('appfactory', ['pathconfig', 'angular-jwt']);
 
-appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath', function ($q, $location, authserverpath) {
+appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath', 'jwtHelper', function ($q, $location, authserverpath, jwtHelper) {
 
-    //Dev Server
-    //var authserverpath = "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
-    //Prod Server
-    //var authserverpath = pathconfig.authserverpath;  //"https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/auth?client_id=odh-frontend-core&response_type=token&redirect_uri="
-   
+    //using jwt lib https://github.com/auth0/angular-jwt
+
     var authInterceptorServiceFactory = {};
 
     var _request = function (config) {
 
-        config.headers = config.headers || {};
+        //config.headers = config.headers || {};
 
-        var token = getAccessToken();
+        console.log("is user authorized: " + userAuthorized)
 
-        console.log("The token is " + token);
+        //Add the header only when user is authorized
+        if (userAuthorized) {
 
-        if (token) {
+            var token = localStorage.getItem("accessToken");
 
-            //console.log("bearer token added");
+            if (token) {
+                var istokenexpired = jwtHelper.isTokenExpired(token);
+                var expdate = jwtHelper.getTokenExpirationDate(token);
 
-            config.headers.Authorization = 'Bearer ' + token;
-        }
-        else {
+                console.log("The token is " + token + " expired: " + istokenexpired + " valid until " + expdate);
 
-            //console.log("Authorized user" + userAuthorized);
+                if (istokenexpired) {
+                    console.log("token expired remove token");
+                    localStorage.removeItem("accessToken");
 
-            if (userAuthorized) {
-                var fragment = getFragment();
-
-                if (fragment.access_token) {
-
-                    //console.log(fragment);
-                    //console.log(fragment.access_token);
-
-                    // returning with access token, restore old hash, or at least hide token
-                    window.location.hash = fragment.state || '';
-
-                    setAccessToken(fragment.access_token);
-                } else {
-                    // no token - so bounce to Authorize endpoint in AccountController to sign in or register
-                    //console.log(basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location));
-
-             
-                    //if (userAuthorized)
-                    //    window.location = basepathtemp + "/Account/Authorize?client_id=web&response_type=token&redirect_uri=" + encodeURIComponent(window.location);
-
-                    var returnurl = window.location.pathname;
-
-                    //window.location = "/Account/Login?ReturnUrl=" + returnurl;
-
-                    window.location = authserverpath + encodeURIComponent(window.location); 
+                    getMyToken(authserverpath, function (mytoken) {
+                        console.log("getting NEW token while Expired");
+                        token = mytoken;
+                        console.log(token);                        
+                    });
                 }
-            }
 
+                console.log("adding token to header");                                
+                config.headers.Authorization = 'Bearer ' + token;
+            }
+            else {
+                getMyToken(authserverpath, function (mytoken) {
+                    console.log("getting NEW token NO Token");
+                    console.log("adding token to header");
+                    config.headers.Authorization = 'Bearer ' + mytoken;
+                });
+            }          
         }
 
         return config;
@@ -64,10 +53,10 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
         if (rejection.status === 401) {
             //$location.path('/Account/Login');
 
-            alert("Error, session expired, Please re-login");
-
-            console.log("not allowed");
+            removeAccessToken();
+            console.log("Request rejected");         
         }
+        
         return $q.reject(rejection);
     }
 
@@ -77,8 +66,37 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
     return authInterceptorServiceFactory;
 }]);
 
-function setAccessToken(accessToken) {
+
+function getMyToken(authserverpath, callback) {
+    var fragment = getFragment();
+
+    if (fragment.access_token) {
+
+        //console.log(fragment);
+        //console.log(fragment.access_token);
+
+        // returning with access token, restore old hash, or at least hide token
+        window.location.hash = fragment.state || '';
+        
+        setAccessToken(fragment.access_token, function () {
+
+            callback(fragment.access_token);
+        });
+       
+    }
+    else {       
+        window.location = authserverpath + encodeURIComponent(window.location);
+    }
+};
+
+function setAccessToken(accessToken, callback) {
     localStorage.setItem("accessToken", accessToken);
+
+    callback();
+};
+
+function removeAccessToken() {
+    localStorage.removeItem("accessToken");
 
     //console.log("token set: " + accessToken);
 };
@@ -88,18 +106,8 @@ function getAccessToken() {
 };
 
 function getFragment() {
-    if (window.location.hash.indexOf("#") === 0) {
-
-        //var hashsplitted = window.location.hash.split('&');
-
-        //console.log(hashsplitted[1]);
-
-        //var mytoken = hashsplitted[1].substr(13);
-        
-        //console.log("Bearer token from hash: " + mytoken);
-
-        return parseQueryString(window.location.hash.substr(2));
-  
+    if (window.location.hash.indexOf("#") === 0) {       
+        return parseQueryString(window.location.hash.substr(2));  
     } else {
         return {};
     }

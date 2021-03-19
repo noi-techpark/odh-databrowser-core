@@ -159,7 +159,7 @@ namespace odh_databrowser_core.Filters
 
                 //VirtualVillage
                 controller.ViewBag.virtualvillageadmin = false;
-
+                controller.ViewBag.virtualvillageonly = false;
 
                 CheckRoles(principal, filterContext);
 
@@ -764,6 +764,20 @@ namespace odh_databrowser_core.Filters
             {
                 controller.ViewBag.virtualvillageadmin = true;
             }
+
+            //Check if assigned Role is only virtualvillagemanager
+            if (principal.IsInRole("VirtualVillageManager") && 
+                !principal.IsInRole("DataWriter") &&
+                !principal.IsInRole("DataCreate") &&
+                !principal.IsInRole("DataModify") &&
+                !principal.IsInRole("DataDelete") &&
+                !principal.IsInRole("EventShortManager") &&
+                !principal.IsInRole("EvenShortCreate") &&
+                !principal.IsInRole("EventShortModify") &&
+                !principal.IsInRole("EventShortDelete"))
+            {
+                controller.ViewBag.virtualvillageonly = true;
+            }            
         }
 
         public void CheckGBRolesVisible(System.Security.Principal.IPrincipal principal, ResultExecutingContext filterContext)

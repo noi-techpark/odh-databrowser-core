@@ -358,10 +358,10 @@
                                 </div>
                             </tab>
 
-                            <tab heading="Detail">
+                              <tab heading="Detail">
                                 <br />
                                 <div class="row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-horizontal">
 
                                             <div class="form-group">
@@ -372,23 +372,71 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputBaseText" class="col-sm-2 control-label">BaseText</label>
+                                                <label for="inputIntroText" class="col-sm-2 control-label">IntroText / ShortText</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="8" class="form-control notextareamaxwitdth" id="inputBaseText" placeholder="BaseText" ng-model="poi.Detail[lang].BaseText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputIntroText" placeholder="IntroText" ng-model="poi.Detail[lang].IntroText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputGetThereText" class="col-sm-2 control-label">GetThereText</label>
+                                                <label for="inputBaseText" class="col-sm-2 control-label">BaseText</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="4" class="form-control notextareamaxwitdth" id="inputGetThereText" placeholder="GetThereText" ng-model="poi.Detail[lang].GetThereText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                    <textarea rows="9" class="form-control notextareamaxwitdth" id="inputBaseText" placeholder="BaseText" ng-model="poi.Detail[lang].BaseText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputGetThereText" class="col-sm-2 control-label">GetThere Text</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputGetThereText" placeholder="GetThereText" ng-model="poi.Detail[lang].GetThereText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="inputAdditionalText" class="col-sm-2 control-label">Additional Text</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="4" class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" ng-model="poi.Detail[lang].AdditionalText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" ng-model="poi.Detail[lang].AdditionalText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputParkingInfo" class="col-sm-2 control-label">Parking Info</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputParkingInfo" placeholder="ParkingInfo" ng-model="poi.Detail[lang].ParkingInfo" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputPublicTransportationInfo" class="col-sm-2 control-label">Public Transportation Info</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputPublicTransportationInfo" placeholder="PublicTransportationInfo" ng-model="poi.Detail[lang].PublicTransportationInfo" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAuthorTip" class="col-sm-2 control-label">Author Tip</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputAuthorTip" placeholder="AuthorTip" ng-model="poi.Detail[lang].AuthorTip" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputSafetyInfo" class="col-sm-2 control-label">Safety Info</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputSafetyInfo" placeholder="SafetyInfo" ng-model="poi.Detail[lang].SafetyInfo" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputEquipmentInfo" class="col-sm-2 control-label">EquipmentInfo</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputEquipmentInfo" placeholder="EquipmentInfo" ng-model="poi.Detail[lang].EquipmentInfo" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
                                                 </div>
                                             </div>
 

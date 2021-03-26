@@ -1156,10 +1156,35 @@
                         <p ng-bind-html="activity.Detail[lang].GetThereText"></p>
                     </div>
 
-                    <p ng-show="activity.Detail[lang].AdditionalText != '' && activity.Detail[lang].AdditionalText != null">
+                     <div ng-show="activity.Detail[lang].AdditionalText != '' && activity.Detail[lang].AdditionalText != null">
                         <strong>Zusatztext</strong><br />
-                        {{ activity.Detail[lang].AdditionalText }}
-                    </p>
+                        <p ng-bind-html="activity.Detail[lang].AdditionalText"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].ParkingInfo != '' && activity.Detail[lang].ParkingInfo != null">
+                        <strong>Parkplatz</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].ParkingInfo"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].PublicTransportationInfo != '' && activity.Detail[lang].PublicTransportationInfo != null">
+                        <strong>Öffentliche Verkehrsmittel</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].PublicTransportationInfo"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].AuthorTip != '' && activity.Detail[lang].AuthorTip != null">
+                        <strong>Authors Tipps</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].AuthorTip"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].SafetyInfo != '' && activity.Detail[lang].SafetyInfo != null">
+                        <strong>Sicherheitsinformationen</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].SafetyInfo"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].EquipmentInfo != '' && activity.Detail[lang].EquipmentInfo != null">
+                        <strong>Ausrüstung</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].EquipmentInfo"></p>
+                    </div>
 
                 </div>
             </div>

@@ -762,6 +762,8 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function ($sco
     };
     uploader.onSuccessItem = function (fileItem, response, status, headers) {
 
+        //console.log(response);
+
         var r = new RegExp('"', 'g');
         var imageurl = response.replace(r, '');
         //Filename

@@ -1575,7 +1575,7 @@
                 <div class="col-sm-12">
                     <br />
                     <h2>{{ poi.Detail[lang].Title }}</h2>
-                    <h4><div ng-repeat="category in poi.AdditionalPoiInfos[lang].Categories">{{ category }}</div></h4>                    
+                    <h4><div ng-repeat="category in poi.AdditionalPoiInfos[lang].Categories">{{ category }}</div></h4>
 
 
                     <div ng-show="poi.Detail[lang].IntroText != '' && poi.Detail[lang].IntroText != null">
@@ -1594,12 +1594,35 @@
                         <p ng-bind-html="poi.Detail[lang].GetThereText"></p>
                     </div>
 
-                    <p ng-show="poi.Detail[lang].AdditionalText != '' && poi.Detail[lang].AdditionalText != null">
+                      <div ng-show="poi.Detail[lang].AdditionalText != '' && poi.Detail[lang].AdditionalText != null">
                         <strong>Zusatztext</strong><br />
-                        {{ poi.Detail[lang].AdditionalText }}
-                    </p>
+                        <p ng-bind-html="poi.Detail[lang].AdditionalText"></p>
+                    </div>
 
+                    <div ng-show="poi.Detail[lang].ParkingInfo != '' && poi.Detail[lang].ParkingInfo != null">
+                        <strong>Parkplatz</strong><br />
+                        <p ng-bind-html="poi.Detail[lang].ParkingInfo"></p>
+                    </div>
 
+                    <div ng-show="poi.Detail[lang].PublicTransportationInfo != '' && poi.Detail[lang].PublicTransportationInfo != null">
+                        <strong>Öffentliche Verkehrsmittel</strong><br />
+                        <p ng-bind-html="poi.Detail[lang].PublicTransportationInfo"></p>
+                    </div>
+
+                    <div ng-show="poi.Detail[lang].AuthorTip != '' && poi.Detail[lang].AuthorTip != null">
+                        <strong>Authors Tipps</strong><br />
+                        <p ng-bind-html="poi.Detail[lang].AuthorTip"></p>
+                    </div>
+
+                    <div ng-show="poi.Detail[lang].SafetyInfo != '' && poi.Detail[lang].SafetyInfo != null">
+                        <strong>Sicherheitsinformationen</strong><br />
+                        <p ng-bind-html="poi.Detail[lang].SafetyInfo"></p>
+                    </div>
+
+                    <div ng-show="poi.Detail[lang].EquipmentInfo != '' && poi.Detail[lang].EquipmentInfo != null">
+                        <strong>Ausrüstung</strong><br />
+                        <p ng-bind-html="poi.Detail[lang].EquipmentInfo"></p>
+                    </div>
 
                 </div>
             </div>

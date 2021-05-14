@@ -510,7 +510,7 @@
                             <tab heading="Detail">
                                 <br />
                                 <div class="row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-horizontal">
 
                                             <div class="form-group">
@@ -521,23 +521,71 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputBaseText" class="col-sm-2 control-label">BaseText</label>
+                                                <label for="inputIntroText" class="col-sm-2 control-label">IntroText / ShortText</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="8" class="form-control notextareamaxwitdth" id="inputBaseText" placeholder="BaseText" ng-model="activity.Detail[lang].BaseText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputIntroText" placeholder="IntroText" ng-model="activity.Detail[lang].IntroText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputGetThereText" class="col-sm-2 control-label">GetThereText</label>
+                                                <label for="inputBaseText" class="col-sm-2 control-label">BaseText</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="4" class="form-control notextareamaxwitdth" id="inputGetThereText" placeholder="GetThereText" ng-model="activity.Detail[lang].GetThereText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                    <textarea rows="9" class="form-control notextareamaxwitdth" id="inputBaseText" placeholder="BaseText" ng-model="activity.Detail[lang].BaseText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputGetThereText" class="col-sm-2 control-label">GetThere Text</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputGetThereText" placeholder="GetThereText" ng-model="activity.Detail[lang].GetThereText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="inputAdditionalText" class="col-sm-2 control-label">Additional Text</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="4" class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" ng-model="activity.Detail[lang].AdditionalText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" ng-model="activity.Detail[lang].AdditionalText" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputParkingInfo" class="col-sm-2 control-label">Parking Info</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputParkingInfo" placeholder="ParkingInfo" ng-model="activity.Detail[lang].ParkingInfo" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputPublicTransportationInfo" class="col-sm-2 control-label">Public Transportation Info</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputPublicTransportationInfo" placeholder="PublicTransportationInfo" ng-model="activity.Detail[lang].PublicTransportationInfo" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAuthorTip" class="col-sm-2 control-label">Author Tip</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputAuthorTip" placeholder="AuthorTip" ng-model="activity.Detail[lang].AuthorTip" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputSafetyInfo" class="col-sm-2 control-label">Safety Info</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputSafetyInfo" placeholder="SafetyInfo" ng-model="activity.Detail[lang].SafetyInfo" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputEquipmentInfo" class="col-sm-2 control-label">EquipmentInfo</label>
+                                                <div class="col-sm-10">
+                                                    <textarea rows="5" class="form-control notextareamaxwitdth" id="inputEquipmentInfo" placeholder="EquipmentInfo" ng-model="activity.Detail[lang].EquipmentInfo" ng-disabled="lang == 'de' || lang == 'it' || lang == 'en'"></textarea>
                                                 </div>
                                             </div>
 
@@ -1097,11 +1145,35 @@
                         <p ng-bind-html="activity.Detail[lang].GetThereText"></p>
                     </div>
 
-                    <p ng-show="activity.Detail[lang].AdditionalText != '' && activity.Detail[lang].AdditionalText != null">
+                    <div ng-show="activity.Detail[lang].AdditionalText != '' && activity.Detail[lang].AdditionalText != null">
                         <strong>Zusatztext</strong><br />
-                        {{ activity.Detail[lang].AdditionalText }}
-                    </p>
+                        <p ng-bind-html="activity.Detail[lang].AdditionalText"></p>
+                    </div>
 
+                    <div ng-show="activity.Detail[lang].ParkingInfo != '' && activity.Detail[lang].ParkingInfo != null">
+                        <strong>Parkplatz</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].ParkingInfo"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].PublicTransportationInfo != '' && activity.Detail[lang].PublicTransportationInfo != null">
+                        <strong>Öffentliche Verkehrsmittel</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].PublicTransportationInfo"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].AuthorTip != '' && activity.Detail[lang].AuthorTip != null">
+                        <strong>Authors Tipps</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].AuthorTip"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].SafetyInfo != '' && activity.Detail[lang].SafetyInfo != null">
+                        <strong>Sicherheitsinformationen</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].SafetyInfo"></p>
+                    </div>
+
+                    <div ng-show="activity.Detail[lang].EquipmentInfo != '' && activity.Detail[lang].EquipmentInfo != null">
+                        <strong>Ausrüstung</strong><br />
+                        <p ng-bind-html="activity.Detail[lang].EquipmentInfo"></p>
+                    </div>
 
                 </div>
             </div>

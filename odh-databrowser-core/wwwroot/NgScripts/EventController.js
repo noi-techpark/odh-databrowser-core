@@ -246,6 +246,7 @@ app.controller('eventListController', [
                 $scope.checkEventTopicModel[i] = false;
             });
 
+            $scope.source = 'null';
 
             $scope.filtered = false;
             $scope.page = 1;

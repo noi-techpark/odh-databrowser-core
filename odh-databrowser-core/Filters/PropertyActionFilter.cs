@@ -13,7 +13,6 @@ namespace odh_databrowser_core.Filters
         {
             if (filterContext.Result is ViewResult)
             {
-
                 //var principal = filterContext.HttpContext.User; // .ControllerContext.HttpContext.User;
 
                 var controller = filterContext.Controller as Controller;

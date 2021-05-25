@@ -1,23 +1,20 @@
 ﻿
 @{
-    ViewBag.Title = "AllSmgPoiList";
+    ViewBag.Title = "ShopsAndServiceList";
 }
-
-
-@section jumbotronsect {<h2>All Activities and Pois</h2>
+@section jumbotronsect {<h2>Activities & Pois - Shops & Services</h2>
 }
 @section infomodaltext {
-    <h2>All Activities & Pois</h2>
+    <h2>Activities & Pois - Shops & Services</h2>
     <p>
         All displayed data is collected from various Interfaces (LTS TIC Web Activity & Poi & Gastronomy Data, SIAG, Suedtirol Wein, Created Content, Import from old suedtirol.info CMS Magnolia).
     </p>
-    <p>The property Outdooractive indicates if the data is also available on Outdooractive.com</p>
     <p>Contains all Activities & Pois & Gastronomy Data</p>
     <p>Only CC0 Images are displayed</p>
 }
 
 
-<div class="col-sm-12" ng-app="smgpoi" ng-controller="smgpoiListController" ng-init="init('255','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp')">
+<div class="col-sm-12" ng-app="smgpoi" ng-controller="smgpoiListController" ng-init="init('Geschäfte und Dienstleister','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp')">
 
     <div class="splash" ng-show="isloading">
         <h2>
@@ -87,7 +84,7 @@
 
                 <div class="form-group col-sm-12" ng-controller="SmgTagNameTypeAheadController">
                     <h6>ODH Tag<small class="btn-link pull-right" ng-click="clearTagFilter()">Clear</small></h6>
-                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="TagName" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
+                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
                 </div>
 
                 <div class="form-group col-sm-12">
@@ -95,18 +92,123 @@
                     <input type="checkbox" class="checkbox" ng-model="highlight" />
                 </div>
 
+
                 <div class="form-group col-sm-12">
-                    <h6>Typ<small class="btn-link pull-right" ng-click="clearMainTypeFilter()">Clear</small></h6>
+                    <h6>Typ<small class="btn-link pull-right" ng-click="clearTypeFilter()">Clear</small></h6>
                     <div class="btn-group-vertical">
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'63'">Alle</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'1'">Wellness</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'2'">Winter</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'4'">Summer</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'8'">Culture</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'16'">Other</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'32'">Gastronomy</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'64'">Mobility</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'128'" style="white-space: normal;">Shops and Services</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.1" btn-checkbox>Health</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.2" btn-checkbox>Shops</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.3" btn-checkbox>Services</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.4" btn-checkbox>Öffentliche Einrichtung</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.5" btn-checkbox>Nightlife and entertainment</label>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.1">
+                    <h6>Health</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Pharmacies</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Doctors</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Holiday dialysis</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Paediatricians</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" btn-checkbox>Veterinaries</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>Dentists</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.7" style="white-space: normal;" btn-checkbox>Medicines dispensers</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.8" style="white-space: normal;" btn-checkbox>Private clinics, trauma centers, physiotherapists</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.9" style="white-space: normal;" btn-checkbox>Other doctors, pharmacies</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.2">
+                    <h6>Shops</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Beverages</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Antiques</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Flowers</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Computer accessories, technology</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" btn-checkbox>Drugstore</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>Bikes</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.7" btn-checkbox>Paints, Wallpapers</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.8" btn-checkbox>Meat and sausages</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.9" btn-checkbox>Bread and baked goods</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.10" btn-checkbox>Housewares</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.11" btn-checkbox>Jeweller, Goldsmiths</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.12" btn-checkbox>Handicrafts</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.13" btn-checkbox>Agricultural products</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.14" btn-checkbox>Groceries</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.15" btn-checkbox>Leather ware, shoes</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.16" btn-checkbox>Local traditional products</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.17" btn-checkbox>Fashion, clothing</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.18" btn-checkbox>Fruits and vegetables</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.19" btn-checkbox>Optician, photography</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.20" btn-checkbox>Production facilities, farm shops</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.21" btn-checkbox>Souvenirs</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.22" btn-checkbox>Toys</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.23" btn-checkbox>Sports equipment</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.24" btn-checkbox>Pet supplies</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.25" btn-checkbox>Newspapers, books and stationary</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.26" btn-checkbox>Kids fashion</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.27" btn-checkbox>Cars and motors</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.28" btn-checkbox>Construction sector, trade</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.29" btn-checkbox>Cleanings</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.30" btn-checkbox>Other shops</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.31" btn-checkbox>Home furnishings</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.3">
+                    <h6>Services</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Cars and motors</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Construction sector, trade</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Child day-care and kids programmes</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Advertising and graphics</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" btn-checkbox>Cleaning</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>Animal care</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.7" btn-checkbox>Banks, Cash Machines</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.8" btn-checkbox>Beauty and Wellness</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.9" btn-checkbox>Hairdresser</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.10" btn-checkbox>Cosmetics</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.11" btn-checkbox>Massage, health spas</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.12" btn-checkbox>Day spa, sauna</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.13" btn-checkbox>Kneipp baths</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.14" btn-checkbox>Other beauty and wellness</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.15" btn-checkbox>Other service providers</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.16" btn-checkbox>Sculptor</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.17" btn-checkbox>Weaving mill arts</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.18" btn-checkbox>Quill embroidery</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.19" btn-checkbox>Artist and gilder</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.20" btn-checkbox>More crafts</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.21" btn-checkbox>Artists</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.4">
+                    <h6>Public institutions</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Libraries</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Municipalities</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Public WLAN</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Police, Carabinieri</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" btn-checkbox>Post</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>Recycling centres</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.7" btn-checkbox>Information office</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.8" btn-checkbox>Infopoint</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.9" btn-checkbox>WCs</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.10" btn-checkbox>Hospital</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.11" style="white-space: normal;" btn-checkbox>Other public institutions</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.5">
+                    <h6>Nightlife and entertainment</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Beer garden</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Cocktailbars</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Discotheques, night clubs</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" style="white-space: normal;" btn-checkbox>Other nightlife and entertainment</label>
                     </div>
                 </div>
 
@@ -156,7 +258,6 @@
                         <option value="SuedtirolWein">Südtirol Wein</option>
                         <option value="VerticalLife">Vertical Life</option>
                         <option value="ArchApp">Archapp</option>
-                        <option value="Sta">Sta</option>
                     </select>
                 </div>
 
@@ -189,14 +290,14 @@
                 <thead>
                     <tr>
                         <th style="width:160px">MainImage</th>
-                        <th style="min-width: 80px;">Name</th>
+                        <th style="min-width: 80px;">Shortname</th>
                         <th style="min-width: 80px;">Type</th>
                         <th style="min-width: 80px;">Location</th>
                         <th style="min-width: 80px;">Languages</th>
                         <th style="min-width: 80px;">Source</th>
-                        <th style="min-width: 60px;">OA</th>
                         <th style="min-width: 80px;">Active</th>
-                        <th style="min-width: 80px;">ODH Active</th>
+                        <th style="min-width: 80px;">ODH active</th>
+
                         <th></th>
                     </tr>
                 </thead>
@@ -226,9 +327,6 @@
                             </div>
                         </td>
                         <td>{{ poi.Source }}</td>
-                        <td>
-                            <a class="btn btn-xs btn-success" ng-show="poi.OutdooractiveID > 0" href="https://regio.outdooractive.com/oar-suedtirol-alto-adige/r/{{ poi.OutdooractiveID }}/" target="_blank">OA</a>
-                        </td>
                         <td>
                             <div class="glyphicon glyphicon-ok" ng-show="poi.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="poi.Active == false"></div>
@@ -302,6 +400,7 @@
                     <div class="col-sm-12">
 
                         <tabset>
+
                             <tab heading="General">
                                 <br />
                                 <div class="row">
@@ -344,7 +443,6 @@
                                                         <option>SuedtirolWein</option>
                                                         <option>VerticalLife</option>
                                                         <option>ArchApp</option>
-                                                        <option>STA</option>
                                                     </select>
                                                 </div>
 
@@ -366,7 +464,6 @@
                                                         <option>suedtirolwein</option>
                                                         <option>verticallife</option>
                                                         <option>archapp</option>
-                                                        <option>sta</option>
                                                     </select>
                                                 </div>
 
@@ -646,6 +743,7 @@
                                 </div>
 
                             </tab>
+
 
 
                             <tab heading="Detail">
@@ -1017,6 +1115,15 @@
                                                 <label for="inputNovelty" class="col-sm-4 control-label">Novelty</label>
                                                 <div class="col-sm-8">
                                                     <textarea rows="4" type="text" class="form-control notextareamaxwitdth" id="inputNovelty" placeholder="Novelty" ng-model="poi.AdditionalPoiInfos[lang].Novelty"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputCategory" class="col-sm-4 control-label">Categories</label>
+                                                <div class="col-sm-8" >
+                                                    <div  ng-repeat="category in poi.AdditionalPoiInfos[lang].Categories">
+                                                        <input type="text" class="form-control notextareamaxwitdth" id="inputNovelty" placeholder="Category" ng-model="category" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -1620,7 +1727,6 @@
             </div>
         </form>
     </script>
-
 
     <script type="text/ng-template" id="myPoiInfoModal.html">
         <div class="modal-header">

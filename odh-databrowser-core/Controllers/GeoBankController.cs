@@ -119,6 +119,16 @@ namespace SuedtirolManagerPG.Controllers
             return View("~/Views/GeoBank/GBActivityPoi/SummerList.cshtml");
         }
 
+        public ActionResult ShopsAndServicesList()
+        {
+            return View("~/Views/GeoBank/GBActivityPoi/ShopsAndServicesList.cshtml");
+        }
+
+        public ActionResult MobilityList()
+        {
+            return View("~/Views/GeoBank/GBActivityPoi/MobilityList.cshtml");
+        }
+
         ////[Authorize(Roles = "DataVisible,GeobankVisible,GBPoiVisible")]
         //public ActionResult GBPoiStatus()
         //{

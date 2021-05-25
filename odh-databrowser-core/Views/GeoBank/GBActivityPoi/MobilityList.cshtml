@@ -1,23 +1,19 @@
-﻿
-@{
-    ViewBag.Title = "AllSmgPoiList";
+﻿@{
+    ViewBag.Title = "MobilityList";
 }
-
-
-@section jumbotronsect {<h2>All Activities and Pois</h2>
+@section jumbotronsect {<h2>Activities & Pois - Mobility</h2>
 }
 @section infomodaltext {
-    <h2>All Activities & Pois</h2>
+    <h2>Activities & Pois - Mobility</h2>
     <p>
         All displayed data is collected from various Interfaces (LTS TIC Web Activity & Poi & Gastronomy Data, SIAG, Suedtirol Wein, Created Content, Import from old suedtirol.info CMS Magnolia).
     </p>
-    <p>The property Outdooractive indicates if the data is also available on Outdooractive.com</p>
     <p>Contains all Activities & Pois & Gastronomy Data</p>
     <p>Only CC0 Images are displayed</p>
 }
 
 
-<div class="col-sm-12" ng-app="smgpoi" ng-controller="smgpoiListController" ng-init="init('255','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp')">
+<div class="col-sm-12" ng-app="smgpoi" ng-controller="smgpoiListController" ng-init="init('Mobilität','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp')">
 
     <div class="splash" ng-show="isloading">
         <h2>
@@ -87,7 +83,7 @@
 
                 <div class="form-group col-sm-12" ng-controller="SmgTagNameTypeAheadController">
                     <h6>ODH Tag<small class="btn-link pull-right" ng-click="clearTagFilter()">Clear</small></h6>
-                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="TagName" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
+                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
                 </div>
 
                 <div class="form-group col-sm-12">
@@ -96,17 +92,21 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>Typ<small class="btn-link pull-right" ng-click="clearMainTypeFilter()">Clear</small></h6>
+                    <h6>Typ<small class="btn-link pull-right" ng-click="clearTypeFilter()">Clear</small></h6>
                     <div class="btn-group-vertical">
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'63'">Alle</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'1'">Wellness</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'2'">Winter</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'4'">Summer</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'8'">Culture</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'16'">Other</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'32'">Gastronomy</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'64'">Mobility</label>
-                        <label class="btn btn-default" ng-model="poitype" btn-radio="'128'" style="white-space: normal;">Shops and Services</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.1" btn-checkbox>Bus stops</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.2" btn-checkbox>Parking areas</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.3" btn-checkbox>Gas stations petrol/diesel</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.4" btn-checkbox>Electric charging stations</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.5" style="white-space: normal;" btn-checkbox>Taxi, Rental cars with driver, Bus</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.6" btn-checkbox>Railway stations</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.7" btn-checkbox>Carsharing</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.8" btn-checkbox>Gas stations Methane (gas)</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.9" btn-checkbox>Gas stations LPG</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.10" btn-checkbox>Gas stations Hydrogen</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.11" btn-checkbox>Other traffic and transports</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.12" btn-checkbox>E-bike charging station</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.13" btn-checkbox>Box for bicycle</label>
                     </div>
                 </div>
 
@@ -156,7 +156,7 @@
                         <option value="SuedtirolWein">Südtirol Wein</option>
                         <option value="VerticalLife">Vertical Life</option>
                         <option value="ArchApp">Archapp</option>
-                        <option value="Sta">Sta</option>
+                        <option value="ArchApp">Sta</option>
                     </select>
                 </div>
 
@@ -189,14 +189,14 @@
                 <thead>
                     <tr>
                         <th style="width:160px">MainImage</th>
-                        <th style="min-width: 80px;">Name</th>
+                        <th style="min-width: 80px;">Shortname</th>
                         <th style="min-width: 80px;">Type</th>
                         <th style="min-width: 80px;">Location</th>
                         <th style="min-width: 80px;">Languages</th>
                         <th style="min-width: 80px;">Source</th>
-                        <th style="min-width: 60px;">OA</th>
                         <th style="min-width: 80px;">Active</th>
-                        <th style="min-width: 80px;">ODH Active</th>
+                        <th style="min-width: 80px;">ODH active</th>
+
                         <th></th>
                     </tr>
                 </thead>
@@ -210,6 +210,7 @@
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'SIAG'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'VerticalLife'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'ArchApp'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'STA'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                             </div>
                         </td>
                         @*<td>{{ activity.Id }}</td>*@
@@ -226,9 +227,6 @@
                             </div>
                         </td>
                         <td>{{ poi.Source }}</td>
-                        <td>
-                            <a class="btn btn-xs btn-success" ng-show="poi.OutdooractiveID > 0" href="https://regio.outdooractive.com/oar-suedtirol-alto-adige/r/{{ poi.OutdooractiveID }}/" target="_blank">OA</a>
-                        </td>
                         <td>
                             <div class="glyphicon glyphicon-ok" ng-show="poi.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="poi.Active == false"></div>
@@ -302,6 +300,7 @@
                     <div class="col-sm-12">
 
                         <tabset>
+
                             <tab heading="General">
                                 <br />
                                 <div class="row">
@@ -380,10 +379,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-
-
-
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -437,11 +432,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
                                             </div>
-
-
-
 
                                             @*<div class="form-group">
                                                     <label for="inputName" class="col-sm-4 control-label">SmgActive</label>
@@ -646,6 +637,7 @@
                                 </div>
 
                             </tab>
+
 
 
                             <tab heading="Detail">
@@ -1020,6 +1012,14 @@
                                                 </div>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="inputCategory" class="col-sm-4 control-label">Categories</label>
+                                                <div class="col-sm-8" >
+                                                    <div  ng-repeat="category in poi.AdditionalPoiInfos[lang].Categories">
+                                                        <input type="text" class="form-control notextareamaxwitdth" id="inputNovelty" placeholder="Category" ng-model="category" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -1112,6 +1112,7 @@
                                                         <img ng-if="poi.Source == 'VerticalLife'" data-ng-src="{{smgbild.ImageUrl}}" style="max-height:100px;" class="img-thumbnail">
                                                         <img ng-if="poi.Source == 'SuedtirolWein'" data-ng-src="{{smgbild.ImageUrl}}" style="max-height:100px;" class="img-thumbnail">
                                                         <img ng-if="poi.Source == 'ArchApp'" data-ng-src="{{smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'STA'" data-ng-src="{{smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">
                                                     </a>
                                                     <div ng-if="poi.Source == 'Content' || poi.Source == 'Magnolia'">
                                                         <div class="pull-right" ng-controller="FileUploadControllerSingle" ng-init="init(smgbild.ImageUrl)">
@@ -1620,7 +1621,6 @@
             </div>
         </form>
     </script>
-
 
     <script type="text/ng-template" id="myPoiInfoModal.html">
         <div class="modal-header">

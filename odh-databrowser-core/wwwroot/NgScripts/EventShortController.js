@@ -859,7 +859,6 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
         //Filename
         var imagename = imageurl.substring(imageurl.lastIndexOf('/') + 1);
 
-
         alert('changed Image: ' + imageurl);
 
         var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++, IsInGallery: true }
@@ -900,7 +899,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
 app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($scope, FileUploader) {
 
     var uploaderpdf = $scope.uploaderpdf = new FileUploader({
-        url: $scope.basePath + '/v1/DocFileUpload/pdf',
+        url: $scope.basePath + 'v1/FileUpload/Doc',
         headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     });
 

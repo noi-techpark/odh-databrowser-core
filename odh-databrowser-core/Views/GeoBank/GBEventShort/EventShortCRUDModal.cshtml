@@ -590,7 +590,7 @@
 
                             <div class="row" ng-repeat="esdocument in eventshort.EventDocument">
                                 <div class="col-sm-6" style="text-align:right">
-                                    <a ng-href="{{ esdocument.DocumentUrl }}" target="_blank">Linked Document</a>
+                                    <a ng-href="{{ esdocument.DocumentURL }}" target="_blank">Linked Document</a>
                                 </div>
                                 <div class="col-sm-4 input-group" style="padding-left:0px">
                                     <select class="form-control notextareamaxwitdth" id="selectDocumentLanguage" ng-model="esdocument.Language">
@@ -599,7 +599,7 @@
                                         <option value="en">en</option>
                                     </select>
                                     <span class="input-group-btn" style="vertical-align:top;">
-                                        <button type="button" class="btn btn-default" ng-click="deletedocument(esdocument.DocumentUrl)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="deletedocument(esdocument.DocumentURL)"><i class="glyphicon glyphicon-minus"></i></button>
                                     </span>
                                 </div>                               
                             </div>

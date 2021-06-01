@@ -173,7 +173,7 @@ app.controller('smgpoiListController', [
                 //$scope.poi = poi;
 
                 //Test nochmaliger Request auf Detail
-                $http.get($scope.basePath + '/v1/SmgPoi/' + poi.Id).success(function (result) {
+                $http.get($scope.basePath + '/v1/ODHActivityPoi/' + poi.Id).success(function (result) {
                     $scope.poi = result;
                    
                     $scope.isloading = false;

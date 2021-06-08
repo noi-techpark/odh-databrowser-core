@@ -18,6 +18,7 @@
                     <th>Active Open Data</th>
                     <th>Data with a CC0 Image</th>
                     <th>Total Images with CC0 Licenses</th>
+                    <th>Total Images with Proprietary Licenses</th>
                 </tr>
             </thead>
 
@@ -35,6 +36,9 @@
                 <td>
                     {{ licenseinforesult.AccoCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ licenseinforesult.AccoNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>Gastronomies</b></td>
@@ -50,11 +54,14 @@
                 <td>
                     {{ licenseinforesult.GastroCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ licenseinforesult.GastroNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>Events</b></td>
                 <td>
-                    {{ licenseinforesult.EventTotaldata }} 
+                    {{ licenseinforesult.EventTotaldata }}
                 </td>
                 <td>
                     {{ licenseinforesult.EventTotaldataopen }}
@@ -65,20 +72,26 @@
                 <td>
                     {{ licenseinforesult.EventCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ licenseinforesult.EventNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>Poi</b></td>
                 <td>
-                    {{ licenseinforesult.PoiTotaldata }} 
+                    {{ licenseinforesult.PoiTotaldata }}
                 </td>
                 <td>
-                    {{ licenseinforesult.PoiTotaldataopen }}  
+                    {{ licenseinforesult.PoiTotaldataopen }}
                 </td>
                 <td>
                     {{ licenseinforesult.PoiWithCC0Image }}
                 </td>
                 <td>
                     {{ licenseinforesult.PoiCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.PoiNONCC0ImagesCount }}
                 </td>
             </tr>
             <tr>
@@ -87,13 +100,16 @@
                     {{ licenseinforesult.ActivityTotaldata }}
                 </td>
                 <td>
-                    {{ licenseinforesult.ActivityTotaldataopen }} 
+                    {{ licenseinforesult.ActivityTotaldataopen }}
                 </td>
                 <td>
                     {{ licenseinforesult.ActivityWithCC0Image }}
                 </td>
                 <td>
                     {{ licenseinforesult.ActivityCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ActivityNONCC0ImagesCount }}
                 </td>
             </tr>
             <tr>
@@ -102,13 +118,16 @@
                     {{ licenseinforesult.ODHActivityPoiTotaldata }}
                 </td>
                 <td>
-                    {{ licenseinforesult.ODHActivityPoiTotaldataopen }} 
+                    {{ licenseinforesult.ODHActivityPoiTotaldataopen }}
                 </td>
                 <td>
                     {{ licenseinforesult.ODHActivityPoiWithCC0Image }}
                 </td>
                 <td>
                     {{ licenseinforesult.ODHActivityPoiCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ODHActivityPoiNONCC0ImagesCount }}
                 </td>
             </tr>
             <tr>
@@ -125,6 +144,9 @@
                 <td>
                     {{ licenseinforesult.RegionCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ licenseinforesult.RegionNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>Tourismassociations</b></td>
@@ -140,11 +162,14 @@
                 <td>
                     {{ licenseinforesult.TVCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ licenseinforesult.TVNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>Skiareas</b></td>
                 <td>
-                    {{ licenseinforesult.SkiAreaTotaldata }} 
+                    {{ licenseinforesult.SkiAreaTotaldata }}
                 </td>
                 <td>
                     {{ licenseinforesult.SkiAreaTotaldataopen }}
@@ -154,6 +179,9 @@
                 </td>
                 <td>
                     {{ licenseinforesult.SkiAreaCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.SkiAreaNONCC0ImagesCount }}
                 </td>
             </tr>
 

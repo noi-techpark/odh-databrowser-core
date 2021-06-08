@@ -19,6 +19,7 @@
                     <th>Data with a CC0 Image</th>
                     <th>Total Images with CC0 Licenses</th>
                     <th>Total Images with Proprietary Licenses</th>
+                    <th>Percentage of CC0 Images</th>
                 </tr>
             </thead>
 
@@ -39,6 +40,9 @@
                 <td>
                     {{ licenseinforesult.AccoNONCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ (licenseinforesult.AccoCC0ImagesCount * 100) / licenseinforesult.AccoNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>Gastronomies</b></td>
@@ -56,6 +60,9 @@
                 </td>
                 <td>
                     {{ licenseinforesult.GastroNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.GastroCC0ImagesCount * 100) / licenseinforesult.GastroNONCC0ImagesCount }}
                 </td>
             </tr>
             <tr>
@@ -75,6 +82,9 @@
                 <td>
                     {{ licenseinforesult.EventNONCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ (licenseinforesult.EventCC0ImagesCount * 100) / licenseinforesult.EventNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>Poi</b></td>
@@ -92,6 +102,9 @@
                 </td>
                 <td>
                     {{ licenseinforesult.PoiNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.PoiCC0ImagesCount * 100) / licenseinforesult.PoiNONCC0ImagesCount }}
                 </td>
             </tr>
             <tr>
@@ -111,6 +124,9 @@
                 <td>
                     {{ licenseinforesult.ActivityNONCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ (licenseinforesult.ActivityCC0ImagesCount * 100) / licenseinforesult.ActivityNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>ODH Activity Poi</b></td>
@@ -128,6 +144,9 @@
                 </td>
                 <td>
                     {{ licenseinforesult.ODHActivityPoiNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.ODHActivityPoiCC0ImagesCount * 100) / licenseinforesult.ODHActivityPoiNONCC0ImagesCount }}
                 </td>
             </tr>
             <tr>
@@ -147,6 +166,9 @@
                 <td>
                     {{ licenseinforesult.RegionNONCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ (licenseinforesult.RegionCC0ImagesCount * 100) / licenseinforesult.RegionNONCC0ImagesCount }}
+                </td>
             </tr>
             <tr>
                 <td><b>Tourismassociations</b></td>
@@ -164,6 +186,9 @@
                 </td>
                 <td>
                     {{ licenseinforesult.TVNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.TVCC0ImagesCount * 100) / licenseinforesult.TVNONCC0ImagesCount }}
                 </td>
             </tr>
             <tr>
@@ -183,6 +208,9 @@
                 <td>
                     {{ licenseinforesult.SkiAreaNONCC0ImagesCount }}
                 </td>
+                <td>
+                    {{ (licenseinforesult.SkiAreaCC0ImagesCount * 100) / licenseinforesult.SkiAreaNONCC0ImagesCount }}
+                </td>
             </tr>
 
         </table>
@@ -192,6 +220,6 @@
 
 @section Scripts {
     <script src="~/NgScripts/appconfig.js"></script>
-    <script src="~/NgScripts/LicenseInfoController?version=20210608"></script>
+    <script src="~/NgScripts/LicenseInfoController.js"></script>
 }
 

@@ -37,7 +37,7 @@ app.controller('eventshortListController', [
                     eventlocationstring = 'VV';
 
                 $scope.neweventshort = true;
-                $scope.eventshort = { Id: '', Source: 'Content', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime, isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring };
+                $scope.eventshort = { Id: '', Source: 'Content', Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime, isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring };
 
 			}
 			else {
@@ -322,6 +322,8 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                     else
                         eventshort.Display1 = "N";
 
+                    eventshort.Shortname = eventshort.EventDescriptionDE;
+
                     //console.log(eventshort.StartDate);
                     //console.log(eventshort.EndDate);
 
@@ -353,6 +355,8 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 //Start Date richtig setzen
                 eventshort.StartDate = eventshort.eventstartonlydate.getFullYear() + "/" + parseInt(eventshort.eventstartonlydate.getMonth() + 1) + "/" + eventshort.eventstartonlydate.getDate() + " " + eventshort.eventstartonlytime;
                 eventshort.EndDate = eventshort.eventendonlydate.getFullYear() + "/" + parseInt(eventshort.eventendonlydate.getMonth() + 1) + "/" + eventshort.eventendonlydate.getDate() + " " + eventshort.eventendonlytime;
+
+                eventshort.Shortname = eventshort.EventDescriptionDE;
 
                 if (eventshort.isActive)
                     eventshort.Display1 = "Y";

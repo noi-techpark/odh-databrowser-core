@@ -139,11 +139,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="inputStartTime" class="col-sm-2 control-label">Start Time (00:00 - 23:59)</label>
-                                <div class="col-sm-8">
+                                <label for="inputStartTime" class="col-sm-2 control-label">Start Time</label>
+                                <div class="col-sm-4">
                                     <input type="text" id="inputStartTime" name="inputStartTime" class="form-control notextareamaxwitdth" ng-model="eventshort.eventstartonlytime" placeholder="__:__" ui-Time ng-show="eventshort.Source != 'EBMS'" required>
-                                    <input type="text" id="inputStartTimeebms" class="form-control notextareamaxwitdth" ng-model="eventshort.eventstartonlytime" placeholder="__:__" ui-Time  ng-show="eventshort.Source == 'EBMS'" disabled>
+                                    <input type="text" id="inputStartTimeebms" class="form-control notextareamaxwitdth" ng-model="eventshort.eventstartonlytime" placeholder="__:__" ui-Time ng-show="eventshort.Source == 'EBMS'" disabled>                                    
                                 </div>
+                                <label for="inputstarttime" class="col-sm-4 control-label">(00:00 - 23:59)</label>
+
                                 <span class="text-danger" ng-show="eventshortform.inputStartTime.$error.required">
                                     Required
                                 </span>
@@ -165,11 +167,13 @@
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="inputEndtime" class="col-sm-2 control-label">End Time (00:00 - 23:59)</label>
-                                <div class="col-sm-8">
+                                <label for="inputEndtime" class="col-sm-2 control-label">End Time</label>
+                                <div class="col-sm-4">
                                     <input type="text" id="inputEndtime" name="inputEndtime" class="form-control notextareamaxwitdth" ng-model="eventshort.eventendonlytime" placeholder="__:__" ui-Time ng-show="eventshort.Source != 'EBMS'" required>
-                                    <input type="text" id="inputEndtimeebms" class="form-control notextareamaxwitdth" ng-model="eventshort.eventendonlytime" placeholder="__:__" ui-Time ng-show="eventshort.Source == 'EBMS'" disabled>
+                                    <input type="text" id="inputEndtimeebms" class="form-control notextareamaxwitdth" ng-model="eventshort.eventendonlytime" placeholder="__:__" ui-Time ng-show="eventshort.Source == 'EBMS'" disabled>                                    
                                 </div>
+                                <label class="col-sm-4 control-label">(00:00 - 23:59)</label>
+
                                 <span class="text-danger" ng-show="eventshortform.inputEndtime.$error.required">
                                     Required
                                 </span>

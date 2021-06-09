@@ -1,165 +1,225 @@
 ﻿@section jumbotronsect {
     <h2>CC0 License Status (Open Data Hub)</h2>
-    }
+}
 
 
-    <div class="row">
+<div class="row" ng-app="licenseinfo" ng-controller="licenseInfoController" ng-init="init()">
 
-      <div class="col-sm-12">
-          <h3>License Overview</h3>
-      </div>
-
-        <div class="col-sm-12">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Total Data</th>
-                        <th>Active Open Data</th>
-                        <th>Data with CC0 Licenses</th>
-                        <th>Total Images with CC0 Licenses</th>
-                    </tr>
-                </thead>
-
-                <tr>
-                    <td><b>Accommodations</b></td>
-                    <td>
-                        @ViewBag.AccoTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.AccoTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.AccoLicenses
-                    </td>
-                    <td>
-                        @ViewBag.AccoImagesopenCount
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Gastronomies</b></td>
-                    <td>
-                        @ViewBag.GastroTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.GastroTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.GastroLicenses
-                    </td>
-                    <td>
-                        @ViewBag.GastroImagesopenCount
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Events</b></td>
-                    <td>
-                        @ViewBag.EventTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.EventTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.EventLicenses
-                    </td>
-                    <td>
-                        @ViewBag.EventImagesopenCount
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Poi</b></td>
-                    <td>
-                        @ViewBag.PoiTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.PoiTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.PoiLicenses
-                    </td>
-                    <td>
-                        @ViewBag.PoiImagesopenCount
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Activity</b></td>
-                    <td>
-                        @ViewBag.ActivityTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.ActivityTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.ActivityLicenses
-                    </td>
-                    <td>
-                        @ViewBag.ActivityImagesopenCount
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>ODH Activity Poi</b></td>
-                    <td>
-                        @ViewBag.ODHActivityPoiTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.ODHActivityPoiTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.ODHActivityPoiLicenses
-                    </td>
-                    <td>
-                        @ViewBag.ODHActivityPoiImagesopenCount
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Region</b></td>
-                    <td>
-                        @ViewBag.RegionTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.RegionTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.RegionLicenses
-                    </td>
-                    <td>
-                        @ViewBag.RegionImagesopenCount
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Tourismassociations</b></td>
-                    <td>
-                        @ViewBag.TVTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.TVTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.TVLicenses
-                    </td>
-                    <td>
-                        @ViewBag.TVImagesopenCount
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Skiareas</b></td>
-                    <td>
-                        @ViewBag.SkiAreaTotaldata
-                    </td>
-                    <td>
-                        @ViewBag.SkiAreaTotaldataopen
-                    </td>
-                    <td>
-                        @ViewBag.SkiAreaLicenses
-                    </td>
-                    <td>
-                        @ViewBag.SkiAreaImagesopenCount
-                    </td>
-                </tr>
-
-            </table>
-        </div>
-     
+    <div class="col-sm-12">
+        <h3>License Overview</h3>
     </div>
-       
-   
+
+    <div class="col-sm-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Total Data</th>
+                    <th>Active Open Data</th>
+                    <th>Data with a CC0 Image</th>
+                    <th>Total Images with CC0 Licenses</th>
+                    <th>Total Images with Proprietary Licenses</th>
+                    <th>Percentage of CC0 Images</th>
+                </tr>
+            </thead>
+
+            <tr>
+                <td><b>Accommodations</b></td>
+                <td>
+                    {{ licenseinforesult.AccoTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.AccoTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.AccoWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.AccoCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.AccoNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.AccoCC0ImagesCount * 100) / licenseinforesult.AccoNONCC0ImagesCount }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Gastronomies</b></td>
+                <td>
+                    {{ licenseinforesult.GastroTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.GastroTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.GastroWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.GastroCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.GastroNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.GastroCC0ImagesCount * 100) / licenseinforesult.GastroNONCC0ImagesCount }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Events</b></td>
+                <td>
+                    {{ licenseinforesult.EventTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.EventTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.EventWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.EventCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.EventNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.EventCC0ImagesCount * 100) / licenseinforesult.EventNONCC0ImagesCount }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Poi</b></td>
+                <td>
+                    {{ licenseinforesult.PoiTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.PoiTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.PoiWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.PoiCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.PoiNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.PoiCC0ImagesCount * 100) / licenseinforesult.PoiNONCC0ImagesCount }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Activity</b></td>
+                <td>
+                    {{ licenseinforesult.ActivityTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ActivityTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ActivityWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ActivityCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ActivityNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.ActivityCC0ImagesCount * 100) / licenseinforesult.ActivityNONCC0ImagesCount }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>ODH Activity Poi</b></td>
+                <td>
+                    {{ licenseinforesult.ODHActivityPoiTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ODHActivityPoiTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ODHActivityPoiWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ODHActivityPoiCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.ODHActivityPoiNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.ODHActivityPoiCC0ImagesCount * 100) / licenseinforesult.ODHActivityPoiNONCC0ImagesCount }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Region</b></td>
+                <td>
+                    {{ licenseinforesult.RegionTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.RegionTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.RegionWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.RegionCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.RegionNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.RegionCC0ImagesCount * 100) / licenseinforesult.RegionNONCC0ImagesCount }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Tourismassociations</b></td>
+                <td>
+                    {{ licenseinforesult.TVTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.TVTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.TVWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.TVCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.TVNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.TVCC0ImagesCount * 100) / licenseinforesult.TVNONCC0ImagesCount }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Skiareas</b></td>
+                <td>
+                    {{ licenseinforesult.SkiAreaTotaldata }}
+                </td>
+                <td>
+                    {{ licenseinforesult.SkiAreaTotaldataopen }}
+                </td>
+                <td>
+                    {{ licenseinforesult.SkiAreaWithCC0Image }}
+                </td>
+                <td>
+                    {{ licenseinforesult.SkiAreaCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ licenseinforesult.SkiAreaNONCC0ImagesCount }}
+                </td>
+                <td>
+                    {{ (licenseinforesult.SkiAreaCC0ImagesCount * 100) / licenseinforesult.SkiAreaNONCC0ImagesCount }}
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/NgScripts/appconfig.js"></script>
+    <script src="~/NgScripts/LicenseInfoController.js"></script>
+}
+

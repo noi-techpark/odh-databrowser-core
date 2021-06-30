@@ -550,7 +550,7 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.deletedocument = function (documenturl) {
 
         $.each($scope.eventshort.EventDocument, function (i) {
-            if ($scope.eventshort.EventDocument[i].DocumentUrl === documenturl) {
+            if ($scope.eventshort.EventDocument[i].DocumentURL === documenturl) {
                 $scope.eventshort.EventDocument.splice(i, 1);
                 return false;
             }

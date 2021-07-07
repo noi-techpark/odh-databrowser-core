@@ -435,14 +435,14 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     //Bild löschen
     $scope.deletebild = function (bildurl) {
 
-            //Querystring parameter holen
-            var parameter = getQueryVariable(bildurl, "src");
-            //Ersetz a poor kloanigkeiten
-            var mybildurl = parameter.replace('.', '$');
+            ////Querystring parameter holen
+            //var parameter = getQueryVariable(bildurl, "src");
+            ////Ersetz a poor kloanigkeiten
+            //var mybildurl = parameter.replace('.', '$');
 
-            var find = '/';
-            var re = new RegExp(find, 'g');
-            var escapeduri = mybildurl.replace(re, '|');
+            //var find = '/';
+            //var re = new RegExp(find, 'g');
+            //var escapeduri = mybildurl.replace(re, '|');
 
             //var deletepath = encodeURI($scope.basePath + '/v1/FileDelete/' + escapeduri);
             //alert("Delete Image" + deletepath);

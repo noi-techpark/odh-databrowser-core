@@ -8,7 +8,7 @@
             <div>
                 <carousel interval="myInterval">
                     <slide data-ng-repeat="slide in slides" active="slide.active">
-                        <img data-ng-src="{{slide.ImageUrl + '&H=320'}}" style="margin:auto;max-width:420px" class="img-rounded">
+                        <img data-ng-src="{{slide.ImageUrl }}" style="margin:auto;max-width:420px" class="img-rounded">
                         <div class="carousel-caption">
                             <h4>{{slide.ImageTitle[lang]}}</h4>
                             <p>{{slide.ImageDesc[lang]}}</p>

@@ -515,7 +515,7 @@
                             <div class="row" ng-repeat="smgbild in eventshort.ImageGallery">
                                 <div class="col-sm-2" style="text-align:right">
                                     <a ng-href="{{ smgbild.ImageUrl }}" target="_blank">
-                                        <img data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">
+                                        <img data-ng-src="{{ smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">
                                     </a>
                                     <div class="pull-right" ng-controller="FileUploadControllerSingle" ng-init="init(smgbild.ImageUrl)">
                                         <input type="file" class="btn btn-xs btn-default btn-file" style="width: 95px;" nv-file-select="" uploader="uploader" />

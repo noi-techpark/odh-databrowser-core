@@ -199,7 +199,7 @@
                                 }
                                 @if (@ViewBag.globaldelete == true || @ViewBag.eventshortdelete == true || @ViewBag.virtualvillageadmin == true)
                                 {
-                                    <a ng-if="eventshort.Source == 'Content'" ng-click="deleteeventshort(eventshort)" class="btn btn-small btn-primary" style="width:70px;">delete</a>
+                                    <a ng-if="eventshort.Source != 'EBMS'" ng-click="deleteeventshort(eventshort)" class="btn btn-small btn-primary" style="width:70px;">delete</a>
                                 }
 
                                 <a ng-click="showInfoModal(eventshort, lang)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>

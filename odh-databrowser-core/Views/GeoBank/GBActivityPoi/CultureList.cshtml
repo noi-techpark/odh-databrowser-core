@@ -159,7 +159,7 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>Source Active <small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
+                    <h6>active on source <small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
                     <select class="form-control" id="selectTyp" ng-model="active">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -168,7 +168,7 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>ODH Active <small class="btn-link pull-right" ng-click="clearSmgActiveFilter()">Clear</small></h6>
+                    <h6>active in ODH <small class="btn-link pull-right" ng-click="clearSmgActiveFilter()">Clear</small></h6>
                     <select class="form-control" id="selectTyp" ng-model="smgactive">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -227,8 +227,8 @@
                         <th style="min-width: 80px;">Location</th>
                         <th style="min-width: 80px;">Languages</th>
                         <th style="min-width: 80px;">Source</th>
-                        <th style="min-width: 80px;">Active</th>
-                        <th style="min-width: 80px;">ODH active</th>
+                        <th style="min-width: 80px;">active on source</th>
+                        <th style="min-width: 80px;">active in ODH</th>
 
                         <th></th>
                     </tr>
@@ -486,14 +486,14 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="checkboxActive" class="col-sm-4 control-label">Active</label>
+                                                <label for="checkboxActive" class="col-sm-4 control-label">active on source</label>
                                                 <div class="col-sm-8">
                                                     <input type="checkbox" class="bigcheckbox" id="checkboxActive" ng-model="poi.Active" disabled>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="checkboxSmgActive" class="col-sm-4 control-label">ODH Active</label>
+                                                <label for="checkboxSmgActive" class="col-sm-4 control-label">active in ODH</label>
                                                 <div class="col-sm-8">
                                                     <input type="checkbox" class="bigcheckbox" id="checkboxSmgActive" ng-model="poi.SmgActive">
                                                 </div>

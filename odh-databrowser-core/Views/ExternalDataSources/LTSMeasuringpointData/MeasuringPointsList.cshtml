@@ -55,6 +55,7 @@
                     <tr>
                         <th style="min-width: 20%;">Shortname</th>
                         <th style="min-width: 20%;">Location</th>
+                        <th style="min-width: 20%;">active on source</th>
                         <th style="width: 130px;"> </th>
                     </tr>
                 </thead>
@@ -63,6 +64,10 @@
 
                         <td><a ng-click="showInfoModal(common)">{{ common.Shortname }}</a></td>
                         <td>{{ common.LocationInfo.RegionInfo.Name[lang] }} - {{ common.LocationInfo.TvInfo.Name[lang] }}</td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="common.Active"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="common.Active == false"></div>
+                        </td>
                         <td>
                             <div class=" btn-group-vertical">
                                 @if (@ViewBag.globalmodify == true || @ViewBag.commonmodify == true)

@@ -137,7 +137,7 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>TIC Active<small class="btn-link pull-right" ng-click="clearTICActiveFilter()">Clear</small></h6>
+                    <h6>active on source<small class="btn-link pull-right" ng-click="clearTICActiveFilter()">Clear</small></h6>
                     <select class="form-control" id="selectTyp" ng-model="active">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -146,7 +146,7 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>ODH active<small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
+                    <h6>available in ODHActivityPoi<small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
                     <select class="form-control" id="selectTyp" ng-model="smgactive">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -174,8 +174,8 @@
                         <th style="min-width: 80px;">Name</th>
                         <th style="min-width: 80px;">Type</th>
                         <th style="min-width: 80px;">Location</th>
-                        <th>TIC Active</th>
-                        <th>ODH active</th>
+                        <th>active on source</th>
+                        @*<th>ODH active</th>*@
                         <th></th>
                     </tr>
                 </thead>
@@ -196,10 +196,10 @@
                             <div class="glyphicon glyphicon-ok" ng-show="activity.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="activity.Active == false"></div>
                         </td>
-                        <td>
+                        @*<td>
                             <div class="glyphicon glyphicon-ok" ng-show="activity.SmgActive" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="activity.SmgActive == false" style="color:red"></div>
-                        </td>
+                        </td>*@
                         <td>
                             <div class="btn-group-vertical">
                                 @if (@ViewBag.globalmodify == true || @ViewBag.activitymodify == true || @ViewBag.globaldetail == true)
@@ -301,7 +301,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputName" class="col-sm-4 control-label">TIC Active</label>
+                                                <label for="inputName" class="col-sm-4 control-label">active on source</label>
                                                 <div class="col-sm-8">
                                                     <input type="checkbox" class="form-control" id="checkboxActive" ng-model="activity.Active" disabled>
                                                 </div>

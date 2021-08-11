@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>TIC Active<small class="btn-link pull-right" ng-click="clearTICActiveFilter()">Clear</small></h6>
+                    <h6>active on source<small class="btn-link pull-right" ng-click="clearTICActiveFilter()">Clear</small></h6>
                     <select class="form-control" id="selectTyp" ng-model="active">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>ODH active<small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
+                    <h6>available on ODHActivityPoi<small class="btn-link pull-right" ng-click="clearActiveFilter()">Clear</small></h6>
                     <select class="form-control" id="selectTyp" ng-model="smgactive">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -150,8 +150,8 @@
                         <th class="hidden-xs">Type</th>
                         <th class="hidden-xs">Location</th>
                         @*<th class="hidden-sm hidden-lg hidden-md">Details</th>*@
-                        <th style="min-width: 80px;">TIC Active</th>
-                        <th style="min-width: 80px;">ODH active</th>
+                        <th style="min-width: 80px;">active on source</th>
+                        @*<th style="min-width: 80px;">ODH active</th>*@
                         <th style="min-width: 80px;">Outdooractive</th>
                         <th></th>
                     </tr>
@@ -182,10 +182,10 @@
                             <div class="glyphicon glyphicon-remove" ng-show="activity.Active == false"></div>
                         </td>
 
-                        <td>
+                        @*<td>
                             <div class="glyphicon glyphicon-ok" ng-show="activity.SmgActive" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="activity.SmgActive == false" style="color:red"></div>
-                        </td>
+                        </td>*@
                         <td>
                             <a class="btn btn-xs btn-success" ng-show="activity.OutdooractiveID > 0" href="https://regio.outdooractive.com/oar-suedtirol-alto-adige/r/{{ activity.OutdooractiveID }}/" target="_blank">Outdooractive</a>
                         </td>
@@ -291,7 +291,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputName" class="col-sm-4 control-label">TIC Active</label>
+                                                <label for="inputName" class="col-sm-4 control-label">active on source</label>
                                                 <div class="col-sm-8">
                                                     <input type="checkbox" class="form-control" id="checkboxActive" ng-model="activity.Active" disabled>
                                                 </div>

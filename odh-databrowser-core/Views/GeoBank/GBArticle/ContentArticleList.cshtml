@@ -102,7 +102,7 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>Active</h6>
+                    <h6>active on source</h6>
                     <select class="form-control" id="selectTyp" ng-model="active">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="form-group col-sm-12">
-                    <h6>ODH active</h6>
+                    <h6>active in ODH</h6>
                     <select class="form-control" id="selectTyp" ng-model="smgactive">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -144,8 +144,8 @@
                         <th style="min-width: 80px;">Type</th>
                         <th style="min-width: 80px;">Subtype</th>
                         <th style="min-width: 80px;">Languages</th>
-                        <th style="min-width: 80px;">Active</th>
-                        <th style="min-width: 80px;">ODH active</th>
+                        <th style="min-width: 80px;">active on source</th>
+                        <th style="min-width: 80px;">active in ODH</th>
                         <th style="width:20px;"> </th>
                     </tr>
                 </thead>
@@ -295,14 +295,14 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputActive" class="col-sm-2 control-label">Active</label>
+                                                <label for="inputActive" class="col-sm-2 control-label">active on source</label>
                                                 <div class="col-sm-10">
                                                     <input type="checkbox" class="form-control" id="inputActive" placeholder="Id" ng-model="article.Active">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputSmgActive" class="col-sm-2 control-label">ODH active</label>
+                                                <label for="inputSmgActive" class="col-sm-2 control-label">active in ODH</label>
                                                 <div class="col-sm-10">
                                                     <input type="checkbox" class="form-control" id="inputSmgActive" placeholder="Id" ng-model="article.SmgActive">
                                                 </div>

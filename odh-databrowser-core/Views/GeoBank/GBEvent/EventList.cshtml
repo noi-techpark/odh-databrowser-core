@@ -736,7 +736,7 @@
 
                                             </div>
 
-                                            <div class="row" ng-repeat="bild in event.ImageGallery">
+                                            <div class="row" ng-repeat="bild in event.ImageGallery | orderBy: 'ListPosition'">
 
                                                 <div class="col-sm-2">
                                                     <img class="img-thumbnail" ng-src="{{ bild.ImageUrl+ '&H=150' }}" style="max-height:150px; max-width:200px;" />

@@ -665,7 +665,7 @@
 
                                     </div>
 
-                                    <div class="row" ng-repeat="bild in gastronomy.ImageGallery">
+                                    <div class="row" ng-repeat="bild in gastronomy.ImageGallery | orderBy: 'ListPosition'">
 
                                         <div class="col-sm-2">
                                             <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&H=130' }}" style="max-height:130px; max-width:130px;" />

@@ -1150,7 +1150,7 @@
                                         <div class="form-horizontal">
                                             <h4>Image Gallery <small>Title, Description, Copyright, License, Position, Active</small></h4>
 
-                                            <div ng-repeat="smgbild in poi.ImageGallery">
+                                            <div ng-repeat="smgbild in poi.ImageGallery | orderBy: 'ListPosition'">
                                                 <div class="col-sm-2" style="text-align:right">
                                                     <a ng-href="{{ smgbild.ImageUrl }}" target="_blank">
                                                         <img ng-if="poi.Source == 'Content'" data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">

@@ -711,7 +711,7 @@
                                 <div class="col-sm-8">
                                     <div class="form-horizontal">
                                         <h4>Image Gallery <small>Title, Description, Copyright, License, Position, Active</small></h4>
-                                        <div ng-repeat="bild in common.ImageGallery">
+                                        <div ng-repeat="bild in common.ImageGallery | orderBy: 'ListPosition'">
                                             <div class="col-sm-2" style="text-align:right">
                                                 <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&Width=85' }}" style="max-height:100px;" />
                                                 <div class="pull-right" ng-controller="FileUploadControllerSingle" ng-init="init(bild.ImageUrl)">

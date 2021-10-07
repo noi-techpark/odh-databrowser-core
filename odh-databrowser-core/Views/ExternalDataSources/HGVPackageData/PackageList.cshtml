@@ -680,7 +680,7 @@
                                         </div>
                                         <br />
                                         <br />
-                                        <div ng-repeat="smgbild in hgvpackage.ImageGallery">
+                                        <div ng-repeat="smgbild in hgvpackage.ImageGallery | orderBy: 'ListPosition'">
                                             <div class="col-sm-4" style="text-align:right">
                                                 <img class="img-rounded" ng-src="{{ smgbild.ImageUrl }}" style="max-height:85px;" />
                                             </div>

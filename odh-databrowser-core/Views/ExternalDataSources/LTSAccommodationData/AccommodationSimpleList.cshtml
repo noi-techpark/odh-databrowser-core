@@ -171,6 +171,7 @@
                             <label class="btn btn-sm btn-default" ng-model="checkThemeModel.15" style="white-space: normal;" btn-checkbox>Rural way of life</label>
                             <label class="btn btn-sm btn-default" ng-model="checkThemeModel.16" btn-checkbox>Bonus Vacanze</label>
                             <label class="btn btn-sm btn-default" ng-model="checkThemeModel.17" btn-checkbox>Christmas markets</label>
+                            <label class="btn btn-sm btn-default" ng-model="checkThemeModel.18" btn-checkbox>Sustainability</label>
                         </div>
                     </div>
 
@@ -617,7 +618,7 @@
 
                                                             </div>
 
-                                                            <div class="row" ng-repeat="bild in accommodation.ImageGallery">
+                                                            <div class="row" ng-repeat="bild in accommodation.ImageGallery | orderBy: 'ListPosition'">
 
                                                                 <div class="col-sm-2">
                                                                     <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&H=130' }}" style="max-height:130px; max-width:130px;" />

@@ -570,7 +570,7 @@
                                             <div class="form-group">
                                                 <h4>Image Gallery <small>Title, Description, Copyright, License, Position, Active</small></h4>
 
-                                                <div ng-repeat="smgbild in article.ImageGallery">
+                                                <div ng-repeat="smgbild in article.ImageGallery | orderBy: 'ListPosition'">
                                                     <div class="col-sm-2" style="text-align:right">
                                                         <img class="img-thumbnail" ng-src="{{ smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" />
 

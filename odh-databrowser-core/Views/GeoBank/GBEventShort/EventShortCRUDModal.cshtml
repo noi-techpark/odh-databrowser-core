@@ -512,7 +512,7 @@
                         <div class="form-horizontal">
                             <h4>Image Gallery <small>Copyright, License, Position</small></h4>
 
-                            <div class="row" ng-repeat="smgbild in eventshort.ImageGallery">
+                            <div class="row" ng-repeat="smgbild in eventshort.ImageGallery  | orderBy: 'ListPosition'">
                                 <div class="col-sm-2" style="text-align:right">
                                     <a ng-href="{{ smgbild.ImageUrl }}" target="_blank">
                                         <img data-ng-src="{{ smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">

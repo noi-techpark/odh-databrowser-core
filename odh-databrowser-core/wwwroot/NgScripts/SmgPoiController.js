@@ -229,7 +229,7 @@ app.controller('smgpoiListController', [
             var pagesizeqs = 'pagesize=20';
             var typeqs = 'type=' + $scope.poitype;
             var subtypeqs = 'subtype=' + $scope.subtypefilter;
-            var poitypeqs = 'poitype=' + $scope.poitypefilter;
+            var poitypeqs = 'level3type=' + $scope.poitypefilter;
             var pioidqs = 'idlist=' + $scope.poiidfilter;
             var langlistqs = 'langfilter=' + $scope.langlistfilter;
             var locfilterqs = 'locfilter=' + $scope.locationfilter;

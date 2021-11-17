@@ -85,14 +85,19 @@
 
                             <div class="form-group">
                                 <label for="inputName" class="col-sm-2 control-label">Active</label>
-                                <div class="col-sm-4">
-                                    <input type="checkbox" class="form-control bigcheckbox" id="checkboxActive" ng-model="eventshort.isActive" ng-show="eventshort.Source != 'EBMS'">
-                                    <input type="checkbox" class="form-control bigcheckbox" id="checkboxActiveebms" ng-model="eventshort.isActive" ng-show="eventshort.Source == 'EBMS'" disabled>                                    
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="form-control bigcheckbox" id="checkboxActiveebms2" ng-model="eventshort.isActive" ng-show="eventshort.Source != 'EBMS'">
+                                    <input type="checkbox" class="form-control bigcheckbox" id="checkboxActiveebms" ng-model="eventshort.isActive" ng-show="eventshort.Source == 'EBMS'" disabled>
                                 </div>
 
                                 <label for="inputName" class="col-sm-2 control-label">noi.bz.it Active</label>
-                                <div class="col-sm-4">
-                                    <input type="checkbox" class="bigcheckbox" id="checkboxActive" ng-model="eventshort.ActiveWeb">
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="bigcheckbox" id="checkboxActiveWeb" ng-model="eventshort.ActiveWeb">
+                                </div>
+
+                                <label for="inputName" class="col-sm-2 control-label">NOI Community App Active</label>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="bigcheckbox" id="checkboxActiveCommunityApp" ng-model="eventshort.ActiveCommunityApp">
                                 </div>
                             </div>
                            
@@ -250,6 +255,8 @@
                                             <option value="MiniNOI">MiniNOI</option>
                                             <option value="Out of the Lab">Out of the Lab</option>
                                             <option value="Summer at NOI">Summer at NOI</option>
+                                            <option value="Public">Public</option>
+                                            <option value="NOI Community">NOI Community</option>
                                         </select>
                                         <span class="input-group-btn" style="vertical-align:top">
                                             <button type="button" class="btn btn-default" value="+" ng-click="addcustomfield(taggingFieldId)"><i class="glyphicon glyphicon-plus"></i></button>

@@ -162,6 +162,7 @@
                         <th style="min-width: 80px;">Source</th>
                         <th style="min-width: 80px;">active on source</th>
                         <th style="min-width: 80px;">noi.bz.it Active</th>
+                        <th style="min-width: 80px;">noi community Active</th>
                         <th style="width:120px;"> </th>
                     </tr>
                 </thead>
@@ -189,6 +190,10 @@
                         <td>
                             <div class="glyphicon glyphicon-ok" ng-show="eventshort.ActiveWeb" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="eventshort.ActiveWeb == false || eventshort.ActiveWeb == null" style="color:red"></div>
+                        </td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="eventshort.ActiveCommunityApp" style="color:green"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="eventshort.ActiveCommunityApp == false || eventshort.ActiveWeb == null" style="color:red"></div>
                         </td>
                         <td>
                             <div class="btn-group-vertical">

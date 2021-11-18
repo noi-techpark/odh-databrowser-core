@@ -209,7 +209,7 @@ app.controller('eventshortListController', [
             if ($scope.onlywebsiteactive != '')
                 $scope.onlywebsiteactivefilter = "&websiteactive=" + $scope.onlywebsiteactive;
             else
-                $scope.onlyactivefilter = '';
+                $scope.onlywebsiteactive = '';
 
             if ($scope.onlycommunityactive != '')
                 $scope.onlycommunityactivefilter = "&communityactive=" + $scope.onlycommunityactive;
@@ -256,7 +256,7 @@ app.controller('eventshortListController', [
 
 			console.log("eventidfilter:" + $scope.eventidfilter + " onlyactivefilter:" + $scope.onlyactivefilter + " sourcefilter:" + $scope.sourcefilter + " eventlocationfilter: " + $scope.eventlocationfilter + " datumvon:" + $scope.datumvonfilter + " datumbis:" + $scope.datumbisfilter)
 
-			$scope.queryfilter = $scope.eventidfilter + $scope.onlyactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
+            $scope.queryfilter = $scope.eventidfilter + $scope.onlyactivefilter + $scope.onlywebsiteactivefilter + $scope.onlycommunityactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
 		}
 
 		//Seite Wechseln

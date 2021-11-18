@@ -130,7 +130,11 @@ app.controller('eventshortListController', [
 		$scope.eventlocation = 'NOI';
 		$scope.eventlocationfilter = '';
 		$scope.onlyactive = '';
-		$scope.onlyactivefilter = '';
+        $scope.onlyactivefilter = '';
+        $scope.onlywebsiteactive = '';
+        $scope.onlywebsiteactivefilter = '';
+        $scope.onlycommunityactive = '';
+        $scope.onlycommunityactivefilter = '';
 
 		$scope.queryfilter = '';
 
@@ -160,7 +164,7 @@ app.controller('eventshortListController', [
 			$scope.eventidfilter = '';
 			$scope.source = '';
 			$scope.sourcefilter = '';
-            $scope.eventlocation = 'NOI';
+            $scope.eventlocation = '';
 
             if ($scope.virtualvillagemanager) {                 
                 $scope.eventlocation = 'VV';
@@ -169,6 +173,10 @@ app.controller('eventshortListController', [
 			$scope.eventlocationfilter = '';
 			$scope.onlyactive = '';
 			$scope.onlyactivefilter = '';
+            $scope.onlywebsiteactive = '';
+            $scope.onlywebsiteactivefilter = '';
+            $scope.onlycommunityactive = '';
+            $scope.onlycommunityactivefilter = '';
 
 			$scope.queryfilter = '';
 
@@ -196,7 +204,17 @@ app.controller('eventshortListController', [
 			if ($scope.onlyactive != '')
 				$scope.onlyactivefilter = "&onlyactive=" + $scope.onlyactive;
 			else
-				$scope.onlyactivefilter = '';
+                $scope.onlyactivefilter = '';
+
+            if ($scope.onlywebsiteactive != '')
+                $scope.onlywebsiteactivefilter = "&websiteactive=" + $scope.onlywebsiteactive;
+            else
+                $scope.onlywebsiteactive = '';
+
+            if ($scope.onlycommunityactive != '')
+                $scope.onlycommunityactivefilter = "&communityactive=" + $scope.onlycommunityactive;
+            else
+                $scope.onlycommunityactivefilter = '';
 
 			if ($scope.source != '')
 				$scope.sourcefilter = "&source=" + $scope.source;
@@ -207,8 +225,6 @@ app.controller('eventshortListController', [
 				$scope.eventlocationfilter = "&eventlocation=" + $scope.eventlocation;
 			else
 				$scope.eventlocationfilter = '';
-
-
 
 			//DATE Gschicht
 			$scope.datumvonfilter = '';
@@ -240,7 +256,7 @@ app.controller('eventshortListController', [
 
 			console.log("eventidfilter:" + $scope.eventidfilter + " onlyactivefilter:" + $scope.onlyactivefilter + " sourcefilter:" + $scope.sourcefilter + " eventlocationfilter: " + $scope.eventlocationfilter + " datumvon:" + $scope.datumvonfilter + " datumbis:" + $scope.datumbisfilter)
 
-			$scope.queryfilter = $scope.eventidfilter + $scope.onlyactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
+            $scope.queryfilter = $scope.eventidfilter + $scope.onlyactivefilter + $scope.onlywebsiteactivefilter + $scope.onlycommunityactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
 		}
 
 		//Seite Wechseln

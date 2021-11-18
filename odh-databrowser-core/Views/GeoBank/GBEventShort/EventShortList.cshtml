@@ -97,6 +97,24 @@
                     </select>
                 </div>
 
+                <div class="form-group col-sm-12">
+                    <h6>active noi.bz.it</h6>
+                    <select class="form-control" id="selectTyp" ng-model="onlywebsiteactive">
+                        <option value="">all</option>
+                        <option value="true">active</option>
+                        <option value="false">not active</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <h6>active noi community</h6>
+                    <select class="form-control" id="selectTyp" ng-model="onlycommunityactive">
+                        <option value="">all</option>
+                        <option value="true">active</option>
+                        <option value="false">not active</option>
+                    </select>
+                </div>
+
 
                 <div class="form-group col-sm-12">
                     <h5>DatumsFilter</h5>
@@ -162,6 +180,7 @@
                         <th style="min-width: 80px;">Source</th>
                         <th style="min-width: 80px;">active on source</th>
                         <th style="min-width: 80px;">noi.bz.it Active</th>
+                        <th style="min-width: 80px;">noi community Active</th>
                         <th style="width:120px;"> </th>
                     </tr>
                 </thead>
@@ -172,7 +191,7 @@
                             <div ng-if="lang == 'de'">{{ eventshort.EventDescriptionDE }}</div>
                             <div ng-if="lang == 'it'">{{ eventshort.EventDescriptionIT }}</div>
                             <div ng-if="lang == 'en'">{{ eventshort.EventDescriptionEN }}</div>
-                            <br />{{ eventshort. }}
+                            <br />
                         </td>
                         <td>{{ eventshort.StartDate | moment:'DD/MM/YYYY HH:mm' }}<br />{{ eventshort.EndDate | moment:'DD/MM/YYYY HH:mm' }}</td>
                         <td>
@@ -189,6 +208,10 @@
                         <td>
                             <div class="glyphicon glyphicon-ok" ng-show="eventshort.ActiveWeb" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="eventshort.ActiveWeb == false || eventshort.ActiveWeb == null" style="color:red"></div>
+                        </td>
+                        <td>
+                            <div class="glyphicon glyphicon-ok" ng-show="eventshort.ActiveCommunityApp" style="color:green"></div>
+                            <div class="glyphicon glyphicon-remove" ng-show="eventshort.ActiveCommunityApp == false || eventshort.ActiveCommunityApp == null" style="color:red"></div>
                         </td>
                         <td>
                             <div class="btn-group-vertical">
@@ -247,6 +270,6 @@
     @*<script src="~/NgScripts/appfactory.js"></script>*@
     @*<script src="~/NgScripts/appconfig.js"></script>*@
 
-    <script src="~/NgScripts/EventShortController.js?version=20210707"></script>
+    <script src="~/NgScripts/EventShortController.js?version=20211118"></script>
     <script src="~/js/jquery.mask.min.js"></script>
 }

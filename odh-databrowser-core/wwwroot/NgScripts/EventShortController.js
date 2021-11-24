@@ -127,7 +127,7 @@ app.controller('eventshortListController', [
 		$scope.eventidfilter = '';
 		$scope.source = '';
 		$scope.sourcefilter = '';
-		$scope.eventlocation = 'NOI';
+		$scope.eventlocation = '';
 		$scope.eventlocationfilter = '';
 		$scope.onlyactive = '';
         $scope.onlyactivefilter = '';

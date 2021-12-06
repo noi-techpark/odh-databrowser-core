@@ -506,6 +506,11 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             $scope.common.OperationSchedule = [];
         }
 
+        //fix set time for season to avoid Zero based time shift otherwise for 2021-12-04 00:00 in the .Net Web Api the date is converted to
+        //2021-12-03 23:00 because of GMT +0100
+        season.Start = season.Start.toDateString();
+        season.Stop = season.Stop.toDateString();
+
         $scope.common.OperationSchedule.push(season);
 
         $scope.season = { OperationscheduleName: operationschedulename, Start: '', Stop: '', Type: '1', ClosedonPublicHolidays: '', OperationScheduleTime: [] };

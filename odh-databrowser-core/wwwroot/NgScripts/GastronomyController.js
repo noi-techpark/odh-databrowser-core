@@ -595,7 +595,6 @@ app.controller('gastronomyListController', [
                 $scope.smgtagfilter = $scope.SelectedSmgTagId;
         }
 
-
         setCheckModels();
 
         $scope.gastronomies = [];

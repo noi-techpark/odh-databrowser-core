@@ -200,7 +200,7 @@ appfactory.factory('leafletmapsimple', ['leafletData', function (leafletData) {
                 }
             });
 
-            L.Icon.Default.imagePath = '../Content/images/';
+            L.Icon.Default.imagePath = '../css/images/';
 
             leafletData.getMap().then(function (map) {
 
@@ -218,21 +218,17 @@ appfactory.factory('leafletmapsimple', ['leafletData', function (leafletData) {
                         async: true,
                         gpx_options: { parseElements: 'track' },
                         marker_options: {
-                            startIconUrl: '../Content/images/pin-icon-start.png',
-                            endIconUrl: '../Content/images/pin-icon-end.png',
-                            shadowUrl: '../Content/images/pin-shadow.png'
+                            startIconUrl: '../css/images/pin-icon-start.png',
+                            endIconUrl: '../css/images/pin-icon-end.png',
+                            shadowUrl: '../css/images/pin-shadow.png'
                         }
                     }).on('loaded', function (e) {
                         map.fitBounds(e.target.getBounds());
                     }).addTo(map);
                 }
-
             });
-
         }
-
     }
-
 }]);
 
 function contains(a, obj) {

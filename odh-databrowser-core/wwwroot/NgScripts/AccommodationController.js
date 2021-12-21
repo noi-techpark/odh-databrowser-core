@@ -622,13 +622,13 @@ app.controller('accommodationListController', [
             //});
 
             if (channel == "lts") {
-                $http.get($scope.basePath + '/v1/Accommodation/' + accommodation.Id + '?availabilitychecklanguage=' + $scope.lang + '&boardfilter=' + $scope.boardfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&availabilitycheck=true').success(function (result) {
+                $http.get($scope.basePath + '/v1/Accommodation/' + accommodation.Id + '?availabilitychecklanguage=' + $scope.lang + '&detail=1&boardfilter=' + $scope.boardfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&availabilitycheck=true').success(function (result) {
                     $scope.accommodation = result;
                     $scope.isDetailloading = false;
                 });
             }
             else {
-                $http.get($scope.basePath + '/v1/Accommodation/' + accommodation.Id + '?availabilitychecklanguage=' + $scope.lang + '&boardfilter=' + $scope.boardfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&availabilitycheck=true').success(function (result) {
+                $http.get($scope.basePath + '/v1/Accommodation/' + accommodation.Id + '?availabilitychecklanguage=' + $scope.lang + '&detail=1&boardfilter=' + $scope.boardfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&availabilitycheck=true').success(function (result) {
                     $scope.accommodation = result;
                     $scope.isDetailloading = false;
                 });

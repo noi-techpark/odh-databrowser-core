@@ -1,0 +1,25 @@
+name: .NET
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore odh-databrowser-core.sln
+    - name: Build
+      run: dotnet build odh-databrowser-core.sln --no-restore
+    - name: Test
+      run: dotnet test odh-databrowser-core.sln --no-build --verbosity normal

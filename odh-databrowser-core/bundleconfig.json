@@ -48,7 +48,7 @@
   {
     "outputFileName": "wwwroot/bundles/angularcustom.min.js",
     "inputFiles": [
-      "wwwroot/NgScripts/pathconfig.js",
+      //"wwwroot/NgScripts/pathconfig.js",
       "wwwroot/NgScripts/appfactory.js",
       "wwwroot/NgScripts/appconfig.js"
     ] 

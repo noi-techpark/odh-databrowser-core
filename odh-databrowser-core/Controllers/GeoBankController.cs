@@ -379,6 +379,15 @@ namespace SuedtirolManagerPG.Controllers
         {
             return View("~/Views/GeoBank/GBArticle/ContentArticleList.cshtml");
         }
+        public ActionResult SpecialAnnouncementList()
+        {
+            return View("~/Views/GeoBank/GBArticle/SpecialAnnouncementList.cshtml");
+        }
+
+        public ActionResult NewsFeedNoiList()
+        {
+            return View("~/Views/GeoBank/GBArticle/NewsFeedNoiList.cshtml");
+        }
 
         #endregion
 

@@ -37,7 +37,8 @@ app.controller('eventshortListController', [
                     eventlocationstring = 'VV';
 
                 $scope.neweventshort = true;
-                $scope.eventshort = { Id: '', Source: 'Content', Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime, isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring };
+                $scope.eventshort = {
+                    Id: '', Source: 'Content', Self: '', _Meta: { Id: '', Type:'eventshort', Source: 'noi' }, Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime, isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring };
 
 			}
 			else {

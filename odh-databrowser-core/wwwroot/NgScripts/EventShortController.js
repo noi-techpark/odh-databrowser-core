@@ -86,7 +86,7 @@ app.controller('eventshortListController', [
 
 		$scope.deleteeventshort = function (eventshort) {
 
-            if (eventshort.Source == "Content") {
+            if (eventshort.Source != "EBMS") {
 
                 if ($scope.virtualvillagemanager && eventshort.EventLocation != "VV") {
                     alert("User can only insert Virtual Village Events");

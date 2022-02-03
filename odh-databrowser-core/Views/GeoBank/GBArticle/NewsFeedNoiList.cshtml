@@ -15,7 +15,7 @@
 
 @*
     Titolo
-    Descrzione
+    Descrizione
     Data di inserimento (data nella quale la issue viene inserita)
     Data di comunicazione (data nella quale la issue deve essere comunicata alla community)
     Immagine (Opzionale)
@@ -91,14 +91,14 @@
                     <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
                 </div>
 
-                <div class="form-group col-sm-12">
+                @*<div class="form-group col-sm-12">
                     <h6>SubType</h6>
                     <div class="btn-group-vertical">
                         <label class="btn btn-default" ng-model="checkSubTypeModel.one" btn-checkbox>Site Content</label>
                         <label class="btn btn-default" ng-model="checkSubTypeModel.two" btn-checkbox>B2B Site Content</label>
                         <label class="btn btn-default" ng-model="checkSubTypeModel.three" btn-checkbox>Press Site Content</label>
                     </div>
-                </div>
+                </div>*@
 
                 <div class="form-group col-sm-12">
                     <h6>Language Filter</h6>
@@ -114,14 +114,14 @@
                     </div>
                 </div>
 
-                <div class="form-group col-sm-12">
+                @*<div class="form-group col-sm-12">
                     <h6>active on source</h6>
                     <select class="form-control" id="selectTyp" ng-model="active">
                         <option value="null">all</option>
                         <option value="true">active</option>
                         <option value="false">not active</option>
                     </select>
-                </div>
+                </div>*@
 
                 <div class="form-group col-sm-12">
                     <h6>active in ODH</h6>
@@ -156,11 +156,10 @@
                 <thead>
                     <tr>
                         <th style="width:160px">MainImage</th>
-                        <th style="min-width: 80px;">Shortname</th>
-                        <th style="min-width: 80px;">Type</th>
-                        <th style="min-width: 80px;">Subtype</th>
-                        <th style="min-width: 80px;">Languages</th>
-                        <th style="min-width: 80px;">active on source</th>
+                        <th style="min-width: 80px;">Date</th>
+                        <th style="min-width: 80px;">Title</th>
+                        <th style="min-width: 80px;">Type</th>                        
+                        <th style="min-width: 80px;">Languages</th>                        
                         <th style="min-width: 80px;">active in ODH</th>
                         <th style="width:20px;"> </th>
                     </tr>
@@ -172,19 +171,24 @@
                                 <img class="img-thumbnail img-responsive" @*style="max-height:150px;max-width:150px"*@ ng-src="{{  article.ImageGallery[0] != NULL && article.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" @*ng-hide="article.ImageGallery[0] == NULL"*@ title="{{ article.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(article)" />
                             </div>
                         </td>
-                        @*<td>{{ article.Id }}</td>*@
+                        
+                        <td>
+                            <div ng-show="article.ArticleDate != null">{{ article.ArticleDate  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDate == null">no date</div> - 
+                            <div ng-show="article.ArticleDate != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDate == null">no date</div>
+                        </td>
+                   
                         <td>{{ article.Detail[lang].Title }}</td>
                         <td>{{ article.Type }}</td>
-                        <td>{{ article.SubType }}</td>
+                        
                         <td>
                             <div ng-repeat="articlelang in article.HasLanguage">
                                 {{ articlelang }}
                             </div>
                         </td>
-                        <td>
+                       @* <td>
                             <div class="glyphicon glyphicon-ok" ng-show="article.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="article.Active == false"></div>
-                        </td>
+                        </td>*@
                         <td>
                             <div class="glyphicon glyphicon-ok" ng-show="article.SmgActive" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="article.SmgActive == false" style="color:red"></div>
@@ -276,20 +280,7 @@
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputShortName" placeholder="Shortname" ng-model="article.Shortname">
                                                 </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputTyp" class="col-sm-2 control-label">SubType</label>
-                                                <div class="col-sm-10">
-                                                    @*<input type="text" class="form-control" id="inputSubTyp" placeholder="Subtype" ng-model="article.SubType">*@
-                                                    <select class="form-control notextareamaxwitdth" id="selectTyp" ng-model="article.SubType">
-                                                        <option>Site Content</option>
-                                                        <option>B2B Content</option>
-                                                        <option>Press Content</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
+                                            </div>                                            
                                         </div>
                                     </div>
 
@@ -299,16 +290,35 @@
                                             <div class="form-group">
                                                 <label for="inputName" class="col-sm-2 control-label">Last Changed</label>
                                                 <div class="col-sm-10">
-                                                    <div class="form-control">{{ article.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                                    <div class="form-control"><div ng-show="article.LastChange != null">{{ article.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div></div>
                                                 </div>
                                             </div>
 
-                                           @* <div class="form-group">
-                                                <label for="inputHighlight" class="col-sm-2 control-label">Highlight</label>
-                                                <div class="col-sm-10">
-                                                    <input type="checkbox" class="form-control" id="inputHighlight" placeholder="Highlight" ng-model="article.Highlight">
+                                             <div class="form-group">
+                                                <label for="inputSeasonStart" class="col-sm-2 control-label">News Date</label>
+
+                                                <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="article.ArticleDate" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>*@
+                                            </div>
+
+                                             <div class="form-group">
+                                                <label for="inputSeasonStart" class="col-sm-2 control-label">News Pubblication Date</label>
+
+                                                <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="article.ArticleDateTo" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>                                           
 
                                             <div class="form-group">
                                                 <label for="inputActive" class="col-sm-2 control-label">active on source</label>

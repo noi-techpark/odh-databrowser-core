@@ -86,6 +86,29 @@
                     <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="$parent.SelectedArticleName" idmodel="$parent.SelectedArticleId" on-select="onItemSelected()" />
                 </div>
 
+                <div class="form-group col-sm-12">
+                    <h5>Date Filter</h5>
+                    @*<input type="text" id="datefrom" class="form-control" placeholder="Von" style="width:100%" /><br />*@
+
+                    <div class="input-group" ng-controller="DatepickerDemoCtrl">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.Datumvon" is-open="opened" datepicker-options="dateOptions" ng-change="changeDate($parent.Datumvon)" @*min-date=" '2010-01-01' " max-date=" '2015-06-22' " datepicker-options=" dateoptions" date-disabled="disabled(date, mode)" *@ ng-required="true" close-text="Close" readonly />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+
+                    @*<input type="text" id="dateTo" class="form-control" placeholder="Bis" style="width:100%" />*@
+
+                    <div class="input-group" ng-controller="DatepickerDemoCtrl">
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.Datumbis" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ ng-required="true" close-text="Close" readonly />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+
+                    <br /><br />
+                </div>
+
                 <div class="form-group col-sm-12" ng-controller="SmgTagNameTypeAheadController">
                     <h6>ODH Tag</h6>
                     <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />

@@ -17,7 +17,7 @@ app.controller('webcamListController', [
 
                 $scope.newwebcam = true;
                 $scope.webcam = {
-                    Id: '', Shortname: '', Source: 'Content', GpsInfo: { Gpstype : 'position' } };
+                    Id: '', Shortname: '', Source: 'Content', GpsInfo: { Gpstype: 'position' }, _Meta: { Id: '', Type: 'webcam', Source: 'noi' } };
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myWebcamModal.html',

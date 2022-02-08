@@ -48,7 +48,7 @@ app.controller('articleListController', [
             if (article === 'new') {
                
                 $scope.newarticle = true;
-                $scope.article = { Id: guid(), Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive:false };
+                $scope.article = { Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi' }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive:false };
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myArticleModal.html',

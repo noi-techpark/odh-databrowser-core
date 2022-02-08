@@ -36,7 +36,7 @@ app.controller('venueListController', [
             if (venue === 'new') {
 
                 $scope.newvenue = true;
-                $scope.venue = { Id: '', Shortname: '' };
+                $scope.venue = { Id: '', Shortname: '', _Meta: { Id: '', Type: 'venue', Source: 'noi' } };
             }
             else {
                 $scope.newvenue = false;

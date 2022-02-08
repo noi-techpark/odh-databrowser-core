@@ -110,7 +110,7 @@ app.controller('smgpoiListController', [
             if (poi === 'new') {
 
                 $scope.newpoi = true;
-                $scope.poi = { Id: guid(), Shortname: '', Type: $scope.poitype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, SmgTags: [], LocationInfo: { TvInfo: null, RegionInfo: null, MunicipalityInfo: null, DistrictInfo: null  } };
+                $scope.poi = { Id: guid(), Shortname: '', Type: $scope.poitype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, SmgTags: [], LocationInfo: { TvInfo: null, RegionInfo: null, MunicipalityInfo: null, DistrictInfo: null }, _Meta: { Id: '', Type: 'odhactivitypoi', Source: 'noi' } };
                 $scope.poi.AdditionalPoiInfos = {};
                 //Maintype adden
                 $scope.poi.AdditionalPoiInfos['de'] = { Novelty: null, MainType: "", SubType: "", PoiType: "", Language: "de" };

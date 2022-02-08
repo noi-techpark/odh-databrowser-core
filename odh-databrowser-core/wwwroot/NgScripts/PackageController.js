@@ -98,7 +98,7 @@ app.controller('hgvpackageListController', [
             if (hgvpackage === 'new') {
 
                 $scope.newhgvpackage = true;
-                $scope.hgvpackage = { Id: '', Shortname: '' };
+                $scope.hgvpackage = { Id: '', Shortname: '', _Meta: { Id: '', Type: 'package', Source: 'noi' } };
             }
             else {
                 $scope.newhgvpackage = false;

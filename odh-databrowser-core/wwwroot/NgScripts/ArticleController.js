@@ -393,7 +393,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/Article/' + $scope.articletype, article).success(function (result) {
+            $http.post($scope.basePath + '/v1/Article', article).success(function (result) {
                 alert("Article added!");
 
                 console.log(article);

@@ -90,7 +90,7 @@
                     <h5>Date Filter</h5>
                     @*<input type="text" id="datefrom" class="form-control" placeholder="Von" style="width:100%" /><br />*@
 
-                    <div class="input-group" ng-controller="DatepickerDemoCtrl">
+                    <div class="input-group" ng-controller="DatepickerCtrl">
                         <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.Datumvon" is-open="opened" datepicker-options="dateOptions" ng-change="changeDate($parent.Datumvon)" @*min-date=" '2010-01-01' " max-date=" '2015-06-22' " datepicker-options=" dateoptions" date-disabled="disabled(date, mode)" *@ ng-required="true" close-text="Close" readonly />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -99,7 +99,7 @@
 
                     @*<input type="text" id="dateTo" class="form-control" placeholder="Bis" style="width:100%" />*@
 
-                    <div class="input-group" ng-controller="DatepickerDemoCtrl">
+                    <div class="input-group" ng-controller="DatepickerCtrl">
                         <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.Datumbis" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ ng-required="true" close-text="Close" readonly />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -301,26 +301,28 @@
                                             <div class="form-group">
                                                 <label for="inputShortName" class="col-sm-2 control-label">Shortname</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputShortName" placeholder="Shortname" ng-model="article.Shortname">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputShortName" placeholder="Shortname" ng-model="article.Shortname" readonly>
                                                 </div>
-                                            </div>                                            
+                                            </div>      
+                                            
+                                            <div class="form-group">
+                                                <label for="inputName" class="col-sm-2 control-label">Last Changed</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><span ng-show="article.LastChange != null" readonly>{{ article.LastChange | moment:'DD-MM-YYYY HH:mm' }}</span></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="form-horizontal">
 
-                                            <div class="form-group">
-                                                <label for="inputName" class="col-sm-2 control-label">Last Changed</label>
-                                                <div class="col-sm-10">
-                                                    <div class="form-control"><div ng-show="article.LastChange != null">{{ article.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div></div>
-                                                </div>
-                                            </div>
+                                            
 
                                              <div class="form-group">
-                                                <label for="inputSeasonStart" class="col-sm-2 control-label">News Date</label>
+                                                <label for="inputSeasonStart" class="col-sm-2 control-label">News Publish Date</label>
 
-                                                <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+                                                <div class="col-sm-10" ng-controller="DatepickerCtrl">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="article.ArticleDate" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
                                                         <span class="input-group-btn">
@@ -331,9 +333,9 @@
                                             </div>
 
                                              <div class="form-group">
-                                                <label for="inputSeasonStart" class="col-sm-2 control-label">News Pubblication Date</label>
+                                                <label for="inputSeasonStart" class="col-sm-2 control-label">News Publish Date To</label>
 
-                                                <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+                                                <div class="col-sm-10" ng-controller="DatepickerCtrl">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="article.ArticleDateTo" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
                                                         <span class="input-group-btn">
@@ -343,12 +345,12 @@
                                                 </div>
                                             </div>                                           
 
-                                            <div class="form-group">
+                                            @*<div class="form-group">
                                                 <label for="inputActive" class="col-sm-2 control-label">active on source</label>
                                                 <div class="col-sm-10">
                                                     <input type="checkbox" class="form-control" id="inputActive" placeholder="Id" ng-model="article.Active">
                                                 </div>
-                                            </div>
+                                            </div>*@
 
                                             <div class="form-group">
                                                 <label for="inputSmgActive" class="col-sm-2 control-label">active in ODH</label>

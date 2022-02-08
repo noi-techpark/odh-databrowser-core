@@ -51,9 +51,10 @@ app.controller('articleListController', [
 
                 var articlestartdate = null;
                 if ($scope.articletype == 'newsfeednoi')
-                    articlestartdate = Date.now();
+                    articlestartdate = new Date();
 
-                $scope.article = { Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi' }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate };
+                $scope.article = {
+                    Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi' }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" } };
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myArticleModal.html',
@@ -391,6 +392,8 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.addarticle = function (article, isvalid) {
 
+        console.log(isvalid);
+
         if (isvalid) {
 
             $http.post($scope.basePath + '/v1/Article', article).success(function (result) {
@@ -403,7 +406,9 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 //$scope.changePage(0);
 
                 $modalInstance.close();
-            });
+            }).error(function (data) {
+                console.log("ERROR:" + data);
+            });                
         }
         else {
             alert("Invalid Data!");

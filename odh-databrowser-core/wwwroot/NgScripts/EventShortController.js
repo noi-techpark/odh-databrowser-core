@@ -38,7 +38,11 @@ app.controller('eventshortListController', [
 
                 $scope.neweventshort = true;
                 $scope.eventshort = {
-                    Id: '', Source: 'Content', Self: '', _Meta: { Id: '', Type:'eventshort', Source: 'noi' }, Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime, isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring };
+                    Id: '', Source: 'Content', Self: '', _Meta: { Id: '', Type: 'eventshort', Source: 'noi' },
+                    Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime,
+                    isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring,
+                    LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }
+                };
 
 			}
 			else {
@@ -783,8 +787,6 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function ($sco
     };
     uploader.onSuccessItem = function (fileItem, response, status, headers) {
 
-        //console.log(response);
-
         var r = new RegExp('"', 'g');
         var imageurl = response.replace(r, '');
         //Filename
@@ -882,7 +884,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
 
         alert('changed Image: ' + imageurl);
 
-        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++, IsInGallery: true }
+        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++, License: "CC0", IsInGallery: true }
 
         $.each($scope.eventshort.ImageGallery, function (i) {
             if ($scope.eventshort.ImageGallery[i].ImageUrl === $scope.oldimageurl) {

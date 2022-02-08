@@ -739,10 +739,11 @@ app.directive('typeaheadarticle', function ($timeout) {
 
 //Fileupload Test
 app.controller('FileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
-    var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/v1/FileUpload/articles/' + $scope.articletype
-    });
 
+    var uploader = $scope.uploader = new FileUploader({
+        url: $scope.basePath + '/v1/FileUpload/article/' + $scope.articletype,
+        headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
+    });
 
     // FILTERS
     uploader.filters.push({
@@ -783,11 +784,16 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function ($sco
         //Filename
         var imagename = imageurl.substring(imageurl.lastIndexOf('/') + 1);
 
+        var counter = 0;
+
         if ($scope.article.ImageGallery == null) {
             $scope.article.ImageGallery = [];
         }
+        else {
+            counter = $scope.eventshort.ImageGallery.length;
+        }
 
-        var UploadedImage = { ImageName: imagename, ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'SMG', ImageTitle: { de: '', it: '', en: '' }, ImageDesc: { de: '', it: '', en: '' } }
+        var UploadedImage = { ImageName: imagename, ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '' }, ImageDesc: { de: '', it: '', en: '' }, ListPosition: counter, License: "CC0", IsInGallery: true }
 
         $scope.article.ImageGallery.push(UploadedImage);
 
@@ -823,7 +829,8 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
     }
 
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/v1/FileUpload/articles/' + $scope.articletype
+        url: $scope.basePath + '/v1/FileUpload/article/' + $scope.articletype,
+        headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     });
 
     // FILTERS
@@ -866,7 +873,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
 
         alert('changed Image: ' + imageurl);
 
-        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'IDM', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++ }
+        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++, License: "CC0", IsInGallery: true }
 
         $.each($scope.article.ImageGallery, function (i) {
             if ($scope.article.ImageGallery[i].ImageUrl === $scope.oldimageurl) {

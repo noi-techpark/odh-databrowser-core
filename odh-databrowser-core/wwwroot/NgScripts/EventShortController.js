@@ -913,9 +913,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
     };
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');
-    };
-
-    //console.info('uploader', uploader);
+    };    
 }]);
 
 //Fileupload PDF

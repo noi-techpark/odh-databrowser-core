@@ -197,7 +197,7 @@
                         
                         <td>
                             <div ng-show="article.ArticleDate != null">{{ article.ArticleDate  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDate == null">no date</div> - 
-                            <div ng-show="article.ArticleDate != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDate == null">no date</div>
+                            <div ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDateTo == null">no date</div>
                         </td>
                    
                         <td>{{ article.Detail[lang].Title }}</td>

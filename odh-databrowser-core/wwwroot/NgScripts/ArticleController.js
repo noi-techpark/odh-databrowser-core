@@ -144,6 +144,9 @@ app.controller('articleListController', [
         $scope.SelectedSmgTagName = '';
         $scope.SelectedSmgTagId = '';
 
+        $scope.datumvonfilter = '';
+        $scope.datumbisfilter = '';
+
         setSubTypeModel();
         setLanglistModel();
 
@@ -165,8 +168,36 @@ app.controller('articleListController', [
             if ($scope.langlistfilter != '' && $scope.langlistfilter != 'null')
                 $scope.lang = $scope.langlistfilter.substring(0, 2);
 
+            //DATE Gschicht
+            $scope.datumvonfilter = '';
+            $scope.datumbisfilter = '';
 
-            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed).success(function (result) {
+            if ($scope.Datumvon != '' && $scope.Datumvon != undefined) {
+
+                var arrivalday = $scope.Datumvon.getDate();
+                var arrivalmonth = parseInt($scope.Datumvon.getMonth()) + 1; //Months are zero based            
+                var arrivalyear = $scope.Datumvon.getFullYear();
+
+                $scope.datumvonfilter = "&startdate=" + arrivalyear + "-" + arrivalmonth + "-" + arrivalday;
+            }
+            else {
+                $scope.datumvonfilter = '';
+            }
+
+            if ($scope.Datumbis != '' && $scope.Datumbis != undefined) {
+
+                var arrivalday2 = $scope.Datumbis.getDate();
+                var arrivalmonth2 = parseInt($scope.Datumbis.getMonth()) + 1; //Months are zero based            
+                var arrivalyear2 = $scope.Datumbis.getFullYear();
+
+                $scope.datumbisfilter = "&enddate=" + arrivalyear2 + "-" + arrivalmonth2 + "-" + arrivalday2;
+            }
+            else {
+                $scope.datumbisfilter = '';
+            }
+
+
+            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter).success(function (result) {
                 $scope.articles = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;

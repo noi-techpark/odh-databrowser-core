@@ -196,7 +196,6 @@ app.controller('articleListController', [
                 $scope.datumbisfilter = '';
             }
 
-
             $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter).success(function (result) {
                 $scope.articles = result.Items;
                 $scope.totalpages = result.TotalPages;
@@ -224,6 +223,9 @@ app.controller('articleListController', [
 
             $scope.active = 'null';
             $scope.smgactive = 'null';
+
+            $scope.datumvonfilter = '';
+            $scope.datumbisfilter = '';
 
             setSubTypeModel();
             setLanglistModel();
@@ -427,16 +429,22 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
+            if (article.ArticleDate != null || article.ArticleDate != undefined)
+                article.ArticleDate = article.ArticleDate.toDateString();
+            if (article.ArticleDateTo != null || article.ArticleDateTo != undefined)
+                article.ArticleDateTo = article.ArticleDateTo.toDateString();
+
             $http.post($scope.basePath + '/v1/Article', article).success(function (result) {
                 alert("Article added!");
 
                 console.log(article);
 
                 $scope.articles.push(article);
-
-                //$scope.changePage(0);
-
+                
                 $modalInstance.close();
+
+                $scope.$parent.applyFilter($scope.page);
+
             }).error(function (data) {
                 console.log("ERROR:" + data);
             });                
@@ -449,13 +457,19 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatearticle = function (article, isvalid) {
 
         if (isvalid) {
-            alert(article.Id);
 
-            $http.put($scope.basePath + '/v1/Article/' + article.Id + '/' + $scope.articletype, article).success(function (result) {
+            if (article.ArticleDate != null || article.ArticleDate != undefined)
+                article.ArticleDate = article.ArticleDate.toDateString();
+            if (article.ArticleDateTo != null || article.ArticleDateTo != undefined)
+                article.ArticleDateTo = article.ArticleDateTo.toDateString();
+
+
+            $http.put($scope.basePath + '/v1/Article/' + article.Id, article).success(function (result) {
                 alert("Article updated!");
                 $modalInstance.close();
 
-                $scope.$parent.updateDatainList(article);
+                //$scope.$parent.updateDatainList(article);
+                $scope.$parent.applyFilter($scope.page);
             });
         }
         else {

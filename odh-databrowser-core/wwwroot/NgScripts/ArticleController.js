@@ -84,9 +84,7 @@ app.controller('articleListController', [
                         backdrop: 'static'
                     });
                 });
-            }
-
-            
+            }            
         };
 
         $scope.updateDatainList = function (article) {
@@ -226,6 +224,9 @@ app.controller('articleListController', [
 
             $scope.datumvonfilter = '';
             $scope.datumbisfilter = '';
+
+            $scope.Datumvon = '';
+            $scope.Datumbis = '';
 
             setSubTypeModel();
             setLanglistModel();

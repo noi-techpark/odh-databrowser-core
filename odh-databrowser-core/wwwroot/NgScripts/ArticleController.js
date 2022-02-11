@@ -129,8 +129,8 @@ app.controller('articleListController', [
 
             if (pushconfirm) {
 
-                $http.get($scope.basePath + '/v1/Push/article/' + id).success(function (result) {
-                    alert("Push sent!");
+                $http.get($scope.basePath + '/v1/PushNotification/article/' + id).success(function (result) {
+                    alert("PushNotification sent!");
 
                     $scope.applyFilter($scope.page);
 

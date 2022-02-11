@@ -123,6 +123,23 @@ app.controller('articleListController', [
             }
         };
 
+        $scope.sendtopushserver = function (article) {
+
+            var pushconfirm = confirm('Are you sure you want to send a push?');
+
+            if (pushconfirm) {
+
+                $http.delete($scope.basePath + '/v1/Push/article/' + id).success(function (result) {
+                    alert("Push sent!");
+
+                    $scope.applyFilter($scope.page);
+
+                }).error(function (data) {
+                    alert("ERROR:" + data);
+                });
+            }
+        };
+
         $scope.page = 1;
         $scope.totalpages = 0;
         $scope.totalcount = 0;

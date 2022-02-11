@@ -129,7 +129,7 @@ app.controller('articleListController', [
 
             if (pushconfirm) {
 
-                $http.delete($scope.basePath + '/v1/Push/article/' + id).success(function (result) {
+                $http.get($scope.basePath + '/v1/Push/article/' + id).success(function (result) {
                     alert("Push sent!");
 
                     $scope.applyFilter($scope.page);

@@ -521,7 +521,7 @@ app.controller('accommodationListController', [
             if (accommodation === 'new') {
 
                 $scope.newaccommodation = true;
-                $scope.accommodation = { Id: '', Shortname: '' };
+                $scope.accommodation = { Id: '', Shortname: '', _Meta: { Id: '', Type: 'accommodation', Source: 'noi' } };
             }
             else {
                 $scope.newaccommodation = false;

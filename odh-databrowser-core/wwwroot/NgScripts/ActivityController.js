@@ -57,7 +57,7 @@ app.controller('activityListController', [
             if (activity === 'new') {
 
                 $scope.newactivity = true;
-                $scope.activity = { Id: '', Shortname: '' };
+                $scope.activity = { Id: '', Shortname: '', _Meta: { Id: '', Type: 'activity', Source: 'noi' } };
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myActivityModal.html',

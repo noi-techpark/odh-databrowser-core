@@ -41,7 +41,7 @@ app.controller('commonListController', [
             if (common === 'new') {
 
                 $scope.newcommon = true;
-                $scope.common = { Id: '', Shortname: '', Gpstype:'center', AltitudeUnitofMeasure: 'm' };
+                $scope.common = { Id: '', Shortname: '', Gpstype: 'center', AltitudeUnitofMeasure: 'm', _Meta: { Id: '', Type: $scope.commontype, Source: 'noi' } };
             }
             else {
                 $scope.newcommon = false;

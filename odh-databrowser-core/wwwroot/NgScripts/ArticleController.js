@@ -48,7 +48,13 @@ app.controller('articleListController', [
             if (article === 'new') {
                
                 $scope.newarticle = true;
-                $scope.article = { Id: guid(), Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive:false };
+
+                var articlestartdate = null;
+                if ($scope.articletype == 'newsfeednoi')
+                    articlestartdate = new Date();
+
+                $scope.article = {
+                    Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi' }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" } };
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myArticleModal.html',
@@ -78,9 +84,7 @@ app.controller('articleListController', [
                         backdrop: 'static'
                     });
                 });
-            }
-
-            
+            }            
         };
 
         $scope.updateDatainList = function (article) {
@@ -119,6 +123,23 @@ app.controller('articleListController', [
             }
         };
 
+        $scope.sendtopushserver = function (article) {
+
+            var pushconfirm = confirm('Are you sure you want to send a push?');
+
+            if (pushconfirm) {
+
+                $http.get($scope.basePath + '/v1/PushNotification/article/' + id).success(function (result) {
+                    alert("PushNotification sent!");
+
+                    $scope.applyFilter($scope.page);
+
+                }).error(function (data) {
+                    alert("ERROR:" + data);
+                });
+            }
+        };
+
         $scope.page = 1;
         $scope.totalpages = 0;
         $scope.totalcount = 0;
@@ -137,6 +158,9 @@ app.controller('articleListController', [
 
         $scope.SelectedSmgTagName = '';
         $scope.SelectedSmgTagId = '';
+
+        $scope.datumvonfilter = '';
+        $scope.datumbisfilter = '';
 
         setSubTypeModel();
         setLanglistModel();
@@ -159,8 +183,35 @@ app.controller('articleListController', [
             if ($scope.langlistfilter != '' && $scope.langlistfilter != 'null')
                 $scope.lang = $scope.langlistfilter.substring(0, 2);
 
+            //DATE Gschicht
+            $scope.datumvonfilter = '';
+            $scope.datumbisfilter = '';
 
-            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed).success(function (result) {
+            if ($scope.Datumvon != '' && $scope.Datumvon != undefined) {
+
+                var arrivalday = $scope.Datumvon.getDate();
+                var arrivalmonth = parseInt($scope.Datumvon.getMonth()) + 1; //Months are zero based            
+                var arrivalyear = $scope.Datumvon.getFullYear();
+
+                $scope.datumvonfilter = "&startdate=" + arrivalyear + "-" + arrivalmonth + "-" + arrivalday;
+            }
+            else {
+                $scope.datumvonfilter = '';
+            }
+
+            if ($scope.Datumbis != '' && $scope.Datumbis != undefined) {
+
+                var arrivalday2 = $scope.Datumbis.getDate();
+                var arrivalmonth2 = parseInt($scope.Datumbis.getMonth()) + 1; //Months are zero based            
+                var arrivalyear2 = $scope.Datumbis.getFullYear();
+
+                $scope.datumbisfilter = "&enddate=" + arrivalyear2 + "-" + arrivalmonth2 + "-" + arrivalday2;
+            }
+            else {
+                $scope.datumbisfilter = '';
+            }
+
+            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter).success(function (result) {
                 $scope.articles = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -188,8 +239,16 @@ app.controller('articleListController', [
             $scope.active = 'null';
             $scope.smgactive = 'null';
 
+            $scope.datumvonfilter = '';
+            $scope.datumbisfilter = '';
+
+            $scope.Datumvon = '';
+            $scope.Datumbis = '';
+
             setSubTypeModel();
             setLanglistModel();
+
+            $scope.checkLangListModel[$scope.lang] = true;
 
             $scope.changePage(0);
             //$scope.$broadcast('LoadArticleNamesList');
@@ -386,19 +445,29 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.addarticle = function (article, isvalid) {
 
+        //console.log(isvalid);
+
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/Article/' + $scope.articletype, article).success(function (result) {
+            if (article.ArticleDate != null && article.ArticleDate != undefined && article.ArticleDate instanceof Date)
+                article.ArticleDate = article.ArticleDate.toDateString();
+            if (article.ArticleDateTo != null && article.ArticleDateTo != undefined && article.ArticleDateTo instanceof Date)
+                article.ArticleDateTo = article.ArticleDateTo.toDateString();
+
+            $http.post($scope.basePath + '/v1/Article', article).success(function (result) {
                 alert("Article added!");
 
                 console.log(article);
 
                 $scope.articles.push(article);
-
-                //$scope.changePage(0);
-
+                
                 $modalInstance.close();
-            });
+
+                $scope.$parent.applyFilter($scope.page);
+
+            }).error(function (data) {
+                console.log("ERROR:" + data);
+            });                
         }
         else {
             alert("Invalid Data!");
@@ -408,13 +477,24 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatearticle = function (article, isvalid) {
 
         if (isvalid) {
-            alert(article.Id);
+          
+            if (article.ArticleDate != null && article.ArticleDate != undefined && article.ArticleDate instanceof Date)
+                article.ArticleDate = article.ArticleDate.toDateString();
+            if (article.ArticleDateTo != null && article.ArticleDateTo != undefined && article.ArticleDateTo instanceof Date)
+                article.ArticleDateTo = article.ArticleDateTo.toDateString();
 
-            $http.put($scope.basePath + '/v1/Article/' + article.Id + '/' + $scope.articletype, article).success(function (result) {
+            //Start Date richtig setzen
+            //eventshort.StartDate = eventshort.eventstartonlydate.getFullYear() + "/" + parseInt(eventshort.eventstartonlydate.getMonth() + 1) + "/" + eventshort.eventstartonlydate.getDate() + " " + eventshort.eventstartonlytime;
+            //eventshort.EndDate = eventshort.eventendonlydate.getFullYear() + "/" + parseInt(eventshort.eventendonlydate.getMonth() + 1) + "/" + eventshort.eventendonlydate.getDate() + " " + eventshort.eventendonlytime;
+
+
+
+            $http.put($scope.basePath + '/v1/Article/' + article.Id, article).success(function (result) {
                 alert("Article updated!");
                 $modalInstance.close();
 
-                $scope.$parent.updateDatainList(article);
+                //$scope.$parent.updateDatainList(article);
+                $scope.$parent.applyFilter($scope.page);
             });
         }
         else {
@@ -596,9 +676,11 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             
         
     };
-
-
 };
+
+var isDate = function (date) {
+    return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
+}
 
 //Modal Slideshow Controller
 var InfoModalInstanceCtrl = function ($scope, $modalInstance, $http) {
@@ -729,17 +811,16 @@ app.directive('typeaheadarticle', function ($timeout) {
 
 //Fileupload Test
 app.controller('FileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
-    var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/v1/FileUpload/articles/' + $scope.articletype
-    });
 
+    var uploader = $scope.uploader = new FileUploader({
+        url: $scope.basePath + '/v1/FileUpload/article/' + $scope.articletype,
+        headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
+    });
 
     // FILTERS
     uploader.filters.push({
         name: 'imageFilter',
-        fn: function (item /*{File|FileLikeObject}*/, options) {
-
-            alert(item.type.slice(item.type.lastIndexOf('/') + 1));
+        fn: function (item /*{File|FileLikeObject}*/, options) {            
 
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
             return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
@@ -773,11 +854,16 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function ($sco
         //Filename
         var imagename = imageurl.substring(imageurl.lastIndexOf('/') + 1);
 
+        var counter = 0;
+
         if ($scope.article.ImageGallery == null) {
             $scope.article.ImageGallery = [];
         }
+        else {
+            counter = $scope.eventshort.ImageGallery.length;
+        }
 
-        var UploadedImage = { ImageName: imagename, ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'SMG', ImageTitle: { de: '', it: '', en: '' }, ImageDesc: { de: '', it: '', en: '' } }
+        var UploadedImage = { ImageName: imagename, ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '' }, ImageDesc: { de: '', it: '', en: '' }, ListPosition: counter, License: "CC0", IsInGallery: true }
 
         $scope.article.ImageGallery.push(UploadedImage);
 
@@ -813,7 +899,8 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
     }
 
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/v1/FileUpload/articles/' + $scope.articletype
+        url: $scope.basePath + '/v1/FileUpload/article/' + $scope.articletype,
+        headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     });
 
     // FILTERS
@@ -856,7 +943,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
 
         alert('changed Image: ' + imageurl);
 
-        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'IDM', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++ }
+        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++, License: "CC0", IsInGallery: true }
 
         $.each($scope.article.ImageGallery, function (i) {
             if ($scope.article.ImageGallery[i].ImageUrl === $scope.oldimageurl) {

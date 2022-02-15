@@ -77,7 +77,7 @@ app.controller('eventListController', [
             if (event === 'new') {
 
                 $scope.newevent = true;
-                $scope.event = { Id: '', Shortname: '' };
+                $scope.event = { Id: '', Shortname: '', _Meta: { Id: '', Type: 'event', Source: 'noi' } };
             }
             else {
                 $scope.newevent = false;

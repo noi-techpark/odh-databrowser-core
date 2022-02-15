@@ -23,7 +23,7 @@ app.controller('smgtagListController', [
             if (smgtag === 'new') {
 
                 $scope.newsmgtag = true;
-                $scope.smgtag = { Id: '', Shortname: '' };
+                $scope.smgtag = { Id: '', Shortname: '', _Meta: { Id: '', Type: 'odhtag', Source: 'noi' } };
             }
             else {
                 $scope.newsmgtag = false;

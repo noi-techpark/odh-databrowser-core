@@ -53,7 +53,7 @@ app.controller('gastronomyListController', [
             if (gastronomy === 'new') {
 
                 $scope.newgastronomy = true;
-                $scope.gastronomy = { Id: '', Shortname: '' };
+                $scope.gastronomy = { Id: '', Shortname: '', _Meta: { Id: '', Type: 'gastronomy', Source: 'noi' } };
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myGastronomyModal.html',

@@ -37,7 +37,12 @@ app.controller('eventshortListController', [
                     eventlocationstring = 'VV';
 
                 $scope.neweventshort = true;
-                $scope.eventshort = { Id: '', Source: 'Content', Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime, isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring };
+                $scope.eventshort = {
+                    Id: '', Source: 'Content', Self: '', _Meta: { Id: '', Type: 'eventshort', Source: 'noi' },
+                    Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime,
+                    isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring,
+                    LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }
+                };
 
 			}
 			else {
@@ -85,7 +90,7 @@ app.controller('eventshortListController', [
 
 		$scope.deleteeventshort = function (eventshort) {
 
-            if (eventshort.Source == "Content") {
+            if (eventshort.Source != "EBMS") {
 
                 if ($scope.virtualvillagemanager && eventshort.EventLocation != "VV") {
                     alert("User can only insert Virtual Village Events");
@@ -782,8 +787,6 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function ($sco
     };
     uploader.onSuccessItem = function (fileItem, response, status, headers) {
 
-        //console.log(response);
-
         var r = new RegExp('"', 'g');
         var imageurl = response.replace(r, '');
         //Filename
@@ -881,7 +884,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
 
         alert('changed Image: ' + imageurl);
 
-        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++, IsInGallery: true }
+        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++, License: "CC0", IsInGallery: true }
 
         $.each($scope.eventshort.ImageGallery, function (i) {
             if ($scope.eventshort.ImageGallery[i].ImageUrl === $scope.oldimageurl) {
@@ -910,9 +913,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
     };
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');
-    };
-
-    //console.info('uploader', uploader);
+    };    
 }]);
 
 //Fileupload PDF

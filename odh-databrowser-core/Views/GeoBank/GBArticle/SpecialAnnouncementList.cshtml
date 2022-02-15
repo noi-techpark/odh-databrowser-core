@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "RecipeList";
+    ViewBag.Title = "ContentArticleList";
 }
 @section jumbotronsect {
-    <h2>Recipe Article List</h2>
+    <h2>SpecialAnnouncement Article List</h2>
 }
 @section infomodaltext {
     <h2>Open Data Hub Article</h2>
@@ -11,8 +11,7 @@
         Data from IDM Redaction.
     </p>
 }
-
-<div class="col-sm-12" ng-app="article" ng-controller="articleListController" ng-init="init('rezeptartikel','false')">
+<div class="col-sm-12" ng-app="article" ng-controller="articleListController" ng-init="init('specialannouncement','false')">
 
     <div class="splash" ng-show="isloading">
         <h2>
@@ -29,16 +28,16 @@
                 <div class="pull-left">
 
                 </div>
-                <div class="pull-right" ng-click="changeLanguage()">
+                <div class="pull-right">
                     <div class="btn-group">
-                        <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
-                        <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
-                        <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
-                        <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
-                        <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
-                        <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
-                        <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
-                        <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'de'" ng-click="changeLanguage('de')">de</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'it'" ng-click="changeLanguage('it')">it</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'en'" ng-click="changeLanguage('en')">en</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'nl'" ng-click="changeLanguage('nl')">nl</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'cs'" ng-click="changeLanguage('cs')">cs</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'pl'" ng-click="changeLanguage('pl')">pl</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'fr'" ng-click="changeLanguage('fr')">fr</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'ru'" ng-click="changeLanguage('ru')">ru</label>
                     </div>
                 </div>
             </div>
@@ -50,9 +49,9 @@
             <div class="form-inline">
                 <div class="pull-right">
                     <span class="btn btn-default"> Elements: {{ totalcount }} </span>
-                    <input type="button" id="prevpage" ng-click="changePage(-1,true)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                    <input type="button" id="prevpage" ng-click="changePage(-1)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
                     &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
-                    <input type="button" id="nextpage" ng-click="changePage(+1,true)" class="btn btn-info" value="next" ng-disabled="page == totalpages || totalpages == 0" />
+                    <input type="button" id="nextpage" ng-click="changePage(+1)" class="btn btn-info" value="next" ng-disabled="page == totalpages" />
                 </div>
             </div>
         </div>
@@ -67,6 +66,7 @@
                     <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
                 </div>
 
+
                 <div class="form-group col-sm-12" ng-controller="ArticleNameTypeAheadController">
                     <h6>Name</h6>
                     <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="$parent.SelectedArticleName" idmodel="$parent.SelectedArticleId" on-select="onItemSelected()" />
@@ -77,6 +77,13 @@
                     <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="$parent.SelectedSmgTagName" idmodel="$parent.SelectedSmgTagId" on-select="onItemSelected()" />
                 </div>
 
+                @*<div class="form-group col-sm-12">
+                    <h6>SubType</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.one" btn-checkbox>Genussbotschafter</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.two" btn-checkbox>Hersteller</label>                      
+                    </div>
+                </div>*@
 
                 <div class="form-group col-sm-12">
                     <h6>Language Filter</h6>
@@ -92,17 +99,17 @@
                     </div>
                 </div>
 
-                <div class="form-group col-sm-12">
-                    <h6>active on source</h6>
+                @*<div class="form-group col-sm-12">
+                    <h6>Active</h6>
                     <select class="form-control" id="selectTyp" ng-model="active">
                         <option value="null">all</option>
                         <option value="true">active</option>
                         <option value="false">not active</option>
                     </select>
-                </div>
+                </div>*@
 
                 <div class="form-group col-sm-12">
-                    <h6>active in ODH</h6>
+                    <h6>ODH Active</h6>
                     <select class="form-control" id="selectTyp" ng-model="smgactive">
                         <option value="null">all</option>
                         <option value="true">active</option>
@@ -116,22 +123,27 @@
                     <br />
                 </div>
 
+
             </div>
 
         </div>
 
         <div class="col-sm-9 col-xs-12 table-responsive">
 
+            @*<div class="pull-left">
+                    <a ng-click="editarticle('new')" class="btn btn-small btn-success">New</a>
+                </div>
+                <br />*@
             <table class="table table-striped table-condensed">
                 <thead>
                     <tr>
                         <th style="width:160px">MainImage</th>
-                        <th>Name</th>
-                        <th class="hidden-xs">Type</th>
-                        <th class="hidden-xs">Lang</th>
-                        <th class="hidden-xs">active on source</th>
-                        <th class="hidden-xs">active in ODH</th>
-                        <th></th>
+                        <th style="min-width: 80px;">Shortname</th>
+                        <th style="min-width: 80px;">Type</th>
+                        <th style="min-width: 80px;">Subtype</th>
+                        <th style="min-width: 80px;">Languages</th>
+                        <th style="min-width: 80px;">ODH Active</th>
+                        <th style="width:20px;"> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,33 +153,31 @@
                                 <img class="img-thumbnail img-responsive" @*style="max-height:150px;max-width:150px"*@ ng-src="{{  article.ImageGallery[0] != NULL && article.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" @*ng-hide="article.ImageGallery[0] == NULL"*@ title="{{ article.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(article)" />
                             </div>
                         </td>
+                        @*<td>{{ article.Id }}</td>*@
                         <td>{{ article.Detail[lang].Title }}</td>
-                        <td class="hidden-xs">{{ article.Type }}</td>
-                        <td class="hidden-xs">
+                        <td>{{ article.Type }}</td>
+                        <td>{{ article.SubType }}</td>
+                        <td>
                             <div ng-repeat="articlelang in article.HasLanguage">
                                 {{ articlelang }}
                             </div>
                         </td>
-                        <td class="hidden-xs">
-                            <div class="glyphicon glyphicon-ok" ng-show="article.Active"></div>
+                        <td>
+                            @*<div class="glyphicon glyphicon-ok" ng-show="article.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="article.Active == false"></div>
-                        </td>
-                        <td class="hidden-xs">
+                            &nbsp;*@
                             <div class="glyphicon glyphicon-ok" ng-show="article.SmgActive" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="article.SmgActive == false" style="color:red"></div>
                         </td>
-                        <td style="max-width:75px">
-                            <div class="btn-group-vertical">
-                                @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
-                                {
-                                    <a ng-click="editarticle(article)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
-                                }
-                                @if (@ViewBag.globaldelete == true || @ViewBag.articledelete == true)
-                                {
-                                    <a ng-click="deletearticle(article.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
-                                }
-                                <a ng-click="showInfoModal(article)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
-                            </div>
+                        <td class="btn-group-vertical">
+                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
+                            {
+                                <a ng-click="editarticle(article)" class="btn btn-responsive btn-default" style="width:70px;">edit</a>
+                            }
+                            @if (@ViewBag.globaldelete == true || @ViewBag.articledelete == true)
+                            {
+                                <a ng-click="deletearticle(article.Id)" class="btn btn-responsive btn-primary" style="width:70px;">delete</a>
+                            }
                         </td>
                     </tr>
                 </tbody>
@@ -181,9 +191,9 @@
                 </div>
                 <div class="pull-right">
                     <span class="btn btn-default"> Elements: {{ totalcount }} </span>
-                    <input type="button" id="prevpage" ng-click="changePage(-1,true)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
+                    <input type="button" id="prevpage" ng-click="changePage(-1)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
                     &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
-                    <input type="button" id="nextpage" ng-click="changePage(+1,true)" class="btn btn-info" value="next" ng-disabled="page == totalpages || totalpages == 0" />
+                    <input type="button" id="nextpage" ng-click="changePage(+1)" class="btn btn-info" value="next" ng-disabled="page == totalpages" />
                 </div>
             </div>
         </div>
@@ -201,7 +211,7 @@
                         <div class="btn-group pull-left">
                             <p>
                                 Available Languages:
-                                <label class="label label-default" ng-repeat="articlelang in article.HasLanguage">{{articlelang}}</label>
+                                <label class="badge" ng-repeat="articlelang in article.HasLanguage">{{articlelang}}</label>
                             </p>
                         </div>
 
@@ -217,10 +227,12 @@
                         </div>
                     </div>
                 </div>
+                <hr />
                 <div class="row">
                     <div class="col-sm-12">
 
                         <tabset>
+
                             <tab heading="General">
                                 <br />
                                 <div class="row">
@@ -247,26 +259,25 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputTyp" class="col-sm-2 control-label">SubType</label>
-                                                <div class="col-sm-10">
-                                                    @*<input type="text" class="form-control" id="inputSubTyp" placeholder="Subtype" ng-model="article.SubType">*@
-                                                    <select class="form-control notextareamaxwitdth" id="selectTyp" ng-model="article.SubType"></select>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
-
-                                            <div class="form-group">
                                                 <label for="inputName" class="col-sm-2 control-label">Last Changed</label>
                                                 <div class="col-sm-10">
                                                     <div class="form-control">{{ article.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
                                                 </div>
                                             </div>
 
+                                            @*<div class="form-group">
+                                                <label for="inputName" class="col-sm-2 control-label">Expiration Date</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control">{{ article.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                                </div>
+                                            </div>*@
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+                                           
                                             <div class="form-group">
                                                 <label for="inputHighlight" class="col-sm-2 control-label">Highlight</label>
                                                 <div class="col-sm-10">
@@ -275,14 +286,14 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputActive" class="col-sm-2 control-label">active on source</label>
+                                                <label for="inputActive" class="col-sm-2 control-label">Active</label>
                                                 <div class="col-sm-10">
                                                     <input type="checkbox" class="form-control" id="inputActive" placeholder="Id" ng-model="article.Active">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputSmgActive" class="col-sm-2 control-label">active in ODH</label>
+                                                <label for="inputSmgActive" class="col-sm-2 control-label">ODH Active</label>
                                                 <div class="col-sm-10">
                                                     <input type="checkbox" class="form-control" id="inputSmgActive" placeholder="Id" ng-model="article.SmgActive">
                                                 </div>
@@ -291,6 +302,52 @@
                                         </div>
                                     </div>
 
+                                </div>
+                            </tab>
+                            <tab heading="License">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputMetaLicense" class="col-sm-2 control-label">License</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="selectSource" ng-model="article.LicenseInfo.License">
+                                                        <option>CC0</option>
+                                                        <option>CC-BY</option>
+                                                        <option>Closed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputMetaLicenseHolder" class="col-sm-2 control-label">License Holder</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMetaLicenseHolder" placeholder="LicenseHolder" ng-model="article.LicenseInfo.LicenseHolder">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputMetaAuthor" class="col-sm-2 control-label">Author</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMetaAuthor" placeholder="Author" ng-model="article.LicenseInfo.Author">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="checkboxMetaClosed" class="col-sm-2 control-label">Closed Data</label>
+                                                <div class="col-sm-10">
+                                                    <input type="checkbox" class="smallcheckbox" id="checkboxMetaClosed" ng-model="article.LicenseInfo.ClosedData" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </tab>
 
@@ -317,36 +374,30 @@
                                             <div class="form-group">
                                                 <label for="inputSubHeader" class="col-sm-2 control-label">SubHeader</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="2" type="text" class="form-control notextareamaxwitdth" id="inputSubHeader" placeholder="SubHeader" ng-model="article.Detail[lang].SubHeader"></textarea>
+                                                    <textarea class="form-control notextareamaxwitdth" id="inputSubHeader" rows="2" placeholder="SubHeader" ng-model="article.Detail[lang].SubHeader"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputMetaTitle" class="col-sm-2 control-label">Meta Title</label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control notextareamaxwitdth" id="inputMetaTitle" rows="2" placeholder="Meta Title" ng-model="article.Detail[lang].MetaTitle"></textarea>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="inputIntroText" class="col-sm-2 control-label">Intro Text</label>
-                                                <div class="col-sm-10">
-                                                    <textarea rows="3" type="text" class="form-control notextareamaxwitdth" id="inputIntroText" placeholder="IntroText" ng-model="article.Detail[lang].IntroText"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputMetaTitle" class="col-sm-2 control-label">MetaTitle</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMetaTitle" placeholder="MetaTitle" ng-model="article.Detail[lang].MetaTitle">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputMetaDesc" class="col-sm-2 control-label">MetaDesc</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMetaDesc" placeholder="MetaDesc" ng-model="article.Detail[lang].MetaDesc">
-                                                </div>
-                                            </div>
 
                                             @*<div class="form-group">
-                                                    <label for="inputAlttext" class="col-sm-2 control-label">Alt text</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control notextareamaxwitdth" id="inputAlttext" placeholder="Alttext" ng-model="article.Detail[lang].Alttext">
-                                                    </div>
-                                                </div>*@
+                            <label for="inputIntroText" class="col-sm-2 control-label">Intro Text</label>
+                            <div class="col-sm-10">
+                                <textarea rows="4" type="text" class="form-control notextareamaxwitdth" id="inputIntroText" placeholder="IntroText" ng-model="article.Detail[lang].IntroText"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputAlttext" class="col-sm-2 control-label">Alt text</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control notextareamaxwitdth" id="inputAlttext" placeholder="Alttext" ng-model="article.Detail[lang].Alttext">
+                            </div>
+                        </div>*@
 
 
 
@@ -355,24 +406,25 @@
                                     <div class="col-sm-6">
                                         <div class="form-horizontal">
 
-                                            @*<div class="form-group">
-                                                    <label for="inputBaseText" class="col-sm-4 control-label">Base Text</label>
-                                                    <div class="col-sm-8">
-                                                        <textarea rows="9" class="form-control notextareamaxwitdth" id="inputBaseText" placeholder="BaseText" ng-model="article.Detail[lang].BaseText"></textarea>
-                                                    </div>
-                                                </div>*@
 
                                             <div class="form-group">
-                                                <label for="inputGetThereText" class="col-sm-2 control-label">GetThere Text</label>
+                                                <label for="inputAdditionalText" class="col-sm-2 control-label">AdditionalText</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="6" class="form-control notextareamaxwitdth" id="inputGetThereText" placeholder="GetThereText" ng-model="article.Detail[lang].GetThereText"></textarea>
+                                                    <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" rows="3" ng-model="article.Detail[lang].AdditionalText"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputAdditionalText" class="col-sm-2 control-label">Additional Text</label>
+                                                <label for="inputKeywords" class="col-sm-2 control-label">Keywords</label>
                                                 <div class="col-sm-10">
-                                                    <textarea rows="4" class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" ng-model="article.Detail[lang].AdditionalText"></textarea>
+                                                    <textarea class="form-control notextareamaxwitdth" id="inputKeywords" rows="3" placeholder="Keywords" ng-model="article.Detail[lang].Keywords"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAdditionalText" class="col-sm-2 control-label">Meta Description</label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="Meta Description" rows="3" ng-model="article.Detail[lang].MetaDesc"></textarea>
                                                 </div>
                                             </div>
 
@@ -382,16 +434,36 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
 
                                         <div class="form-horizontal">
                                             <div class="form-group">
-                                                <label for="inputBaseText" class="col-sm-1 control-label">Base Text</label>
+                                                <label for="inputBaseText" class="col-sm-2 control-label">Introtext</label>
 
 
-                                                <div ng-controller="wysiwygeditorCtrl" class="col-sm-11">
+                                                <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
 
-                                                    <text-angular name="htmlcontent" ng-model="article.Detail[lang].BaseText">
+                                                    <text-angular name="htmlcontentintro" ng-model="article.Detail[lang].IntroText">
+
+                                                    </text-angular>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-sm-6">
+
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label for="inputBaseText" class="col-sm-2 control-label">Base Text</label>
+
+
+                                                <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
+
+                                                    <text-angular name="htmlcontentbase" ng-model="article.Detail[lang].BaseText">
 
                                                     </text-angular>
 
@@ -411,7 +483,7 @@
                                         <div class="form-horizontal">
 
                                             <div class="form-group">
-                                                <label for="inputCompanyName" class="col-sm-2 control-label">Company Name</label>
+                                                <label for="inputCompanyName" class="col-sm-2 control-label">Name</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyName" placeholder="CompanyName" ng-model="article.ContactInfos[lang].CompanyName">
                                                 </div>
@@ -592,6 +664,7 @@
                                     </div>
                                 </div>
                             </tab>
+
                             <tab heading="Additional">
                                 <br />
                                 <div class="row">
@@ -602,32 +675,18 @@
 
                                                 @*<input type="text" class="form-control notextareamaxwitdth" id="inputadditionalPropertyheader" ng-model="additional.header" />*@
 
-                                                <select class="form-control" id="selectTyp" ng-model="additional.header">
-                                                    <option value="zubereitungstext">Zubereitung</option>
-                                                    <option value="tipptext">Tipp Text</option>
-                                                    <option value="personen">Personen</option>
-                                                    <option value="zeit">Zeit</option>
-                                                    <option value="zutat1">Zutat 1</option>
-                                                    <option value="zutat_sub1">Zutat 1 Info</option>
-                                                    <option value="zutat2">Zutat 2</option>
-                                                    <option value="zutat_sub2">Zutat 2 Info</option>
-                                                    <option value="zutat3">Zutat 3</option>
-                                                    <option value="zutat_sub3">Zutat 3 Info</option>
-                                                    <option value="zutat4">Zutat 4</option>
-                                                    <option value="zutat_sub4">Zutat 4 Info</option>
-                                                    <option value="zutat5">Zutat 5</option>
-                                                    <option value="zutat_sub5">Zutat 5 Info</option>
-                                                    <option value="zutat6">Zutat 6</option>
-                                                    <option value="zutat_sub6">Zutat 6 Info</option>
-                                                    <option value="zutat7">Zutat 7</option>
-                                                    <option value="zutat_sub7">Zutat 7 Info</option>
-                                                    <option value="zutat8">Zutat 8</option>
-                                                    <option value="zutat_sub8">Zutat 8 Info</option>
-                                                    <option value="zutat9">Zutat 9</option>
-                                                    <option value="zutat_sub9">Zutat 9 Info</option>
-                                                    <option value="zutat10">Zutat 10</option>
-                                                    <option value="zutat_sub10">Zutat 10 Info</option>
-                                                </select>
+                                                <div class="btn-group-vertical">
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'diseasePreventionInfo'">DiseasePreventionInfo (URL)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'diseaseSpreadStatistics'">DiseaseSpreadStatistics (URL)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'gettingTestedInfo'">GettingTestedInfo (URL)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'newsUpdatesAndGuidelines'">NewsUpdatesAndGuidelines (URL)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'publicTransportClosuresInfo'">PublicTransportClosuresInfo (URL)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'quarantineGuidelines'">QuarantineGuidelines (URL)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'schoolClosuresInfo'">SchoolClosuresInfo (URL)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'travelBans'">TravelBans (URL)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" style="white-space: normal;" btn-radio="'dateposted'">DatePosted (Format yyyy-MM-dd) (overwrites lastchange)</label>
+                                                    <label class="btn btn-default" ng-model="additional.header" btn-radio="'expires'">Expires (Format yyyy-MM-dd)</label>
+                                                </div>
 
                                                 <span class="input-group-btn" style="vertical-align:top">
                                                     <button type="button" class="btn btn-default" value="+" ng-click="addaddtionalproperty(lang)"><i class="glyphicon glyphicon-plus"></i></button>
@@ -654,7 +713,7 @@
 
                                                     @*<label for="inputProperty" class="col-sm-2 control-label">{{key}}</label>*@
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputProperty" placeholder="Additionalinfo Header" ng-model="key" readonly />
-                                                    <textarea rows="3" class="form-control notextareamaxwitdth" id="inputProperty" placeholder="Additionalinfo Text" ng-model="article.AdditionalArticleInfos[lang].Elements[key]"></textarea>
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputProperty" placeholder="Additionalinfo Text" ng-model="article.AdditionalArticleInfos[lang].Elements[key]" />
 
                                                 </div>
                                             </div>
@@ -663,59 +722,47 @@
                                 </div>
                             </tab>
 
-                            @*<tab heading="AdditionalOLD">
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-horizontal">
+                            <tab heading="SpatialCoverage">
+                                <br />
+                                <div class="col-sm-4">
+                                    <div class="form-horizontal">
+                                        <div class="btn-group-vertical">
+                                            <label class="btn btn-default" ng-model="spatialcoverage.SelectedLocationTyp" btn-radio="'southtyrol'">Südtirol - Alto Adige</label>                                           
+                                        </div>
 
-                                                <div class="input-group">
+                                        <div class="form-group col-sm-12" ng-controller="LocationTypeAheadController">
+                                            <typeaheadlocation items="locitems" templateurl="LocationNameTemplate" prompt="Location" title="name" subtitle="typ" model="spatialcoverage.SelectedLocationName" submodel="spatialcoverage.SelectedLocationTyp" idmodel="spatialcoverage.SelectedLocationId" on-select="onItemSelected()" />
+                                        </div>
 
-                                                    <select class="form-control" id="selectTyp" ng-model="AdditionalProperty">
-                                                        <option value="zubereitungstext">Zubereitung</option>
-                                                        <option value="tipptext">Tipp Text</option>
-                                                        <option value="personen">Personen</option>
-                                                        <option value="zutat1">Zutat 1</option>
-                                                        <option value="zutat_sub1">Zutat 1 Info</option>
-                                                        <option value="zutat2">Zutat 2</option>
-                                                        <option value="zutat_sub2">Zutat 2 Info</option>
-                                                        <option value="zutat3">Zutat 3</option>
-                                                        <option value="zutat_sub3">Zutat 3 Info</option>
-                                                        <option value="zutat4">Zutat 4</option>
-                                                        <option value="zutat_sub4">Zutat 4 Info</option>
-                                                        <option value="zutat5">Zutat 5</option>
-                                                        <option value="zutat_sub5">Zutat 5 Info</option>
-                                                        <option value="zutat6">Zutat 6</option>
-                                                        <option value="zutat_sub6">Zutat 6 Info</option>
-                                                    </select>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addtospatialconverage()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
 
-                                                    <span class="input-group-btn" style="vertical-align:top">
-                                                        <button type="button" class="btn btn-default" value="+" ng-click="addaddtionalproperty(AdditionalProperty, lang)"><i class="glyphicon glyphicon-plus"></i></button>
-                                                    </span>
+                                <div class="col-sm-8">
+                                    <div class="panel panel-default">
 
-                                                </div>
+                                        <div class="panel-heading">
+                                            Inserted Spatial Coverages
+                                        </div>
+
+                                        <div class="form-group panel-body">
+                                            <div ng-repeat="place in article.SpatialCoverage" class="input-group">
+
+                                                <span class="input-group-btn" style="vertical-align:top">
+                                                    <button type="button" class="btn btn-default" value="-" ng-click="removespacialcoverage(place)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </span>
+
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputPlaceName" placeholder="Additionalinfo Header" ng-model="place.Name[lang]" />
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inpuPlaceLatitutde" placeholder="Latitude" ng-model="place.GpsInfo.Latitude">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputPlaceLongitude" placeholder="Longitude" ng-model="place.GpsInfo.Longitude">
 
                                             </div>
                                         </div>
-
-                                        <div class="col-sm-8">
-                                            <div class="form-horizontal">
-
-                                                <div class="input-group" ng-repeat="(key, val) in article.AdditionalArticleInfos[lang].Elements">
-
-                                                    <label for="inputProperty" class="col-sm-4 control-label">{{key}}</label>
-                                                    <div class="col-sm-8">
-                                                        <textarea rows="4" class="form-control" id="inputProperty" placeholder="PropertyValue" ng-model="article.AdditionalArticleInfos[lang].Elements[key]"></textarea>
-
-                                                        <span class="input-group-btn" style="vertical-align:top">
-                                                            <button type="button" class="btn btn-default" value="-" ng-click="removeaddtionalproperty(key, lang)"><i class="glyphicon glyphicon-minus"></i></button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                </tab>*@
+                                    </div>
+                                </div>
+                            </tab>
 
                             <tab heading="Links">
                                 <br />
@@ -782,7 +829,7 @@
                                         <div class="panel panel-default">
 
                                             <div class="panel-heading">
-                                                Inserted ODH Tags
+                                                Inserted Smg Tags
                                             </div>
                                             <div class="form-group panel-body">
                                                 <div class="input-group" ng-repeat="tag in article.SmgTags">
@@ -843,24 +890,27 @@
 
                     <p ng-show="article.Detail[lang].IntroText != ''">
                         <strong>Introtext</strong><br />
+                        @*{{ article.Detail[lang].IntroText }}*@
                     </p>
-                    <p ng-show="article.Detail[lang].IntroText != ''" ng-bind-html="article.Detail[lang].IntroText"></p>
+                    <p ng-bind-html="article.Detail[lang].IntroText"></p>
 
                     <p ng-show="article.Detail[lang].BaseText != ''">
-                        <strong>Basistext</strong><br />
+                        <strong>Basistext</strong>
                     </p>
-                    <p ng-show="article.Detail[lang].BaseText != ''" ng-bind-html="article.Detail[lang].BaseText"></p>
+                    <p ng-bind-html="article.Detail[lang].BaseText"></p>
 
 
                     <p ng-show="article.Detail[lang].GetThereText != '' && article.Detail[lang].GetThereText != null">
                         <strong>Anfahrtstext</strong><br />
+                        @*{{ article.Detail['de'].GetThereText }}*@
                     </p>
-                    <p ng-show="article.Detail[lang].GetThereText != ''" ng-bind-html="article.detail[lang].gettheretext"></p>
+                    <p ng-bind-html="article.Detail[lang].GetThereText"></p>
 
                     <p ng-show="article.Detail[lang].AdditionalText != '' && article.Detail[lang].AdditionalText != null">
                         <strong>Zusatztext</strong><br />
+                        @*{{ article.Detail['de'].AdditionalText }}*@
                     </p>
-                    <p ng-show="article.Detail[lang].AdditionalText != ''" ng-bind-html="article.detail[lang].additionaltext"></p>
+                    <p ng-bind-html="article.Detail[lang].AdditionalText"></p>
 
                 </div>
             </div>
@@ -885,8 +935,7 @@
 </div>
 
 @section Styles{
-    <style type="text/css">
-    </style>
+    <link rel="stylesheet" type="text/css" href="~/Content/textAngular.css">
 }
 
 

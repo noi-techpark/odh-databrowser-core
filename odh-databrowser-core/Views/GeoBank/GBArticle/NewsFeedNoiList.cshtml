@@ -185,6 +185,7 @@
                         <th style="min-width: 80px;">Languages</th>                        
                         <th style="min-width: 80px;">active in ODH</th>
                         <th style="width:20px;"> </th>
+                        <th style="width:20px;"> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -195,13 +196,14 @@
                             </div>
                         </td>
                         
+                        <td>{{ article.Detail[lang].Title }}</td>
+                        <td>{{ article.Type }}</td>
+                        
                         <td>
                             <div ng-show="article.ArticleDate != null">{{ article.ArticleDate  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDate == null">no date</div> - 
                             <div ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDateTo == null">no date</div>
                         </td>
                    
-                        <td>{{ article.Detail[lang].Title }}</td>
-                        <td>{{ article.Type }}</td>
                         
                         <td>
                             <div ng-repeat="articlelang in article.HasLanguage">
@@ -216,7 +218,16 @@
                             <div class="glyphicon glyphicon-ok" ng-show="article.SmgActive" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="article.SmgActive == false" style="color:red"></div>
                         </td>
+                         <td class="btn-group-vertical">                         
+                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
+                            {
+                                //TODO Show only if push was not send
+                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:70px;">send push</a>
+                            }
+                        </td>
                         <td class="btn-group-vertical">
+                            <a ng-click="showInfoModal(article)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+            
                             @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
                             {
                                 <a ng-click="editarticle(article)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
@@ -224,13 +235,7 @@
                             @if (@ViewBag.globaldelete == true || @ViewBag.articledelete == true)
                             {
                                 <a ng-click="deletearticle(article.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
-                            }
-                            <a ng-click="showInfoModal(article)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
-                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
-                            {
-                                //TODO Show only if push was not send
-                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:70px;">send push</a>
-                            }
+                            }            
                         </td>
                     </tr>
                 </tbody>

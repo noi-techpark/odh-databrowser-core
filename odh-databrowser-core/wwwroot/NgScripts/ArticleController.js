@@ -248,6 +248,8 @@ app.controller('articleListController', [
             setSubTypeModel();
             setLanglistModel();
 
+            $scope.checkLangListModel[$scope.lang] = true;
+
             $scope.changePage(0);
             //$scope.$broadcast('LoadArticleNamesList');
         }

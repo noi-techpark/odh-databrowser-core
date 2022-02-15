@@ -443,13 +443,13 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.addarticle = function (article, isvalid) {
 
-        console.log(isvalid);
+        //console.log(isvalid);
 
         if (isvalid) {
 
-            if (article.ArticleDate != null || article.ArticleDate != undefined)
+            if (article.ArticleDate != null && article.ArticleDate != undefined && article.ArticleDate instanceof Date)
                 article.ArticleDate = article.ArticleDate.toDateString();
-            if (article.ArticleDateTo != null || article.ArticleDateTo != undefined)
+            if (article.ArticleDateTo != null && article.ArticleDateTo != undefined && article.ArticleDateTo instanceof Date)
                 article.ArticleDateTo = article.ArticleDateTo.toDateString();
 
             $http.post($scope.basePath + '/v1/Article', article).success(function (result) {
@@ -475,11 +475,16 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatearticle = function (article, isvalid) {
 
         if (isvalid) {
-
-            if (article.ArticleDate != null || article.ArticleDate != undefined)
+          
+            if (article.ArticleDate != null && article.ArticleDate != undefined && article.ArticleDate instanceof Date)
                 article.ArticleDate = article.ArticleDate.toDateString();
-            if (article.ArticleDateTo != null || article.ArticleDateTo != undefined)
+            if (article.ArticleDateTo != null && article.ArticleDateTo != undefined && article.ArticleDateTo instanceof Date)
                 article.ArticleDateTo = article.ArticleDateTo.toDateString();
+
+            //Start Date richtig setzen
+            //eventshort.StartDate = eventshort.eventstartonlydate.getFullYear() + "/" + parseInt(eventshort.eventstartonlydate.getMonth() + 1) + "/" + eventshort.eventstartonlydate.getDate() + " " + eventshort.eventstartonlytime;
+            //eventshort.EndDate = eventshort.eventendonlydate.getFullYear() + "/" + parseInt(eventshort.eventendonlydate.getMonth() + 1) + "/" + eventshort.eventendonlydate.getDate() + " " + eventshort.eventendonlytime;
+
 
 
             $http.put($scope.basePath + '/v1/Article/' + article.Id, article).success(function (result) {
@@ -669,9 +674,11 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             
         
     };
-
-
 };
+
+var isDate = function (date) {
+    return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
+}
 
 //Modal Slideshow Controller
 var InfoModalInstanceCtrl = function ($scope, $modalInstance, $http) {
@@ -811,9 +818,7 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function ($sco
     // FILTERS
     uploader.filters.push({
         name: 'imageFilter',
-        fn: function (item /*{File|FileLikeObject}*/, options) {
-
-            alert(item.type.slice(item.type.lastIndexOf('/') + 1));
+        fn: function (item /*{File|FileLikeObject}*/, options) {            
 
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
             return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;

@@ -10,7 +10,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
 
         //config.headers = config.headers || {};
 
-        console.log("is user authorized: " + userAuthorized)
+        //console.log("is user authorized: " + userAuthorized)
 
         //Add the header only when user is authorized
         if (userAuthorized) {
@@ -24,7 +24,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
                 //console.log("The token is " + token + " expired: " + istokenexpired + " valid until " + expdate);
 
                 if (istokenexpired) {
-                    console.log("token expired remove token");
+                    //console.log("token expired remove token");
                     localStorage.removeItem("accessToken");
 
                     getMyToken(authserverpath, function (mytoken) {

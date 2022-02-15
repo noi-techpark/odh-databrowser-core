@@ -21,7 +21,7 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
                 var istokenexpired = jwtHelper.isTokenExpired(token);
                 var expdate = jwtHelper.getTokenExpirationDate(token);
 
-                console.log("The token is " + token + " expired: " + istokenexpired + " valid until " + expdate);
+                //console.log("The token is " + token + " expired: " + istokenexpired + " valid until " + expdate);
 
                 if (istokenexpired) {
                     console.log("token expired remove token");
@@ -34,13 +34,14 @@ appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath
                     });
                 }
 
-                console.log("adding token to header");                                
+                //console.log("adding token to header");                                
+
                 config.headers.Authorization = 'Bearer ' + token;
             }
             else {
                 getMyToken(authserverpath, function (mytoken) {
-                    console.log("getting NEW token NO Token");
-                    console.log("adding token to header");
+                    //console.log("getting NEW token NO Token");
+                    //console.log("adding token to header");
                     config.headers.Authorization = 'Bearer ' + mytoken;
                 });
             }          

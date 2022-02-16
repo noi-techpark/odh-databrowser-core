@@ -568,7 +568,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.addaddtionalproperty = function (currentlang) {        
 
-        if ($scope.additional.header != null) {
+        if ($scope.additional.header != null && $scope.additional.header != "" && $scope.additional.header != undefined) {
 
             if ($scope.article.AdditionalArticleInfos == null) {
 
@@ -602,7 +602,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     
     $scope.addlinkproperty = function (currentlang) {
         
-        if ($scope.link.header != "") {
+        if ($scope.link.header != null && $scope.link.header != "" && $scope.link.header != undefined) {
             if ($scope.article.ArticleLinkInfo == null) {
 
                 $scope.article.ArticleLinkInfo = {};
@@ -629,7 +629,9 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 $scope.link.header = "";
             }
         }
-
+        else {
+            alert("Insert a link title")
+        }
     }
 
     $scope.removelinkproperty = function (linkpropertyname, lang) {       

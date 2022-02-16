@@ -570,12 +570,14 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if ($scope.additional.header != null && $scope.additional.header != "" && $scope.additional.header != undefined) {
 
+            var additionalheader = $scope.link.additional.replace(/\s+/g, '').trim();
+
             if ($scope.article.AdditionalArticleInfos == null) {
 
                 $scope.article.AdditionalArticleInfos = {};
 
                 var additionalinfoelement = {};
-                additionalinfoelement[$scope.additional.header] = '';
+                additionalinfoelement[additionalheader] = '';
                 $scope.article.AdditionalArticleInfos[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 $scope.additional.header = '';
@@ -583,13 +585,13 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             else if (!($scope.article.AdditionalArticleInfos.hasOwnProperty(currentlang))) {
 
                 var additionalinfoelement = {};
-                additionalinfoelement[$scope.additional.header] = '';
+                additionalinfoelement[additionalheader] = '';
                 $scope.article.AdditionalArticleInfos[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 $scope.additional.header = '';
             }
             else {
-                $scope.article.AdditionalArticleInfos[currentlang].Elements[$scope.additional.header] = '';
+                $scope.article.AdditionalArticleInfos[currentlang].Elements[additionalheader] = '';
 
                 $scope.additional.header = '';                
             }
@@ -603,12 +605,16 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.addlinkproperty = function (currentlang) {
         
         if ($scope.link.header != null && $scope.link.header != "" && $scope.link.header != undefined) {
+
+            var linkheader = $scope.link.header.replace(/\s+/g, '').trim();
+
+
             if ($scope.article.ArticleLinkInfo == null) {
 
                 $scope.article.ArticleLinkInfo = {};
 
                 var additionalinfoelement = {};
-                additionalinfoelement[$scope.link.header] = '';
+                additionalinfoelement[linkheader] = '';
                 $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 $scope.link.header = "";
@@ -616,7 +622,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             else if (!($scope.article.ArticleLinkInfo.hasOwnProperty(currentlang))) {
 
                 var additionalinfoelement = {};
-                additionalinfoelement[$scope.link.header] = '';
+                additionalinfoelement[linkheader] = '';
                 $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 // alert($scope.article.AdditionalArticleInfos.hasOwnProperty("nl"));   
@@ -624,7 +630,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 $scope.link.header = "";
             }
             else {
-                $scope.article.ArticleLinkInfo[currentlang].Elements[$scope.link.header] = '';
+                $scope.article.ArticleLinkInfo[currentlang].Elements[linkheader] = '';
 
                 $scope.link.header = "";
             }

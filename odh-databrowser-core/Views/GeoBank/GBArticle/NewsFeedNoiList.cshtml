@@ -178,7 +178,8 @@
                         <th style="width:160px">MainImage</th>
                         <th style="min-width: 100px;">Title</th>
                         <th style="min-width: 80px;">Date</th>
-                        <th style="min-width: 80px;">Information</th>                                                                  
+                        <th style="min-width: 80px;">Information</th> 
+                        <th style="min-width: 80px;">Status</th> 
                         <th style="min-width: 80px;">active in ODH</th>
                         <th style="min-width:140px;"> </th>
                         <th style="min-width:120px;"> </th>
@@ -206,7 +207,11 @@
                                 {{ articlelang }}
                             </div>
                         </td>                                                                  
-                        
+                        <td>
+                            <div ng-repeat="articletag in article.SmgTags">
+                                {{ articletag }}
+                            </div>
+                        </td> 
                  
                        @* <td>
                             <div class="glyphicon glyphicon-ok" ng-show="article.Active"></div>

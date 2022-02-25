@@ -570,7 +570,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if ($scope.additional.header != null && $scope.additional.header != "" && $scope.additional.header != undefined) {
 
-            var additionalheader = $scope.link.additional.replace(/\s+/g, '').trim();
+            var additionalheader = $scope.additional.header.replace(/\s+/g, '').trim();
 
             if ($scope.article.AdditionalArticleInfos == null) {
 

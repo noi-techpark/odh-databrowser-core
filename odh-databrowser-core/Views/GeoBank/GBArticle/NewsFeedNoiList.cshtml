@@ -155,13 +155,10 @@
                     </select>
                 </div>
 
-
                 <div class="col-sm-12">
                     <br />
                     <br />
                 </div>
-
-
             </div>
 
         </div>
@@ -177,14 +174,15 @@
                 <br />
             <table class="table table-striped table-condensed">
                 <thead>
-                    <tr>
+                    <tr style="width:100%">
                         <th style="width:160px">MainImage</th>
+                        <th style="min-width: 100px;">Title</th>
                         <th style="min-width: 80px;">Date</th>
-                        <th style="min-width: 80px;">Title</th>
-                        <th style="min-width: 80px;">Type</th>                        
-                        <th style="min-width: 80px;">Languages</th>                        
+                        <th style="min-width: 80px;">Information</th> 
+                        <th style="min-width: 80px;">Status</th> 
                         <th style="min-width: 80px;">active in ODH</th>
-                        <th style="width:20px;"> </th>
+                        <th style="min-width:140px;"> </th>
+                        <th style="min-width:120px;"> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -195,19 +193,26 @@
                             </div>
                         </td>
                         
-                        <td>
+                        <td>{{ article.Detail[lang].Title }}</td>
+
+                         <td>
                             <div ng-show="article.ArticleDate != null">{{ article.ArticleDate  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDate == null">no date</div> - 
                             <div ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDateTo == null">no date</div>
                         </td>
-                   
-                        <td>{{ article.Detail[lang].Title }}</td>
-                        <td>{{ article.Type }}</td>
-                        
+
                         <td>
+                            {{ article.Type }}<br />
+                            Language: <br />
                             <div ng-repeat="articlelang in article.HasLanguage">
                                 {{ articlelang }}
                             </div>
-                        </td>
+                        </td>                                                                  
+                        <td>
+                            <div ng-repeat="articletag in article.SmgTags">
+                                {{ articletag }}
+                            </div>
+                        </td> 
+                 
                        @* <td>
                             <div class="glyphicon glyphicon-ok" ng-show="article.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="article.Active == false"></div>
@@ -216,21 +221,24 @@
                             <div class="glyphicon glyphicon-ok" ng-show="article.SmgActive" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="article.SmgActive == false" style="color:red"></div>
                         </td>
+                         <td>                         
+                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true || @ViewBag.articlenewsfeedmodify == true)
+                            {
+                                //TODO Show only if push was not send
+                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:100px;" ng-enabled="article.SmgActive == true">send push</a>
+                            }
+                        </td>
                         <td class="btn-group-vertical">
-                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
+                            <a ng-click="showInfoModal(article)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+            
+                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true|| @ViewBag.articlenewsfeedmodify == true)
                             {
                                 <a ng-click="editarticle(article)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
                             }
-                            @if (@ViewBag.globaldelete == true || @ViewBag.articledelete == true)
+                            @if (@ViewBag.globaldelete == true || @ViewBag.articledelete == true|| @ViewBag.articlenewsfeedmodify == true)
                             {
                                 <a ng-click="deletearticle(article.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
-                            }
-                            <a ng-click="showInfoModal(article)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
-                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
-                            {
-                                //TODO Show only if push was not send
-                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:70px;">send push</a>
-                            }
+                            }            
                         </td>
                     </tr>
                 </tbody>
@@ -282,9 +290,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-
                         <tabset>
-
                             <tab heading="General">
                                 <br />
                                 <div class="row">
@@ -886,30 +892,19 @@
                     <br />
                     <h3>{{ article.Detail[lang].Title }}</h3>
 
+                    <h4>{{ article.ArticleDate  | moment:'DD/MM/YYYY' }} - {{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</h4>
 
-                    <p ng-show="article.Detail[lang].IntroText != ''">
-                        <strong>Introtext</strong><br />
-                        @*{{ article.Detail[lang].IntroText }}*@
+                    <p ng-show="article.Detail[lang].IntroText != '' && article.Detail[lang].IntroText != null">
+                        <strong>Introtext</strong><br />              
                     </p>
                     <p ng-bind-html="article.Detail[lang].IntroText"></p>
 
                     <p ng-show="article.Detail[lang].BaseText != ''">
-                        <strong>Basistext</strong>
+                        <strong>Text</strong>
                     </p>
                     <p ng-bind-html="article.Detail[lang].BaseText"></p>
 
 
-                    <p ng-show="article.Detail[lang].GetThereText != '' && article.Detail[lang].GetThereText != null">
-                        <strong>Anfahrtstext</strong><br />
-                        @*{{ article.Detail['de'].GetThereText }}*@
-                    </p>
-                    <p ng-bind-html="article.Detail[lang].GetThereText"></p>
-
-                    <p ng-show="article.Detail[lang].AdditionalText != '' && article.Detail[lang].AdditionalText != null">
-                        <strong>Zusatztext</strong><br />
-                        @*{{ article.Detail['de'].AdditionalText }}*@
-                    </p>
-                    <p ng-bind-html="article.Detail[lang].AdditionalText"></p>
 
                 </div>
             </div>
@@ -917,6 +912,15 @@
             @*Contactinfos*@
             <div class="row">
                 <div class="col-sm-12" ng-repeat="(key, val) in article.AdditionalArticleInfos[lang].Elements">
+
+                    <p ng-show="key != ''">
+                        <strong>{{key}}</strong>
+                    </p>
+                    <p ng-bind-html="val"></p>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-sm-12" ng-repeat="(key, val) in article.ArticleLinkInfo[lang].Elements">
 
                     <p ng-show="key != ''">
                         <strong>{{key}}</strong>

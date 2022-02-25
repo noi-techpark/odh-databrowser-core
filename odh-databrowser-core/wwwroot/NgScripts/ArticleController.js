@@ -248,6 +248,8 @@ app.controller('articleListController', [
             setSubTypeModel();
             setLanglistModel();
 
+            $scope.checkLangListModel[$scope.lang] = true;
+
             $scope.changePage(0);
             //$scope.$broadcast('LoadArticleNamesList');
         }
@@ -443,13 +445,13 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.addarticle = function (article, isvalid) {
 
-        console.log(isvalid);
+        //console.log(isvalid);
 
         if (isvalid) {
 
-            if (article.ArticleDate != null || article.ArticleDate != undefined)
+            if (article.ArticleDate != null && article.ArticleDate != undefined && article.ArticleDate instanceof Date)
                 article.ArticleDate = article.ArticleDate.toDateString();
-            if (article.ArticleDateTo != null || article.ArticleDateTo != undefined)
+            if (article.ArticleDateTo != null && article.ArticleDateTo != undefined && article.ArticleDateTo instanceof Date)
                 article.ArticleDateTo = article.ArticleDateTo.toDateString();
 
             $http.post($scope.basePath + '/v1/Article', article).success(function (result) {
@@ -475,11 +477,16 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatearticle = function (article, isvalid) {
 
         if (isvalid) {
-
-            if (article.ArticleDate != null || article.ArticleDate != undefined)
+          
+            if (article.ArticleDate != null && article.ArticleDate != undefined && article.ArticleDate instanceof Date)
                 article.ArticleDate = article.ArticleDate.toDateString();
-            if (article.ArticleDateTo != null || article.ArticleDateTo != undefined)
+            if (article.ArticleDateTo != null && article.ArticleDateTo != undefined && article.ArticleDateTo instanceof Date)
                 article.ArticleDateTo = article.ArticleDateTo.toDateString();
+
+            //Start Date richtig setzen
+            //eventshort.StartDate = eventshort.eventstartonlydate.getFullYear() + "/" + parseInt(eventshort.eventstartonlydate.getMonth() + 1) + "/" + eventshort.eventstartonlydate.getDate() + " " + eventshort.eventstartonlytime;
+            //eventshort.EndDate = eventshort.eventendonlydate.getFullYear() + "/" + parseInt(eventshort.eventendonlydate.getMonth() + 1) + "/" + eventshort.eventendonlydate.getDate() + " " + eventshort.eventendonlytime;
+
 
 
             $http.put($scope.basePath + '/v1/Article/' + article.Id, article).success(function (result) {
@@ -561,14 +568,16 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.addaddtionalproperty = function (currentlang) {        
 
-        if ($scope.additional.header != null) {
+        if ($scope.additional.header != null && $scope.additional.header != "" && $scope.additional.header != undefined) {
+
+            var additionalheader = $scope.link.additional.replace(/\s+/g, '').trim();
 
             if ($scope.article.AdditionalArticleInfos == null) {
 
                 $scope.article.AdditionalArticleInfos = {};
 
                 var additionalinfoelement = {};
-                additionalinfoelement[$scope.additional.header] = '';
+                additionalinfoelement[additionalheader] = '';
                 $scope.article.AdditionalArticleInfos[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 $scope.additional.header = '';
@@ -576,13 +585,13 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             else if (!($scope.article.AdditionalArticleInfos.hasOwnProperty(currentlang))) {
 
                 var additionalinfoelement = {};
-                additionalinfoelement[$scope.additional.header] = '';
+                additionalinfoelement[additionalheader] = '';
                 $scope.article.AdditionalArticleInfos[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 $scope.additional.header = '';
             }
             else {
-                $scope.article.AdditionalArticleInfos[currentlang].Elements[$scope.additional.header] = '';
+                $scope.article.AdditionalArticleInfos[currentlang].Elements[additionalheader] = '';
 
                 $scope.additional.header = '';                
             }
@@ -595,13 +604,17 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     
     $scope.addlinkproperty = function (currentlang) {
         
-        if ($scope.link.header != "") {
+        if ($scope.link.header != null && $scope.link.header != "" && $scope.link.header != undefined) {
+
+            var linkheader = $scope.link.header.replace(/\s+/g, '').trim();
+
+
             if ($scope.article.ArticleLinkInfo == null) {
 
                 $scope.article.ArticleLinkInfo = {};
 
                 var additionalinfoelement = {};
-                additionalinfoelement[$scope.link.header] = '';
+                additionalinfoelement[linkheader] = '';
                 $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 $scope.link.header = "";
@@ -609,7 +622,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             else if (!($scope.article.ArticleLinkInfo.hasOwnProperty(currentlang))) {
 
                 var additionalinfoelement = {};
-                additionalinfoelement[$scope.link.header] = '';
+                additionalinfoelement[linkheader] = '';
                 $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 // alert($scope.article.AdditionalArticleInfos.hasOwnProperty("nl"));   
@@ -617,12 +630,14 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 $scope.link.header = "";
             }
             else {
-                $scope.article.ArticleLinkInfo[currentlang].Elements[$scope.link.header] = '';
+                $scope.article.ArticleLinkInfo[currentlang].Elements[linkheader] = '';
 
                 $scope.link.header = "";
             }
         }
-
+        else {
+            alert("Insert a link title")
+        }
     }
 
     $scope.removelinkproperty = function (linkpropertyname, lang) {       
@@ -669,9 +684,11 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             
         
     };
-
-
 };
+
+var isDate = function (date) {
+    return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
+}
 
 //Modal Slideshow Controller
 var InfoModalInstanceCtrl = function ($scope, $modalInstance, $http) {
@@ -811,9 +828,7 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function ($sco
     // FILTERS
     uploader.filters.push({
         name: 'imageFilter',
-        fn: function (item /*{File|FileLikeObject}*/, options) {
-
-            alert(item.type.slice(item.type.lastIndexOf('/') + 1));
+        fn: function (item /*{File|FileLikeObject}*/, options) {            
 
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
             return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;

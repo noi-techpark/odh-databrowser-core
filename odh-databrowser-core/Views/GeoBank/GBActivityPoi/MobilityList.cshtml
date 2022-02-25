@@ -204,14 +204,16 @@
                 <tbody>
                     <tr ng-repeat="poi in pois | filter:query">
                         <td>
-                            <div style="max-width:150px;min-height:75px">
-                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'LTS'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&W=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
-                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'Magnolia'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
-                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'Content'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
-                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'SIAG'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
-                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'VerticalLife'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
-                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'ArchApp'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
-                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'STA'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                           <div style="max-width:150px;min-height:75px">
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'lts'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&W=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />                               
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'magnolia'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'content'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'siag'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'verticallife'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'archapp'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'suedtirolwein'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'sta'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'idm'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />                                
                             </div>
                         </td>
                         @*<td>{{ activity.Id }}</td>*@
@@ -336,15 +338,16 @@
                                                 <div class="col-sm-8">
                                                     @*<input type="text" class="form-control notextareamaxwitdth" id="inputSource" ng-model="poi.Source" readonly>*@
                                                     <select class="form-control" id="selectSource" ng-model="poi.Source">
-                                                        <option>Content</option>
-                                                        <option>Magnolia</option>
-                                                        <option>LTS</option>
-                                                        <option>SIAG</option>
-                                                        <option>HGV</option>
-                                                        <option>SuedtirolWein</option>
-                                                        <option>VerticalLife</option>
-                                                        <option>ArchApp</option>
-                                                        <option>STA</option>
+                                                         <option>content</option>
+                                                        <option>magnolia</option>
+                                                        <option>lts</option>
+                                                        <option>siag</option>
+                                                        <option>hgv</option>
+                                                        <option>suedtirolwein</option>
+                                                        <option>verticallife</option>
+                                                        <option>archapp</option>
+                                                        <option>sta</option>
+                                                        <option>idm</option>
                                                     </select>
                                                 </div>
 
@@ -1106,14 +1109,15 @@
                                             <div ng-repeat="smgbild in poi.ImageGallery | orderBy: 'ListPosition'">
                                                 <div class="col-sm-2" style="text-align:right">
                                                     <a ng-href="{{ smgbild.ImageUrl }}" target="_blank">
-                                                        <img ng-if="poi.Source == 'Content'" data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">
-                                                        <img ng-if="poi.Source == 'Magnolia'" data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">
-                                                        <img ng-if="poi.Source == 'LTS'" data-ng-src="{{smgbild.ImageUrl + '&H=95'}}" style="max-height:100px;" class="img-thumbnail">
-                                                        <img ng-if="poi.Source == 'SIAG'" data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">
-                                                        <img ng-if="poi.Source == 'VerticalLife'" data-ng-src="{{smgbild.ImageUrl}}" style="max-height:100px;" class="img-thumbnail">
-                                                        <img ng-if="poi.Source == 'SuedtirolWein'" data-ng-src="{{smgbild.ImageUrl}}" style="max-height:100px;" class="img-thumbnail">
-                                                        <img ng-if="poi.Source == 'ArchApp'" data-ng-src="{{smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">
-                                                        <img ng-if="poi.Source == 'STA'" data-ng-src="{{smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">
+                                                         <img ng-if="poi.Source == 'content'" data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'magnolia'" data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'lts'" data-ng-src="{{smgbild.ImageUrl + '&H=95'}}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'siag'" data-ng-src="{{smgbild.ImageUrl + '&height=95'}}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'verticallife'" data-ng-src="{{smgbild.ImageUrl}}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'suedtirolwein'" data-ng-src="{{smgbild.ImageUrl}}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'archapp'" data-ng-src="{{smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'sta'" data-ng-src="{{smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">
+                                                        <img ng-if="poi.Source == 'idm'" data-ng-src="{{smgbild.ImageUrl }}" style="max-height:100px;" class="img-thumbnail">
                                                     </a>
                                                     <div ng-if="poi.Source == 'Content' || poi.Source == 'Magnolia'">
                                                         <div class="pull-right" ng-controller="FileUploadControllerSingle" ng-init="init(smgbild.ImageUrl)">

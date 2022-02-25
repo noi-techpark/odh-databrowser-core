@@ -38,7 +38,7 @@ app.controller('eventshortListController', [
 
                 $scope.neweventshort = true;
                 $scope.eventshort = {
-                    Id: '', Source: 'Content', Self: '', _Meta: { Id: '', Type: 'eventshort', Source: 'noi' },
+                    Id: '', Source: 'Content', Self: '', _Meta: { Id: '', Type: 'eventshort', Source: 'noi', Reduced: false, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" } },
                     Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime,
                     isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring,
                     LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }

@@ -54,7 +54,7 @@ app.controller('articleListController', [
                     articlestartdate = new Date();
 
                 $scope.article = {
-                    Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi' }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" } };
+                    Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi', Reduced: false }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" } };
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myArticleModal.html',

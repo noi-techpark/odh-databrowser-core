@@ -178,7 +178,8 @@
                         <th style="width:160px">MainImage</th>
                         <th style="min-width: 100px;">Title</th>
                         <th style="min-width: 80px;">Date</th>
-                        <th style="min-width: 80px;">Information</th>                                                                  
+                        <th style="min-width: 80px;">Information</th> 
+                        <th style="min-width: 80px;">Status</th> 
                         <th style="min-width: 80px;">active in ODH</th>
                         <th style="min-width:140px;"> </th>
                         <th style="min-width:120px;"> </th>
@@ -206,7 +207,11 @@
                                 {{ articlelang }}
                             </div>
                         </td>                                                                  
-                        
+                        <td>
+                            <div ng-repeat="articletag in article.SmgTags">
+                                {{ articletag }}
+                            </div>
+                        </td> 
                  
                        @* <td>
                             <div class="glyphicon glyphicon-ok" ng-show="article.Active"></div>
@@ -217,20 +222,20 @@
                             <div class="glyphicon glyphicon-remove" ng-show="article.SmgActive == false" style="color:red"></div>
                         </td>
                          <td>                         
-                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
+                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true || @ViewBag.articlenewsfeedmodify == true)
                             {
                                 //TODO Show only if push was not send
-                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:100px;">send push</a>
+                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:100px;" ng-enabled="article.SmgActive == true">send push</a>
                             }
                         </td>
                         <td class="btn-group-vertical">
                             <a ng-click="showInfoModal(article)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
             
-                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
+                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true|| @ViewBag.articlenewsfeedmodify == true)
                             {
                                 <a ng-click="editarticle(article)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
                             }
-                            @if (@ViewBag.globaldelete == true || @ViewBag.articledelete == true)
+                            @if (@ViewBag.globaldelete == true || @ViewBag.articledelete == true|| @ViewBag.articlenewsfeedmodify == true)
                             {
                                 <a ng-click="deletearticle(article.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
                             }            

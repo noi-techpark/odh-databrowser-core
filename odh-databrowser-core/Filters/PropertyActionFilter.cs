@@ -160,6 +160,10 @@ namespace odh_databrowser_core.Filters
                 controller.ViewBag.virtualvillageadmin = false;
                 controller.ViewBag.virtualvillageonly = false;
 
+                //Newsfeednoi
+                controller.ViewBag.articlenewsfeedmodify = false;
+
+
                 CheckRoles(principal, filterContext);
 
                 CheckGBRolesVisible(principal, filterContext);
@@ -624,6 +628,15 @@ namespace odh_databrowser_core.Filters
             {
                 controller.ViewBag.articleread = true;
             }
+
+            //NEW NEWSARTICLENOI
+            if (principal.IsInRole("ArticleNewsFeedManager"))
+            {
+                controller.ViewBag.articleread = true;
+                controller.ViewBag.articlesvisible = true;
+                controller.ViewBag.articlenewsfeedmodify = true;
+                controller.ViewBag.articlenewsfeeddelete = true;
+            }         
 
             //COMMON
             if (principal.IsInRole("CommonManager"))

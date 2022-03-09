@@ -771,7 +771,6 @@
                                     <div class="col-sm-4">
                                         <div class="form-horizontal">
 
-
                                             <div class="input-group">
                                                 <div ng-controller="SmgTagNameModalTypeAheadController">
                                                     <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="smgtag.smgtagname" idmodel="smgtag.smgtagid" on-select="onItemSelected()" />
@@ -867,7 +866,7 @@
     <script type="text/ng-template" id="myArticleInfoModal.html">
         <div class="modal-header">
             <button type="button" class="close" ng-click="cancelslidemodal()" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Recipe Info</h4>
+            <h4 class="modal-title" id="myModalLabel">News Info</h4>
         </div>
         <div class="modal-body">
             <div class="row">
@@ -892,19 +891,23 @@
                     <br />
                     <h3>{{ article.Detail[lang].Title }}</h3>
 
-                    <h4>{{ article.ArticleDate  | moment:'DD/MM/YYYY' }} - {{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</h4>
+                    <h4>Article Publication Date: {{ article.ArticleDate  | moment:'DD/MM/YYYY' }} - until: <span ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</span><span ng-show="article.ArticleDateTo == null"> no end date </span></h4>
 
-                    <p ng-show="article.Detail[lang].IntroText != '' && article.Detail[lang].IntroText != null">
-                        <strong>Introtext</strong><br />              
-                    </p>
-                    <p ng-bind-html="article.Detail[lang].IntroText"></p>
+                  
 
-                    <p ng-show="article.Detail[lang].BaseText != ''">
-                        <strong>Text</strong>
-                    </p>
+                    <strong>Text</strong>
                     <p ng-bind-html="article.Detail[lang].BaseText"></p>
 
+                    <p ng-show="article.Detail[lang].AdditionalText != '' && article.Detail[lang].AdditionalText != null">
+                        <strong>Additional Text</strong><br />              
+                    </p>
+                    <p ng-bind-html="article.Detail[lang].AdditionalText"></p>
 
+                    <strong>Published by: </strong>
+                    <p>{{ article.ContactInfo[lang].CompanyName }}</p>
+
+                    <strong>Active</strong>
+                    <input type="checkbox" class="form-control" id="inputSmgActiveview" ng-model="article.SmgActive">
 
                 </div>
             </div>
@@ -919,6 +922,7 @@
                     <p ng-bind-html="val"></p>
                 </div>
             </div>
+            <strong>Inserted Links</strong>
              <div class="row">
                 <div class="col-sm-12" ng-repeat="(key, val) in article.ArticleLinkInfo[lang].Elements">
 
@@ -926,6 +930,12 @@
                         <strong>{{key}}</strong>
                     </p>
                     <p ng-bind-html="val"></p>
+                </div>
+            </div>
+            <strong>Inserted Tags</strong>
+             <div class="row">
+                <div class="col-sm-12" ng-repeat="smgtag in article.SmgTags.Elements">                    
+                    <p>{{ smgtag }}</p>
                 </div>
             </div>
         </div>

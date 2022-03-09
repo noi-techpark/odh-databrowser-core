@@ -887,14 +887,11 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-
                     <br />
                     <h3>{{ article.Detail[lang].Title }}</h3>
 
                     <h4>Article Publication Date: {{ article.ArticleDate  | moment:'DD/MM/YYYY' }} - until: <span ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</span><span ng-show="article.ArticleDateTo == null"> no end date </span></h4>
-
                   
-
                     <strong>Text</strong>
                     <p ng-bind-html="article.Detail[lang].BaseText"></p>
 

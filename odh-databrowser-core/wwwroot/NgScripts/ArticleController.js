@@ -56,6 +56,15 @@ app.controller('articleListController', [
                 $scope.article = {
                     Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi', Reduced: false }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }, Source: "noi" };
 
+                if ($scope.articletype == 'newsfeednoi') {
+                    //Adding some infos by standard
+
+                    $scope.article.HasLanguage = ['de', 'it', 'en'];
+                    $scope.article.ContactInfo['de'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                    $scope.article.ContactInfo['it'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                    $scope.article.ContactInfo['en'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                }
+
                 var modalInstance = $modal.open({
                     templateUrl: 'myArticleModal.html',
                     controller: ArticleModalInstanceCtrl,
@@ -131,6 +140,9 @@ app.controller('articleListController', [
 
                 $http.get($scope.basePath + '/v1/PushNotification/article/' + id).success(function (result) {
                     alert("PushNotification sent!");
+
+                    //TODO
+                    //Add the tag pushed + Date 
 
                     $scope.applyFilter($scope.page);
 

@@ -58,7 +58,7 @@ app.controller('articleListController', [
 
                 if ($scope.articletype == 'newsfeednoi') {
                     //Adding some infos by standard
-
+                    $scope.article.SmgActive = true;
                     $scope.article.HasLanguage = ['de', 'it', 'en'];
                     $scope.article.ContactInfo['de'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
                     $scope.article.ContactInfo['it'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
@@ -696,6 +696,57 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             
         
     };
+
+    //for newsfeed logo selection
+    $scope.selectlogo = function (currentlang) {
+
+        
+    }
+
+    $scope.addlinkpropertynews = function (currentlang) {
+
+        if ($scope.link.header != null && $scope.link.header != "" && $scope.link.header != undefined) {
+
+            //var linkheader = $scope.link.header.replace(/\s+/g, '').trim();
+
+            if ($scope.article.ArticleLinkInfo == null) {
+
+                $scope.article.ArticleLinkInfo = {};
+
+                var additionalinfoelement = {};
+                additionalinfoelement['link'] = linkheader;
+                $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
+
+                $scope.link.header = "";
+            }
+            else if (!($scope.article.ArticleLinkInfo.hasOwnProperty(currentlang))) {
+
+              
+                var additionalinfoelement = {};
+                additionalinfoelement['link'] = linkheader;
+                $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
+
+                // alert($scope.article.AdditionalArticleInfos.hasOwnProperty("nl"));   
+
+                $scope.link.header = "";
+            }
+            else {
+
+                //Count how many links are inserted
+                
+
+                var elcount = Object.keys($scope.article.ArticleLinkInfo[currentlang].Elements).length;
+
+                $scope.article.ArticleLinkInfo[currentlang].Elements['link'+ elcount] = linkheader;
+
+                $scope.link.header = "";
+            }
+        }
+        else {
+            alert("Insert a link title")
+        }
+    }
+
 };
 
 var isDate = function (date) {

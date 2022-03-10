@@ -54,15 +54,15 @@ app.controller('articleListController', [
                     articlestartdate = new Date();
 
                 $scope.article = {
-                    Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi', Reduced: false }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }, Source: "noi" };
+                    Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi', Reduced: false }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }, Source: "noi", ContactInfos: {} };
 
                 if ($scope.articletype == 'newsfeednoi') {
                     //Adding some infos by standard
                     $scope.article.SmgActive = true;
                     $scope.article.HasLanguage = ['de', 'it', 'en'];
-                    $scope.article.ContactInfo['de'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
-                    $scope.article.ContactInfo['it'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
-                    $scope.article.ContactInfo['en'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                    $scope.article.ContactInfos['de'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                    $scope.article.ContactInfos['it'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                    $scope.article.ContactInfos['en'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
                 }
 
                 var modalInstance = $modal.open({
@@ -441,7 +441,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.smgtag = {};
     $scope.additional = {};
     $scope.link = {};
-
+    $scope.selectedlogo = {};
 
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
@@ -698,8 +698,10 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     };
 
     //for newsfeed logo selection
-    $scope.selectlogo = function (currentlang) {
+    $scope.selectlogo = function (selectedlogo) {
 
+        console.log("select logo");
+        console.log(selectedlogo);
         
     }
 

@@ -323,6 +323,16 @@ app.controller('articleListController', [
             };
         }
 
+        $scope.canPushed = function (smgtags) {
+            if (smgtags != undefined && smgtags != null) {
+                if (smgtags.includes("pushed"))
+                    return false;
+            }
+            
+            return true;
+        };
+
+
         $scope.setFilters = function () {
             if ($scope.SelectedArticleId != '')
                 $scope.articlefilter = $scope.SelectedArticleId;

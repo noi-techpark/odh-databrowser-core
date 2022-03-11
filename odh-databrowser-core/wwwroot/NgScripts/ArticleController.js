@@ -141,10 +141,31 @@ app.controller('articleListController', [
                 $http.get($scope.basePath + '/v1/PushNotification/article/' + id).success(function (result) {
                     alert("PushNotification sent!");
 
+                    var addToArray = true;
+
                     //TODO
                     //Add the tag pushed + Date 
+                    if (article.SmgTags != null) {
+                        $.each(article.SmgTags, function (i) {
+                            if (article.SmgTags[i] === 'pushed') {
+                               addToArray = false;
+                                return false;
+                            }
+                        });
+                    }
+                    else {
+                        $scope.article.SmgTags = [];
+                    }
 
-                    $scope.applyFilter($scope.page);
+                    if (addToArray) {
+                        $scope.article.SmgTags.push('pushed');
+                    }
+
+                    //Save to DB
+                    $http.put($scope.basePath + '/v1/Article/' + article.Id, article).success(function (result) {
+                       
+                        $scope.applyFilter($scope.page);
+                    });
 
                 }).error(function (data) {
                     alert("ERROR:" + data);
@@ -778,17 +799,17 @@ var articletypeaheadcontroller = app.controller('ArticleNameTypeAheadController'
     
     $scope.articlenametypeaheadselected = false;
 
-    $scope.getArticleNameList = function (lang, articletype, smgtagfilter, active, smgactive) {
+    $scope.getArticleNameList = function (lang, articletype, smgtagfilter, active, smgactive, datumvonfilter, datumbisfilter) {
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ArticleReduced?language=' + lang + '&articletype=' + articletype + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+            url: $scope.basePath + '/v1/ArticleReduced?language=' + lang + '&articletype=' + articletype + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + datumvonfilter + datumbisfilter
         }).success(function (data) {
             $scope.items = data;
         });
     }   
 
-    $scope.getArticleNameList($scope.lang, $scope.articletype, $scope.smgtagfilter, $scope.active, $scope.smgactive);
+    $scope.getArticleNameList($scope.lang, $scope.articletype, $scope.smgtagfilter, $scope.active, $scope.smgactive, $scope.datumvonfilter, $scope.datumbisfilter);
 
     $scope.$on('LoadArticleNamesList', function (e) {
         //alert("onkemmen");

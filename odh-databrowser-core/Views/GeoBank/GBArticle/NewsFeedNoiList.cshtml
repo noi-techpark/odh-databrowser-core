@@ -91,7 +91,7 @@
                     @*<input type="text" id="datefrom" class="form-control" placeholder="Von" style="width:100%" /><br />*@
 
                     <div class="input-group" ng-controller="DatepickerCtrl">
-                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.Datumvon" is-open="opened" datepicker-options="dateOptions" ng-change="changeDate($parent.Datumvon)" @*min-date=" '2010-01-01' " max-date=" '2015-06-22' " datepicker-options=" dateoptions" date-disabled="disabled(date, mode)" *@ ng-required="true" close-text="Close" readonly />
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.Datumvon" is-open="opened" datepicker-options="dateOptions" @*min-date=" '2010-01-01' " max-date=" '2015-06-22' " datepicker-options=" dateoptions" date-disabled="disabled(date, mode)" *@ ng-required="true" close-text="Close" readonly />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>

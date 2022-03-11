@@ -197,7 +197,9 @@
 
                          <td>
                             <div ng-show="article.ArticleDate != null">{{ article.ArticleDate  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDate == null">no date</div> - 
-                            <div ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDateTo == null">no date</div>
+                            <div ng-show="article.ArticleDateTo != '9999-12-31T23:59:59.9999999'">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div>
+                            <div ng-show="article.ArticleDateTo == null">no date</div>
+                            <div ng-show="article.ArticleDateTo == '9999-12-31T23:59:59.9999999'">no expiration date</div>
                         </td>
 
                         <td>

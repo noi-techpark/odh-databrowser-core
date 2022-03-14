@@ -653,6 +653,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
             var linkheader = $scope.link.header.replace(/\s+/g, '').trim();
 
+            console.log(linkheader);
 
             if ($scope.article.ArticleLinkInfo == null) {
 

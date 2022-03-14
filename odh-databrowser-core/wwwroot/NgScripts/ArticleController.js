@@ -81,8 +81,10 @@ app.controller('articleListController', [
                 //Test nochmaliger Request auf Detail
                 $http.get($scope.basePath + '/v1/Article/' + article.Id).success(function (result) {
                     $scope.article = result;                    
+                    $scope.isloading = false;
 
-                    $scope.isloading = false;                    
+                    if ($scope.article.ArticleDateTo == '9999-12-31T23:59:59.9999999')
+                        $scope.article.ArticleDateTo = null;
 
                     var modalInstance = $modal.open({
                         templateUrl: 'myArticleModal.html',

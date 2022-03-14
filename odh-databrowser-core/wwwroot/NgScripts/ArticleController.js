@@ -54,7 +54,16 @@ app.controller('articleListController', [
                     articlestartdate = new Date();
 
                 $scope.article = {
-                    Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi', Reduced: false }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }, Source: "noi" };
+                    Id: guid(), _Meta: { Id: '', Type: 'article', Source: 'noi', Reduced: false }, Shortname: '', Type: $scope.articletype, HasLanguage: [], Highlight: false, Active: false, SmgActive: false, ArticleDate: articlestartdate, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }, Source: "noi", ContactInfos: {} };
+
+                if ($scope.articletype == 'newsfeednoi') {
+                    //Adding some infos by standard
+                    $scope.article.SmgActive = true;
+                    $scope.article.HasLanguage = ['de', 'it', 'en'];
+                    $scope.article.ContactInfos['de'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                    $scope.article.ContactInfos['it'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                    $scope.article.ContactInfos['en'] = { CompanyName: 'NOI Techpark', Email: 'community@noi.bz.it' };
+                }
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myArticleModal.html',
@@ -72,8 +81,10 @@ app.controller('articleListController', [
                 //Test nochmaliger Request auf Detail
                 $http.get($scope.basePath + '/v1/Article/' + article.Id).success(function (result) {
                     $scope.article = result;                    
+                    $scope.isloading = false;
 
-                    $scope.isloading = false;                    
+                    if ($scope.article.ArticleDateTo == '9999-12-31T23:59:59.9999999')
+                        $scope.article.ArticleDateTo = null;
 
                     var modalInstance = $modal.open({
                         templateUrl: 'myArticleModal.html',
@@ -132,7 +143,31 @@ app.controller('articleListController', [
                 $http.get($scope.basePath + '/v1/PushNotification/article/' + id).success(function (result) {
                     alert("PushNotification sent!");
 
-                    $scope.applyFilter($scope.page);
+                    var addToArray = true;
+
+                    //TODO
+                    //Add the tag pushed + Date 
+                    if (article.SmgTags != null) {
+                        $.each(article.SmgTags, function (i) {
+                            if (article.SmgTags[i] === 'pushed') {
+                               addToArray = false;
+                                return false;
+                            }
+                        });
+                    }
+                    else {
+                        $scope.article.SmgTags = [];
+                    }
+
+                    if (addToArray) {
+                        $scope.article.SmgTags.push('pushed');
+                    }
+
+                    //Save to DB
+                    $http.put($scope.basePath + '/v1/Article/' + article.Id, article).success(function (result) {
+                       
+                        $scope.applyFilter($scope.page);
+                    });
 
                 }).error(function (data) {
                     alert("ERROR:" + data);
@@ -290,6 +325,16 @@ app.controller('articleListController', [
             };
         }
 
+        $scope.canPushed = function (smgtags) {
+            if (smgtags != undefined && smgtags != null) {
+                if (smgtags.includes("pushed"))
+                    return false;
+            }
+            
+            return true;
+        };
+
+
         $scope.setFilters = function () {
             if ($scope.SelectedArticleId != '')
                 $scope.articlefilter = $scope.SelectedArticleId;
@@ -429,7 +474,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.smgtag = {};
     $scope.additional = {};
     $scope.link = {};
-
+    $scope.selectedlogo = {};
 
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
@@ -608,7 +653,6 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
             var linkheader = $scope.link.header.replace(/\s+/g, '').trim();
 
-
             if ($scope.article.ArticleLinkInfo == null) {
 
                 $scope.article.ArticleLinkInfo = {};
@@ -684,6 +728,57 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             
         
     };
+
+    //for newsfeed logo selection
+    $scope.selectlogo = function (selectedlogo) {
+
+        console.log("select logo");
+        console.log(selectedlogo);
+        
+    }
+
+    $scope.addlinkpropertynews = function (currentlang) {
+
+        if ($scope.link.header != null && $scope.link.header != "" && $scope.link.header != undefined) {
+
+            //var linkheader = $scope.link.header.replace(/\s+/g, '').trim();
+
+            if ($scope.article.ArticleLinkInfo == null) {
+
+                $scope.article.ArticleLinkInfo = {};
+
+                var additionalinfoelement = {};
+                additionalinfoelement['link'] = $scope.link.header;
+                $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
+
+                $scope.link.header = "";
+            }
+            else if (!($scope.article.ArticleLinkInfo.hasOwnProperty(currentlang))) {
+
+              
+                var additionalinfoelement = {};
+                additionalinfoelement['link'] = $scope.link.header;
+                $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
+
+                // alert($scope.article.AdditionalArticleInfos.hasOwnProperty("nl"));   
+
+                $scope.link.header = "";
+            }
+            else {
+
+                //Count how many links are inserted
+                var elcount = Object.keys($scope.article.ArticleLinkInfo[currentlang].Elements).length;
+
+                $scope.article.ArticleLinkInfo[currentlang].Elements['link' + elcount] = $scope.link.header;
+
+                $scope.link.header = "";
+            }
+        }
+        else {
+            alert("Insert a link title")
+        }
+    }
+
 };
 
 var isDate = function (date) {
@@ -713,17 +808,17 @@ var articletypeaheadcontroller = app.controller('ArticleNameTypeAheadController'
     
     $scope.articlenametypeaheadselected = false;
 
-    $scope.getArticleNameList = function (lang, articletype, smgtagfilter, active, smgactive) {
+    $scope.getArticleNameList = function (lang, articletype, smgtagfilter, active, smgactive, datumvonfilter, datumbisfilter) {
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ArticleReduced?language=' + lang + '&articletype=' + articletype + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+            url: $scope.basePath + '/v1/ArticleReduced?language=' + lang + '&articletype=' + articletype + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + datumvonfilter + datumbisfilter
         }).success(function (data) {
             $scope.items = data;
         });
     }   
 
-    $scope.getArticleNameList($scope.lang, $scope.articletype, $scope.smgtagfilter, $scope.active, $scope.smgactive);
+    $scope.getArticleNameList($scope.lang, $scope.articletype, $scope.smgtagfilter, $scope.active, $scope.smgactive, $scope.datumvonfilter, $scope.datumbisfilter);
 
     $scope.$on('LoadArticleNamesList', function (e) {
         //alert("onkemmen");

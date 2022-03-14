@@ -91,7 +91,7 @@
                     @*<input type="text" id="datefrom" class="form-control" placeholder="Von" style="width:100%" /><br />*@
 
                     <div class="input-group" ng-controller="DatepickerCtrl">
-                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.Datumvon" is-open="opened" datepicker-options="dateOptions" ng-change="changeDate($parent.Datumvon)" @*min-date=" '2010-01-01' " max-date=" '2015-06-22' " datepicker-options=" dateoptions" date-disabled="disabled(date, mode)" *@ ng-required="true" close-text="Close" readonly />
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.Datumvon" is-open="opened" datepicker-options="dateOptions" @*min-date=" '2010-01-01' " max-date=" '2015-06-22' " datepicker-options=" dateoptions" date-disabled="disabled(date, mode)" *@ ng-required="true" close-text="Close" readonly />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -197,7 +197,9 @@
 
                          <td>
                             <div ng-show="article.ArticleDate != null">{{ article.ArticleDate  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDate == null">no date</div> - 
-                            <div ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div> <div ng-show="article.ArticleDateTo == null">no date</div>
+                            <div ng-show="article.ArticleDateTo != '9999-12-31T23:59:59.9999999'">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</div>
+                            <div ng-show="article.ArticleDateTo == null">no date</div>
+                            <div ng-show="article.ArticleDateTo == '9999-12-31T23:59:59.9999999'">no expiration date</div>
                         </td>
 
                         <td>
@@ -225,7 +227,7 @@
                             @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true || @ViewBag.articlenewsfeedmodify == true)
                             {
                                 //TODO Show only if push was not send
-                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:100px;" ng-enabled="article.SmgActive == true">send push</a>
+                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:100px;" ng-enabled="article.SmgActive == true && canPushed(article.SmgTags)">send push</a>
                             }
                         </td>
                         <td class="btn-group-vertical">
@@ -502,6 +504,20 @@
                                             </div>
 
                                             <div class="form-group">
+
+                                                  <label for="inputTopicRid" class="col-sm-2 control-label">Logo</label>
+
+                                                    <div class=" col-sm-10">
+                                                        <select class="form-control notextareamaxwitdth" id="selectTopicRid" ng-model="selectedlogo" ng-change="selectlogo(selectedlogo)">
+                                                            <option value="http://test.png">NOI</option>
+                                                            <option value="http://test.png">Eurac</option>
+                                                            <option value="http://test.png">Unibz</option>
+                                                        </select>
+                                                    </div>
+                                     
+                                            </div>
+
+                                          @*  <div class="form-group">
                                                 <label for="inputAddress" class="col-sm-2 control-label">Address</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address" ng-model="article.ContactInfos[lang].Address">
@@ -540,7 +556,7 @@
                                                 <div class="col-sm-4">
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputGivenname" placeholder="Givenname" ng-model="article.ContactInfos[lang].Givenname">
                                                 </div>
-                                            </div>
+                                            </div>*@
 
                                         </div>
                                     </div>
@@ -555,7 +571,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            @*<div class="form-group">
                                                 <label for="inputPhonenumber" class="col-sm-2 control-label">Phonenumber</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Phonenumber" ng-model="article.ContactInfos[lang].Phonenumber">
@@ -568,7 +584,7 @@
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Faxnumber" ng-model="article.ContactInfos[lang].Faxnumber">
                                                 </div>
                                             </div>
-
+*@
                                             <div class="form-group">
                                                 <label for="inputUrl" class="col-sm-2 control-label">Url</label>
                                                 <div class="col-sm-10">
@@ -576,7 +592,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            @*<div class="form-group">
                                                 <label for="inputVat" class="col-sm-2 control-label">Vat / Tax</label>
                                                 <div class="col-sm-5">
                                                     <input type="text" class="form-control" id="inputVat" placeholder="Vat" ng-model="article.ContactInfos[lang].Vat">
@@ -584,7 +600,7 @@
                                                 <div class="col-sm-5">
                                                     <input type="text" class="form-control" id="inputTax" placeholder="Tax" ng-model="article.ContactInfos[lang].Tax">
                                                 </div>
-                                            </div>
+                                            </div>*@
 
                                         </div>
                                     </div>
@@ -729,10 +745,10 @@
 
                                             <div class="input-group">
 
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputLinkTitle" placeholder="Link Title" ng-model="link.header" />
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputLinkTitle" placeholder="Link Address" ng-model="link.header" />
 
                                                 <span class="input-group-btn" style="vertical-align:top">
-                                                    <button type="button" class="btn btn-default" value="+" ng-click="addlinkproperty(lang)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                    <button type="button" class="btn btn-default" value="+" ng-click="addlinkpropertynews(lang)"><i class="glyphicon glyphicon-plus"></i></button>
                                                 </span>
 
                                             </div>
@@ -953,7 +969,7 @@
     @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
     @*<script src="~/NgScripts/appfactory.js"></script>*@
     <script src="~/NgScripts/appconfig.js"></script>
-    <script src="~/NgScripts/ArticleController.js?version=20191119"></script>
+    <script src="~/NgScripts/ArticleController.js?version=20220314"></script>
     @*<script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>
         <script src="~/Scripts/angular-sanitize.min.js"></script>
         <script src="~/Scripts/angular-route.min.js"></script>*@

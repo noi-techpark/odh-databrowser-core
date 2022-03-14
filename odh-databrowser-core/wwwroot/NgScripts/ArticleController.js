@@ -653,8 +653,6 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
             var linkheader = $scope.link.header.replace(/\s+/g, '').trim();
 
-            console.log(linkheader);
-
             if ($scope.article.ArticleLinkInfo == null) {
 
                 $scope.article.ArticleLinkInfo = {};
@@ -750,7 +748,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 $scope.article.ArticleLinkInfo = {};
 
                 var additionalinfoelement = {};
-                additionalinfoelement['link'] = linkheader;
+                additionalinfoelement['link'] = $scope.link.header;
                 $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 $scope.link.header = "";
@@ -759,7 +757,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
               
                 var additionalinfoelement = {};
-                additionalinfoelement['link'] = linkheader;
+                additionalinfoelement['link'] = $scope.link.header;
                 $scope.article.ArticleLinkInfo[currentlang] = { 'Language': currentlang, 'Elements': additionalinfoelement };
 
                 // alert($scope.article.AdditionalArticleInfos.hasOwnProperty("nl"));   
@@ -769,11 +767,9 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             else {
 
                 //Count how many links are inserted
-                
-
                 var elcount = Object.keys($scope.article.ArticleLinkInfo[currentlang].Elements).length;
 
-                $scope.article.ArticleLinkInfo[currentlang].Elements['link'+ elcount] = linkheader;
+                $scope.article.ArticleLinkInfo[currentlang].Elements['link' + elcount] = $scope.link.header;
 
                 $scope.link.header = "";
             }

@@ -734,7 +734,15 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         console.log("select logo");
         console.log(selectedlogo);
-        
+
+        //Set article.ContactInfo to this logo
+        if ($scope.article.ContactInfos == null)
+            $scope.article.ContactInfos = {};
+
+        $scope.article.ContactInfos["de"].LogoUrl = selectedlogo;
+        $scope.article.ContactInfos["it"].LogoUrl = selectedlogo;
+        $scope.article.ContactInfos["en"].LogoUrl = selectedlogo;
+
     }
 
     $scope.addlinkpropertynews = function (currentlang) {

@@ -395,7 +395,7 @@
                                             <div class="form-group">
                                                 <label for="inputTitle" class="col-sm-2 control-label">Title</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" placeholder="Title" ng-model="article.Detail[lang].Title">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" placeholder="Title" ng-model="article.Detail[lang].Title" required>
                                                 </div>
                                             </div>
 
@@ -428,7 +428,7 @@
                                             <div class="form-group">
                                                 <label for="inputAdditionalText" class="col-sm-2 control-label">Additional Text</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" rows="3" ng-model="article.Detail[lang].AdditionalText"></textarea>
+                                                    <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" placeholder="AdditionalText" rows="3" ng-model="article.Detail[lang].AdditionalText" required></textarea>
                                                 </div>
                                             </div>
 
@@ -751,7 +751,7 @@
                                 </div>
                             </tab>*@
 
-                            <tab heading="Links">
+                            @*<tab heading="Links">
                                 <br />
                                 <div class="row">
                                     <div class="col-sm-4">
@@ -784,7 +784,7 @@
                                                         <button type="button" class="btn btn-default" value="-" ng-click="removelinkproperty(key, lang)"><i class="glyphicon glyphicon-minus"></i></button>
                                                     </span>
 
-                                                    @*<label for="inputProperty" class="col-sm-2 control-label">{{key}}</label>*@
+                                                    <label for="inputProperty" class="col-sm-2 control-label">{{key}}</label>
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputProperty" placeholder="LinkName" ng-model="key" readonly />
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputProperty" placeholder="LinkURL" ng-model="article.ArticleLinkInfo[lang].Elements[key]" />
 
@@ -793,7 +793,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </tab>
+                            </tab>*@
 
                             <tab heading="ODH Tags">
                                 <br />
@@ -878,8 +878,6 @@
                                     </div>
                                 </div>
                             </tab>
-
-
                         </tabset>
 
                     </div>
@@ -916,31 +914,44 @@
 
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-8">
                     <br />
                     <h3>{{ article.Detail[lang].Title }}</h3>
 
-                    <h4>Article Publication Date: {{ article.ArticleDate  | moment:'DD/MM/YYYY' }} - until: <span ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</span><span ng-show="article.ArticleDateTo == null"> no end date </span></h4>
+                    <h5>Article Publication Date: {{ article.ArticleDate  | moment:'DD/MM/YYYY' }} - until: <span ng-show="article.ArticleDateTo != null">{{ article.ArticleDateTo  | moment:'DD/MM/YYYY' }}</span><span ng-show="article.ArticleDateTo == null"> no end date </span></h5>
                   
+                    <strong>Additional Text</strong>
+                    <p>{{ article.Detail[lang].AdditionalText }}</p>
+
                     <strong>Text</strong>
                     <p ng-bind-html="article.Detail[lang].BaseText"></p>
+                   
 
-                    <p ng-show="article.Detail[lang].AdditionalText != '' && article.Detail[lang].AdditionalText != null">
-                        <strong>Additional Text</strong><br />              
-                    </p>
-                    <p ng-bind-html="article.Detail[lang].AdditionalText"></p>
+                    <strong ng-show="article.article.SmgActive == true">Active</strong>
+                    <strong ng-show="article.article.SmgActive == false">NOT Active</strong>
 
+                </div>
+
+                <div class="col-sm-4">
+                    <br />
+                    
                     <strong>Published by: </strong>
-                    <p>{{ article.ContactInfo[lang].CompanyName }}</p>
+                    <p>{{ article.ContactInfos[lang].CompanyName }}</p>
+                    <p><a href="mailto: {{ article.ContactInfos[lang].Email }}">{{ article.ContactInfos[lang].Email }}</a></p>
+                    <p><a href="{{ article.ContactInfos[lang].Url }}" target="_blank">{{ article.ContactInfos[lang].Url }}</a></p>
+                    <img data-ng-src="{{article.ContactInfos[lang].LogoUrl}}" style="margin:auto;max-width:800px" class="img-rounded">
 
-                    <strong>Active</strong>
-                    <input type="checkbox" class="form-control" id="inputSmgActiveview" ng-model="article.SmgActive">
-
+                     <strong>Status</strong>
+                     <div class="row">
+                        <div class="col-sm-12" ng-repeat="smgtag in article.SmgTags.Elements">                    
+                            <p>{{ smgtag }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             @*Contactinfos*@
-            <div class="row">
+            @*<div class="row">
                 <div class="col-sm-12" ng-repeat="(key, val) in article.AdditionalArticleInfos[lang].Elements">
 
                     <p ng-show="key != ''">
@@ -958,13 +969,8 @@
                     </p>
                     <p ng-bind-html="val"></p>
                 </div>
-            </div>
-            <strong>Inserted Tags</strong>
-             <div class="row">
-                <div class="col-sm-12" ng-repeat="smgtag in article.SmgTags.Elements">                    
-                    <p>{{ smgtag }}</p>
-                </div>
-            </div>
+            </div>*@
+           
         </div>
 
 
@@ -983,7 +989,7 @@
     @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
     @*<script src="~/NgScripts/appfactory.js"></script>*@
     <script src="~/NgScripts/appconfig.js"></script>
-    <script src="~/NgScripts/ArticleController.js?version=20220314"></script>
+    <script src="~/NgScripts/ArticleController.js?version=20220315"></script>
     @*<script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>
         <script src="~/Scripts/angular-sanitize.min.js"></script>
         <script src="~/Scripts/angular-route.min.js"></script>*@

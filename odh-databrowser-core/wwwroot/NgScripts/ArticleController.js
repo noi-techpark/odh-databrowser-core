@@ -246,7 +246,12 @@ app.controller('articleListController', [
                 $scope.datumbisfilter = '';
             }
 
-            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter).success(function (result) {
+            var sortby = '';
+            if ($scope.articletype = 'newsfeednoi') {
+                sortby = '&rawsort=ArticleDate'
+            }
+
+            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&sortbyarticledate=' + $scope.datesort + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter + sortby).success(function (result) {
                 $scope.articles = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;

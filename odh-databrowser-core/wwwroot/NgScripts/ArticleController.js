@@ -736,12 +736,12 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         console.log(selectedlogo);
 
         //Set article.ContactInfo to this logo
-        if ($scope.Article.ContactInfos == null)
-            $scope.Article.ContactInfos = {};
+        if ($scope.article.ContactInfos == null)
+            $scope.article.ContactInfos = {};
 
-        $scope.Article.ContactInfos["de"].LogoUrl = selectedlogo;
-        $scope.Article.ContactInfos["it"].LogoUrl = selectedlogo;
-        $scope.Article.ContactInfos["en"].LogoUrl = selectedlogo;
+        $scope.article.ContactInfos["de"].LogoUrl = selectedlogo;
+        $scope.article.ContactInfos["it"].LogoUrl = selectedlogo;
+        $scope.article.ContactInfos["en"].LogoUrl = selectedlogo;
 
     }
 

@@ -744,6 +744,13 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         if ($scope.article.ContactInfos == null)
             $scope.article.ContactInfos = {};
 
+        if ($scope.article.ContactInfos["de"] == null || $scope.article.ContactInfos["de"] == undefined)
+            $scope.article.ContactInfos["de"] = {};
+        if ($scope.article.ContactInfos["it"] == null || $scope.article.ContactInfos["it"] == undefined)
+            $scope.article.ContactInfos["it"] = {};
+        if ($scope.article.ContactInfos["en"] == null || $scope.article.ContactInfos["en"] == undefined)
+            $scope.article.ContactInfos["en"] = {};
+
         $scope.article.ContactInfos["de"].LogoUrl = selectedlogo;
         $scope.article.ContactInfos["it"].LogoUrl = selectedlogo;
         $scope.article.ContactInfos["en"].LogoUrl = selectedlogo;

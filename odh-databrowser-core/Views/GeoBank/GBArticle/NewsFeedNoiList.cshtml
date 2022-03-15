@@ -926,7 +926,6 @@
                     <strong>Text</strong>
                     <p ng-bind-html="article.Detail[lang].BaseText"></p>
                    
-
                     <strong ng-show="article.article.SmgActive == true">Active</strong>
                     <strong ng-show="article.article.SmgActive == false">NOT Active</strong>
 
@@ -939,8 +938,8 @@
                     <p>{{ article.ContactInfos[lang].CompanyName }}</p>
                     <p><a href="mailto: {{ article.ContactInfos[lang].Email }}">{{ article.ContactInfos[lang].Email }}</a></p>
                     <p><a href="{{ article.ContactInfos[lang].Url }}" target="_blank">{{ article.ContactInfos[lang].Url }}</a></p>
-                    <img data-ng-src="{{article.ContactInfos[lang].LogoUrl}}" style="margin:auto;max-width:800px" class="img-rounded">
-
+                    <span style="background-color:black"><img data-ng-src="{{article.ContactInfos[lang].LogoUrl}}" style="margin:auto;max-width:800px" class="img-rounded"></span>
+                    <br />
                      <strong>Status</strong>
                      <div class="row">
                         <div class="col-sm-12" ng-repeat="smgtag in article.SmgTags.Elements">                    

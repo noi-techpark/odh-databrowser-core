@@ -247,7 +247,7 @@ app.controller('articleListController', [
             }
 
             var sortby = '';
-            if ($scope.articletype = 'newsfeednoi') {
+            if ($scope.articletype == 'newsfeednoi') {
                 sortby = '&rawsort=ArticleDate'
             }
 

@@ -2,6 +2,8 @@
 
 .Net MVC Frontend to display odh-api-core data
 
+[![CI/CD](https://github.com/noi-techpark/odh-databrowser-core/actions/workflows/main.yml/badge.svg)](https://github.com/noi-techpark/odh-databrowser-core/actions/workflows/main.yml)
+
 ## Project Goals/Requirements:
 
 * .Net Core 5

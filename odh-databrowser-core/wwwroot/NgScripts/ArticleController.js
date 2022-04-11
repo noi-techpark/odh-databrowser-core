@@ -864,7 +864,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
             //Setting manual tagging for newsfeed
             if ($scope.$parent.articletype == 'newsfeednoi')
-                $scope.items.push("important");
+                $scope.items.push({ Id: "important", Name: "important" });
 
         });
     }
@@ -890,7 +890,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
             //Setting manual tagging for newsfeed
             if ($scope.$parent.articletype == 'newsfeednoi')
-                $scope.items.push("important");
+                $scope.items.push({ Id: "important", Name : "important" });
         });
     }
 

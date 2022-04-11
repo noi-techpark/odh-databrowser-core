@@ -861,6 +861,11 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
             url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Article,' + $scope.articletype
         }).success(function (data) {
             $scope.items = data;
+
+            //Setting manual tagging for newsfeed
+            if ($scope.$parent.articletype == 'newsfeednoi')
+                $scope.items.push("important");
+
         });
     }
 
@@ -882,6 +887,10 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
             url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Article,' + $scope.articletype
         }).success(function (data) {
             $scope.items = data;
+
+            //Setting manual tagging for newsfeed
+            if ($scope.$parent.articletype == 'newsfeednoi')
+                $scope.items.push("important");
         });
     }
 

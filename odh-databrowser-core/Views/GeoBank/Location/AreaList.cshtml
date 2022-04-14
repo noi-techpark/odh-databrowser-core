@@ -57,6 +57,7 @@
                         <th style="min-width: 20%;">Id</th>
                         <th style="min-width: 20%;">Name</th>
                         <th style="min-width: 40%;">Type</th>
+                        <th style="min-width: 40%;">Source</th>
                         <th>active on source</th>
                         <th></th>
                     </tr>
@@ -71,6 +72,7 @@
                         <td>{{ common.Id }}</td>
                         <td>{{ common.Shortname }}</td>
                         <td>{{ common.AreaType }}</td>
+                        <td>{{ common.Source }}</td>
                         <td>
                             <div class="glyphicon glyphicon-ok" ng-show="common.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="common.Active == false"></div>

@@ -55,8 +55,7 @@
                                     @*<li>@Html.ActionLink("ODH SyncProfiles", "SyncProfileList", "GBConfig", new { area = "" }, null)</li>*@
                                 }
                                 @if (@ViewBag.GBConfigVisible == true || @ViewBag.LTSConfigVisible == true)
-                                {
-                                    <li>@Html.ActionLink("LTS Areas", "LTSAreaList", "GBConfig", new { area = "" }, null)</li>
+                                {                                    
                                     <li>@Html.ActionLink("LTS Marketinggroups", "LTSMarketingGroupList", "GBConfig", new { area = "" }, null)</li>
                                 }
                             </ul>
@@ -84,7 +83,7 @@
                                             <li>@Html.ActionLink("Districts", "DistrictList", "GeoBank", new { area = "" }, null)</li>
                                             <li>@Html.ActionLink("Skiregion", "SkiregionList", "GeoBank", new { area = "" }, null)</li>
                                             <li>@Html.ActionLink("Skiareas", "SkiareaList", "GeoBank", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Natureparks", "NatureparksList", "GeoBank", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Areas", "AreaList", "GeoBank", new { area = "" }, null)</li>
                                         </ul>
                                     </li>
                                 }

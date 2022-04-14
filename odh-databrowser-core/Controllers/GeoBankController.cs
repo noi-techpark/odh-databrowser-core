@@ -56,21 +56,15 @@ namespace SuedtirolManagerPG.Controllers
         }
 
         //[Authorize(Roles = "DataVisible,GeobankVisible,LocationVisible")]
-        public ActionResult NatureparksList()
+        public ActionResult AreaList()
         {
-            return View("~/Views/GeoBank/Location/NatureparksList.cshtml");
+            return View("~/Views/GeoBank/Location/AreaList.cshtml");
         }
 
         //[Authorize(Roles = "DataVisible,GeobankVisible,LocationVisible")]
         public ActionResult ExperienceAreaList()
         {
             return View("~/Views/GeoBank/Location/ExperienceAreaList.cshtml");
-        }
-
-        //[Authorize(Roles = "DataVisible,GeobankVisible,LocationVisible")]
-        public ActionResult AreaList()
-        {
-            return View("~/Views/GeoBank/Location/AreaList.cshtml");
         }
 
         #endregion

@@ -139,6 +139,16 @@ namespace SuedtirolManagerPG.Controllers
             return View("~/Views/ExternalDataSources/LTSPoiData/HealthList.cshtml");
         }
 
+        public ActionResult CompaniesList()
+        {
+            return View("~/Views/ExternalDataSources/LTSPoiData/CompaniesList.cshtml");
+        }
+
+        public ActionResult AssociationsList()
+        {
+            return View("~/Views/ExternalDataSources/LTSPoiData/AssociationsList.cshtml");
+        }
+
         #endregion
 
         #region LTS Gastronomies

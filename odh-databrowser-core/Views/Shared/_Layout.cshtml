@@ -199,44 +199,46 @@
                                 @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSActivityVisible == true)
                                 {
                                     <li class="dropdown-submenu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS ActivityData</a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><del>LTS ActivityData</del></a>
                                         <ul class="dropdown-menu">
-                                            <li>@Html.ActionLink("Alle", "AllActivitiesList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Berge", "AlpineList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Radfahren", "BikeList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Ortstouren", "CityTourList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Pferde", "EquestrianismList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Wandern", "HikeList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Laufen und Fitness", "RunningFitnessList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Loipen", "SkitrackList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Pisten", "SlopeList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Aufstiegsanlagen", "LiftList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Rodeln", "SlideList", "ExternalDataSources", new { area = "" }, null)</li>
+                                             <li>@Html.ActionLink("All", "AllActivitiesList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Alpine", "AlpineList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Biking", "BikeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("City Tour", "CityTourList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Equestrianism", "EquestrianismList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Hiking", "HikeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Running Fitness", "RunningFitnessList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Skitracks", "SkitrackList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Slopes", "SlopeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Lifts", "LiftList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Sledges", "SlideList", "ExternalDataSources", new { area = "" }, null)</li>
                                         </ul>
                                     </li>
                                 }
                                 @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSPoiVisible == true)
                                 {
                                     <li class="dropdown-submenu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS PoiData</a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><del>LTS PoiData</del></a>
                                         <ul class="dropdown-menu">
-                                            <li>@Html.ActionLink("Alle", "AllPoisList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Sport und Freizeit", "ActiveList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Handwerk", "ArtisanList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Ärzte, Apotheken", "HealthList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Verkehr und Transport", "MobilityTrafficList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Nachtleben und Unterhaltung", "NightlifeList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Öffentliche Einrichtungen", "ServiceList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Dienstleister", "ServiceProviderList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Geschäfte", "ShopList", "ExternalDataSources", new { area = "" }, null)</li>
-                                            <li>@Html.ActionLink("Kultur und Sehenswürdigkeiten", "SightseenList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("All", "AllPoisList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Sports and leisure", "ActiveList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Artisan", "ArtisanList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Health", "HealthList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Mobility", "MobilityTrafficList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Nightlife", "NightlifeList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Service", "ServiceList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("ServiceProviders", "ServiceProviderList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Shops", "ShopList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Culture Sightseen", "SightseenList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Associations", "AssociationsList", "ExternalDataSources", new { area = "" }, null)</li>
+                                                <li>@Html.ActionLink("Companies", "CompaniesList", "ExternalDataSources", new { area = "" }, null)</li>
                                         </ul>
                                     </li>
                                 }
                                 @if (@ViewBag.DataVisible == true || @ViewBag.ExternalDataSourcesVisible == true || @ViewBag.LTSGastroVisible == true)
                                 {
                                     <li class="dropdown-submenu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LTS GastronomyData</a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><del>LTS GastronomyData</del></a>
                                         <ul class="dropdown-menu">
                                             <li>@Html.ActionLink("Gastronomies", "GastronomyList", "ExternalDataSources", new { area = "" }, null)</li>
                                         </ul>
@@ -447,6 +449,9 @@
                                     <li>@Html.ActionLink("ServiceProviders", "ServiceProviderList", "ExternalDataSources", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("Shops", "ShopList", "ExternalDataSources", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("Culture Sightseen", "SightseenList", "ExternalDataSources", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("Associations", "AssociationsList", "ExternalDataSources", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("Companies", "CompaniesList", "ExternalDataSources", new { area = "" }, null)</li>
+                                    
                                 </ul>
                             </li>
 

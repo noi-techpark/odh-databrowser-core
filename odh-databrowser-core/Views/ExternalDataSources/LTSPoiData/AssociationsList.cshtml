@@ -1,12 +1,12 @@
 ﻿
 @{
-    ViewBag.Title = "MobilityTrafficList LTS";
+    ViewBag.Title = "AssociationsList LTS";
 }
 @section jumbotronsect {
-    <h2>Mobility Traffic Poi List (LTS) <small>Deprecated (Use ODHActivityPoi instead)</small></h2>
+    <h2>Associations Poi List (LTS) <small>Deprecated (Use ODHActivityPoi instead)</small></h2>
 }
 @section infomodaltext {
-    <h2>Poi Data / Mobility Traffic <small>Deprecated (Use ODHActivityPoi instead)</small></h2>
+    <h2>Poi Data / Associations <small>Deprecated (Use ODHActivityPoi instead)</small></h2>
     <p>All data is syncronized daily from LTS TIC Web Interface (Poi Data).</p>
     <p>
         All data is daily updated also present on the container ODHActivityPoi.
@@ -14,7 +14,7 @@
     <p>Only CC0 Images are displayed</p>
 }
 
-<div class="col-xs-12" ng-app="poi" ng-controller="poiListController" ng-init="init('Verkehr und Transport','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp')">
+<div class="col-xs-12" ng-app="poi" ng-controller="poiListController" ng-init="init('Vereine','@ViewBag.predefinedlocationfilter','@ViewBag.predefinedlocationfiltertyp')">
 
     <div class="splash" ng-show="isloading">
         <h2>
@@ -96,19 +96,13 @@
                 <div class="form-group col-sm-12">
                     <h6>Type<small class="btn-link pull-right" ng-click="clearTypeFilter()">Clear</small></h6>
                     <div class="btn-group-vertical">
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.1" btn-checkbox>Bus stops</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.2" btn-checkbox>Parking areas</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.3" btn-checkbox>Gas stations petrol/diesel</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.4" btn-checkbox>Electric charging stations</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.5" style="white-space: normal;"  btn-checkbox>Taxi, Rental cars with driver, Bus</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.6" btn-checkbox>Railway stations</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.7" btn-checkbox>Carsharing</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.8" btn-checkbox>Gas stations Methane (gas)</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.9" btn-checkbox>Gas stations LPG</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.10" btn-checkbox>Gas stations Hydrogen</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.11" btn-checkbox>Other traffic and transports</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.12" btn-checkbox>E-bike charging station</label>
-                        <label class="btn btn-default" ng-model="checkSubTypeModel.13" btn-checkbox>Box for bicycle</label>                                                
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.1" btn-checkbox>Sport</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.2" btn-checkbox>Culture, Music, Theatre</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.3" btn-checkbox>Nature, Science, Animal</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.4" btn-checkbox>Political, Social</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.5" btn-checkbox>Social, Rescue, Charitable</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.6" btn-checkbox>Leisure</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.7" btn-checkbox>other associations</label>
                     </div>
                 </div>
 
@@ -138,7 +132,6 @@
                     <br />
                 </div>
 
-
             </div>
 
         </div>
@@ -163,7 +156,7 @@
                     <tr ng-repeat="poi in pois | filter:query">
                         <td>
                             <div style="max-width:150px;min-height:75px">
-                                <img class="img-thumbnail img-responsive" @*style="max-height:150px;max-width:150px"*@ ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" style="max-height:150px;max-width:150px" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&W=150&H=150' || '../img/noimage.png' }}" @*ng-hide="activity.ImageGallery[0] == NULL"*@ title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                             </div>
                         </td>
                         @*<td>{{ activity.Id }}</td>*@
@@ -223,7 +216,6 @@
         </div>
     </div>
 
-
     <script type="text/ng-template" id="myPoiModal.html">
         <form name="poiform">
             <div class="modal-header">
@@ -231,6 +223,7 @@
                 <h4 class="modal-title" id="myModalLabel">Poi Details</h4>
             </div>
             <div class="modal-body">
+
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="btn-group pull-left">
@@ -249,126 +242,129 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <tabset>
-                            <tab heading="General">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
-                                            <div class="form-group">
-                                                <label for="inputId" class="col-sm-4 control-label">Id</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="poi.Id" ng-show="newpoi" required>
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="poi.Id" ng-show="!newpoi" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputName" class="col-sm-4 control-label">Shortname</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputName" placeholder="Shortname" ng-model="poi.Shortname" readonly>
-                                                </div>
-                                            </div>
 
-                                            <div class="form-group">
-                                                <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTourismorganization" ng-model="poi.TourismorganizationId" readonly>
-                                                </div>
-                                            </div>
+                    </div>
+                </div>
 
-                                            <div class="form-group">
-                                                <label for="inputArea" class="col-sm-4 control-label">LTS Area</label>
-                                                <div class="col-sm-8">
-                                                    <ul class="list-group" style="margin-bottom:0px">
-                                                        <li class="list-group-item" style="padding:0px" ng-repeat="area in poi.AreaId"><input type="text" class="form-control notextareamaxwitdth" id="inputArea" ng-model="area" readonly></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputName" class="col-sm-4 control-label">Last Changed</label>
-                                                <div class="col-sm-8">
-                                                    <div class="form-control">{{ poi.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputName" class="col-sm-4 control-label">active on source</label>
-                                                <div class="col-sm-8">
-                                                    <input type="checkbox" class="form-control" id="checkboxActive" ng-model="poi.Active" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputName" class="col-sm-4 control-label">ODH active</label>
-                                                <div class="col-sm-8">
-                                                    <input type="checkbox" class="form-control" id="checkboxSmgActive" ng-model="poi.SmgActive" disabled>
-                                                </div>
-                                            </div>
-
-
+                <tabset>
+                    <tab heading="General">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputId" class="col-sm-4 control-label">Id</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="poi.Id" ng-show="newpoi" required>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputId" placeholder="Id" ng-model="poi.Id" ng-show="!newpoi" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
-
-                                            <div class="form-group">
-                                                <label for="inputPoiType" class="col-sm-4 control-label">Type</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputPoiType" ng-model="poi.Type" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputSubTyp" class="col-sm-4 control-label">SubType</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputSubTyp" ng-model="poi.SubType" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputPoiType" class="col-sm-4 control-label">PoiType</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputPoiType" ng-model="poi.PoiType" readonly>
-                                                </div>
-                                            </div>
-
-
-                                            @*<div class="form-group">
-                                                    <label for="inputSmgId" class="col-sm-4 control-label">Smg Id</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="form-control notextareamaxwitdth" id="inputSmgId" ng-model="poi.SmgId" readonly>
-                                                    </div>
-                                                </div>*@
-
-                                            <div class="form-group">
-                                                <label for="inputHighlight" class="col-sm-4 control-label">Highlight</label>
-                                                <div class="col-sm-8">
-                                                    <input type="checkbox" class="checkbox" id="inputHighlight" ng-model="poi.Highlight" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputIsOpen" class="col-sm-4 control-label">Open</label>
-                                                <div class="col-sm-8">
-                                                    <input type="checkbox" class="checkbox" id="inputIsOpen" ng-model="poi.IsOpen" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputHasFreeEntrance" class="col-sm-4 control-label">Free Entrance</label>
-                                                <div class="col-sm-8">
-                                                    <input type="checkbox" class="checkbox" id="inputHasFreeEntrance" ng-model="poi.HasFreeEntrance" disabled>
-                                                </div>
-                                            </div>
-
-
-
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Shortname</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputName" placeholder="Shortname" ng-model="poi.Shortname" readonly>
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTourismorganization" ng-model="poi.TourismorganizationId" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputArea" class="col-sm-4 control-label">LTS Area</label>
+                                        <div class="col-sm-8">
+                                            <ul class="list-group" style="margin-bottom:0px">
+                                                <li class="list-group-item" style="padding:0px" ng-repeat="area in poi.AreaId"><input type="text" class="form-control notextareamaxwitdth" id="inputArea" ng-model="area" readonly></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Last Changed</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control">{{ poi.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">active on source</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="form-control" id="checkboxActive" ng-model="poi.Active" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">ODH active</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="form-control" id="checkboxSmgActive" ng-model="poi.SmgActive" disabled>
+                                        </div>
+                                    </div>
+
+
                                 </div>
-                            </tab>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
 
-                              <tab heading="Detail">
+                                    <div class="form-group">
+                                        <label for="inputPoiType" class="col-sm-4 control-label">Type</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPoiType" ng-model="poi.Type" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputSubTyp" class="col-sm-4 control-label">SubType</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputSubTyp" ng-model="poi.SubType" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPoiType" class="col-sm-4 control-label">PoiType</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPoiType" ng-model="poi.PoiType" readonly>
+                                        </div>
+                                    </div>
+
+                                    @*<div class="form-group">
+                                            <label for="inputSmgId" class="col-sm-4 control-label">Smg Id</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputSmgId" ng-model="poi.SmgId" readonly>
+                                            </div>
+                                        </div>*@
+
+                                    <div class="form-group">
+                                        <label for="inputHighlight" class="col-sm-4 control-label">Highlight</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="checkbox" id="inputHighlight" ng-model="poi.Highlight" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputIsOpen" class="col-sm-4 control-label">Open</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="checkbox" id="inputIsOpen" ng-model="poi.IsOpen" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputHasFreeEntrance" class="col-sm-4 control-label">Free Entrance</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="checkbox" id="inputHasFreeEntrance" ng-model="poi.HasFreeEntrance" disabled>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                     <tab heading="Detail">
                                 <br />
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -456,400 +452,396 @@
                                 </div>
                             </tab>
 
-                            <tab heading="Gps">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-horizontal">
+                    <tab heading="Gps">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
 
-                                            <ul class="list-group">
-                                                <li class="list-group-item" ng-repeat="gps in poi.GpsInfo">
-                                                    <span>{{ gps.Gpstype }} - {{ gps.Latitude }} - {{ gps.Longitude }} - {{ gps.Altitude }}m</span>
-                                                </li>
-                                            </ul>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" ng-repeat="gps in poi.GpsInfo">
+                                            <span>{{ gps.Gpstype }} - {{ gps.Latitude }} - {{ gps.Longitude }} - {{ gps.Altitude }}m</span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Track">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+
+                                    <ul class="list-group">
+                                        <li class="list-group-item" ng-repeat="gps in poi.GpsTrack">
+                                            <span><a href="gps.GpxTrackUrl" target="new">{{ gps.GpxTrackDesc[lang] }}</a></span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Contact">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputCompanyName" class="col-sm-4 control-label">CompanyName</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyName" placeholder="CompanyName" ng-model="poi.ContactInfos[lang].CompanyName" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputAddress" class="col-sm-4 control-label">Address</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address" ng-model="poi.ContactInfos[lang].Address" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputCity" class="col-sm-4 control-label">City</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="inputZipCode" placeholder="ZipCode" ng-model="poi.ContactInfos[lang].ZipCode" readonly>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="inputCity" placeholder="City" ng-model="poi.ContactInfos[lang].City" readonly>
 
                                         </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputCountryName" class="col-sm-4 control-label">Country</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="inputCountryCode" placeholder="CountryCode" ng-model="poi.ContactInfos[lang].CountryCode" readonly>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputCountryName" placeholder="CountryName" ng-model="poi.ContactInfos[lang].CountryName" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputGivenname" class="col-sm-4 control-label">Name</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="inputNamePrefix" placeholder="Prefix" ng-model="poi.ContactInfos[lang].NamePrefix" readonly>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="inputSurname" placeholder="Surname" ng-model="poi.ContactInfos[lang].Surname" readonly>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputGivenname" placeholder="Givenname" ng-model="poi.ContactInfos[lang].Givenname" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-4 control-label">Email</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Email" ng-model="poi.ContactInfos[lang].Email" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPhonenumber" class="col-sm-4 control-label">Phonenumber</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Phonenumber" ng-model="poi.ContactInfos[lang].Phonenumber" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputFaxnumber" class="col-sm-4 control-label">Faxnumber</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Faxnumber" ng-model="poi.ContactInfos[lang].Faxnumber" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputUrl" class="col-sm-4 control-label">Url</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputUrl" placeholder="Url" ng-model="poi.ContactInfos[lang].Url" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputVat" class="col-sm-4 control-label">Vat / Tax</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputVat" placeholder="Vat" ng-model="poi.ContactInfos[lang].Vat" readonly>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTax" placeholder="Tax" ng-model="poi.ContactInfos[lang].Tax" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Additional">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+
+                                    @*<div class="form-group">
+                                            <label for="inputDifficulty" class="col-sm-4 control-label">Difficulty</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="inputDifficulty" placeholder="Difficulty" ng-model="poi.AdditionalPoiInfos[lang].Difficulty" readonly>
+                                            </div>
+                                        </div>*@
+
+                                    <div class="form-group">
+                                        <label for="inputMainType" class="col-sm-2 control-label">MainType</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputMainType" placeholder="MainType" ng-model="poi.AdditionalPoiInfos[lang].MainType" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputSubType" class="col-sm-2 control-label">SubType</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputSubType" placeholder="SubType" ng-model="poi.AdditionalPoiInfos[lang].SubType" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputNovelty" class="col-sm-2 control-label">Novelty</label>
+                                        <div class="col-sm-10">
+                                            <textarea rows="4" type="text" class="form-control notextareamaxwitdth" id="inputNovelty" placeholder="Novelty" ng-model="poi.AdditionalPoiInfos[lang].Novelty" readonly></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Images">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <h4>Images (LTS)</h4>
+
+
+                                    <div class="row">
+
+                                        <div class="col-sm-2"><b>Image</b></div>
+                                        <div class="col-sm-1"><b>Position</b></div>
+                                        <div class="col-sm-1"><b>License</b></div>
+                                        <div class="col-sm-2"><b>Title</b></div>
+                                        <div class="col-sm-5"><b>Description</b></div>
+                                        <div class="col-sm-1"><b>Copyright</b></div>
+                                    </div>
+
+                                    <div class="row" ng-repeat="bild in poi.ImageGallery | filter: isLTSImage | orderBy: 'ListPosition'">
+
+                                        <div class="col-sm-2">
+                                            <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&H=150' }}" style="max-height:150px; max-width:200px;" />
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{ bild.ListPosition }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{ bild.License }}
+                                        </div>
+                                        <div class="col-sm-2">
+                                            {{ bild.ImageTitle[lang] }}
+                                        </div>
+                                        <div class="col-sm-5">
+                                            {{ bild.ImageDesc[lang] }}<br />
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{ bild.CopyRight }}<br />
+                                        </div>
+
                                     </div>
                                 </div>
-                            </tab>
+                            </div>
+                        </div>
+                    </tab>
 
-                            <tab heading="Track">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-horizontal">
+                    <tab heading="Season">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
 
-                                            <ul class="list-group">
-                                                <li class="list-group-item" ng-repeat="gps in poi.GpsTrack">
-                                                    <span><a href="gps.GpxTrackUrl" target="new">{{ gps.GpxTrackDesc[lang] }}</a></span>
-                                                </li>
-                                            </ul>
+                                    <div ng-repeat="operationschedule in poi.OperationSchedule">
 
+                                        <div class="form-group">
+                                            <label for="inputOperationScheduleName" class="col-sm-2 control-label">Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" id="inputOperationScheduleName" class="form-control" ng-model="operationschedule.OperationscheduleName['de']" disabled>
+                                            </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="inputOperationScheduleNameStart" class="col-sm-2 control-label">Start</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-control">
+                                                    {{ operationschedule.Start | moment:'DD/MM/YYYY' }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">Stop</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-control">
+                                                    {{ operationschedule.Stop | moment:'DD/MM/YYYY' }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputOperationScheduleType" class="col-sm-2 control-label">Type</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-control">
+                                                    {{ operationschedule.Type }}
+
+                                                </div>
+                                                <ul>
+                                                    <li>1 = Standard</li>
+                                                    <li>2 = only day + month recurring (year not to consider)</li>
+                                                    <li>3 = only month recurring (season: year and day not to consider)</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" ng-repeat="operationscheduletime in operationschedule.OperationScheduleTime">
+                                            <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">OperationSchedule Time</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-control">{{ operationscheduletime.Start }} - {{ operationscheduletime.End }} </div>
+                                                @*<select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.State" disabled>
+                                                        <option value="1">closed</option>
+                                                        <option value="2">open</option>
+                                                        <option value="0">Undefined</option>
+                                                    </select>
+                                                    <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode" disabled>
+                                                        <option value="0">Undefined</option>
+                                                        <option value="1">General Opening Time</option>
+                                                        <option value="2">Time range for warm meals</option>
+                                                        <option value="3">Time range for pizza</option>
+                                                        <option value="4">Time range for snack's</option>
+                                                    </select>*@
+                                                <div class="btn-group-horizontal">
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Mon</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tue</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wed</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thu</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Fri</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Saty</label>
+                                                    <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sun</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
+
                                 </div>
-                            </tab>
+                            </div>
+                        </div>
+                    </tab>
 
-                            <tab heading="Contact">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
+                    <tab heading="Location">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
 
-                                            <div class="form-group">
-                                                <label for="inputCompanyName" class="col-sm-4 control-label">CompanyName</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputCompanyName" placeholder="CompanyName" ng-model="poi.ContactInfos[lang].CompanyName" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputAddress" class="col-sm-4 control-label">Address</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Address" ng-model="poi.ContactInfos[lang].Address" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputCity" class="col-sm-4 control-label">City</label>
-                                                <div class="col-sm-3">
-                                                    <input type="text" class="form-control" id="inputZipCode" placeholder="ZipCode" ng-model="poi.ContactInfos[lang].ZipCode" readonly>
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <input type="text" class="form-control" id="inputCity" placeholder="City" ng-model="poi.ContactInfos[lang].City" readonly>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputCountryName" class="col-sm-4 control-label">Country</label>
-                                                <div class="col-sm-2">
-                                                    <input type="text" class="form-control" id="inputCountryCode" placeholder="CountryCode" ng-model="poi.ContactInfos[lang].CountryCode" readonly>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputCountryName" placeholder="CountryName" ng-model="poi.ContactInfos[lang].CountryName" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputGivenname" class="col-sm-4 control-label">Name</label>
-                                                <div class="col-sm-2">
-                                                    <input type="text" class="form-control" id="inputNamePrefix" placeholder="Prefix" ng-model="poi.ContactInfos[lang].NamePrefix" readonly>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <input type="text" class="form-control" id="inputSurname" placeholder="Surname" ng-model="poi.ContactInfos[lang].Surname" readonly>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputGivenname" placeholder="Givenname" ng-model="poi.ContactInfos[lang].Givenname" readonly>
-                                                </div>
-                                            </div>
-
+                                    <div class="form-group">
+                                        <label for="inputRegion" class="col-sm-4 control-label">Region / TVB</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputRegion" class="form-control notextareamaxwitdth" placeholder="Region" ng-model="poi.LocationInfo.RegionInfo.Name[lang]" disabled>
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
-
-                                            <div class="form-group">
-                                                <label for="inputEmail" class="col-sm-4 control-label">Email</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Email" ng-model="poi.ContactInfos[lang].Email" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputPhonenumber" class="col-sm-4 control-label">Phonenumber</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Phonenumber" ng-model="poi.ContactInfos[lang].Phonenumber" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputFaxnumber" class="col-sm-4 control-label">Faxnumber</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Faxnumber" ng-model="poi.ContactInfos[lang].Faxnumber" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputUrl" class="col-sm-4 control-label">Url</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputUrl" placeholder="Url" ng-model="poi.ContactInfos[lang].Url" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputVat" class="col-sm-4 control-label">Vat / Tax</label>
-                                                <div class="col-sm-4">
-                                                    <input type="text" class="form-control" id="inputVat" placeholder="Vat" ng-model="poi.ContactInfos[lang].Vat" readonly>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTax" placeholder="Tax" ng-model="poi.ContactInfos[lang].Tax" readonly>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </tab>
-
-                            <tab heading="Additional">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-horizontal">
-
-                                            @*<div class="form-group">
-                                                    <label for="inputDifficulty" class="col-sm-4 control-label">Difficulty</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="inputDifficulty" placeholder="Difficulty" ng-model="poi.AdditionalPoiInfos[lang].Difficulty" readonly>
-                                                    </div>
-                                                </div>*@
-
-                                            <div class="form-group">
-                                                <label for="inputMainType" class="col-sm-2 control-label">MainType</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMainType" placeholder="MainType" ng-model="poi.AdditionalPoiInfos[lang].MainType" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputSubType" class="col-sm-2 control-label">SubType</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputSubType" placeholder="SubType" ng-model="poi.AdditionalPoiInfos[lang].SubType" readonly>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputNovelty" class="col-sm-2 control-label">Novelty</label>
-                                                <div class="col-sm-10">
-                                                    <textarea rows="4" type="text" class="form-control notextareamaxwitdth" id="inputNovelty" placeholder="Novelty" ng-model="poi.AdditionalPoiInfos[lang].Novelty" readonly></textarea>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </tab>
-
-                            <tab heading="Images">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-horizontal">
-                                            <h4>Images (LTS)</h4>
-
-
-                                            <div class="row">
-
-                                                <div class="col-sm-2"><b>Image</b></div>
-                                                <div class="col-sm-1"><b>Position</b></div>
-                                                <div class="col-sm-1"><b>License</b></div>
-                                                <div class="col-sm-2"><b>Title</b></div>
-                                                <div class="col-sm-5"><b>Description</b></div>
-                                                <div class="col-sm-1"><b>Copyright</b></div>
-                                            </div>
-
-                                            <div class="row" ng-repeat="bild in poi.ImageGallery | filter: isLTSImage | orderBy: 'ListPosition'">
-
-                                                <div class="col-sm-2">
-                                                    <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&H=150' }}" style="max-height:150px; max-width:200px;" />
-                                                </div>
-                                                <div class="col-sm-1">
-                                                    {{ bild.ListPosition }}
-                                                </div>
-                                                <div class="col-sm-1">
-                                                    {{ bild.License }}
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    {{ bild.ImageTitle[lang] }}
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    {{ bild.ImageDesc[lang] }}<br />
-                                                </div>
-                                                <div class="col-sm-1">
-                                                    {{ bild.CopyRight }}<br />
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </tab>
-
-                            <tab heading="Season">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-horizontal">
-
-                                            <div ng-repeat="operationschedule in poi.OperationSchedule">
-
-                                                <div class="form-group">
-                                                    <label for="inputOperationScheduleName" class="col-sm-2 control-label">Name</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" id="inputOperationScheduleName" class="form-control" ng-model="operationschedule.OperationscheduleName['de']" disabled>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="inputOperationScheduleNameStart" class="col-sm-2 control-label">Start</label>
-                                                    <div class="col-sm-10">
-                                                        <div class="form-control">
-                                                            {{ operationschedule.Start | moment:'DD/MM/YYYY' }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">Stop</label>
-                                                    <div class="col-sm-10">
-                                                        <div class="form-control">
-                                                            {{ operationschedule.Stop | moment:'DD/MM/YYYY' }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="inputOperationScheduleType" class="col-sm-2 control-label">Type</label>
-                                                    <div class="col-sm-10">
-                                                        <div class="form-control">
-                                                            {{ operationschedule.Type }}
-
-                                                        </div>
-                                                        <ul>
-                                                            <li>1 = Standard</li>
-                                                            <li>2 = only day + month recurring (year not to consider)</li>
-                                                            <li>3 = only month recurring (season: year and day not to consider)</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group" ng-repeat="operationscheduletime in operationschedule.OperationScheduleTime">
-                                                    <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">OperationSchedule Time</label>
-                                                    <div class="col-sm-10">
-                                                        <div class="form-control">{{ operationscheduletime.Start }} - {{ operationscheduletime.End }} </div>
-                                                        @*<select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.State" disabled>
-                                                                <option value="1">closed</option>
-                                                                <option value="2">open</option>
-                                                                <option value="0">Undefined</option>
-                                                            </select>
-                                                            <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode" disabled>
-                                                                <option value="0">Undefined</option>
-                                                                <option value="1">General Opening Time</option>
-                                                                <option value="2">Time range for warm meals</option>
-                                                                <option value="3">Time range for pizza</option>
-                                                                <option value="4">Time range for snack's</option>
-                                                            </select>*@
-                                                        <div class="btn-group-horizontal">
-                                                            <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Mon</label>
-                                                            <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tue</label>
-                                                            <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wed</label>
-                                                            <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thu</label>
-                                                            <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Fri</label>
-                                                            <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Saty</label>
-                                                            <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sun</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </tab>
-
-                            <tab heading="Location">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
-
-                                            <div class="form-group">
-                                                <label for="inputRegion" class="col-sm-4 control-label">Region / TVB</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" id="inputRegion" class="form-control notextareamaxwitdth" placeholder="Region" ng-model="poi.LocationInfo.RegionInfo.Name[lang]" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" id="inputTourismorganization" class="form-control notextareamaxwitdth" placeholder="Tourismorganization" ng-model="poi.LocationInfo.TvInfo.Name[lang]" disabled>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
-
-                                            <div class="form-group">
-                                                <label for="inputArea" class="col-sm-4 control-label">Area</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" id="inputArea" class="form-control notextareamaxwitdth" placeholder="Area" ng-model="poi.LocationInfo.AreaInfo.Name[lang]" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputMunicipality" class="col-sm-4 control-label">Municipality</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" id="inputMunicipality" class="form-control notextareamaxwitdth" placeholder="Municipality" ng-model="poi.LocationInfo.MunicipalityInfo.Name[lang]" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputDistrict" class="col-sm-4 control-label">District</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" id="inputDistrict" class="form-control notextareamaxwitdth" placeholder="District" ng-model="poi.LocationInfo.DistrictInfo.Name[lang]" disabled>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </tab>
-
-                            <tab heading="ODH Tags">
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
-
-                                            <label class="col-sm-4 control-label"></label>
-                                            <div class="col-sm-8 input-group">
-                                                <div ng-controller="SmgTagNameModalTypeAheadController">
-                                                    <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.smgtagname" idmodel="$parent.smgtagid" on-select="onItemSelected()" />
-                                                </div>
-                                                <span class="input-group-btn" style="vertical-align:top">
-                                                    <button type="button" class="btn btn-default" value="+" ng-click="addtag(smgtagid)"><i class="glyphicon glyphicon-plus"></i></button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-horizontal">
-
-                                            <div class="input-group" ng-repeat="tag in poi.SmgTags">
-                                                <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default" ng-click="deletetag(tag)"><i class="glyphicon glyphicon-minus"></i></button>
-                                                </span>
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
-                                            </div>
-
+                                    <div class="form-group">
+                                        <label for="inputTourismorganization" class="col-sm-4 control-label">Tourismorganization</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputTourismorganization" class="form-control notextareamaxwitdth" placeholder="Tourismorganization" ng-model="poi.LocationInfo.TvInfo.Name[lang]" disabled>
                                         </div>
                                     </div>
 
 
                                 </div>
-                            </tab>
-                        </tabset>
-                    </div>
-                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputArea" class="col-sm-4 control-label">Area</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputArea" class="form-control notextareamaxwitdth" placeholder="Area" ng-model="poi.LocationInfo.AreaInfo.Name[lang]" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputMunicipality" class="col-sm-4 control-label">Municipality</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputMunicipality" class="form-control notextareamaxwitdth" placeholder="Municipality" ng-model="poi.LocationInfo.MunicipalityInfo.Name[lang]" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputDistrict" class="col-sm-4 control-label">District</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputDistrict" class="form-control notextareamaxwitdth" placeholder="District" ng-model="poi.LocationInfo.DistrictInfo.Name[lang]" disabled>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="ODH Tags">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="SmgTagNameModalTypeAheadController">
+                                            <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="$parent.smgtagname" idmodel="$parent.smgtagid" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addtag(smgtagid)"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="tag in poi.SmgTags">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletetag(tag)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
 
 
+                        </div>
+                    </tab>
+                </tabset>
             </div>
             <div class="modal-footer">
                 @if (@ViewBag.globalmodify == true || @ViewBag.poimodify == true)

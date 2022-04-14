@@ -102,8 +102,70 @@
                         <label class="btn btn-default" ng-model="checkSubTypeModel.4" btn-checkbox>Climbing tour</label>
                         <label class="btn btn-default" ng-model="checkSubTypeModel.5" btn-checkbox>Lift</label>
                         <label class="btn btn-default" ng-model="checkSubTypeModel.6" btn-checkbox>Citytour</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.7" btn-checkbox>Guides Schulen</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.8" btn-checkbox>Spiel und Sportanlagen</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.9" btn-checkbox>Verleihe</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.10" btn-checkbox>Parks und Grünanlagen</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.11" style="white-space: normal;" btn-checkbox>Kulturzentren und Theater</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.12" style="white-space: normal;" btn-checkbox>Weitere Kultur und Sehenswürdigkeiten</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.13" btn-checkbox>Vereine</label>
+                        <label class="btn btn-default" ng-model="checkSubTypeModel.14" btn-checkbox>Unternehmen</label>
                     </div>
                 </div>
+
+                  <div class="form-group col-sm-12" ng-show="checkSubTypeModel.7">
+                    <h6>Guides Schulen</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Ski- and mountain guides</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Bike guides</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Hiking guide</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Other guides, clubs, schools</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.8">
+                    <h6>Spiel und Sportanlagen</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Archery range</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Fitness center</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Football fields</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Playgrounds</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" btn-checkbox>Horse-drawn carriage rides</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>Resting place for cyclists</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.7" btn-checkbox>Tennis courts</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.8" btn-checkbox>Zip-lines</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.9" style="white-space: normal;" btn-checkbox>Other playgrounds and sports facilities</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.10" btn-checkbox>Wildlife Park</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.11" btn-checkbox>Bikepark</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.12" btn-checkbox>Pumptracks and more</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.13">
+                    <h6>Vereine</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Sport</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" style="white-space: normal;" btn-checkbox>Culture, Music, Theatre</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" style="white-space: normal;" btn-checkbox>Nature, Science, Animal</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Political, Social</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" style="white-space: normal;" btn-checkbox>Social, Rescue, Charitable</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>Leisure</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.7" btn-checkbox>other associations</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12" ng-show="checkSubTypeModel.14">
+                    <h6>Unternehmen</h6>
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.1" btn-checkbox>Industry</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.2" btn-checkbox>Production</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.3" btn-checkbox>Construction</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.4" btn-checkbox>Handcraft</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.5" btn-checkbox>Energy</label>
+                        <label class="btn btn-default" ng-model="checkPoiTypeModel.6" btn-checkbox>other companies</label>
+                    </div>
+                </div>
+
 
                 <div class="form-group col-sm-12">
                     <h6>Language Filter <small class="btn-link pull-right" ng-click="clearLanguageFilter()">Clear</small></h6>

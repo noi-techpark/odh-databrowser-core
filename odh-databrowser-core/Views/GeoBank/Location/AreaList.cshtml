@@ -40,13 +40,16 @@
             </div>
         </div>
     </div>
-    @*<div class="row">
-        <div class="col-sm-12 form-inline">
-            <br />
-            <a ng-click="editCommon('new')" class="btn btn-small btn-info">New</a>
-            <br />
+    @if (@ViewBag.globalcreate == true || @ViewBag.commoncreate == true)
+    {
+        <div class="row">
+            <div class="col-sm-12 form-inline">
+                <br />
+                <a ng-click="editCommon('new')" class="btn btn-small btn-info">New</a>
+                <br />
+            </div>
         </div>
-    </div>*@
+    }
     <div class="row">
         <div class="col-sm-12 table-responsive">
 
@@ -169,8 +172,7 @@
                                     <div class="form-group">
                                         <label for="inputId" class="col-sm-4 control-label">Id</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="newcommon" required>
-                                            <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="!newcommon" readonly>
+                                            <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -239,13 +241,15 @@
                                     <div class="form-group">
                                         <label for="inputCustomId" class="col-sm-4 control-label">CustomId</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputCustomId" ng-model="common.CustomId" readonly>
+                                            <input type="text" class="form-control" id="inputCustomId" ng-model="common.CustomId" ng-show="common.Source != 'lts'">
+                                            <input type="text" class="form-control" id="inputCustomId" ng-model="common.CustomId" ng-show="common.Source == 'lts'" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputGID" class="col-sm-4 control-label">GID</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputGID" ng-model="common.GID" readonly>
+                                            <input type="text" class="form-control" id="inputGID" ng-model="common.GID" ng-show="common.Source != 'lts'">
+                                            <input type="text" class="form-control" id="inputGID" ng-model="common.GID" ng-show="common.Source == 'lts'" readonly>
                                         </div>
                                     </div>                                    
                                 </div>
@@ -255,25 +259,29 @@
                                     <div class="form-group">
                                         <label for="inputRegionId" class="col-sm-4 control-label">RegionId</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputRegionId" ng-model="common.RegionId" readonly>
+                                            <input type="text" class="form-control" id="inputRegionId" ng-model="common.RegionId" ng-show="common.Source != 'lts'">
+                                            <input type="text" class="form-control" id="inputRegionId" ng-model="common.RegionId" ng-show="common.Source == 'lts'" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputTourismvereinId" class="col-sm-4 control-label">TourismvereinId</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputTourismvereinId" ng-model="common.TourismvereinId" readonly>
+                                            <input type="text" class="form-control" id="inputTourismvereinId" ng-model="common.TourismvereinId" ng-show="common.Source != 'lts'">
+                                            <input type="text" class="form-control" id="inputTourismvereinId" ng-model="common.TourismvereinId" ng-show="common.Source == 'lts'" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputMunicipalityId" class="col-sm-4 control-label">MunicipalityId</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputMunicipalityId" ng-model="common.MunicipalityId" readonly>
+                                            <input type="text" class="form-control" id="inputMunicipalityId" ng-model="common.MunicipalityId" ng-show="common.Source != 'lts'">
+                                            <input type="text" class="form-control" id="inputMunicipalityId" ng-model="common.MunicipalityId" ng-show="common.Source == 'lts'" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputSkiAreaID" class="col-sm-4 control-label">SkiAreaID</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputSkiAreaID" ng-model="common.SkiAreaID" readonly>
+                                            <input type="text" class="form-control" id="inputSkiAreaID" ng-model="common.SkiAreaID" ng-show="common.Source != 'lts'">
+                                            <input type="text" class="form-control" id="inputSkiAreaID" ng-model="common.SkiAreaID" ng-show="common.Source == 'lts'" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -502,6 +510,6 @@
     <script src="~/NgScripts/CommonController.js?ver=20191119"></script>
     @*<script src="~/Scripts/angular-route.min.js"></script>
         <script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>*@
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular-sanitize.min.js'></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min.js'></script>
+@*    <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular-sanitize.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min.js'></script>*@
 }

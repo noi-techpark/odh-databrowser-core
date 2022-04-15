@@ -40,13 +40,16 @@
             </div>
         </div>
     </div>
-    @*<div class="row">
-        <div class="col-sm-12 form-inline">
-            <br />
-            <a ng-click="editCommon('new')" class="btn btn-small btn-info">New</a>
-            <br />
+    @if (@ViewBag.globalcreate == true || @ViewBag.commoncreate == true)
+    {
+        <div class="row">
+            <div class="col-sm-12 form-inline">
+                <br />
+                <a ng-click="editCommon('new')" class="btn btn-small btn-info">New</a>
+                <br />
+            </div>
         </div>
-    </div>*@
+    }
     <div class="row">
         <div class="col-sm-12 table-responsive">
 

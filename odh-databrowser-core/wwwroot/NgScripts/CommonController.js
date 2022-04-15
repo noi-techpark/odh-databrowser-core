@@ -42,7 +42,7 @@ app.controller('commonListController', [
 
                 $scope.newcommon = true;
                 $scope.common = {
-                    Id: '', Shortname: '', Gpstype: 'center', AltitudeUnitofMeasure: 'm', _Meta: { Id: '', Type: $scope.commontype, Source: 'noi', Reduced: false }, Source: 'noi', LicenseInfo: { Author: "", License: "CC0", ClosedData: false, LicenseHolder: "https://www.noi.bz.it" }  };
+                    Id: guid(), Shortname: '', Gpstype: 'center', AltitudeUnitofMeasure: 'm', _Meta: { Id: '', Type: $scope.commontype, Source: 'noi', Reduced: false }, Source: 'noi', LicenseInfo: { Author: "", License: "CC0", ClosedData: false, LicenseHolder: "https://www.noi.bz.it" }  };
             }
             else {
                 $scope.newcommon = false;
@@ -1533,26 +1533,6 @@ function guid() {
     }
     return _p8() + _p8(true) + _p8(true) + _p8();
 }
-
-//Tuat net des wosi will
-//app.filter('orderObjectBy', function () {
-//    return function (input, attribute) {
-//        if (!angular.isObject(input)) return input;
-
-//        var array = [];
-//        for (var objectKey in input) {
-//            array.push(input[objectKey]);
-//        }
-
-//        array.sort(function (a, b) {
-//            a = parseInt(a[attribute]);
-//            b = parseInt(b[attribute]);
-//            return a - b;
-//        });
-//        return array;
-//    }
-//});
-
 
 //var MyFileuploadCtrl = ['$scope', '$http', '$timeout', '$upload', function ($scope, $http, $timeout, $upload) {
 //    $scope.usingFlash = FileAPI && FileAPI.upload != null;

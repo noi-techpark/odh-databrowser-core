@@ -64,7 +64,7 @@ app.controller('commonListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/Common/' + commontype + '/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/' + commontype + '/' + id).success(function (result) {
                     alert(commontype + " deleted!");
 
                     $.each($scope.commons, function (i) {
@@ -148,7 +148,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         if (isvalid) {
            
 
-            $http.post($scope.basePath + '/v1/Common/' + $scope.commontype, common).success(function (result) {
+            $http.post($scope.basePath + '/v1/' + $scope.commontype, common).success(function (result) {
                 alert($scope.commontype + " added!");
                 $scope.activities.push(activity);
 
@@ -166,7 +166,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
             console.log(common.OperationSchedule);
 
-            $http.put($scope.basePath + '/v1/Common/' + $scope.commontype + '/' + common.Id, common).success(function (result) {
+            $http.put($scope.basePath + '/v1/' + $scope.commontype + '/' + common.Id, common).success(function (result) {
                 alert($scope.commontype + " updated!");
                 $modalInstance.close();
             });

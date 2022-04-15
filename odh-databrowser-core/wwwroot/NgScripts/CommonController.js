@@ -41,7 +41,8 @@ app.controller('commonListController', [
             if (common === 'new') {
 
                 $scope.newcommon = true;
-                $scope.common = { Id: '', Shortname: '', Gpstype: 'center', AltitudeUnitofMeasure: 'm', _Meta: { Id: '', Type: $scope.commontype, Source: 'noi' } };
+                $scope.common = {
+                    Id: '', Shortname: '', Gpstype: 'center', AltitudeUnitofMeasure: 'm', _Meta: { Id: '', Type: $scope.commontype, Source: 'noi', Reduced: false }, Source: 'noi', LicenseInfo: { Author: "", License: "CC0", ClosedData: false, LicenseHolder: "https://www.noi.bz.it" }  };
             }
             else {
                 $scope.newcommon = false;

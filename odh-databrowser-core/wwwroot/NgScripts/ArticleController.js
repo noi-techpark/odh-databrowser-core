@@ -992,7 +992,7 @@ app.controller('FileUploadController', ['$scope', 'FileUploader', function ($sco
             $scope.article.ImageGallery = [];
         }
         else {
-            counter = $scope.eventshort.ImageGallery.length;
+            counter = $scope.article.ImageGallery.length;
         }
 
         var UploadedImage = { ImageName: imagename, ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'NOI', ImageTitle: { de: '', it: '', en: '' }, ImageDesc: { de: '', it: '', en: '' }, ListPosition: counter, License: "CC0", IsInGallery: true }

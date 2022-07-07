@@ -141,14 +141,14 @@ app.controller('articleListController', [
             if (pushconfirm) {
 
 
-                $http.get($scope.basePath + '/v1/FCMMessage/article/' + id + '/it.bz.noi.community/de,it,en').success(function (result) {
+                $http.get($scope.basePath + '/v1/FCMMessage/article/' + article.Id + '/it.bz.noi.community/de,it,en').success(function (result) {
                     alert("PushNotification sent!");
 
                     var addToArray = true;
 
                     //TODO
                     //Add the tag pushed + Date 
-                    if (article.SmgTags != null) {
+                    if (article.SmgTags != undefined && article.SmgTags != null) {
                         $.each(article.SmgTags, function (i) {
                             if (article.SmgTags[i] === 'pushed') {
                                addToArray = false;
@@ -157,11 +157,11 @@ app.controller('articleListController', [
                         });
                     }
                     else {
-                        $scope.article.SmgTags = [];
+                        article.SmgTags = [];
                     }
 
                     if (addToArray) {
-                        $scope.article.SmgTags.push('pushed');
+                        article.SmgTags.push('pushed');
                     }
 
                     //Save to DB
@@ -332,7 +332,13 @@ app.controller('articleListController', [
         }
 
         $scope.canPushed = function (smgtags) {
+
+            //console.log(smgtags);
             if (smgtags != undefined && smgtags != null) {
+
+             
+                //console.log(smgtags.includes("pushed"));
+
                 if (smgtags.includes("pushed"))
                     return false;
             }
@@ -571,7 +577,8 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     //Add SMG Tagging
     $scope.addtag = function () {
-        
+
+        //console.log($scope.smgtag.smgtagid);
 
         if ($scope.smgtag.smgtagid != "" && $scope.smgtag.smgtagid != undefined) {
             var addToArray = true;

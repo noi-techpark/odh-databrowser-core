@@ -141,7 +141,7 @@ app.controller('articleListController', [
             if (pushconfirm) {
 
 
-                $http.get($scope.basePath + '/v1/FCMMessage/article/' + article.Id + '/it.bz.noi.community/de,it,en').success(function (result) {
+                $http.get($scope.basePath + '/v1/FCMMessage/article/' + article.Id + '/noicommunityapp/de,it,en').success(function (result) {
                     alert("PushNotification sent!");
 
                     var addToArray = true;

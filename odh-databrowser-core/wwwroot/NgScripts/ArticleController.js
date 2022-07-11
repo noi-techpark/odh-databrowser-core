@@ -140,13 +140,11 @@ app.controller('articleListController', [
 
             if (pushconfirm) {
 
-
                 $http.get($scope.basePath + '/v1/FCMMessage/article/' + article.Id + '/noicommunityapp/de,it,en').success(function (result) {
                     alert("PushNotification sent!");
 
                     var addToArray = true;
-
-                    //TODO
+                    
                     //Add the tag pushed + Date 
                     if (article.SmgTags != undefined && article.SmgTags != null) {
                         $.each(article.SmgTags, function (i) {

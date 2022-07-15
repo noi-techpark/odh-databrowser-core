@@ -951,7 +951,7 @@ app.directive('typeaheadarticle', function ($timeout) {
 app.controller('FileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
 
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/v1/FileUpload/article/' + $scope.articletype,
+        url: $scope.basePath + '/v1/FileUpload',
         headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     });
 
@@ -1037,7 +1037,7 @@ app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function
     }
 
     var uploader = $scope.uploader = new FileUploader({
-        url: $scope.basePath + '/v1/FileUpload/article/' + $scope.articletype,
+        url: $scope.basePath + '/v1/FileUpload',
         headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     });
 

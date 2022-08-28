@@ -227,7 +227,7 @@
                             @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true || @ViewBag.articlenewsfeedmodify == true)
                             {
                                 //TODO Show only if push was not send
-                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:100px;" ng-enabled="article.SmgActive == true && canPushed(article.SmgTags)">send push</a>
+                                <a ng-click="sendtopushserver(article)" class="btn btn-responsive btn-primary" style="width:100px;" ng-show="article.SmgActive == true && canPushed(article.SmgTags)">send push</a>
                             }
                         </td>
                         <td class="btn-group-vertical">
@@ -988,7 +988,7 @@
     @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
     @*<script src="~/NgScripts/appfactory.js"></script>*@
     <script src="~/NgScripts/appconfig.js"></script>
-    <script src="~/NgScripts/ArticleController.js?version=20220411"></script>
+    <script src="~/NgScripts/ArticleController.js?version=20220715"></script>
     @*<script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>
         <script src="~/Scripts/angular-sanitize.min.js"></script>
         <script src="~/Scripts/angular-route.min.js"></script>*@

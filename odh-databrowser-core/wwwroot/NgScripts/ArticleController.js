@@ -699,33 +699,25 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         delete $scope.article.ArticleLinkInfo[lang].Elements[linkpropertyname];
     }
 
-    $scope.deletebild = function (bildname, bildurl) {
+    //TODO DELETE image on source
+    $scope.deletebild = function (bildname) {
 
-        //Querystring parameter holen
-        var parameter = getQueryVariable(bildurl, "src");
-        //Ersetz a poor kloanigkeiten
-        var mybildurl = parameter.replace('.', '$');
+        ////Querystring parameter holen
+        //var parameter = getQueryVariable(bildurl, "src");
+        ////Ersetz a poor kloanigkeiten
+        //var mybildurl = parameter.replace('.', '$');
 
-        alert(mybildurl);
+        //alert(mybildurl);
        
-        var find = '/';
-        var re = new RegExp(find, 'g');
-        var escapeduri = mybildurl.replace(re, '|');
+        //var find = '/';
+        //var re = new RegExp(find, 'g');
+        //var escapeduri = mybildurl.replace(re, '|');
 
-        var deletepath = encodeURI($scope.basePath + '/v1/FileDelete/' + escapeduri);
-        alert("Delete Image" + deletepath);
+        //var deletepath = encodeURI($scope.basePath + '/v1/FileDelete/' + escapeduri);
+        //alert("Delete Image" + deletepath);
 
-        $http.delete(deletepath).success(function (result) {
-            alert("File deleted!");
-
-            $.each($scope.article.ImageGallery, function (i) {
-                if ($scope.article.ImageGallery[i].ImageName === bildname) {
-                    $scope.article.ImageGallery.splice(i, 1);
-                    return false;
-                }
-            });
-
-        }).error(function (result) {
+        //$http.delete(deletepath).success(function (result) {
+        //    alert("File deleted!");
 
             $.each($scope.article.ImageGallery, function (i) {
                 if ($scope.article.ImageGallery[i].ImageName === bildname) {
@@ -733,7 +725,16 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                     return false;
                 }
             });
-        });
+
+        //}).error(function (result) {
+
+        //    $.each($scope.article.ImageGallery, function (i) {
+        //        if ($scope.article.ImageGallery[i].ImageName === bildname) {
+        //            $scope.article.ImageGallery.splice(i, 1);
+        //            return false;
+        //        }
+        //    });
+        //});
 
         
             

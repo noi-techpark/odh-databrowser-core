@@ -1108,7 +1108,7 @@ var typeAheadControllerRegion = app.controller('TypeAheadControllerRegion', func
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoReg' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=reg&language=' + $scope.lang
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1129,7 +1129,7 @@ var typeAheadControllerTV = app.controller('TypeAheadControllerTV', function ($s
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=tvs&language=' + $scope.lang
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1150,7 +1150,7 @@ var typeAheadControllerMunicipality = app.controller('TypeAheadControllerMunicip
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoMun' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=mun&language=' + $scope.lang
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1171,7 +1171,7 @@ var typeAheadControllerDistrict = app.controller('TypeAheadControllerDistrict', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoFra' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=fra&language=' + $scope.lang
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1212,7 +1212,7 @@ var regionnamecontroller = app.controller('RegionNameController', function ($sco
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoReg' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=reg&language=' + $scope.lang
             //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
         }).success(function (data) {
 
@@ -1234,7 +1234,7 @@ var tourismvereinnamecontroller = app.controller('TourismVereinNameController', 
         
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=tvs&language=' + $scope.lang
             //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
         }).success(function (data) {
             
@@ -1256,7 +1256,7 @@ var municipalitynamecontroller = app.controller('MunicipalityNameController', fu
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoMun' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=mun&language=' + $scope.lang
         }).success(function (data) {
 
             $.each(data, function (i) {
@@ -1277,7 +1277,7 @@ var districtnamecontroller = app.controller('DistrictNameController', function (
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoFra' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=tvs&language=' + $scope.lang
             //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
         }).success(function (data) {
 

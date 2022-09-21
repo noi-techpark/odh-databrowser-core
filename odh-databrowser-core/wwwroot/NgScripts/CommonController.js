@@ -123,6 +123,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.regiontag = {};
     $scope.tourismvereintag = {};
+    $scope.municipalitytag = {};
     $scope.districttag = {};
     $scope.detailthemed = {};
     $scope.gpspolygon = {};
@@ -354,6 +355,56 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         $.each($scope.common.TourismvereinIds, function (i) {
             if ($scope.common.TourismvereinIds[i] === tag) {
                 $scope.common.TourismvereinIds.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
+    //Add Municipality Tagging
+    $scope.addmunicipality = function () {
+
+        if ($scope.municipalitytag.munid != "" && $scope.municipalitytag.munid != undefined) {
+
+            var addToArray = true;
+
+            //alert(tag);
+
+            if ($scope.common.MunicipalityIds != null) {
+
+                $.each($scope.common.MunicipalityIds, function (i) {
+
+                    if ($scope.common.MunicipalityIds[i] === $scope.municipalitytag.munid) {
+
+                        alert('Already present!');
+                        addToArray = false;
+
+                        return false;
+                    }
+                });
+            }
+            else {
+                $scope.common.MunicipalityIds = [];
+            }
+
+
+            if (addToArray) {
+
+                $scope.common.MunicipalityIds.push($scope.municipalitytag.munid);
+                $scope.municipalitytag.fraid = '';
+                $scope.municipalitytag.franame = '';
+            }
+        }
+        else {
+            alert('Invalid Municipality!');
+        }
+    }
+
+    //Remove Municipality Tagging
+    $scope.deletemunicipality = function (tag) {
+
+        $.each($scope.common.MunicipalityIds, function (i) {
+            if ($scope.common.MunicipalityIds[i] === tag) {
+                $scope.common.MunicipalityIds.splice(i, 1);
                 return false;
             }
         });
@@ -1091,6 +1142,27 @@ var typeAheadControllerTV = app.controller('TypeAheadControllerTV', function ($s
     }
 });
 
+var typeAheadControllerMunicipality = app.controller('TypeAheadControllerMunicipality', function ($scope, $http) {
+
+    $scope.selecteditem = false;
+
+    $scope.getCustomNameListModal = function (lang) {
+
+        $http({
+            method: 'Get',
+            url: $scope.basePath + '/json/LocInfoMun' + $scope.lang + '.json'
+        }).success(function (data) {
+            $scope.items = data;
+        });
+    }
+
+    $scope.getCustomNameListModal($scope.lang);
+
+    $scope.onItemSelected = function () {
+        $scope.selecteditem = true;
+    }
+});
+
 var typeAheadControllerDistrict = app.controller('TypeAheadControllerDistrict', function ($scope, $http) {
 
     $scope.selecteditem = false;
@@ -1175,6 +1247,27 @@ var tourismvereinnamecontroller = app.controller('TourismVereinNameController', 
         });
 
     };        
+});
+
+//Municipality Name controller
+var municipalitynamecontroller = app.controller('MunicipalityNameController', function ($scope, $http) {
+
+    $scope.initmunname = function (munid) {
+
+        $http({
+            method: 'Get',
+            url: $scope.basePath + '/json/LocInfoMun' + $scope.lang + '.json'
+        }).success(function (data) {
+
+            $.each(data, function (i) {
+                if (data[i].id === munid) {
+                    $scope.mymunname = data[i].name;
+                    return false;
+                }
+            });
+        });
+
+    };
 });
 
 //District Name controller

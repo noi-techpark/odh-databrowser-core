@@ -418,6 +418,7 @@
                                 </div>
                             </div>
                         </tab>
+
                         <tab heading="Detail">
                             <br />
                             <div class="row">
@@ -521,6 +522,7 @@
                             </div>
 
                         </tab>
+
                         <tab heading="Contact">
                             <br />
                             <div class="row">
@@ -649,6 +651,7 @@
                                 </div>
                             </div>
                         </tab>
+
                         <tab heading="Gps">
                             <br />
                             <div class="row">
@@ -694,6 +697,7 @@
                                 </div>
                             </div>
                         </tab>
+
                         <tab heading="Images">
                             <br />
                             <div class="row">
@@ -1047,8 +1051,6 @@
                             </div>
                         </tab>
 
-
-
                         <tab heading="Webcam">
                             <br />
                             <div class="row">
@@ -1190,6 +1192,78 @@
                             </div>
                         </tab>
 
+                        <tab heading="Municipalities">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <label class="col-sm-4 control-label"></label>
+                                        <div class="col-sm-8 input-group">
+                                            <div ng-controller="TypeAheadControllerMunicipality">
+                                                <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="municipalitytag.munname" idmodel="municipalitytag.munid" on-select="onItemSelected()" />
+                                            </div>
+                                            <span class="input-group-btn" style="vertical-align:top">
+                                                <button type="button" class="btn btn-default" value="+" ng-click="addmunicipality()"><i class="glyphicon glyphicon-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <div class="input-group" ng-repeat="mun in common.MunicipalityIds">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="deletemunicipality(mun)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            </span>
+                                            <div ng-controller="MunicipalityNameController" ng-init="initmunname(mun)">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputMunTagsingle" placeholder="Municipality" ng-model="mymunname" readonly>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </tab>
+
+                        <tab heading="Districts">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <label class="col-sm-4 control-label"></label>
+                                        <div class="col-sm-8 input-group">
+                                            <div ng-controller="TypeAheadControllerDistrict">
+                                                <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="districttag.franame" idmodel="districttag.fraid" on-select="onItemSelected()" />
+                                            </div>
+                                            <span class="input-group-btn" style="vertical-align:top">
+                                                <button type="button" class="btn btn-default" value="+" ng-click="adddistrict()"><i class="glyphicon glyphicon-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <div class="input-group" ng-repeat="fra in common.DistrictIds">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="deletedistrict(fra)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            </span>
+                                            <div ng-controller="DistrictNameController" ng-init="initdistname(fra)">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputDistTagsingle" placeholder="District" ng-model="myfraname" readonly>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </tab>
+
                         <tab heading="SMG Tags">
                             <br />
                             <div class="row">
@@ -1223,6 +1297,7 @@
 
                             </div>
                         </tab>
+
                         <tab heading="Related Highlights">
                             <br />
                             <div class="row">

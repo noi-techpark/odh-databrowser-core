@@ -43,7 +43,7 @@ jobs:
           X_SERVER_PORT: 1022
 
           X_ASPNETCORE_ENVIRONMENT: "Development"
-          X_OAUTH_AUTORITY: "https://authupgrade.opendatahub.testingmachine.eu/auth/realms/noi/"
+          X_OAUTH_AUTORITY: "https://auth.opendatahub.testingmachine.eu/auth/realms/noi/"
           X_OAUTH_CLIENTID: ${{ secrets.OAUTH_CLIENTID }}
 
       - name: Build and push 

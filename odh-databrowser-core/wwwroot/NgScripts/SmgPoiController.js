@@ -806,6 +806,7 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.relatedcontentgastro = {};
     $scope.relatedcontentevent = {};
     $scope.webcam = {};
+    $scope.webcaminfo = {};
 
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
@@ -1225,7 +1226,6 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         });
     };
 
-
     var operationschedulename = { de: "Öffnungszeiten", it: "orari d'apertura", en: "opening times", nl: "opening times", cs: "opening times", pl: "opening times" };
 
     $scope.season = { OperationscheduleName: operationschedulename, Start: '', Stop: '', Type: '1', ClosedonPublicHolidays: '', OperationScheduleTime: [] };
@@ -1255,6 +1255,62 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         $scope.webcam.Longitude = '';
         $scope.webcam.Altitude = '';
         $scope.webcam.ListPosition = '';
+    }
+
+    //Add Existing Webcam
+    $scope.addexistingwebcam = function (webcam) {
+
+        if (webcam.Id) {
+
+            var proceed = true;
+            var position = 1;
+
+            if ($scope.poi.Webcam == null) {
+
+                $scope.poi.Webcam = [];
+            }
+            else {
+                $.each($scope.poi.Webcam, function (i) {
+                    position++;
+
+                    console.log(webcam.Id);
+
+                    if ($scope.poi.Webcam[i].WebcamId.toLowerCase() == webcam.Id.toLowerCase()) {
+                        proceed = false;
+                        alert("Webcam already present");
+                    }
+                });
+            }
+
+            if (proceed) {
+                $http({
+                    method: 'Get',
+                    url: $scope.basePath + '/api/WebcamInfo/' + webcam.Id
+                }).success(function (data) {
+                    var selectedwebcam = data;
+
+                    var webcamname = { de: selectedwebcam.Webcamname["de"], it: selectedwebcam.Webcamname["it"], en: selectedwebcam.Webcamname["en"] };
+
+                    var webcamtoadd = { WebcamId: selectedwebcam.Id, Webcamname: webcamname, Webcamurl: selectedwebcam.Webcamurl, GpsInfo: selectedwebcam.GpsInfo, ListPosition: position, Source: 'WebcamInfo', Previewurl: selectedwebcam.Previewurl, Streamurl: selectedwebcam.Streamurl };
+
+                    $scope.poi.Webcam.push(webcamtoadd);
+
+                    $scope.webcam.WebcamId = '';
+                    $scope.webcam.Webcamname = '';
+                    $scope.webcam.Webcamurl = '';
+                    $scope.webcam.Latitude = '';
+                    $scope.webcam.Longitude = '';
+                    $scope.webcam.Altitude = '';
+                    $scope.webcam.ListPosition = '';
+                    $scope.webcam.Source = '';
+                    $scope.webcam.Previewurl = '';
+                    $scope.webcam.Streamurl = '';
+                });
+            }
+        }
+
+        //var gpsinfo = { Gpstype: 'position', Latitude: webcam.Latitude, Longitude: webcam.Longitude, Altitude: webcam.Altitude, AltitudeUnitofMeasure: 'm' };
+
     }
 
     //Remove District Tagging
@@ -1988,6 +2044,66 @@ app.directive('typeaheadsmgtag', function ($timeout) {
         }
         //templateUrl: 'HuetteTemplate2'
     }
+});
+
+//Directive Typeahead
+app.directive('typeaheadwebcam', function ($timeout) {
+    return {
+        restrict: 'AEC',
+        scope: {
+            items: '=',
+            prompt: '@',
+            title: '@',
+            name: '@',
+            model: '=',
+            idmodel: '=',
+            onSelect: '&'
+        },
+        link: function (scope, elem, attrs) {
+            scope.handleSelection = function (selectedItem, selectedId) {
+                scope.model = selectedItem;
+                scope.idmodel = selectedId;
+                scope.current = 0;
+                scope.selected = true;
+                $timeout(function () {
+                    scope.onSelect();
+                }, 200);
+            };
+            scope.current = 0;
+            scope.selected = true;
+            scope.isCurrent = function (index) {
+                return scope.current == index;
+            };
+            scope.setCurrent = function (index) {
+                scope.current = index;
+            };
+        },
+        templateUrl: function (elem, attrs) {
+            //alert(attrs.templateurl);
+            return attrs.templateurl || 'default.html'
+        }
+        //templateUrl: 'HuetteTemplate2'
+    }
+});
+
+var webcamtypeaheadcontroller = app.controller('WebcamTypeAheadController', function ($scope, $http) {
+
+    $scope.webcamtypeaheadselected = false;
+
+    $scope.getRelatedContent = function () {
+        $http({
+            method: 'Get',
+            url: $scope.basePath + '/api/WebcamInfoReduced' + '?language=' + $scope.lang
+        }).success(function (data) {
+            $scope.items = data;
+        });
+    }
+
+    $scope.onItemSelected = function () {
+        $scope.webcamtypeaheadselected = true;
+    }
+
+    $scope.getRelatedContent();
 });
 
 app.filter('moment', function () {

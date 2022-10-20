@@ -1173,6 +1173,49 @@
                                 </div>
                             </tab>
 
+                            <tab heading="Videos">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-horizontal">
+                                            <h4>Videos (LTS)</h4>
+
+                                            <div class="row">
+
+                                                <div class="col-sm-3"><b>Name/Url</b></div>
+                                                <div class="col-sm-2"><b>VideoSource/VideoType</b></div>
+                                                <div class="col-sm-3"><b>StreamingSource</b></div>
+                                                <div class="col-sm-2"><b>License/Copyright</b></div>
+                                                <div class="col-sm-2"><b>Title/Description</b></div>
+                                            </div>
+
+                                            <div class="row" ng-repeat="video in poi.VideoItems">
+
+                                                <div class="col-sm-3" style="word-wrap: break-word">
+                                                    {{ video.Name }}<br />{{ video.Url }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ video.VideoSource }}<br />{{ video.VideoType }}
+                                                </div>
+                                                <div class="col-sm-3" style="word-wrap: break-word">
+                                                    {{ video.StreamingSource }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ video.License }} <br /> {{ video.CopyRight }}
+                                                </div>
+                                                <div class="col-sm-2" style="word-wrap: break-word">
+                                                    {{ video.VideoTitle[lang] }}<br /> {{ video.VideoDesc[lang] }}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </tab>
+
+
                             <tab heading="Season">
                                 <br />
                                 <div class="row">
@@ -1517,11 +1560,9 @@
                                 <br />
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <div class="form-horizontal">
+                                      @*  <div class="form-horizontal">
 
                                             <div class="form-group">
-
-
 
                                                 <label class="col-sm-4 control-label">Name</label>
                                                 <div class="col-sm-8">
@@ -1555,11 +1596,24 @@
 
                                             </div>
 
-
                                             <label class="col-sm-4 control-label"></label>
                                             <span class="input-group-btn" style="vertical-align:top">
                                                 <button type="button" class="btn btn-default" value="+" ng-click="addwebcam(webcam)"><i class="glyphicon glyphicon-plus"></i></button>
                                             </span>
+                                        </div>*@
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <h4>Select existing Webcam</h4>
+                                                <label class="col-sm-4 control-label">Webcam Name</label>
+                                                <div class="col-sm-8">
+                                                    <div ng-controller="WebcamTypeAheadController">
+                                                        <typeaheadwebcam items="items" templateurl="WebcamNameTemplate" prompt="Name" title="name" model="webcaminfo.Name" idmodel="webcaminfo.Id" on-select="onItemSelected()" />
+                                                    </div>
+                                                    <span class="input-group-btn" style="vertical-align:top">
+                                                        <button type="button" class="btn btn-default" value="+" ng-click="addexistingwebcam(webcaminfo)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -1572,16 +1626,17 @@
                                                 <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamId" placeholder="WebcamId" ng-model="webcam.WebcamId">
                                                 <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamName2" placeholder="Webcamname" ng-model="webcam.Webcamname[lang]">
                                                 <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamurl2" placeholder="Webcamurl" ng-model="webcam.Webcamurl">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamPreviewurl2" placeholder="WebcamPreviewurl" ng-model="webcam.Previewurl">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamStreamurl2" placeholder="WebcamStreamurl" ng-model="webcam.Streamurl">                                             
                                                 <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamLatitude2" placeholder="Latitude" ng-model="webcam.GpsInfo.Latitude">
                                                 <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamLongitude2" placeholder="Longitude" ng-model="webcam.GpsInfo.Longitude">
                                                 <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamAltitude2" placeholder="Altitude" ng-model="webcam.GpsInfo.Altitude">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamSource" placeholder="Source" ng-model="webcam.Source">
                                                 <input type="number" class="form-control" id="inputWebcamPosition2" placeholder="Position" ng-model="webcam.ListPosition">
                                             </div>
 
                                         </div>
                                     </div>
-
-
                                 </div>
                             </tab>
 

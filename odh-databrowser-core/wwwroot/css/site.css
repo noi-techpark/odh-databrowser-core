@@ -315,3 +315,8 @@ textarea {
         line-height: 1.33;
         border-radius: 35px;
     }
+
+/*Quick fix for to many/large modal tabs*/
+.nav > li > a {
+    padding: 10px 10px;
+}

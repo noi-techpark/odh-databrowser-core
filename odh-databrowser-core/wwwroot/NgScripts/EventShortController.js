@@ -453,7 +453,7 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 		});
     };
     
-    //Bild löschen
+    //TODO DELETE image on source
     $scope.deletebild = function (bildurl) {
 
             ////Querystring parameter holen

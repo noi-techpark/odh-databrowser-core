@@ -649,23 +649,14 @@ var eventtypeaheadcontroller = app.controller('EventTypeAheadController', functi
 
     $scope.getEventnamesFilteredList = function (lang, locationfilter, rancfilter, typefilter, topicfilter, orgridfilter, smgtagfilter, active, smgactive, datumvon, datumbis, source) {
       
-        if (locationfilter != "null" || rancfilter != "null" || typefilter != "null" || topicfilter != "null" || orgridfilter != "null" || smgtagfilter != "null" || active != "null" || smgactive != "null" || datumvon != "null" || datumbis != "null" || source != "null") {
-
+       
             $http({
                 method: 'Get',
                 url: $scope.basePath + '/v1/EventReduced?language=' + lang + '&locfilter=' + locationfilter + '&rancfilter=' + rancfilter + '&typefilter=' + typefilter + '&topicfilter=' + topicfilter + '&orgfilter=' + orgridfilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + '&begindate=' + datumvon + '&enddate=' + datumbis + '&source=' + source
             }).success(function (data) {
                 $scope.items = data;
             });
-        }
-        else {
-            $http({
-                method: 'Get',
-                url: $scope.basePath + '/json/EventInfo' + $scope.lang + '.json'
-            }).success(function (data) {
-                $scope.items = data;
-            });
-        }
+        
     }
 
     $scope.$on('LoadEventNamesList', function (e) {

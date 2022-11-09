@@ -188,9 +188,7 @@
                     <tr ng-repeat="eventshort in eventsshort track by $index">
 
                         <td>
-                            <div ng-if="lang == 'de'">{{ eventshort.EventDescriptionDE }}</div>
-                            <div ng-if="lang == 'it'">{{ eventshort.EventDescriptionIT }}</div>
-                            <div ng-if="lang == 'en'">{{ eventshort.EventDescriptionEN }}</div>
+                            <div>{{ eventshort.EventTitle[lang] }}</div>             
                             <br />
                         </td>
                         <td>{{ eventshort.StartDate | moment:'DD/MM/YYYY HH:mm' }}<br />{{ eventshort.EndDate | moment:'DD/MM/YYYY HH:mm' }}</td>

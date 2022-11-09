@@ -343,7 +343,7 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                     else
                         eventshort.Display1 = "N";
 
-                    eventshort.Shortname = eventshort.EventDescriptionDE;
+                    eventshort.Shortname = eventshort.EventTitle['de'];
 
                     //console.log(eventshort.StartDate);
                     //console.log(eventshort.EndDate);
@@ -377,7 +377,7 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 eventshort.StartDate = eventshort.eventstartonlydate.getFullYear() + "/" + parseInt(eventshort.eventstartonlydate.getMonth() + 1) + "/" + eventshort.eventstartonlydate.getDate() + " " + eventshort.eventstartonlytime;
                 eventshort.EndDate = eventshort.eventendonlydate.getFullYear() + "/" + parseInt(eventshort.eventendonlydate.getMonth() + 1) + "/" + eventshort.eventendonlydate.getDate() + " " + eventshort.eventendonlytime;
 
-                eventshort.Shortname = eventshort.EventDescriptionDE;
+                eventshort.Shortname = eventshort.EventTitle['de'];
 
                 if (eventshort.isActive)
                     eventshort.Display1 = "Y";

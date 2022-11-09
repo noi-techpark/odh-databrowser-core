@@ -24,14 +24,10 @@
         <div class="col-sm-12">
             <br />
             <h2>
-                <div ng-if="lang == 'de'">{{ eventshort.EventDescriptionDE }}</div>
-                <div ng-if="lang == 'it'">{{ eventshort.EventDescriptionIT }}</div>
-                <div ng-if="lang == 'en'">{{ eventshort.EventDescriptionEN }}</div>
+                <div>{{ eventshort.EventTitle[lang] }}</div>                
             </h2>
             <h3>
-                <div ng-if="lang == 'de'">{{ eventshort.EventTextDE }}</div>
-                <div ng-if="lang == 'it'">{{ eventshort.EventTextIT }}</div>
-                <div ng-if="lang == 'en'">{{ eventshort.EventTextEN }}</div>
+                <div>{{ eventshort.EventText[lang] }}</div>                
             </h3>
 
             <p>Startdate: {{ eventshort.StartDate | moment:'DD/MM/YYYY HH:mm' }}</p>

@@ -20,8 +20,8 @@
                             <div class="form-group" style="margin-bottom:0px">
                                 <label for="inputEventDescriptionDE" class="col-sm-2 control-label">Title(DE)</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputEventDescriptionDE" name="inputEventDescriptionDE" placeholder="Event Title DE" ng-model="eventshort.EventDescriptionDE" ng-show="eventshort.Source != 'EBMS'" required>
-                                    <input type="text" class="form-control" id="inputEventDescriptionDEebms" placeholder="Event Title DE" ng-model="eventshort.EventDescriptionDE" ng-show="eventshort.Source == 'EBMS'" disabled>
+                                    <input type="text" class="form-control" id="inputEventDescriptionDE" name="inputEventDescriptionDE" placeholder="Event Title DE" ng-model="eventshort.EventTitle['de']" ng-show="eventshort.Source != 'EBMS'" required>
+                                    <input type="text" class="form-control" id="inputEventDescriptionDEebms" placeholder="Event Title DE" ng-model="eventshort.EventTitle['de']" ng-show="eventshort.Source == 'EBMS'" disabled>
                                 </div>
                                 <span class="text-danger col-sm-2" ng-show="eventshortform.inputEventDescriptionDE.$error.required">
                                     Required
@@ -30,34 +30,34 @@
                             <div class="form-group" style="margin-bottom:0px">
                                 <label for="inputEventDescriptionIT" class="col-sm-2 control-label">Title(IT)</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputEventDescriptionIT" placeholder="Event Title IT" ng-model="eventshort.EventDescriptionIT" ng-show="eventshort.Source != 'EBMS'">
-                                    <input type="text" class="form-control" id="inputEventDescriptionITebms" placeholder="Event Title IT" ng-model="eventshort.EventDescriptionIT" ng-show="eventshort.Source == 'EBMS'" disabled>
+                                    <input type="text" class="form-control" id="inputEventDescriptionIT" placeholder="Event Title IT" ng-model="eventshort.EventTitle['it']" ng-show="eventshort.Source != 'EBMS'">
+                                    <input type="text" class="form-control" id="inputEventDescriptionITebms" placeholder="Event Title IT" ng-model="eventshort.EventTitle['it']" ng-show="eventshort.Source == 'EBMS'" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputEventDescriptionEN" class="col-sm-2 control-label">Title(EN)</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputEventDescriptionEN" placeholder="Event Title EN" ng-model="eventshort.EventDescriptionEN" ng-show="eventshort.Source != 'EBMS'">
-                                    <input type="text" class="form-control" id="inputEventDescriptionENebms" placeholder="Event Title EN" ng-model="eventshort.EventDescriptionEN" ng-show="eventshort.Source == 'EBMS'" disabled>
+                                    <input type="text" class="form-control" id="inputEventDescriptionEN" placeholder="Event Title EN" ng-model="eventshort.EventTitle['en']" ng-show="eventshort.Source != 'EBMS'">
+                                    <input type="text" class="form-control" id="inputEventDescriptionENebms" placeholder="Event Title EN" ng-model="eventshort.EventTitle['en']" ng-show="eventshort.Source == 'EBMS'" disabled>
                                 </div>
                             </div>
 
                             <div class="form-group" style="margin-bottom:0px">
                                 <label for="inputEventDescriptionDE" class="col-sm-2 control-label">Desc(DE)</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextDE" placeholder="Event Text DE" ng-model="eventshort.EventTextDE"></textarea>
+                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextDE" placeholder="Event Text DE" ng-model="eventshort.EventText['de']"></textarea>
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom:0px">
                                 <label for="inputEventDescriptionIT" class="col-sm-2 control-label">Desc(IT)</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextIT" placeholder="Event Text IT" ng-model="eventshort.EventTextIT"></textarea>
+                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextIT" placeholder="Event Text IT" ng-model="eventshort.EventText['it']"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputEventDescriptionEN" class="col-sm-2 control-label">Desc(EN)</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextEN" placeholder="Event Text EN" ng-model="eventshort.EventTextEN"></textarea>
+                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputEventTextEN" placeholder="Event Text EN" ng-model="eventshort.EventText['en']"></textarea>
                                 </div>
                             </div>
 

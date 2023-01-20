@@ -190,7 +190,7 @@ app.controller('venueListController', [
                 roomcountfilterqs = "&roomcountfilter=" + $scope.roomcountrangefilter;
 
 
-            $http.get($scope.basePath + '/v1/Venue?pagenumber=' + $scope.page + '&pagesize=20' + venueidfilterqs + locfilterqs + catfilterqs + featfilterqs + typefilterqs + activefilterqs + odhactivefilterqs + odhtagfilterqs + capacityfilterqs + roomcountfilterqs).success(function (result) {
+            $http.get($scope.basePath + '/v1/Venue?destinationdataformat=true&pagenumber=' + $scope.page + '&pagesize=20' + venueidfilterqs + locfilterqs + catfilterqs + featfilterqs + typefilterqs + activefilterqs + odhactivefilterqs + odhtagfilterqs + capacityfilterqs + roomcountfilterqs).success(function (result) {
                 $scope.venues = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;

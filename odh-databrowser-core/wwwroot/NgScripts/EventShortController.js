@@ -40,7 +40,7 @@ app.controller('eventshortListController', [
                 $scope.eventshort = {
                     Id: '', Source: 'Content', Self: '', _Meta: { Id: '', Type: 'eventshort', Source: 'noi', Reduced: false, LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" } },
                     Shortname: '', eventstartonlydate: eventstartonlydate, eventendonlydate: eventendonlydate, eventstartonlytime: eventstartonlytime, eventendonlytime: eventendonlytime,
-                    isActive: false, hasmoreRooms: false, EventLocation: eventlocationstring,
+                    ActiveToday: false, hasmoreRooms: false, EventLocation: eventlocationstring,
                     LicenseInfo: { Author: "", ClosedData: false, License: "CC0", LicenseHolder: "https://noi.bz.it" }
                 };
 
@@ -55,10 +55,10 @@ app.controller('eventshortListController', [
 				eventshort.eventstartonlytime = addZero(startdate.getHours()) + ":" + addZero(startdate.getMinutes());
 				eventshort.eventendonlytime = addZero(enddate.getHours()) + ":" + addZero(enddate.getMinutes());
 
-				if (eventshort.Display1 == "Y")
-					eventshort.isActive = true;
-				else
-					eventshort.isActive = false;
+				//if (eventshort.Display1 == "Y")
+				//	eventshort.isActive = true;
+				//else
+				//	eventshort.isActive = false;
 
 				eventshort.hasmoreRooms = true;
 
@@ -338,10 +338,10 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                     eventshort.StartDate = eventshort.eventstartonlydate.getFullYear() + "/" + parseInt(eventshort.eventstartonlydate.getMonth() + 1) + "/" + eventshort.eventstartonlydate.getDate() + " " + eventshort.eventstartonlytime;
                     eventshort.EndDate = eventshort.eventendonlydate.getFullYear() + "/" + parseInt(eventshort.eventendonlydate.getMonth() + 1) + "/" + eventshort.eventendonlydate.getDate() + " " + eventshort.eventendonlytime;
 
-                    if (eventshort.isActive)
-                        eventshort.Display1 = "Y";
-                    else
-                        eventshort.Display1 = "N";
+                    //if (eventshort.isActive)
+                    //    eventshort.Display1 = "Y";
+                    //else
+                    //    eventshort.Display1 = "N";
 
                     eventshort.Shortname = eventshort.EventTitle['de'];
 
@@ -379,10 +379,10 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
                 eventshort.Shortname = eventshort.EventTitle['de'];
 
-                if (eventshort.isActive)
-                    eventshort.Display1 = "Y";
-                else
-                    eventshort.Display1 = "N";
+                //if (eventshort.isActive)
+                //    eventshort.Display1 = "Y";
+                //else
+                //    eventshort.Display1 = "N";
 
                 $http.put($scope.basePath + '/v1/EventShort/' + eventshort.Id, eventshort).success(function (result) {
                     alert("Event updated!");

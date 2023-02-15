@@ -56,12 +56,13 @@
                 <table class="table table-striped table-condensed">
                     <thead>
                         <tr>
-                            <th style="width: 160px;">MainImage</th>
-                            <th>Name</th>
-                            <th>Language</th>
-                            <th>Code</th>
-                            <th style="width: 110px;">Logo</th>
-                            <th>active on source</th>
+                            <th style="width: 160px;">image</th>
+                            <th>name</th>
+                            <th>languages</th>
+                            <th>code</th>
+                            <th style="width: 110px;">logo</th>
+                            <th>active (source/ODH)</th>
+                            <th>published</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -88,8 +89,13 @@
                                 <div class="glyphicon glyphicon-ok" ng-show="common.Active"></div>
                                 <div class="glyphicon glyphicon-remove" ng-show="common.Active == false"></div>
                                 &nbsp;
-                                <div class="glyphicon glyphicon-ok" ng-show="common.SmgActive"></div>
-                                <div class="glyphicon glyphicon-remove" ng-show="common.SmgActive == false"></div>
+                                <div class="glyphicon glyphicon-ok" ng-show="common.SmgActive" style="color:green"></div>
+                                <div class="glyphicon glyphicon-remove" ng-show="common.SmgActive == false" style="color:red"></div>
+                            </td>
+                            <td>
+                                <div ng-repeat="publishchannel in common.PublishedOn">
+                                    <small>{{ publishchannel }}</small>
+                                </div>
                             </td>
                             <td align="right">
                                 <div class="btn-group-vertical">
@@ -256,11 +262,17 @@
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="cancelCrudModal()" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">Edit</h4>
-
-
-
                 </div>
                 <div class="modal-body">
+          
+                <div class="row">
+                     <div class="col-sm-12">
+                           <div class="btn-group pull-left">
+                        <p>
+                            Available Languages:&nbsp;
+                            <label class="label label-default" ng-repeat="smgpoilang in common.HasLanguage">{{smgpoilang}}</label>
+                        </p>
+                    </div>
                     <div class="btn-group pull-right">
                         <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
                         <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
@@ -271,1114 +283,1212 @@
                         <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
                         <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
                     </div>
-                    <tabset>
-                        <tab heading="General">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label for="inputId" class="col-sm-2 control-label">Id</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="newcommon" required>
-                                                <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="!newcommon" readonly>
-                                            </div>
+                 </div>
+            </div>
+               <div class="row">
+                   <div class="col-sm-12">
+                        <tabset>
+                    <tab heading="General">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputId" class="col-sm-2 control-label">Id</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="newcommon" required>
+                                            <input type="text" class="form-control" id="inputId" placeholder="Id" ng-model="common.Id" ng-show="!newcommon" readonly>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="inputName" class="col-sm-2 control-label">Shortname</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputName" placeholder="Shortname" ng-model="common.Shortname" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputCustomId" class="col-sm-2 control-label">CustomId</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputCustomId" ng-model="common.CustomId" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSkiRegionId" class="col-sm-2 control-label">SkiRegionId</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSkiRegionId" ng-model="common.SkiRegionId" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSkiRegionName" class="col-sm-2 control-label">SkiRegionName</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSkiRegionName" ng-model="common.SkiRegionName[lang]" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputArea" class="col-sm-2 control-label">Area</label>
-                                            <div class="col-sm-10">
-                                                <ul class="list-group" style="margin-bottom:0px">
-                                                    <li class="list-group-item" style="padding:0px" ng-repeat="area in common.AreaId"><input type="text" class="form-control" id="inputArea" ng-model="area" readonly></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputName" class="col-sm-2 control-label">Last Changed</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-control">{{ common.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputName" class="col-sm-2 control-label">SmgActive</label>
-                                            <div class="col-sm-10">
-                                                <input type="checkbox" class="smallcheckbox" id="checkboxSmgActive" ng-model="common.SmgActive" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputName" class="col-sm-2 control-label">Active</label>
-                                            <div class="col-sm-10">
-                                                <input type="checkbox" class="smallcheckbox" id="checkboxActive" ng-model="common.Active" readonly>
-                                            </div>
-                                        </div>
-
-
-
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="form-group">
-                                            <label for="inputTotalSlopeKm" class="col-sm-2 control-label">TotalSlopeKm</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputTotalSlopeKm" ng-model="common.TotalSlopeKm">
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Shortname</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Shortname" ng-model="common.Shortname" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="inputSlopeKmBlue" class="col-sm-2 control-label">SlopeKmBlue</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSlopeKmBlue" ng-model="common.SlopeKmBlue">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSlopeKmRed" class="col-sm-2 control-label">SlopeKmRed</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSlopeKmRed" ng-model="common.SlopeKmRed">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSlopeKmBlack" class="col-sm-2 control-label">SlopeKmBlack</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSlopeKmBlack" ng-model="common.SlopeKmBlack">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputLiftCount" class="col-sm-2 control-label">LiftCount</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputLiftCount" ng-model="common.LiftCount">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputAltitudeFrom" class="col-sm-2 control-label">Altimeters From</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputAltitudeFrom" ng-model="common.AltitudeFrom">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputAltitudeTo" class="col-sm-2 control-label">Altimeters To</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputAltitudeTo" ng-model="common.AltitudeTo">
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group" ng-controller="SkiMapFileUploadController">
-                                            <label for="inputSkimapUrl" class="col-sm-2 control-label">Skimap</label>
-                                            <div class="col-sm-10">
-                                                <img data-ng-src="{{common.SkiAreaMapURL}}" id="skimapurl" style="width:100px" />
-                                                <input type="file" class="btn btn-default btn-file" nv-file-select="" uploader="uploader" />
-                                                <div>
-                                                    Upload progress:
-                                                    <div class="progress" style="height:100%">
-                                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width:60%"></div>
-
-                                                        <div ng-repeat="item in uploader.queue">
-                                                            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                                <span class="glyphicon glyphicon-upload"></span> Upload
-                                                            </button>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
-                                </div>
-                            </div>
-                        </tab>
-
-                        <tab heading="Detail">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="form-group">
-                                            <label for="inputTitle" class="col-sm-2 control-label">Title</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" ng-model="common.Detail[lang].Title">
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputCustomId" class="col-sm-2 control-label">CustomId</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputCustomId" ng-model="common.CustomId" readonly>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="inputHeader" class="col-sm-2 control-label">Header</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control notextareamaxwitdth" id="inputHeader" rows="2" ng-model="common.Detail[lang].Header"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSubHeader" class="col-sm-2 control-label">SubHeader</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control notextareamaxwitdth" id="inputSubHeader" rows="2" ng-model="common.Detail[lang].SubHeader"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputMetaTitle" class="col-sm-2 control-label">Meta Title</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control notextareamaxwitdth" id="inputMetaTitle" rows="2" ng-model="common.Detail[lang].MetaTitle"></textarea>
-                                            </div>
-                                        </div>
-
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="form-group">
-                                            <label for="inputGetThereText" class="col-sm-2 control-label">GetThere Text</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control notextareamaxwitdth" id="inputGetThereText" rows="3" ng-model="common.Detail[lang].GetThereText"></textarea>
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputSkiRegionId" class="col-sm-2 control-label">SkiRegionId</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputSkiRegionId" ng-model="common.SkiRegionId" readonly>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="inputAdditionalText" class="col-sm-2 control-label">AdditionalText</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" rows="3" ng-model="common.Detail[lang].AdditionalText"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputAdditionalText" class="col-sm-2 control-label">Meta Description</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" rows="3" ng-model="common.Detail[lang].MetaDesc"></textarea>
-                                            </div>
-                                        </div>
-
-
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label for="inputBaseText" class="col-sm-2 control-label">Introtext</label>
-
-
-                                            <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
-
-                                                <text-angular name="htmlcontentintro" ng-model="common.Detail[lang].IntroText">
-
-                                                </text-angular>
-
-
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputSkiRegionName" class="col-sm-2 control-label">SkiRegionName</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputSkiRegionName" ng-model="common.SkiRegionName[lang]" readonly>
                                         </div>
                                     </div>
 
-                                </div>
-
-                                <div class="col-sm-6">
-
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label for="inputBaseText" class="col-sm-2 control-label">Base Text</label>
-
-
-                                            <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
-
-                                                <text-angular name="htmlcontentbase" ng-model="common.Detail[lang].BaseText">
-
-                                                </text-angular>
-
-
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputArea" class="col-sm-2 control-label">Area</label>
+                                        <div class="col-sm-10">
+                                            <ul class="list-group" style="margin-bottom:0px">
+                                                <li class="list-group-item" style="padding:0px" ng-repeat="area in common.AreaId"><input type="text" class="form-control" id="inputArea" ng-model="area" readonly></li>
+                                            </ul>
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Last Changed</label>
+                                        <div class="col-sm-10">
+                                            <div class="form-control">{{ common.LastChange | moment:'DD-MM-YYYY HH:mm' }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">ODH Active</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" class="smallcheckbox" id="checkboxSmgActive" ng-model="common.SmgActive" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Active</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" class="smallcheckbox" id="checkboxActive" ng-model="common.Active" readonly>
+                                        </div>
+                                    </div>
+
+
 
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
 
-                        </tab>
-
-                        <tab heading="Contact">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label for="inputContactCompName" class="col-sm-2 control-label">General Name</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputContactCompName" placeholder="Contact Name" ng-model="common.ContactInfos[lang].CompanyName">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputGivenname" class="col-sm-2 control-label">Given Name</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputGivenname" placeholder="Contact Givenname" ng-model="common.ContactInfos[lang].Givenname">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSurname" class="col-sm-2 control-label">Surname</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputSurname" placeholder="Contact Surname" ng-model="common.ContactInfos[lang].Surname">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputNamePrefix" class="col-sm-2 control-label">NamePrefix</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputNamePrefix" placeholder="Contact NamePrefix" ng-model="common.ContactInfos[lang].NamePrefix">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputVat" class="col-sm-2 control-label">Vat</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputVat" placeholder="Contact Vat" ng-model="common.ContactInfos[lang].Vat">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputTax" class="col-sm-2 control-label">Tax</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputTax" placeholder="Contact Tax" ng-model="common.ContactInfos[lang].Tax">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" ng-controller="LogoFileUploadController">
-                                            <label for="inputLogoUrl" class="col-sm-2 control-label  notextareamaxwitdth">Logo</label>
-                                            <div class="col-sm-10">
-                                                <img data-ng-src="{{common.ContactInfos[lang].LogoUrl}}" class="img-thumbnail" id="logourl" style="width:100px" />
-                                                <input type="file" class="btn btn-default btn-file" nv-file-select="" uploader="uploader" />
-                                                <div>
-                                                    Upload progress:
-                                                    <div class="progress" style="height:100%">
-                                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width:60%"></div>
-                                                        @*<button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length" style="float:right">
-                                                                <span class="glyphicon glyphicon-upload"></span> Upload
-                                                            </button>*@
-
-                                                        @*Do isch a lei der gleiche kaas*@
-                                                        <div ng-repeat="item in uploader.queue">
-                                                            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                                <span class="glyphicon glyphicon-upload"></span> Upload
-                                                            </button>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-
-
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputTotalSlopeKm" class="col-sm-2 control-label">TotalSlopeKm</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputTotalSlopeKm" ng-model="common.TotalSlopeKm">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label for="inputAddress" class="col-sm-2 control-label">Address</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Contact Address" ng-model="common.ContactInfos[lang].Address">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputZipCode" class="col-sm-2 control-label">ZipCode</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputZipCode" placeholder="Contact ZipCode" ng-model="common.ContactInfos[lang].ZipCode">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputCity" class="col-sm-2 control-label">City</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputCity" placeholder="Contact City" ng-model="common.ContactInfos[lang].City">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputCountryname" class="col-sm-2 control-label">Country</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputCountryname" placeholder="Contact Countryname" ng-model="common.ContactInfos[lang].CountryName">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="inputCountrycode" placeholder="Contact Countrycode" ng-model="common.ContactInfos[lang].CountryCode">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Contact Email" ng-model="common.ContactInfos[lang].Email">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputPhonenumber" class="col-sm-2 control-label">Phonenumber</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Contact Phonenumber" ng-model="common.ContactInfos[lang].Phonenumber">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputFaxnumber" class="col-sm-2 control-label">Faxnumber</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Contact Faxnumber" ng-model="common.ContactInfos[lang].Faxnumber">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputUrl" class="col-sm-2 control-label">Web Url</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputUrl" placeholder="Contact Url" ng-model="common.ContactInfos[lang].Url">
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputSlopeKmBlue" class="col-sm-2 control-label">SlopeKmBlue</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputSlopeKmBlue" ng-model="common.SlopeKmBlue">
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </tab>
-
-                        <tab heading="Gps">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-                                        @*<h4>Gps Point</h4>*@
-                                        <div class="form-group">
-                                            <label for="inputGpstype" class="col-sm-2 control-label">Gpstype</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputGpstype" placeholder="Gpstype" ng-model="common.Gpstype" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputLatitude" class="col-sm-2 control-label">Latitude</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputLatitude" ng-model="common.Latitude">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputLongitude" class="col-sm-2 control-label">Longitude</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputLongitude" placeholder="Longitude" ng-model="common.Longitude">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputAltitude" class="col-sm-2 control-label">Altitude</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputAltitude" ng-model="common.Altitude">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputAltitudeUnitofMeasure" class="col-sm-2 control-label">Altitude Unit</label>
-
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputAltitudeUnitofMeasure" ng-model="common.AltitudeUnitofMeasure">
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputSlopeKmRed" class="col-sm-2 control-label">SlopeKmRed</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputSlopeKmRed" ng-model="common.SlopeKmRed">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputSlopeKmBlack" class="col-sm-2 control-label">SlopeKmBlack</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputSlopeKmBlack" ng-model="common.SlopeKmBlack">
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </tab>
 
-                        <tab heading="Images">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-horizontal">
-                                        <div ng-controller="FileUploadController">
-                                            <h4>Upload Images</h4>
-                                            <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
-                                            <input type="file" class="btn btn-default btn-file notextareamaxwitdth" nv-file-select="" uploader="uploader" multiple /><br />
+                                    <div class="form-group">
+                                        <label for="inputLiftCount" class="col-sm-2 control-label">LiftCount</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputLiftCount" ng-model="common.LiftCount">
+                                        </div>
+                                    </div>
 
-                                            <p>Queue length: {{ uploader.queue.length }}</p>
-                                            <table class="table" style="font-size:smaller">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="50%">Name</th>
-                                                        <th ng-show="uploader.isHTML5">Size</th>
-                                                        <th ng-show="uploader.isHTML5">Progress</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="item in uploader.queue">
-                                                        <td>
-                                                            <strong>{{ item.file.name }}</strong>
-                                                            <!-- Image preview -->
-                                                            <!--auto height-->
-                                                            <!--<div ng-thumb="{ file: item.file, width: 100 }"></div>-->
-                                                            <!--auto width-->
-                                                            <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
-                                                            <!--fixed width and height -->
-                                                            <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
-                                                        </td>
-                                                        <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                                                        <td ng-show="uploader.isHTML5">
-                                                            <div class="progress" style="margin-bottom: 0;">
-                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                                                        </td>
-                                                        <td nowrap>
-                                                            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                                <span class="glyphicon glyphicon-upload"></span> @*Upload*@
-                                                            </button>
-                                                            <br />
-                                                            <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
-                                                                <span class="glyphicon glyphicon-ban-circle"></span> @*Cancel*@
-                                                            </button>
-                                                            <br />
-                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                                                                <span class="glyphicon glyphicon-trash"></span> @*Remove*@
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                    <div class="form-group">
+                                        <label for="inputAltitudeFrom" class="col-sm-2 control-label">Altimeters From</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputAltitudeFrom" ng-model="common.AltitudeFrom">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputAltitudeTo" class="col-sm-2 control-label">Altimeters To</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputAltitudeTo" ng-model="common.AltitudeTo">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" ng-controller="SkiMapFileUploadController">
+                                        <label for="inputSkimapUrl" class="col-sm-2 control-label">Skimap</label>
+                                        <div class="col-sm-10">
+                                            <img data-ng-src="{{common.SkiAreaMapURL}}" id="skimapurl" style="width:100px" />
+                                            <input type="file" class="btn btn-default btn-file" nv-file-select="" uploader="uploader" />
                                             <div>
-                                                <div>
-                                                    Queue progress:
-                                                    <div class="progress" style="">
-                                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                                Upload progress:
+                                                <div class="progress" style="height:100%">
+                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width:60%"></div>
+
+                                                    <div ng-repeat="item in uploader.queue">
+                                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                            <span class="glyphicon glyphicon-upload"></span> Upload
+                                                        </button>
                                                     </div>
+
                                                 </div>
-                                                <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
-                                                    <span class="glyphicon glyphicon-upload"></span> Upload all
-                                                </button>
-                                                <button type="button" class="btn btn-warning" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
-                                                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                                                </button>
-                                                <button type="button" class="btn btn-danger" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-                                                    <span class="glyphicon glyphicon-trash"></span> Remove all
-                                                </button>
+
                                             </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="License">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputMetaLicense" class="col-sm-2 control-label">License</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="selectSource" ng-model="common.LicenseInfo.License">
+                                                <option>CC0</option>
+                                                <option>CC-BY</option>
+                                                <option>Closed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputMetaLicenseHolder" class="col-sm-2 control-label">License Holder</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputMetaLicenseHolder" placeholder="LicenseHolder" ng-model="common.LicenseInfo.LicenseHolder">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputMetaAuthor" class="col-sm-2 control-label">Author</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputMetaAuthor" placeholder="Author" ng-model="common.LicenseInfo.Author">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="checkboxMetaClosed" class="col-sm-2 control-label">Closed Data</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" class="smallcheckbox" id="checkboxMetaClosed" ng-model="common.LicenseInfo.ClosedData" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="checkboxMetaClosed" class="col-sm-2 control-label">Reduced Data</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" class="smallcheckbox" id="checkboxMetaClosed" ng-model="common._Meta.Reduced" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Detail">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" ng-model="common.Detail[lang].Title">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputHeader" class="col-sm-2 control-label">Header</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputHeader" rows="2" ng-model="common.Detail[lang].Header"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSubHeader" class="col-sm-2 control-label">SubHeader</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputSubHeader" rows="2" ng-model="common.Detail[lang].SubHeader"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputMetaTitle" class="col-sm-2 control-label">Meta Title</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputMetaTitle" rows="2" ng-model="common.Detail[lang].MetaTitle"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="inputGetThereText" class="col-sm-2 control-label">GetThere Text</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputGetThereText" rows="3" ng-model="common.Detail[lang].GetThereText"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAdditionalText" class="col-sm-2 control-label">AdditionalText</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" rows="3" ng-model="common.Detail[lang].AdditionalText"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAdditionalText" class="col-sm-2 control-label">Meta Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" rows="3" ng-model="common.Detail[lang].MetaDesc"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputBaseText" class="col-sm-2 control-label">Introtext</label>
+
+
+                                        <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
+
+                                            <text-angular name="htmlcontentintro" ng-model="common.Detail[lang].IntroText">
+
+                                            </text-angular>
+
 
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-8">
-                                    <div class="form-horizontal">
-                                        <h4>Image Gallery <small>Title, Description, Copyright, License, Position, Active</small></h4>
-                                        <div ng-repeat="bild in common.ImageGallery | orderBy: 'ListPosition'">
-                                            <div class="col-sm-2" style="text-align:right">
-                                                <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&Width=85' }}" style="max-height:100px;" />
-                                                <div class="pull-right" ng-controller="FileUploadControllerSingle" ng-init="init(bild.ImageUrl)">
-                                                    <input type="file" class="btn btn-xs btn-default btn-file" style="width: 95px;" nv-file-select="" uploader="uploader" />
-                                                    <button type="button" class="btn btn-xs btn-success" style="width: 95px;" ng-click="uploader.uploadAll()" style="padding: 4px 8px;" ng-disabled="!uploader.getNotUploadedItems().length">
-                                                        <span class="glyphicon glyphicon-upload"></span> Change
-                                                    </button>
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputBaseText" class="col-sm-2 control-label">Base Text</label>
+
+
+                                        <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
+
+                                            <text-angular name="htmlcontentbase" ng-model="common.Detail[lang].BaseText">
+
+                                            </text-angular>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </tab>
+
+                    <tab heading="Contact">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputContactCompName" class="col-sm-2 control-label">General Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputContactCompName" placeholder="Contact Name" ng-model="common.ContactInfos[lang].CompanyName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputGivenname" class="col-sm-2 control-label">Given Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputGivenname" placeholder="Contact Givenname" ng-model="common.ContactInfos[lang].Givenname">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSurname" class="col-sm-2 control-label">Surname</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputSurname" placeholder="Contact Surname" ng-model="common.ContactInfos[lang].Surname">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNamePrefix" class="col-sm-2 control-label">NamePrefix</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputNamePrefix" placeholder="Contact NamePrefix" ng-model="common.ContactInfos[lang].NamePrefix">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputVat" class="col-sm-2 control-label">Vat</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputVat" placeholder="Contact Vat" ng-model="common.ContactInfos[lang].Vat">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputTax" class="col-sm-2 control-label">Tax</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTax" placeholder="Contact Tax" ng-model="common.ContactInfos[lang].Tax">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-controller="LogoFileUploadController">
+                                        <label for="inputLogoUrl" class="col-sm-2 control-label  notextareamaxwitdth">Logo</label>
+                                        <div class="col-sm-10">
+                                            <img data-ng-src="{{common.ContactInfos[lang].LogoUrl}}" class="img-thumbnail" id="logourl" style="width:100px" />
+                                            <input type="file" class="btn btn-default btn-file" nv-file-select="" uploader="uploader" />
+                                            <div>
+                                                Upload progress:
+                                                <div class="progress" style="height:100%">
+                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width:60%"></div>
+        
+                                                    <div ng-repeat="item in uploader.queue">
+                                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                            <span class="glyphicon glyphicon-upload"></span> Upload
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Contact Address" ng-model="common.ContactInfos[lang].Address">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputZipCode" class="col-sm-2 control-label">ZipCode</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputZipCode" placeholder="Contact ZipCode" ng-model="common.ContactInfos[lang].ZipCode">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputCity" class="col-sm-2 control-label">City</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputCity" placeholder="Contact City" ng-model="common.ContactInfos[lang].City">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputCountryname" class="col-sm-2 control-label">Country</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputCountryname" placeholder="Contact Countryname" ng-model="common.ContactInfos[lang].CountryName">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="inputCountrycode" placeholder="Contact Countrycode" ng-model="common.ContactInfos[lang].CountryCode">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Contact Email" ng-model="common.ContactInfos[lang].Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPhonenumber" class="col-sm-2 control-label">Phonenumber</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Contact Phonenumber" ng-model="common.ContactInfos[lang].Phonenumber">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputFaxnumber" class="col-sm-2 control-label">Faxnumber</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Contact Faxnumber" ng-model="common.ContactInfos[lang].Faxnumber">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputUrl" class="col-sm-2 control-label">Web Url</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputUrl" placeholder="Contact Url" ng-model="common.ContactInfos[lang].Url">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Gps">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+    
+                                    <div class="form-group">
+                                        <label for="inputGpstype" class="col-sm-2 control-label">Gpstype</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputGpstype" placeholder="Gpstype" ng-model="common.Gpstype" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLatitude" class="col-sm-2 control-label">Latitude</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLatitude" ng-model="common.Latitude">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLongitude" class="col-sm-2 control-label">Longitude</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLongitude" placeholder="Longitude" ng-model="common.Longitude">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAltitude" class="col-sm-2 control-label">Altitude</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAltitude" ng-model="common.Altitude">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAltitudeUnitofMeasure" class="col-sm-2 control-label">Altitude Unit</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAltitudeUnitofMeasure" ng-model="common.AltitudeUnitofMeasure">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Images">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-horizontal">
+                                    <div ng-controller="FileUploadController">
+                                        <h4>Upload Images</h4>
+                                        <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                                        <input type="file" class="btn btn-default btn-file notextareamaxwitdth" nv-file-select="" uploader="uploader" multiple /><br />
+
+                                        <p>Queue length: {{ uploader.queue.length }}</p>
+                                        <table class="table" style="font-size:smaller">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50%">Name</th>
+                                                    <th ng-show="uploader.isHTML5">Size</th>
+                                                    <th ng-show="uploader.isHTML5">Progress</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in uploader.queue">
+                                                    <td>
+                                                        <strong>{{ item.file.name }}</strong>
+                                                        <!-- Image preview -->
+                                                        <!--auto height-->
+                                                        <!--<div ng-thumb="{ file: item.file, width: 100 }"></div>-->
+                                                        <!--auto width-->
+                                                        <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        <!--fixed width and height -->
+                                                        <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
+                                                    </td>
+                                                    <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                    <td ng-show="uploader.isHTML5">
+                                                        <div class="progress" style="margin-bottom: 0;">
+                                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                            <span class="glyphicon glyphicon-upload"></span>
+                                                        </button>
+                                                        <br />
+                                                        <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                                            <span class="glyphicon glyphicon-ban-circle"></span> 
+                                                        </button>
+                                                        <br />
+                                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                            <span class="glyphicon glyphicon-trash"></span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                            <div>
+                                                Queue progress:
+                                                <div class="progress" style="">
+                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                                                <span class="glyphicon glyphicon-upload"></span> Upload all
+                                            </button>
+                                            <button type="button" class="btn btn-warning" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                                            </button>
+                                            <button type="button" class="btn btn-danger" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                                <span class="glyphicon glyphicon-trash"></span> Remove all
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-8">
+                                <div class="form-horizontal">
+                                    <h4>Image Gallery <small>Title, Description, Copyright, License, Position, Active</small></h4>
+                                    <div ng-repeat="bild in common.ImageGallery | orderBy: 'ListPosition'">
+                                        <div class="col-sm-2" style="text-align:right">
+                                            <img class="img-thumbnail" ng-src="{{ bild.ImageUrl + '&Width=85' }}" style="max-height:100px;" />
+                                            <div class="pull-right" ng-controller="FileUploadControllerSingle" ng-init="init(bild.ImageUrl)">
+                                                <input type="file" class="btn btn-xs btn-default btn-file" style="width: 95px;" nv-file-select="" uploader="uploader" />
+                                                <button type="button" class="btn btn-xs btn-success" style="width: 95px;" ng-click="uploader.uploadAll()" style="padding: 4px 8px;" ng-disabled="!uploader.getNotUploadedItems().length">
+                                                    <span class="glyphicon glyphicon-upload"></span> Change
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-btn" style="vertical-align:top;">
+                                                    <button type="button" class="btn btn-default" ng-click="deleteImage(bild.ImageName, bild.ImageUrl)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </span>
+                                                <div class="col-sm-12" style="padding-left:0px">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputBildTitel" placeholder="Title" ng-model="bild.ImageTitle[lang]">
+                                                </div>
+                                                <div class="col-sm-12" style="padding-left:0px">
+                                                    <textarea rows="2" class="form-control notextareamaxwitdth" id="inputBildBeschreibung" placeholder="Description" ng-model="bild.ImageDesc[lang]"></textarea>
+                                                </div>
+                                                <div class="col-sm-6" style="padding-left:0px">
+                                                    <input type="text" class="form-control col-sm-8 notextareamaxwitdth" id="inputBildCopyright" placeholder="CopyRight" ng-model="bild.CopyRight">
+                                                </div>
+
+                                                <div class="col-sm-6" style="padding-left:0px">
+                                                    <select class="form-control notextareamaxwitdth" id="selectImageLicenseType" ng-model="bild.License">
+                                                        <option value="" disabled>Select License</option>
+                                                        <option value="CC0">CC0</option>
+                                                        <option value="Proprietary">Proprietary</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-sm-2" style="padding-left:0px">
+                                                    <input type="number" class="form-control col-xs-2" id="inputBildListPosition" placeholder="Position" ng-model="bild.ListPosition">
+                                                </div>
+                                                <div class="col-sm-2" style="padding-left:0px">
+                                                    <input type="checkbox" class="smallcheckbox col-sm" id="checkboxActive" ng-model="bild.IsInGallery">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Season">
+                        <br />
+                        <div class="row">
+
+                            <div class="col-sm-6">
+
+                                <div class="form-horizontal" style="min-height:400px">
+
+                                    <div class="form-group">
+                                        <label for="inputTyp" class="col-sm-4 control-label">Name</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control notextareamaxwitdth" id="selectSeasonType" ng-model="season.OperationscheduleName['de']">
+                                                <option value="Öffnungszeiten">Öffnungszeiten</option>
+                                                <option value="Sommersaison">Sommersaison</option>
+                                                <option value="Wintersaison">Wintersaison</option>
+                                                <option value="Sonstiges">Sonstiges</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputSeasonStart" class="col-sm-4 control-label">Season Start</label>
+      
+                                        <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="season.Start" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ close-text="Close" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputSeasonEnd" class="col-sm-4 control-label">Season End</label>
+        
+                                        <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="season.Stop" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ close-text="Close" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputClosedonPublicHolidays" class="col-sm-4 control-label">Type</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="selectSeasonType" ng-model="season.Type">
+                                                <option value="1">Standard</option>
+                                                <option value="2">only day + month recurring (year not to consider)</option>
+                                                <option value="3">only month recurring (season: year and day not to consider)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputClosedonPublicHolidays" class="col-sm-4 control-label">Closed on public Holidays</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="smallcheckbox" id="inputClosedonPublicHolidays" ng-model="season.ClosedonPublicHolidays">
+                                        </div>
+                                    </div>
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addseason(season)"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-horizontal panel panel-default">
+
+                                    <div class="panel-body" ng-repeat="operationschedule in common.OperationSchedule">
+
+                                        <div class="col-sm-2">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="deleteseason(operationschedule, lang)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-10">
+
+                                            <div class="form-group">
+
+                                                <label for="inputOperationScheduleName" class="col-sm-2 control-label">Name</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" id="inputOperationScheduleName" class="form-control" ng-model="operationschedule.OperationscheduleName['de']" disabled>
+                                                </div>
+
+                                                <label for="inputOperationScheduleNameStart" class="col-sm-2 control-label">Start</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control">
+                                                        {{ operationschedule.Start | moment:'DD/MM/YYYY' }}
+                                                    </div>
+                                                </div>
+
+                                                <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">End</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control">
+                                                        {{ operationschedule.Stop | moment:'DD/MM/YYYY' }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-12">
+
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">Insert Time Range</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+
+                                                        <label for="inputOperationScheduleTimeStart" class="col-sm-2 control-label">Time Start/End</label>
+                                                        <div class="col-sm-5">
+                                                            <input type="time" id="inputOperationScheduleTimeStart" class="form-control" ng-model="operationscheduletime.Start">
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="time" id="inputOperationScheduleTimeEnd" class="form-control" ng-model="operationscheduletime.End">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputOperationScheduleTimeState" class="col-sm-2 control-label">State</label>
+                                                        <div class="col-sm-10">
+                                                            <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.State">
+                                                                <option value="1">closed</option>
+                                                                <option value="2">open</option>
+                                                                <option value="0">Undefined</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputOperationScheduleTimeDays" class="col-sm-2 control-label">Valid Days</label>
+                                                        <div class="col-sm-10">
+                                                            <div class="btn-group">
+                                                                <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Mon</label>
+                                                                <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tue</label>
+                                                                <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wed</label>
+                                                                <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thu</label>
+                                                                <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Fri</label>
+                                                                <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Sat</label>
+                                                                <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sun</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        <label class="col-sm-2 control-label"></label>
+                                                        <div class="col-sm-10">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default" value="+" ng-click="addseasontime(operationschedule, operationscheduletime, lang)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <div class="panel panel-default" ng-repeat="operationscheduletime in operationschedule.OperationScheduleTime">
+                                                            <div class="panel-heading">
+                                                                <h3 class="panel-title">Current Time Ranges</h3>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="col-sm-2">
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn-default" ng-click="deleteseasontime(operationscheduletime)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                                    </span>
+                                                                </div>
+
+                                                                <div class="col-sm-10">
+       
+                                                                    <input type="time" id="inputOperationScheduleTimeStart" class="form-control" ng-model="operationscheduletime.Start">
+                                                                    <input type="time" id="inputOperationScheduleTimeStart" class="form-control" ng-model="operationscheduletime.End">
+                                                                    <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.State">
+                                                                        <option value="1">closed</option>
+                                                                        <option value="2">open</option>
+                                                                        <option value="0">Undefined</option>
+                                                                    </select>
+    
+                                                                    <div class="btn-group">
+                                                                        <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Mon</label>
+                                                                        <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tue</label>
+                                                                        <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wed</label>
+                                                                        <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thu</label>
+                                                                        <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Fri</label>
+                                                                        <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Sat</label>
+                                                                        <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sun</label>
+                                                                    </div>
+    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Webcam">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+     
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <h4>Select existing Webcam</h4>
+                                        <label class="col-sm-4 control-label">Webcam Name</label>
+                                        <div class="col-sm-8">
+                                            <div ng-controller="WebcamTypeAheadController">
+                                                <typeaheadwebcam items="items" templateurl="WebcamNameTemplate" prompt="Name" title="name" model="webcaminfo.Name" idmodel="webcaminfo.Id" on-select="onItemSelected()" />
+                                            </div>
+                                            <span class="input-group-btn" style="vertical-align:top">
+                                                <button type="button" class="btn btn-default" value="+" ng-click="addexistingwebcam(webcaminfo)"><i class="glyphicon glyphicon-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="webcam in common.Webcam">
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" ng-click="deletewebcam(webcam)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamId" placeholder="WebcamId" ng-model="webcam.WebcamId">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamName2" placeholder="Webcamname" ng-model="webcam.Webcamname[lang]">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamurl2" placeholder="Webcamurl" ng-model="webcam.Webcamurl">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamPreviewurl2" placeholder="WebcamPreviewurl" ng-model="webcam.Previewurl">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamStreamurl2" placeholder="WebcamStreamurl" ng-model="webcam.Streamurl">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamLatitude2" placeholder="Latitude" ng-model="webcam.GpsInfo.Latitude">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamLongitude2" placeholder="Longitude" ng-model="webcam.GpsInfo.Longitude">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamAltitude2" placeholder="Altitude" ng-model="webcam.GpsInfo.Altitude">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamSource" placeholder="Source" ng-model="webcam.Source">
+                                        <input type="number" class="form-control" id="inputWebcamPosition2" placeholder="Position" ng-model="webcam.ListPosition">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+
+                    <tab heading="Regions">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="TypeAheadControllerRegion">
+                                            <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="regiontag.regname" idmodel="regiontag.regid" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addregion()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="reg in common.RegionIds">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletereg(reg)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <div ng-controller="RegionNameController" ng-init="initregname(reg)">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Region" ng-model="myregname" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+
+                    <tab heading="TVs">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="TypeAheadControllerTV">
+                                            <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="tourismvereintag.tvname" idmodel="tourismvereintag.tvid" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addtv()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="tv in common.TourismvereinIds">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletetv(tv)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <div ng-controller="TourismVereinNameController" ng-init="inittvname(tv)">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tourismverein" ng-model="mytvname" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+
+                    <tab heading="Municipalities">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="TypeAheadControllerMunicipality">
+                                            <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="municipalitytag.munname" idmodel="municipalitytag.munid" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addmunicipality()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="mun in common.MunicipalityIds">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletemunicipality(mun)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <div ng-controller="MunicipalityNameController" ng-init="initmunname(mun)">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputMunTagsingle" placeholder="Municipality" ng-model="mymunname" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+
+                    <tab heading="Districts">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="TypeAheadControllerDistrict">
+                                            <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="districttag.franame" idmodel="districttag.fraid" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="adddistrict()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="fra in common.DistrictIds">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletedistrict(fra)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <div ng-controller="DistrictNameController" ng-init="initdistname(fra)">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputDistTagsingle" placeholder="District" ng-model="myfraname" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+
+                    <tab heading="ODH Tags">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="SmgTagNameModalTypeAheadController">
+                                            <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="smgtag.smgtagname" idmodel="smgtag.smgtagid" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addtag()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="tag in common.SmgTags">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletetag(tag)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+
+                    <tab heading="Related Highlights">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label">Activity / Poi</label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="SmgRelatedContentActivityPoiTypeAheadController" ng-init="init('tvs', [common.TourismvereinIds])">
+                                            <typeaheadrelatedcontent items="items" templateurl="RelatedContentNameTemplate" prompt="Name" title="name" model="relatedcontent.Name" submodel="relatedcontent.Type" idmodel="relatedcontent.Id" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addrelatedcontent(relatedcontent)"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+
+        @*<div class="form-horizontal">
+
+                                        <label class="col-sm-4 control-label">Gastronomy</label>
+                                        <div class="col-sm-8 input-group">
+                                            <div ng-controller="SmgRelatedContentGastronomyTypeAheadController">
+                                                <typeaheadrelatedcontent items="items" templateurl="RelatedContentNameTemplate" prompt="Name" title="name" model="relatedcontentgastro.Name" submodel="relatedcontentgastro.Type" idmodel="relatedcontentgastro.Id" on-select="onItemSelected()" />
+                                            </div>
+                                            <span class="input-group-btn" style="vertical-align:top">
+                                                <button type="button" class="btn btn-default" value="+" ng-click="addrelatedcontent(relatedcontentgastro)"><i class="glyphicon glyphicon-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-horizontal">
+
+                                        <label class="col-sm-4 control-label">Event</label>
+                                        <div class="col-sm-8 input-group">
+                                            <div ng-controller="SmgRelatedContentEventTypeAheadController">
+                                                <typeaheadrelatedcontent items="items" templateurl="RelatedContentNameTemplate" prompt="Name" title="name" model="relatedcontentevent.Name" submodel="relatedcontentevent.Type" idmodel="relatedcontentevent.Id" on-select="onItemSelected()" />
+                                            </div>
+                                            <span class="input-group-btn" style="vertical-align:top">
+                                                <button type="button" class="btn btn-default" value="+" ng-click="addrelatedcontent(relatedcontentevent)"><i class="glyphicon glyphicon-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>*@
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="relatedcontent in common.RelatedContent">
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" ng-click="deleterelatedcontent(relatedcontent)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="RelatedContent" ng-model="relatedcontent.Id" readonly>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="RelatedContent" ng-model="relatedcontent.Name" readonly>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="RelatedContent" ng-model="relatedcontent.Type" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Mapping">
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="col-sm-8" style="text-align:right;padding-left:0px;padding-right:0px;">
+                                    <input type="text" class="form-control notextareamaxwitdth" id="inputNewMappingkey" placeholder="Mapping Key" ng-model="mappingproperty.Mappingkey">
+                                    <input type="text" class="form-control notextareamaxwitdth" id="inputNewMappingproperty" placeholder="Mapping Property" ng-model="mappingproperty.Name">
+                                    <input type="text" class="form-control notextareamaxwitdth" id="inputNewMappingvalue" placeholder="Mapping Value" ng-model="mappingproperty.Value">
+                                </div>
+                                <div class="col-sm-4" style="padding-left:0px;padding-right:0px;">
+                                    <span class="input-group-btn" style="vertical-align:top">
+                                        <button type="button" class="btn btn-default" value="+" ng-click="addmapping()"><i class="glyphicon glyphicon-plus"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">&nbsp;</div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Inserted Mappings
+                                </div>
+                                <div class="form-group panel-body">
+                                    <div ng-repeat="(mappingkey,mappingvalue) in common.Mapping">
+
+                                        <div class="col-sm-8" style="text-align:right;padding-left:0px;padding-right:0px;">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputMappingPropertykey" placeholder="Mapping Key" ng-model="mappingkey" readonly>
+                                        </div>
+                                        <div class="col-sm-4" style="padding-left:0px;padding-right:0px;">
+                                            <div class="input-group">
+                                                <span class="input-group-btn" style="vertical-align:top;">
+                                                    <button type="button" class="btn btn-default" ng-click="deletemapping('all', mappingkey)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+                                        <div ng-repeat="(mappingpropkey, mappingpropvalue) in common.Mapping[mappingkey]">
+                                            <div class="col-sm-8" style="text-align:right;padding-left:0px;padding-right:0px;">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputMappingPropertykey" placeholder="Mapping Property" ng-model="mappingpropkey" readonly>
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputMappingPropertyvalue" placeholder="Mapping Value" ng-model="common.Mapping[mappingkey][mappingpropkey]">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left:0px;padding-right:0px;">
                                                 <div class="input-group">
                                                     <span class="input-group-btn" style="vertical-align:top;">
-                                                        <button type="button" class="btn btn-default" ng-click="deleteImage(bild.ImageName, bild.ImageUrl)"><i class="glyphicon glyphicon-minus"></i></button>
-                                                    </span>
-                                                    <div class="col-sm-12" style="padding-left:0px">
-                                                        <input type="text" class="form-control notextareamaxwitdth" id="inputBildTitel" placeholder="Title" ng-model="bild.ImageTitle[lang]">
-                                                    </div>
-                                                    <div class="col-sm-12" style="padding-left:0px">
-                                                        <textarea rows="2" class="form-control notextareamaxwitdth" id="inputBildBeschreibung" placeholder="Description" ng-model="bild.ImageDesc[lang]"></textarea>
-                                                    </div>
-                                                    <div class="col-sm-6" style="padding-left:0px">
-                                                        <input type="text" class="form-control col-sm-8 notextareamaxwitdth" id="inputBildCopyright" placeholder="CopyRight" ng-model="bild.CopyRight">
-                                                    </div>
-
-                                                    <div class="col-sm-6" style="padding-left:0px">
-                                                        <select class="form-control notextareamaxwitdth" id="selectImageLicenseType" ng-model="bild.License">
-                                                            <option value="" disabled>Select License</option>
-                                                            <option value="CC0">CC0</option>
-                                                            <option value="Proprietary">Proprietary</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-sm-2" style="padding-left:0px">
-                                                        <input type="number" class="form-control col-xs-2" id="inputBildListPosition" placeholder="Position" ng-model="bild.ListPosition">
-                                                    </div>
-                                                    <div class="col-sm-2" style="padding-left:0px">
-                                                        <input type="checkbox" class="smallcheckbox col-sm" id="checkboxActive" ng-model="bild.IsInGallery">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </tab>
-
-                        <tab heading="Season">
-                            <br />
-                            <div class="row">
-
-                                <div class="col-sm-6">
-
-                                    <div class="form-horizontal" style="min-height:400px">
-
-                                        <div class="form-group">
-                                            <label for="inputTyp" class="col-sm-4 control-label">Name</label>
-                                            <div class="col-sm-8">
-                                                <select class="form-control notextareamaxwitdth" id="selectSeasonType" ng-model="season.OperationscheduleName['de']">
-                                                    <option value="Öffnungszeiten">Öffnungszeiten</option>
-                                                    <option value="Sommersaison">Sommersaison</option>
-                                                    <option value="Wintersaison">Wintersaison</option>
-                                                    <option value="Sonstiges">Sonstiges</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputSeasonStart" class="col-sm-4 control-label">Season Start</label>
-                                            @*<div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputSeasonStart" placeholder="Season Startdate" ng-model="season.startdate">
-                                                </div>*@
-                                            <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="season.Start" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ close-text="Close" />
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                        <button type="button" class="btn btn-default" ng-click="deletemapping(mappingpropkey, mappingkey)"><i class="glyphicon glyphicon-minus"></i></button>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <label for="inputSeasonEnd" class="col-sm-4 control-label">Season End</label>
-                                            @*<div class="col-sm-8">
-                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputSeasonEnd" placeholder="Season Startdate" ng-model="season.enddate">
-                                                </div>*@
-                                            <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control notextareamaxwitdth" datepicker-popup="{{format}}" ng-model="season.Stop" is-open="opened" datepicker-options="dateOptions" @*min-date="'2010-01-01'" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"*@ close-text="Close" />
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputClosedonPublicHolidays" class="col-sm-4 control-label">Type</label>
-                                            <div class="col-sm-8">
-                                                <select class="form-control" id="selectSeasonType" ng-model="season.Type">
-                                                    <option value="1">Standard</option>
-                                                    <option value="2">only day + month recurring (year not to consider)</option>
-                                                    <option value="3">only month recurring (season: year and day not to consider)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputClosedonPublicHolidays" class="col-sm-4 control-label">Closed on public Holidays</label>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" class="smallcheckbox" id="inputClosedonPublicHolidays" ng-model="season.ClosedonPublicHolidays">
-                                            </div>
-                                        </div>
-
-                                        <label class="col-sm-4 control-label"></label>
-                                        <div class="col-sm-8">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="addseason(season)"><i class="glyphicon glyphicon-plus"></i></button>
-                                            </span>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal panel panel-default">
-
-                                        <div class="panel-body" ng-repeat="operationschedule in common.OperationSchedule">
-
-                                            <div class="col-sm-2">
-                                                <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default" ng-click="deleteseason(operationschedule, lang)"><i class="glyphicon glyphicon-minus"></i></button>
-                                                </span>
-                                            </div>
-                                            <div class="col-sm-10">
-
-                                                <div class="form-group">
-
-                                                    <label for="inputOperationScheduleName" class="col-sm-2 control-label">Name</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" id="inputOperationScheduleName" class="form-control" ng-model="operationschedule.OperationscheduleName['de']" disabled>
-                                                    </div>
-
-                                                    <label for="inputOperationScheduleNameStart" class="col-sm-2 control-label">Start</label>
-                                                    <div class="col-sm-10">
-                                                        <div class="form-control">
-                                                            {{ operationschedule.Start | moment:'DD/MM/YYYY' }}
-                                                        </div>
-                                                    </div>
-
-                                                    <label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">End</label>
-                                                    <div class="col-sm-10">
-                                                        <div class="form-control">
-                                                            {{ operationschedule.Stop | moment:'DD/MM/YYYY' }}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                            <div class="col-sm-12">
-
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h3 class="panel-title">Insert Time Range</h3>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <div class="form-group">
-
-                                                            <label for="inputOperationScheduleTimeStart" class="col-sm-2 control-label">Time Start/End</label>
-                                                            <div class="col-sm-5">
-                                                                <input type="time" id="inputOperationScheduleTimeStart" class="form-control" ng-model="operationscheduletime.Start">
-                                                            </div>
-                                                            <div class="col-sm-5">
-                                                                <input type="time" id="inputOperationScheduleTimeEnd" class="form-control" ng-model="operationscheduletime.End">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputOperationScheduleTimeState" class="col-sm-2 control-label">State</label>
-                                                            <div class="col-sm-10">
-                                                                <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.State">
-                                                                    <option value="1">closed</option>
-                                                                    <option value="2">open</option>
-                                                                    <option value="0">Undefined</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputOperationScheduleTimeDays" class="col-sm-2 control-label">Valid Days</label>
-                                                            <div class="col-sm-10">
-                                                                <div class="btn-group">
-                                                                    <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Mon</label>
-                                                                    <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tue</label>
-                                                                    <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wed</label>
-                                                                    <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thu</label>
-                                                                    <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Fri</label>
-                                                                    <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Sat</label>
-                                                                    <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sun</label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-
-                                                            <label class="col-sm-2 control-label"></label>
-                                                            <div class="col-sm-10">
-                                                                <span class="input-group-btn">
-                                                                    <button type="button" class="btn btn-default" value="+" ng-click="addseasontime(operationschedule, operationscheduletime, lang)"><i class="glyphicon glyphicon-plus"></i></button>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-sm-12">
-                                                            <div class="panel panel-default" ng-repeat="operationscheduletime in operationschedule.OperationScheduleTime">
-                                                                <div class="panel-heading">
-                                                                    <h3 class="panel-title">Current Time Ranges</h3>
-                                                                </div>
-                                                                <div class="panel-body">
-                                                                    <div class="col-sm-2">
-                                                                        <span class="input-group-btn">
-                                                                            <button type="button" class="btn btn-default" ng-click="deleteseasontime(operationscheduletime)"><i class="glyphicon glyphicon-minus"></i></button>
-                                                                        </span>
-                                                                    </div>
-
-                                                                    <div class="col-sm-10">
-                                                                        @*<label for="inputOperationScheduleNameStop" class="col-sm-2 control-label">Operation Time</label>*@
-                                                                        @*<div class="col-sm-10">*@
-                                                                        @*<div class="form-control">{{ operationscheduletime.Start }} - {{ operationscheduletime.End }} - {{ operationscheduletime.State }} - {{ operationscheduletime.Timecode }}</div>*@
-                                                                        <input type="time" id="inputOperationScheduleTimeStart" class="form-control" ng-model="operationscheduletime.Start">
-                                                                        <input type="time" id="inputOperationScheduleTimeStart" class="form-control" ng-model="operationscheduletime.End">
-                                                                        <select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.State">
-                                                                            <option value="1">closed</option>
-                                                                            <option value="2">open</option>
-                                                                            <option value="0">Undefined</option>
-                                                                        </select>
-                                                                        @*<select class="form-control" id="selectOpeningtimecode" ng-model="operationscheduletime.Timecode">
-                                                                                <option value="0">Undefined</option>
-                                                                                <option value="1">General Opening Time</option>
-                                                                            </select>*@
-                                                                        <div class="btn-group">
-                                                                            <label class="btn btn-default" ng-model="operationscheduletime.Monday" btn-checkbox>Mon</label>
-                                                                            <label class="btn btn-default" ng-model="operationscheduletime.Tuesday" btn-checkbox>Tue</label>
-                                                                            <label class="btn btn-default" ng-model="operationscheduletime.Wednesday" btn-checkbox>Wed</label>
-                                                                            <label class="btn btn-default" ng-model="operationscheduletime.Thuresday" btn-checkbox>Thu</label>
-                                                                            <label class="btn btn-default" ng-model="operationscheduletime.Friday" btn-checkbox>Fri</label>
-                                                                            <label class="btn btn-default" ng-model="operationscheduletime.Saturday" btn-checkbox>Sat</label>
-                                                                            <label class="btn btn-default" ng-model="operationscheduletime.Sunday" btn-checkbox>Sun</label>
-                                                                        </div>
-                                                                        @*</div>*@
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
-                        </tab>
-
-                        <tab heading="Webcam">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    @*<div class="form-horizontal">
-                        <div class="form-group">
-                            <h4>Insert Webcam</h4>
-                            <label class="col-sm-4 control-label">Name</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamName" placeholder="Webcamname" ng-model="webcam.Webcamname">
-                            </div>
-                            <label class="col-sm-4 control-label">URL</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamURL" placeholder="Webcamurl" ng-model="webcam.Webcamurl">
-                            </div>
-                            <label class="col-sm-4 control-label">Preview URL</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control notextareamaxwitdth" id="inputPreviewurl" placeholder="Previewurl" ng-model="webcam.Previewurl">
-                            </div>
-                            <label class="col-sm-4 control-label">Stream URL</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control notextareamaxwitdth" id="inputStreamurl" placeholder="Streamurl" ng-model="webcam.Streamurl">
-                            </div>
-                            <label class="col-sm-4 control-label">Latitude</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamLatitude" placeholder="Latitude" ng-model="webcam.Latitude">
-                            </div>
-                            <label class="col-sm-4 control-label">Longitude</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamLongitude" placeholder="Longitude" ng-model="webcam.Longitude">
-                            </div>
-                            <label class="col-sm-4 control-label">Altitude</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamAltitude" placeholder="Altitude" ng-model="webcam.Altitude">
-                            </div>
-                            <label class="col-sm-4 control-label">Position</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputWebcamPosition" placeholder="Position" ng-model="webcam.ListPosition">
-                            </div>
-                            <label class="col-sm-4 control-label"></label>
-                            <span class="col-sm-8" style="vertical-align:top">
-                                <button type="button" class="btn btn-default" value="+" ng-click="addwebcam(webcam)"><i class="glyphicon glyphicon-plus"></i></button>
-                            </span>
                         </div>
-                    </div>*@
 
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <h4>Select existing Webcam</h4>
-                                            <label class="col-sm-4 control-label">Webcam Name</label>
-                                            <div class="col-sm-8">
-                                                <div ng-controller="WebcamTypeAheadController">
-                                                    <typeaheadwebcam items="items" templateurl="WebcamNameTemplate" prompt="Name" title="name" model="webcaminfo.Name" idmodel="webcaminfo.Id" on-select="onItemSelected()" />
-                                                </div>
-                                                <span class="input-group-btn" style="vertical-align:top">
-                                                    <button type="button" class="btn btn-default" value="+" ng-click="addexistingwebcam(webcaminfo)"><i class="glyphicon glyphicon-plus"></i></button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
+                    </div>
+                </tab>
 
-                                        <div class="input-group" ng-repeat="webcam in common.Webcam">
-                                            <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" ng-click="deletewebcam(webcam)"><i class="glyphicon glyphicon-minus"></i></button>
-                                            </span>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamId" placeholder="WebcamId" ng-model="webcam.WebcamId">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamName2" placeholder="Webcamname" ng-model="webcam.Webcamname[lang]">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamurl2" placeholder="Webcamurl" ng-model="webcam.Webcamurl">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamPreviewurl2" placeholder="WebcamPreviewurl" ng-model="webcam.Previewurl">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamStreamurl2" placeholder="WebcamStreamurl" ng-model="webcam.Streamurl">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamLatitude2" placeholder="Latitude" ng-model="webcam.GpsInfo.Latitude">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamLongitude2" placeholder="Longitude" ng-model="webcam.GpsInfo.Longitude">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamAltitude2" placeholder="Altitude" ng-model="webcam.GpsInfo.Altitude">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputWebcamSource" placeholder="Source" ng-model="webcam.Source">
-                                            <input type="number" class="form-control" id="inputWebcamPosition2" placeholder="Position" ng-model="webcam.ListPosition">
+                    <tab heading="Publish">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
 
-                                        </div>
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputLinkTitle" list="publishedonitems" placeholder="Publishedon Key" ng-model="publishchannel" />
 
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </tab>
-
-                        <tab heading="Regions">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <label class="col-sm-4 control-label"></label>
-                                        <div class="col-sm-8 input-group">
-                                            <div ng-controller="TypeAheadControllerRegion">
-                                                <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="regiontag.regname" idmodel="regiontag.regid" on-select="onItemSelected()" />
-                                            </div>
-                                            <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="addregion()"><i class="glyphicon glyphicon-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="input-group" ng-repeat="reg in common.RegionIds">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="deletereg(reg)"><i class="glyphicon glyphicon-minus"></i></button>
-                                            </span>
-                                            <div ng-controller="RegionNameController" ng-init="initregname(reg)">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Region" ng-model="myregname" readonly>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </tab>
-
-                        <tab heading="TVs">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <label class="col-sm-4 control-label"></label>
-                                        <div class="col-sm-8 input-group">
-                                            <div ng-controller="TypeAheadControllerTV">
-                                                <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="tourismvereintag.tvname" idmodel="tourismvereintag.tvid" on-select="onItemSelected()" />
-                                            </div>
-                                            <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="addtv()"><i class="glyphicon glyphicon-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="input-group" ng-repeat="tv in common.TourismvereinIds">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="deletetv(tv)"><i class="glyphicon glyphicon-minus"></i></button>
-                                            </span>
-                                            <div ng-controller="TourismVereinNameController" ng-init="inittvname(tv)">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tourismverein" ng-model="mytvname" readonly>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </tab>
-
-                        <tab heading="Municipalities">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <label class="col-sm-4 control-label"></label>
-                                        <div class="col-sm-8 input-group">
-                                            <div ng-controller="TypeAheadControllerMunicipality">
-                                                <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="municipalitytag.munname" idmodel="municipalitytag.munid" on-select="onItemSelected()" />
-                                            </div>
-                                            <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="addmunicipality()"><i class="glyphicon glyphicon-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="input-group" ng-repeat="mun in common.MunicipalityIds">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="deletemunicipality(mun)"><i class="glyphicon glyphicon-minus"></i></button>
-                                            </span>
-                                            <div ng-controller="MunicipalityNameController" ng-init="initmunname(mun)">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputMunTagsingle" placeholder="Municipality" ng-model="mymunname" readonly>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </tab>
-
-                        <tab heading="Districts">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <label class="col-sm-4 control-label"></label>
-                                        <div class="col-sm-8 input-group">
-                                            <div ng-controller="TypeAheadControllerDistrict">
-                                                <typeaheadcustom items="items" templateurl="TypeAheadNameTemplate" prompt="Name" title="name" model="districttag.franame" idmodel="districttag.fraid" on-select="onItemSelected()" />
-                                            </div>
-                                            <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="adddistrict()"><i class="glyphicon glyphicon-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="input-group" ng-repeat="fra in common.DistrictIds">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="deletedistrict(fra)"><i class="glyphicon glyphicon-minus"></i></button>
-                                            </span>
-                                            <div ng-controller="DistrictNameController" ng-init="initdistname(fra)">
-                                                <input type="text" class="form-control notextareamaxwitdth" id="inputDistTagsingle" placeholder="District" ng-model="myfraname" readonly>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </tab>
-
-                        <tab heading="SMG Tags">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <label class="col-sm-4 control-label"></label>
-                                        <div class="col-sm-8 input-group">
-                                            <div ng-controller="SmgTagNameModalTypeAheadController">
-                                                <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="smgtag.smgtagname" idmodel="smgtag.smgtagid" on-select="onItemSelected()" />
-                                            </div>
-                                            <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="addtag()"><i class="glyphicon glyphicon-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="input-group" ng-repeat="tag in common.SmgTags">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="deletetag(tag)"><i class="glyphicon glyphicon-minus"></i></button>
-                                            </span>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </tab>
-
-                        <tab heading="Related Highlights">
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <label class="col-sm-4 control-label">Activity / Poi</label>
-                                        <div class="col-sm-8 input-group">
-                                            <div ng-controller="SmgRelatedContentActivityPoiTypeAheadController" ng-init="init('tvs', [common.TourismvereinIds])">
-                                                <typeaheadrelatedcontent items="items" templateurl="RelatedContentNameTemplate" prompt="Name" title="name" model="relatedcontent.Name" submodel="relatedcontent.Type" idmodel="relatedcontent.Id" on-select="onItemSelected()" />
-                                            </div>
-                                            <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="addrelatedcontent(relatedcontent)"><i class="glyphicon glyphicon-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    @*<div class="form-horizontal">
-
-                                            <label class="col-sm-4 control-label">Gastronomy</label>
-                                            <div class="col-sm-8 input-group">
-                                                <div ng-controller="SmgRelatedContentGastronomyTypeAheadController">
-                                                    <typeaheadrelatedcontent items="items" templateurl="RelatedContentNameTemplate" prompt="Name" title="name" model="relatedcontentgastro.Name" submodel="relatedcontentgastro.Type" idmodel="relatedcontentgastro.Id" on-select="onItemSelected()" />
-                                                </div>
-                                                <span class="input-group-btn" style="vertical-align:top">
-                                                    <button type="button" class="btn btn-default" value="+" ng-click="addrelatedcontent(relatedcontentgastro)"><i class="glyphicon glyphicon-plus"></i></button>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-horizontal">
-
-                                            <label class="col-sm-4 control-label">Event</label>
-                                            <div class="col-sm-8 input-group">
-                                                <div ng-controller="SmgRelatedContentEventTypeAheadController">
-                                                    <typeaheadrelatedcontent items="items" templateurl="RelatedContentNameTemplate" prompt="Name" title="name" model="relatedcontentevent.Name" submodel="relatedcontentevent.Type" idmodel="relatedcontentevent.Id" on-select="onItemSelected()" />
-                                                </div>
-                                                <span class="input-group-btn" style="vertical-align:top">
-                                                    <button type="button" class="btn btn-default" value="+" ng-click="addrelatedcontent(relatedcontentevent)"><i class="glyphicon glyphicon-plus"></i></button>
-                                                </span>
-                                            </div>
-                                        </div>*@
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-horizontal">
-
-                                        <div class="input-group" ng-repeat="relatedcontent in common.RelatedContent">
-                                            <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" ng-click="deleterelatedcontent(relatedcontent)"><i class="glyphicon glyphicon-minus"></i></button>
-                                            </span>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="RelatedContent" ng-model="relatedcontent.Id" readonly>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="RelatedContent" ng-model="relatedcontent.Name" readonly>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="RelatedContent" ng-model="relatedcontent.Type" readonly>
-                                        </div>
-
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                        </tab>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
 
-                    </tabset>
+                                    <div class="input-group" ng-repeat="publishchannel in common.PublishedOn">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletepublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputPublishedonsingle" placeholder="Publishedon" ng-model="publishchannel" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </tab>
+                </tabset>
+                    </div>
+                </div>
+                    
                 </div>
 
                 <div class="modal-footer">

@@ -190,6 +190,8 @@ app.controller('articleListController', [
         $scope.active = 'null';
         $scope.smgactive = 'null';
 
+        $scope.publishchannelfilter = '';
+
         $scope.SelectedSmgTagName = '';
         $scope.SelectedSmgTagId = '';
 
@@ -250,7 +252,7 @@ app.controller('articleListController', [
                 sortby = '&rawsort=-ArticleDate'
             }
 
-            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter + sortby).success(function (result) {
+            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter + sortby).success(function (result) {
                 $scope.articles = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -283,6 +285,7 @@ app.controller('articleListController', [
 
             $scope.Datumvon = '';
             $scope.Datumbis = '';
+            $scope.publishchannelfilter = '';
 
             setSubTypeModel();
             setLanglistModel();
@@ -485,6 +488,8 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.additional = {};
     $scope.link = {};
     $scope.selectedlogo = {};
+
+    $scope.mappingproperty = {};
 
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
@@ -803,6 +808,125 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         }
         else {
             alert("Insert a link title")
+        }
+    }
+
+    $scope.addpublishedonchannel = function (publishchannel) {
+
+        if (publishchannel != "" && publishchannel != undefined) {
+
+            var addToArray = true;
+
+            if ($scope.article.PublishedOn != null) {
+
+                $.each($scope.article.PublishedOn, function (i) {
+
+                    if ($scope.article.PublishedOn[i] === publishchannel) {
+
+                        alert('Already present!');
+                        addToArray = false;
+
+                        return false;
+                    }
+                });
+            }
+            else {
+                $scope.article.PublishedOn = [];
+            }
+
+
+            if (addToArray) {
+
+                $scope.article.PublishedOn.push(publishchannel);
+            }
+        }
+        else {
+            alert('Invalid publishchannel!');
+        }
+    }
+
+    //Remove SMG Tagging
+    $scope.deletepublishedonchannel = function (publishchannel) {
+        //alert(tag);
+        $.each($scope.article.PublishedOn, function (i) {
+            if ($scope.article.PublishedOn[i] === publishchannel) {
+                $scope.article.PublishedOn.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
+    //Add Mapping Manually
+    $scope.addmapping = function () {
+
+        if ($scope.mappingproperty.Name != '' && $scope.mappingproperty.Value != '' && $scope.mappingproperty.Mappingkey != '') {
+            var addToArray = true;
+
+            var provider = $scope.mappingproperty.Mappingkey;
+
+            if ($scope.article.Mapping == null || $scope.article.Mapping == undefined) {
+                $scope.article.Mapping = {};
+            }
+
+            if ($scope.article.Mapping[provider] == null || $scope.article.Mapping[provider] == undefined) {
+
+                $scope.article.Mapping[provider] = {};
+            }
+
+            if ($scope.article.Mapping[provider] != null) {
+
+                //If value is present it will be overwritten....
+                Object.keys($scope.article.Mapping[provider]).forEach(function (key) {
+
+                    console.log(key, $scope.article.Mapping[provider][key]);
+                });
+            }
+
+
+            if (addToArray) {
+                //var property = { Name: $scope.mappingproperty.Name, Value: $scope.mappingproperty.Value };
+
+                //$scope.article.Mapping[provider].push(property);
+
+                var dicttoadd = {};
+
+                if ($scope.article.Mapping[provider] != null && $scope.article.Mapping[provider] != undefined)
+                    dicttoadd = $scope.article.Mapping[provider];
+
+                dicttoadd[$scope.mappingproperty.Name] = $scope.mappingproperty.Value;
+
+                $scope.article.Mapping[provider] = dicttoadd;
+
+                console.log($scope.article.Mapping);
+
+                $scope.mappingproperty.Name = '';
+                $scope.mappingproperty.Value = '';
+            }
+        }
+    }
+
+    //Remove Maping
+    $scope.deletemapping = function (mapping, provider) {
+
+        if (mapping == 'all') {
+
+            var deleteconfirm = confirm('Are you sure you want to delete all keys from ' + provider);
+
+            if (deleteconfirm) {
+
+                delete $scope.article.Mapping[provider];
+            }
+        }
+        else {
+
+            delete $scope.article.Mapping[provider][mapping];
+
+            //$.each($scope.common.Mapping[provider], function (i) {
+            //    if ($scope.common.Mapping[provider][i].Name === mapping) {
+            //        $scope.common.Mapping[provider].splice(i, 1);
+            //        return false;
+            //    }
+            //});
         }
     }
 

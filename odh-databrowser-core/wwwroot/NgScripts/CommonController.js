@@ -12,7 +12,6 @@ app.controller('commonListController', [
         $scope.commons = [];
         var allowedlanguages = ['de', 'it', 'en', 'nl', 'cs', 'fr', 'pl', 'ru'];
 
-
         console.log(languageFactory.getLanguage());
 
         $scope.init = function (commontype, elementstotake) {
@@ -254,6 +253,52 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         $.each($scope.common.SmgTags, function (i) {
             if ($scope.common.SmgTags[i] === tag) {
                 $scope.common.SmgTags.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
+    //Add publishedon Channel
+    $scope.addpublishedonchannel = function (publishchannel) {
+
+        if (publishchannel != "" && publishchannel != undefined) {
+
+            var addToArray = true;
+
+            if ($scope.accommodation.PublishedOn != null) {
+
+                $.each($scope.accommodation.PublishedOn, function (i) {
+
+                    if ($scope.accommodation.PublishedOn[i] === publishchannel) {
+
+                        alert('Already present!');
+                        addToArray = false;
+
+                        return false;
+                    }
+                });
+            }
+            else {
+                $scope.accommodation.PublishedOn = [];
+            }
+
+
+            if (addToArray) {
+
+                $scope.accommodation.PublishedOn.push(publishchannel);
+            }
+        }
+        else {
+            alert('Invalid publishchannel!');
+        }
+    }
+
+    //Remove Publishedon Channel
+    $scope.deletepublishedonchannel = function (publishchannel) {
+        //alert(tag);
+        $.each($scope.accommodation.PublishedOn, function (i) {
+            if ($scope.accommodation.PublishedOn[i] === publishchannel) {
+                $scope.accommodation.PublishedOn.splice(i, 1);
                 return false;
             }
         });

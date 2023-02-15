@@ -122,7 +122,7 @@ textarea {
 /* Modal wide */
 
 .modal.modal-wide .modal-dialog {
-  width: 70%;
+  width: 80%;
 }
 .modal-wide .modal-body {
   overflow-y: auto;

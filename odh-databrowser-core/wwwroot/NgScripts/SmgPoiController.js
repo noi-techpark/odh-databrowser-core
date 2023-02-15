@@ -51,6 +51,9 @@ app.controller('smgpoiListController', [
 
         $scope.source = 'null';
 
+        $scope.publishchannelfilter = '';
+
+
         setSubTypeModel();
         setPoiTypeModel();
         setLanglistModel();
@@ -239,8 +242,9 @@ app.controller('smgpoiListController', [
             var sourceqs = 'source=' + $scope.source;
             var smgtagqs = 'odhtagfilter=' + $scope.smgtagfilter;
             var seedqs = 'seed=' + $scope.seed;
+            var publishedonqs = 'publishedon=' + $scope.publishchannelfilter;
 
-            $http.get($scope.basePath + '/v1/ODHActivityPoi?' + pagenumberqs + '&' + pagesizeqs + '&' + typeqs + '&' + subtypeqs + '&' + poitypeqs + '&' + pioidqs + '&' + langlistqs + '&' + locfilterqs + '&' + highlightqs + '&' + activeqs + '&' + smgactiveqs + '&' + sourceqs + '&' + smgtagqs + '&' + seedqs).success(function (result) {
+            $http.get($scope.basePath + '/v1/ODHActivityPoi?' + pagenumberqs + '&' + pagesizeqs + '&' + typeqs + '&' + subtypeqs + '&' + poitypeqs + '&' + pioidqs + '&' + langlistqs + '&' + locfilterqs + '&' + highlightqs + '&' + activeqs + '&' + smgactiveqs + '&' + sourceqs + '&' + smgtagqs + '&' + publishedonqs + '&' + seedqs).success(function (result) {
                 $scope.pois = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -287,6 +291,8 @@ app.controller('smgpoiListController', [
             $scope.highlightfilter = 'null';
             $scope.highlight = false;
             $scope.active = 'null';
+            $scope.publishchannelfilter = '';
+
 
             if($scope.predefinedsource == false)
                 $scope.source = 'null';
@@ -398,6 +404,16 @@ app.controller('smgpoiListController', [
             $scope.changePage(0);
 
             //$scope.$broadcast('LoadPoiNamesList');
+        }
+
+        $scope.clearPublishedOnFilter = function () {
+
+            $scope.publishchannelfilter = '';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearLanguageFilter = function () {
@@ -807,6 +823,8 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.relatedcontentevent = {};
     $scope.webcam = {};
     $scope.webcaminfo = {};
+    $scope.mappingproperty = {};
+
 
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
@@ -1322,6 +1340,125 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 return false;
             }
         });
+    }
+
+    $scope.addpublishedonchannel = function (publishchannel) {
+
+        if (publishchannel != "" && publishchannel != undefined) {
+
+            var addToArray = true;
+
+            if ($scope.poi.PublishedOn != null) {
+
+                $.each($scope.poi.PublishedOn, function (i) {
+
+                    if ($scope.poi.PublishedOn[i] === publishchannel) {
+
+                        alert('Already present!');
+                        addToArray = false;
+
+                        return false;
+                    }
+                });
+            }
+            else {
+                $scope.poi.PublishedOn = [];
+            }
+
+
+            if (addToArray) {
+
+                $scope.poi.PublishedOn.push(publishchannel);
+            }
+        }
+        else {
+            alert('Invalid publishchannel!');
+        }
+    }
+
+    //Remove SMG Tagging
+    $scope.deletepublishedonchannel = function (publishchannel) {
+        //alert(tag);
+        $.each($scope.poi.PublishedOn, function (i) {
+            if ($scope.poi.PublishedOn[i] === publishchannel) {
+                $scope.poi.PublishedOn.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
+    //Add Mapping Manually
+    $scope.addmapping = function () {
+
+        if ($scope.mappingproperty.Name != '' && $scope.mappingproperty.Value != '' && $scope.mappingproperty.Mappingkey != '') {
+            var addToArray = true;
+
+            var provider = $scope.mappingproperty.Mappingkey;
+
+            if ($scope.poi.Mapping == null || $scope.poi.Mapping == undefined) {
+                $scope.poi.Mapping = {};
+            }
+
+            if ($scope.poi.Mapping[provider] == null || $scope.poi.Mapping[provider] == undefined) {
+
+                $scope.poi.Mapping[provider] = {};
+            }
+
+            if ($scope.poi.Mapping[provider] != null) {
+
+                //If value is present it will be overwritten....
+                Object.keys($scope.poi.Mapping[provider]).forEach(function (key) {
+
+                    console.log(key, $scope.poi.Mapping[provider][key]);
+                });
+            }
+
+
+            if (addToArray) {
+                //var property = { Name: $scope.mappingproperty.Name, Value: $scope.mappingproperty.Value };
+
+                //$scope.poi.Mapping[provider].push(property);
+
+                var dicttoadd = {};
+
+                if ($scope.poi.Mapping[provider] != null && $scope.poi.Mapping[provider] != undefined)
+                    dicttoadd = $scope.poi.Mapping[provider];
+
+                dicttoadd[$scope.mappingproperty.Name] = $scope.mappingproperty.Value;
+
+                $scope.poi.Mapping[provider] = dicttoadd;
+
+                console.log($scope.poi.Mapping);
+
+                $scope.mappingproperty.Name = '';
+                $scope.mappingproperty.Value = '';
+            }
+        }
+    }
+
+    //Remove Maping
+    $scope.deletemapping = function (mapping, provider) {
+
+        if (mapping == 'all') {
+
+            var deleteconfirm = confirm('Are you sure you want to delete all keys from ' + provider);
+
+            if (deleteconfirm) {
+
+                delete $scope.poi.Mapping[provider];
+            }
+        }
+        else {
+
+            delete $scope.poi.Mapping[provider][mapping];
+
+            //$.each($scope.common.Mapping[provider], function (i) {
+            //    if ($scope.common.Mapping[provider][i].Name === mapping) {
+            //        $scope.common.Mapping[provider].splice(i, 1);
+            //        return false;
+            //    }
+            //});
+        }
     }
 
 };

@@ -85,6 +85,7 @@ app.controller('webcamListController', [
         $scope.active = 'null';
         $scope.smgactive = 'null';
         $scope.source = 'null';
+        $scope.publishchannelfilter = '';
 
         //Filter anwenden
         $scope.applyFilter = function (page, withoutrefresh) {
@@ -94,8 +95,8 @@ app.controller('webcamListController', [
            
             if ($scope.SelectedWebcamId != '')
                 $scope.webcamidfilter = $scope.SelectedWebcamId;
-      
-            $http.get($scope.basePath + '/v1/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&seed=' + $scope.Seed).success(function (result) {
+
+            $http.get($scope.basePath + '/v1/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.Seed).success(function (result) {
                 $scope.webcams = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -118,6 +119,7 @@ app.controller('webcamListController', [
             $scope.active = 'null';
             $scope.smgactive = 'null';
             $scope.source = 'null';
+            $scope.publishchannelfilter = '';
 
           
             $scope.page = 1;
@@ -168,6 +170,16 @@ app.controller('webcamListController', [
             $scope.$broadcast('LoadWebcamNamesList');
         }
 
+        $scope.clearPublishedOnFilter = function () {
+
+            $scope.publishchannelfilter = '';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            $scope.$broadcast('LoadWebcamNamesList');
+        }
+
         //Seite Wechseln
         $scope.changePage = function (pageskip) {
 
@@ -208,6 +220,9 @@ app.controller('webcamListController', [
 //Modal Controller
 var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
+    $scope.mappingproperty = {};
+    $scope.smgtag = {};
+
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
     };
@@ -244,6 +259,140 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             alert("Invalid Data!");
         }
     };
+
+    //Add SMG Tagging
+    $scope.addtag = function () {
+
+        if ($scope.smgtag.smgtagid != "" && $scope.smgtag.smgtagid != undefined) {
+
+            var addToArray = true;
+
+
+            if ($scope.webcam.SmgTags != null) {
+
+                $.each($scope.webcam.SmgTags, function (i) {
+
+                    if ($scope.webcam.SmgTags[i] === $scope.smgtag.smgtagid) {
+
+                        alert('Already present!');
+                        addToArray = false;
+
+                        return false;
+                    }
+                });
+            }
+            else {
+                $scope.webcam.SmgTags = [];
+            }
+
+
+            if (addToArray) {
+
+                $scope.webcam.SmgTags.push($scope.smgtag.smgtagid);
+                $scope.smgtag.smgtagid = '';
+                $scope.smgtag.smgtagname = '';
+            }
+        }
+        else {
+            alert('Invalid Tag!');
+        }
+    }
+
+    //Remove SMG Tagging
+    $scope.deletetag = function (tag) {
+
+        $.each($scope.webcam.SmgTags, function (i) {
+            if ($scope.webcam.SmgTags[i] === tag) {
+                $scope.webcam.SmgTags.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
+    //Add Mapping Manually
+    $scope.addmapping = function () {
+
+        if ($scope.mappingproperty.Name != '' && $scope.mappingproperty.Value != '' && $scope.mappingproperty.Mappingkey != '') {
+            var addToArray = true;
+
+            var provider = $scope.mappingproperty.Mappingkey;
+
+            if ($scope.webcam.Mapping == null || $scope.webcam.Mapping == undefined) {
+                $scope.webcam.Mapping = {};
+            }
+
+            if ($scope.webcam.Mapping[provider] == null || $scope.webcam.Mapping[provider] == undefined) {
+
+                $scope.webcam.Mapping[provider] = {};
+            }
+
+            if ($scope.webcam.Mapping[provider] != null) {
+
+                //If value is present it will be overwritten....
+                Object.keys($scope.webcam.Mapping[provider]).forEach(function (key) {
+
+                    console.log(key, $scope.webcam.Mapping[provider][key]);
+                });
+
+                //$.each($scope.common.Mapping[provider], function (i) {
+
+                //    if ($scope.common.Mapping[provider][i] === $scope.mappingproperty.Name) {
+
+                //        alert('Already present!');
+                //        addToArray = false;
+
+                //        return false;
+                //    }
+                //});
+            }
+
+
+            if (addToArray) {
+                //var property = { Name: $scope.mappingproperty.Name, Value: $scope.mappingproperty.Value };
+
+                //$scope.common.Mapping[provider].push(property);
+
+                var dicttoadd = {};
+
+                if ($scope.webcam.Mapping[provider] != null && $scope.webcam.Mapping[provider] != undefined)
+                    dicttoadd = $scope.webcam.Mapping[provider];
+
+                dicttoadd[$scope.mappingproperty.Name] = $scope.mappingproperty.Value;
+
+                $scope.webcam.Mapping[provider] = dicttoadd;
+
+                console.log($scope.webcam.Mapping);
+
+                $scope.mappingproperty.Name = '';
+                $scope.mappingproperty.Value = '';
+            }
+        }
+    }
+
+    //Remove Maping
+    $scope.deletemapping = function (mapping, provider) {
+
+        if (mapping == 'all') {
+
+            var deleteconfirm = confirm('Are you sure you want to delete all keys from ' + provider);
+
+            if (deleteconfirm) {
+
+                delete $scope.webcam.Mapping[provider];
+            }
+        }
+        else {
+
+            delete $scope.webcam.Mapping[provider][mapping];
+
+            //$.each($scope.common.Mapping[provider], function (i) {
+            //    if ($scope.common.Mapping[provider][i].Name === mapping) {
+            //        $scope.common.Mapping[provider].splice(i, 1);
+            //        return false;
+            //    }
+            //});
+        }
+    }
 };
 
 //Modal Slideshow Controller
@@ -256,6 +405,27 @@ var InfoModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         $modalInstance.dismiss('cancel');
     };
 }
+
+var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadController', function ($scope, $http) {
+
+    $scope.smgtagselected = false;
+
+    $scope.getSmgTagNameListModal = function (lang) {
+
+        $http({
+            method: 'Get',
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/Common' //+ $scope.commontype
+        }).success(function (data) {
+            $scope.items = data;
+        });
+    }
+
+    $scope.getSmgTagNameListModal($scope.lang);
+
+    $scope.onItemSelected = function () {
+        $scope.smgtagselected = true;
+    }
+});
 
 //TODO REWRITE!!!
 
@@ -305,6 +475,46 @@ app.directive('typeaheadwebcam', function ($timeout) {
                 //alert(selectedItem + selectedTyp + selectedId);
 
                 scope.model = selectedItem;                
+                scope.idmodel = selectedId;
+                scope.current = 0;
+                scope.selected = true;
+                $timeout(function () {
+                    scope.onSelect();
+                }, 200);
+            };
+            scope.current = 0;
+            scope.selected = true;
+            scope.isCurrent = function (index) {
+                return scope.current == index;
+            };
+            scope.setCurrent = function (index) {
+                scope.current = index;
+            };
+        },
+        templateUrl: function (elem, attrs) {
+            //alert(attrs.templateurl);
+            return attrs.templateurl || 'default.html'
+        }
+        //templateUrl: 'HuetteTemplate2'
+    }
+});
+
+//Directive Typeahead
+app.directive('typeaheadsmgtag', function ($timeout) {
+    return {
+        restrict: 'AEC',
+        scope: {
+            items: '=',
+            prompt: '@',
+            title: '@',
+            name: '@',
+            model: '=',
+            idmodel: '=',
+            onSelect: '&'
+        },
+        link: function (scope, elem, attrs) {
+            scope.handleSelection = function (selectedItem, selectedId) {
+                scope.model = selectedItem;
                 scope.idmodel = selectedId;
                 scope.current = 0;
                 scope.selected = true;

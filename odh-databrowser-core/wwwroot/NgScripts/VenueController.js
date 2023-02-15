@@ -129,6 +129,8 @@ app.controller('venueListController', [
         $scope.roomcountrangefilter = 'null';
         $scope.roomcountrange = { min: 0, max: 1000 };
 
+        $scope.publishchannelfilter = '';
+
         //Filter anwenden
         $scope.applyFilter = function (page) {
 
@@ -148,6 +150,7 @@ app.controller('venueListController', [
             var odhtagfilterqs = "";
             var capacityfilterqs = "";
             var roomcountfilterqs = "";
+            var publishedonfilterqs = "";
 
             if ($scope.venueidfilter != "null")
                 venueidfilterqs = "&idlist=" + $scope.venueidfilter;
@@ -189,8 +192,10 @@ app.controller('venueListController', [
             if ($scope.roomcountrangefilter != "null")
                 roomcountfilterqs = "&roomcountfilter=" + $scope.roomcountrangefilter;
 
+            if ($scope.publishchannelfilter != "")
+                publishedonfilterqs = "&publishedon=" + $scope.publishchannelfilter;
 
-            $http.get($scope.basePath + '/v1/Venue?destinationdataformat=true&pagenumber=' + $scope.page + '&pagesize=20' + venueidfilterqs + locfilterqs + catfilterqs + featfilterqs + typefilterqs + activefilterqs + odhactivefilterqs + odhtagfilterqs + capacityfilterqs + roomcountfilterqs).success(function (result) {
+            $http.get($scope.basePath + '/v1/Venue?destinationdataformat=true&pagenumber=' + $scope.page + '&pagesize=20' + venueidfilterqs + locfilterqs + catfilterqs + featfilterqs + typefilterqs + activefilterqs + odhactivefilterqs + odhtagfilterqs + capacityfilterqs + roomcountfilterqs + publishedonfilterqs).success(function (result) {
                 $scope.venues = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -218,6 +223,7 @@ app.controller('venueListController', [
             $scope.capacityrange = { min: 0, max: 1000 };
             $scope.roomcountrangefilter = 'null';
             $scope.roomcountrange = { min: 0, max: 1000 };
+            $scope.publishchannelfilter = '';
 
             //Location
             if ($scope.globallocfilter == '') {
@@ -472,7 +478,17 @@ app.controller('venueListController', [
             $scope.changePage(0);
 
             $scope.$broadcast('LoadVenueNamesList');
-		}
+        }
+
+        $scope.clearPublishedOnFilter = function () {
+
+            $scope.publishchannelfilter = '';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            $scope.$broadcast('LoadVenueNamesList');
+        }
 
         $scope.clearCapacityFilter = function () {
 

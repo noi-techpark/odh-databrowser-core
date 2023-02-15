@@ -5,6 +5,7 @@ app.controller('eventshortListController', [
     function ($scope, $http, $modal, config, apipath) {
 
         $scope.virtualvillagemanager = false;
+        $scope.publishchannelfilter = '';
 
         $scope.basePath = apipath;
 		$scope.lang = 'de';
@@ -190,7 +191,9 @@ app.controller('eventshortListController', [
 			$scope.Datumvon = new Date();
 			$scope.Datumbis = '';
 			$scope.datumvonfilter = '';
-			$scope.datumbisfilter = '';
+            $scope.datumbisfilter = '';
+            $scope.publishchannelfilter = '';
+
 
 			$scope.filtered = true;
 			$scope.page = 1;
@@ -257,11 +260,16 @@ app.controller('eventshortListController', [
 			}
 			else {
 				$scope.datumbisfilter = '';
-			}
+            }
+
+            if ($scope.publishchannelfilter != '')
+                $scope.publishchannelfilterfilter = "&publishedon=" + $scope.publishchannelfilter;
+            else
+                $scope.publishchannelfilterfilter = '';
 
 			console.log("eventidfilter:" + $scope.eventidfilter + " onlyactivefilter:" + $scope.onlyactivefilter + " sourcefilter:" + $scope.sourcefilter + " eventlocationfilter: " + $scope.eventlocationfilter + " datumvon:" + $scope.datumvonfilter + " datumbis:" + $scope.datumbisfilter)
 
-            $scope.queryfilter = $scope.eventidfilter + $scope.onlyactivefilter + $scope.onlywebsiteactivefilter + $scope.onlycommunityactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
+            $scope.queryfilter = $scope.eventidfilter + $scope.onlyactivefilter + $scope.onlywebsiteactivefilter + $scope.onlycommunityactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter + $scope.publishchannelfilterfilter;
 		}
 
 		//Seite Wechseln
@@ -299,7 +307,8 @@ function addZero(i) {
 
 //Modal Controller
 var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
-    
+
+    $scope.mappingproperty = {};
 
 	if ($scope.eventshort.Source == 'Content') {
 
@@ -350,7 +359,7 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
                     $http.post($scope.basePath + '/v1/EventShort', eventshort).success(function (result) {
                         alert("Event added!");
-                        $scope.eventsshort.push(event);
+                        $scope.eventsshort.push(eventshort);
 
                         $modalInstance.close();
 
@@ -578,6 +587,125 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         });
         //});       
     };
+
+    $scope.addpublishedonchannel = function (publishchannel) {
+
+        if (publishchannel != "" && publishchannel != undefined) {
+
+            var addToArray = true;
+
+            if ($scope.eventshort.PublishedOn != null) {
+
+                $.each($scope.eventshort.PublishedOn, function (i) {
+
+                    if ($scope.eventshort.PublishedOn[i] === publishchannel) {
+
+                        alert('Already present!');
+                        addToArray = false;
+
+                        return false;
+                    }
+                });
+            }
+            else {
+                $scope.eventshort.PublishedOn = [];
+            }
+
+
+            if (addToArray) {
+
+                $scope.eventshort.PublishedOn.push(publishchannel);
+            }
+        }
+        else {
+            alert('Invalid publishchannel!');
+        }
+    }
+
+    //Remove SMG Tagging
+    $scope.deletepublishedonchannel = function (publishchannel) {
+        //alert(tag);
+        $.each($scope.eventshort.PublishedOn, function (i) {
+            if ($scope.eventshort.PublishedOn[i] === publishchannel) {
+                $scope.eventshort.PublishedOn.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
+    //Add Mapping Manually
+    $scope.addmapping = function () {
+
+        if ($scope.mappingproperty.Name != '' && $scope.mappingproperty.Value != '' && $scope.mappingproperty.Mappingkey != '') {
+            var addToArray = true;
+
+            var provider = $scope.mappingproperty.Mappingkey;
+
+            if ($scope.eventshort.Mapping == null || $scope.eventshort.Mapping == undefined) {
+                $scope.eventshort.Mapping = {};
+            }
+
+            if ($scope.eventshort.Mapping[provider] == null || $scope.eventshort.Mapping[provider] == undefined) {
+
+                $scope.eventshort.Mapping[provider] = {};
+            }
+
+            if ($scope.eventshort.Mapping[provider] != null) {
+
+                //If value is present it will be overwritten....
+                Object.keys($scope.eventshort.Mapping[provider]).forEach(function (key) {
+
+                    console.log(key, $scope.eventshort.Mapping[provider][key]);
+                });
+            }
+
+
+            if (addToArray) {
+                //var property = { Name: $scope.mappingproperty.Name, Value: $scope.mappingproperty.Value };
+
+                //$scope.eventshort.Mapping[provider].push(property);
+
+                var dicttoadd = {};
+
+                if ($scope.eventshort.Mapping[provider] != null && $scope.eventshort.Mapping[provider] != undefined)
+                    dicttoadd = $scope.eventshort.Mapping[provider];
+
+                dicttoadd[$scope.mappingproperty.Name] = $scope.mappingproperty.Value;
+
+                $scope.eventshort.Mapping[provider] = dicttoadd;
+
+                console.log($scope.eventshort.Mapping);
+
+                $scope.mappingproperty.Name = '';
+                $scope.mappingproperty.Value = '';
+            }
+        }
+    }
+
+    //Remove Maping
+    $scope.deletemapping = function (mapping, provider) {
+
+        if (mapping == 'all') {
+
+            var deleteconfirm = confirm('Are you sure you want to delete all keys from ' + provider);
+
+            if (deleteconfirm) {
+
+                delete $scope.eventshort.Mapping[provider];
+            }
+        }
+        else {
+
+            delete $scope.eventshort.Mapping[provider][mapping];
+
+            //$.each($scope.common.Mapping[provider], function (i) {
+            //    if ($scope.common.Mapping[provider][i].Name === mapping) {
+            //        $scope.common.Mapping[provider].splice(i, 1);
+            //        return false;
+            //    }
+            //});
+        }
+    }
 
 };
 

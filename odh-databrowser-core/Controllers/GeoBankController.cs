@@ -407,22 +407,6 @@ namespace SuedtirolManagerPG.Controllers
 
         #endregion
 
-        #region GBPackages
-
-        //[Authorize(Roles = "DataVisible,GeobankVisible,GBPackageVisible")]
-        public ActionResult PackageList()
-        {
-            return View("~/Views/GeoBank/GBPackage/PackageList.cshtml");
-        }
-
-        //[Authorize(Roles = "DataVisible,GeobankVisible,GBPackageVisible")]
-        public ActionResult PackageSearch()
-        {
-            return View("~/Views/GeoBank/GBPackage/PackageSearch.cshtml");
-        }
-
-        #endregion
-
         #region LTS Webcams
 
         //[Authorize(Roles = "DataVisible,ExternalDataSourcesVisible,LTSMeasuringpointsVisible")]
@@ -432,16 +416,7 @@ namespace SuedtirolManagerPG.Controllers
         }
 
         #endregion
-
-        #region GBVenues
-
-        public ActionResult VenueList()
-        {
-            return View("~/Views/GeoBank/GBVenue/VenueList.cshtml");
-        }
-
-        #endregion
-
+        
 
         #region PartialViews
 

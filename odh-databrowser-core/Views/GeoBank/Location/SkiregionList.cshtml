@@ -311,7 +311,7 @@
                                 </div>
                             </div>
                         </tab>
-                        
+
                         <tab heading="License">
                             <br />
                             <div class="row">
@@ -365,7 +365,7 @@
                                 </div>
                             </div>
                         </tab>
-                        
+
                         <tab heading="Detail">
                             <br />
                             <div class="row">
@@ -468,7 +468,7 @@
                             </div>
 
                         </tab>
-                        
+
                         <tab heading="Contact">
                             <br />
                             <div class="row">
@@ -519,11 +519,11 @@
                                                     Upload progress:
                                                     <div class="progress" style="height:100%">
                                                         <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width:60%"></div>
-                                                        @*<button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length" style="float:right">
+        @*<button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length" style="float:right">
                                                                 <span class="glyphicon glyphicon-upload"></span> Upload
                                                             </button>*@
 
-                                                        @*Do isch a lei der gleiche kaas*@
+        @*Do isch a lei der gleiche kaas*@
                                                         <div ng-repeat="item in uploader.queue">
                                                             <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                                                                 <span class="glyphicon glyphicon-upload"></span> Upload
@@ -597,13 +597,13 @@
                                 </div>
                             </div>
                         </tab>
-                        
+
                         <tab heading="Gps">
                             <br />
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-horizontal">
-                                        @*<h4>Gps Point</h4>*@
+        @*<h4>Gps Point</h4>*@
                                         <div class="form-group">
                                             <label for="inputGpstype" class="col-sm-2 control-label">Gpstype</label>
                                             <div class="col-sm-10">
@@ -643,7 +643,7 @@
                                 </div>
                             </div>
                         </tab>
-                        
+
                         <tab heading="Images">
                             <br />
                             <div class="row">
@@ -777,7 +777,7 @@
                                 </div>
                             </div>
                         </tab>
-                        
+
                         <tab heading="Webcam">
                         <br />
                         <div class="row">
@@ -917,7 +917,7 @@
                                         </div>
                                     </div>
 
-                                    @*<div class="form-horizontal">
+        @*<div class="form-horizontal">
 
                                             <label class="col-sm-4 control-label">Gastronomy</label>
                                             <div class="col-sm-8 input-group">
@@ -1030,7 +1030,7 @@
                                         <label class="col-sm-4 control-label"></label>
                                         <div class="col-sm-8 input-group">
                                             <input type="text" class="form-control notextareamaxwitdth" id="inputLinkTitle" list="publishedonitems" placeholder="Publishedon Key" ng-model="publishchannel" />
-                                                                                                          
+
                                             <span class="input-group-btn" style="vertical-align:top">
                                                 <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>
                                             </span>

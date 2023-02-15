@@ -494,6 +494,8 @@ app.controller('eventListController', [
 //Modal Controller
 var EventModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
+    $scope.mappingproperty = {};
+
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
     };
@@ -582,6 +584,124 @@ var EventModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         });
     }
 
+    $scope.addpublishedonchannel = function (publishchannel) {
+
+        if (publishchannel != "" && publishchannel != undefined) {
+
+            var addToArray = true;
+
+            if ($scope.event.PublishedOn != null) {
+
+                $.each($scope.event.PublishedOn, function (i) {
+
+                    if ($scope.event.PublishedOn[i] === publishchannel) {
+
+                        alert('Already present!');
+                        addToArray = false;
+
+                        return false;
+                    }
+                });
+            }
+            else {
+                $scope.event.PublishedOn = [];
+            }
+
+
+            if (addToArray) {
+
+                $scope.event.PublishedOn.push(publishchannel);
+            }
+        }
+        else {
+            alert('Invalid publishchannel!');
+        }
+    }
+
+    //Remove SMG Tagging
+    $scope.deletepublishedonchannel = function (publishchannel) {
+        //alert(tag);
+        $.each($scope.event.PublishedOn, function (i) {
+            if ($scope.event.PublishedOn[i] === publishchannel) {
+                $scope.event.PublishedOn.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
+    //Add Mapping Manually
+    $scope.addmapping = function () {
+
+        if ($scope.mappingproperty.Name != '' && $scope.mappingproperty.Value != '' && $scope.mappingproperty.Mappingkey != '') {
+            var addToArray = true;
+
+            var provider = $scope.mappingproperty.Mappingkey;
+
+            if ($scope.event.Mapping == null || $scope.event.Mapping == undefined) {
+                $scope.event.Mapping = {};
+            }
+
+            if ($scope.event.Mapping[provider] == null || $scope.event.Mapping[provider] == undefined) {
+
+                $scope.event.Mapping[provider] = {};
+            }
+
+            if ($scope.event.Mapping[provider] != null) {
+
+                //If value is present it will be overwritten....
+                Object.keys($scope.event.Mapping[provider]).forEach(function (key) {
+
+                    console.log(key, $scope.event.Mapping[provider][key]);
+                });
+            }
+
+
+            if (addToArray) {
+                //var property = { Name: $scope.mappingproperty.Name, Value: $scope.mappingproperty.Value };
+
+                //$scope.event.Mapping[provider].push(property);
+
+                var dicttoadd = {};
+
+                if ($scope.event.Mapping[provider] != null && $scope.event.Mapping[provider] != undefined)
+                    dicttoadd = $scope.event.Mapping[provider];
+
+                dicttoadd[$scope.mappingproperty.Name] = $scope.mappingproperty.Value;
+
+                $scope.event.Mapping[provider] = dicttoadd;
+
+                console.log($scope.event.Mapping);
+
+                $scope.mappingproperty.Name = '';
+                $scope.mappingproperty.Value = '';
+            }
+        }
+    }
+
+    //Remove Maping
+    $scope.deletemapping = function (mapping, provider) {
+
+        if (mapping == 'all') {
+
+            var deleteconfirm = confirm('Are you sure you want to delete all keys from ' + provider);
+
+            if (deleteconfirm) {
+
+                delete $scope.event.Mapping[provider];
+            }
+        }
+        else {
+
+            delete $scope.event.Mapping[provider][mapping];
+
+            //$.each($scope.common.Mapping[provider], function (i) {
+            //    if ($scope.common.Mapping[provider][i].Name === mapping) {
+            //        $scope.common.Mapping[provider].splice(i, 1);
+            //        return false;
+            //    }
+            //});
+        }
+    }
 };
 
 //Modal Slideshow Controller

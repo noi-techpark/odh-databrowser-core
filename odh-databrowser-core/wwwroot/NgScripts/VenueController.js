@@ -865,18 +865,25 @@ var venuetypeaheadcontroller = app.controller('VenueTypeAheadController', functi
     $scope.venuenametypeaheadselected = false;
 
     $scope.getVenuenamesFilteredList = function (lang) {
-      
+
+        var lang2letter = lang.substring(0, 2);
+
 	    $http({
                 method: 'Get',
-				url: $scope.basePath + '/v1/VenueReduced?language=' + lang 
+            url: $scope.basePath + '/v1/Venue?language=' + lang2letter + '&fields=Id,Detail.' + lang2letter + '.Title&pagesize=0'
             }).success(function (data) {
-                $scope.items = data;
+                $scope.items = [];
+
+                $.each(data.Items, function (i) {
+                    $scope.items.push({ Id: data.Items[i]['Id'], Name: data.Items[i]['Detail.' + lang2letter + '.Title'] });
+                });
+
             });
     
     }
 
     $scope.$on('LoadVenueNamesList', function (e) {
-
+        
 		$scope.getVenuenamesFilteredList($scope.lang);
     });
 

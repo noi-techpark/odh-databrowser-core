@@ -12,7 +12,6 @@ app.controller('commonListController', [
         $scope.commons = [];
         var allowedlanguages = ['de', 'it', 'en', 'nl', 'cs', 'fr', 'pl', 'ru'];
 
-
         console.log(languageFactory.getLanguage());
 
         $scope.init = function (commontype, elementstotake) {

@@ -51,6 +51,9 @@ app.controller('smgpoiListController', [
 
         $scope.source = 'null';
 
+        $scope.publishchannelfilter = '';
+
+
         setSubTypeModel();
         setPoiTypeModel();
         setLanglistModel();
@@ -239,8 +242,9 @@ app.controller('smgpoiListController', [
             var sourceqs = 'source=' + $scope.source;
             var smgtagqs = 'odhtagfilter=' + $scope.smgtagfilter;
             var seedqs = 'seed=' + $scope.seed;
+            var publishedonqs = 'publishedon=' + $scope.publishchannelfilter;
 
-            $http.get($scope.basePath + '/v1/ODHActivityPoi?' + pagenumberqs + '&' + pagesizeqs + '&' + typeqs + '&' + subtypeqs + '&' + poitypeqs + '&' + pioidqs + '&' + langlistqs + '&' + locfilterqs + '&' + highlightqs + '&' + activeqs + '&' + smgactiveqs + '&' + sourceqs + '&' + smgtagqs + '&' + seedqs).success(function (result) {
+            $http.get($scope.basePath + '/v1/ODHActivityPoi?' + pagenumberqs + '&' + pagesizeqs + '&' + typeqs + '&' + subtypeqs + '&' + poitypeqs + '&' + pioidqs + '&' + langlistqs + '&' + locfilterqs + '&' + highlightqs + '&' + activeqs + '&' + smgactiveqs + '&' + sourceqs + '&' + smgtagqs + '&' + publishedonqs + '&' + seedqs).success(function (result) {
                 $scope.pois = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -287,6 +291,8 @@ app.controller('smgpoiListController', [
             $scope.highlightfilter = 'null';
             $scope.highlight = false;
             $scope.active = 'null';
+            $scope.publishchannelfilter = '';
+
 
             if($scope.predefinedsource == false)
                 $scope.source = 'null';
@@ -398,6 +404,16 @@ app.controller('smgpoiListController', [
             $scope.changePage(0);
 
             //$scope.$broadcast('LoadPoiNamesList');
+        }
+
+        $scope.clearPublishedOnFilter = function () {
+
+            $scope.publishchannelfilter = '';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearLanguageFilter = function () {

@@ -374,7 +374,7 @@
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Webcam Data</a>
                                         <ul class="dropdown-menu">
 
-                                            <li>@Html.ActionLink("Webcams", "WebCamInfoList", "ExternalDataSources", new { area = "" }, null)</li>
+                                            <li>@Html.ActionLink("Webcams", "WebCamInfoList", "GeoBank", new { area = "" }, null)</li>
 
                                         </ul>
                                     </li>
@@ -545,6 +545,12 @@
             {
                 <input type="button" id="infodialogbtn" class="btn btn-info pull-left" value="Info" data-toggle="modal" data-target="#infomodal" />
             }
+           
+            <datalist id="publishedonitems" style="display:none">
+                <option value="idm-marketplace"></option>
+                <option value="sinfo"></option>
+            </datalist>
+                     
         </div>
     </div>
 

@@ -15,6 +15,8 @@ app.controller('eventListController', [
         $scope.globallocfilterType = '';
 
         $scope.source = 'null';
+        $scope.publishchannelfilter = '';
+
         $scope.predefinedsource = false;
 
 
@@ -190,7 +192,7 @@ app.controller('eventListController', [
                           
             setFilters();            
 
-            $http.get($scope.basePath + '/v1/Event?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.eventidfilter + '&locfilter=' + $scope.locationfilter + '&rancfilter=' + $scope.rancfilter + '&typefilter=' + $scope.typefilter + '&topicfilter=' + $scope.topicfilter + '&orgfilter=' + $scope.orgridfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&begindate=' + $scope.datumvonfilter + '&enddate=' + $scope.datumbisfilter + '&source=' + $scope.source + '&sort=' + $scope.sortdescfilter + '&langfilter=' + $scope.lang).success(function (result) {
+            $http.get($scope.basePath + '/v1/Event?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.eventidfilter + '&locfilter=' + $scope.locationfilter + '&rancfilter=' + $scope.rancfilter + '&typefilter=' + $scope.typefilter + '&topicfilter=' + $scope.topicfilter + '&orgfilter=' + $scope.orgridfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&begindate=' + $scope.datumvonfilter + '&enddate=' + $scope.datumbisfilter + '&source=' + $scope.source + '&sort=' + $scope.sortdescfilter + '&langfilter=' + $scope.lang + '&publishedon=' + $scope.publishchannelfilter).success(function (result) {
                 $scope.events = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -222,6 +224,7 @@ app.controller('eventListController', [
             $scope.datumvonfilter = 'null';
             $scope.datumbisfilter = 'null';
             $scope.sortdescfilter = 'asc';
+            $scope.publishchannelfilter = '';
 
             //Location
             if ($scope.globallocfilter == '') {
@@ -313,6 +316,16 @@ app.controller('eventListController', [
         $scope.clearTICActiveFilter = function () {
 
             $scope.active = 'null';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
+
+        $scope.clearPublishedOnFilter = function () {
+
+            $scope.publishchannelfilter = '';
 
             $scope.page = 1;
             $scope.changePage(0);

@@ -49,7 +49,7 @@
                 <div class="pull-right">
                     <span class="btn btn-default">Elements:{{ totalcount }} </span>
                     <input type="button" id="prevpage" ng-click="changePage(-1)" class="btn btn-info" value="prev" ng-disabled="page == 1" />
-                    &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
+                        &nbsp;{{ page }}&nbsp;/&nbsp;{{ totalpages }}&nbsp;
                     <input type="button" id="nextpage" ng-click="changePage(+1)" class="btn btn-info" value="next" ng-disabled="page == totalpages" />
                 </div>
             </div>
@@ -98,6 +98,12 @@
                     </select>
                 </div>
 
+                <div class="form-group col-sm-12">
+                    <h6>PublishedOn<small class="btn-link pull-right" ng-click="clearPublishedOnFilter()">Clear</small></h6>                  
+                    <input type="text" class="form-control" id="publishchannelfilter" list="publishedonitems" placeholder="Publishedon Key" ng-model="publishchannelfilter" />
+                                           
+                </div>
+
                 <div class="col-sm-12">
                     <br />
                     <br />
@@ -136,7 +142,7 @@
                             <div class="glyphicon glyphicon-remove" ng-show="webcam.SmgActive == false" style="color:red"></div>
                         </td>
                         <td>
-                            <div ng-repeat="publishchannel in common.PublishedOn">
+                            <div ng-repeat="publishchannel in webcam.PublishedOn">
                                 <small>{{ publishchannel }}</small>
                             </div>
                         </td>
@@ -525,11 +531,7 @@
                                     <label class="col-sm-4 control-label"></label>
                                     <div class="col-sm-8 input-group">
                                         <input type="text" class="form-control notextareamaxwitdth" id="inputLinkTitle" list="publishedonitems" placeholder="Publishedon Key" ng-model="publishchannel" />
-
-                                        <datalist id="publishedonitems">
-                                                <option value="idm-marketplace">
-                                                <option value="sinfo">
-                                            </datalist>
+                                   
 
                                         <span class="input-group-btn" style="vertical-align:top">
                                             <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>

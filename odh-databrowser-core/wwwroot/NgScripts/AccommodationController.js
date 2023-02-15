@@ -63,6 +63,8 @@ app.controller('accommodationListController', [
         $scope.Datumbis = new Date();
         $scope.Datumbis.setDate(today.getDate() + 7);
 
+        $scope.publishchannelfilter = '';
+
         $scope.personnumber = function (roomcount) {
             return new Array(parseInt($scope.persons[roomcount]));
         };
@@ -267,6 +269,9 @@ app.controller('accommodationListController', [
                 6: false,
                 7: false,
                 8: false,
+                9: false,
+                10: false,
+                11: false
             };
         }
 
@@ -408,8 +413,8 @@ app.controller('accommodationListController', [
                 $scope.page = currentpage;
 
             $scope.setFilters();
-            
-            $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&pagesize=20&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
+
+            $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&pagesize=20&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.seed).success(function (result) {
                 $scope.accommodations = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -679,7 +684,7 @@ app.controller('accommodationListController', [
             }
                 
 
-
+            $scope.publishchannelfilter = '';
             $scope.accoidfilter = 'null';
             $scope.typefilter = 'null';
             $scope.themefilter = 'null';
@@ -821,6 +826,18 @@ app.controller('accommodationListController', [
             $scope.$broadcast('clearAcconamesFilter');
         }
 
+        $scope.clearPublishedOnFilter = function () {
+
+            $scope.publishchannelfilter = '';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            $scope.$broadcast('clearAcconamesFilter');
+        }
+
+       
+
         //Modal anzeigen
         $scope.showInfoModal = function (accommodation) {
 
@@ -845,6 +862,8 @@ app.controller('accommodationListController', [
 
 //Edit and New Modal Controller
 var AccommodationModalInstanceCtrl = function ($scope, $modalInstance, $http) {
+
+    $scope.mappingproperty = {};
 
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
@@ -992,7 +1011,79 @@ var AccommodationModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         });
     }
 
+    //Add Mapping Manually
+    $scope.addmapping = function () {
 
+        if ($scope.mappingproperty.Name != '' && $scope.mappingproperty.Value != '' && $scope.mappingproperty.Mappingkey != '') {
+            var addToArray = true;
+
+            var provider = $scope.mappingproperty.Mappingkey;
+
+            if ($scope.accommodation.Mapping == null || $scope.accommodation.Mapping == undefined) {
+                $scope.accommodation.Mapping = {};
+            }
+
+            if ($scope.accommodation.Mapping[provider] == null || $scope.accommodation.Mapping[provider] == undefined) {
+
+                $scope.accommodation.Mapping[provider] = {};
+            }
+
+            if ($scope.accommodation.Mapping[provider] != null) {
+
+                //If value is present it will be overwritten....
+                Object.keys($scope.accommodation.Mapping[provider]).forEach(function (key) {
+
+                    console.log(key, $scope.accommodation.Mapping[provider][key]);
+                });               
+            }
+
+
+            if (addToArray) {
+                //var property = { Name: $scope.mappingproperty.Name, Value: $scope.mappingproperty.Value };
+
+                //$scope.accommodation.Mapping[provider].push(property);
+
+                var dicttoadd = {};
+
+                if ($scope.accommodation.Mapping[provider] != null && $scope.accommodation.Mapping[provider] != undefined)
+                    dicttoadd = $scope.accommodation.Mapping[provider];
+
+                dicttoadd[$scope.mappingproperty.Name] = $scope.mappingproperty.Value;
+
+                $scope.accommodation.Mapping[provider] = dicttoadd;
+
+                console.log($scope.accommodation.Mapping);
+
+                $scope.mappingproperty.Name = '';
+                $scope.mappingproperty.Value = '';
+            }
+        }
+    }
+
+    //Remove Maping
+    $scope.deletemapping = function (mapping, provider) {
+
+        if (mapping == 'all') {
+
+            var deleteconfirm = confirm('Are you sure you want to delete all keys from ' + provider);
+
+            if (deleteconfirm) {
+
+                delete $scope.accommodation.Mapping[provider];
+            }
+        }
+        else {
+
+            delete $scope.accommodation.Mapping[provider][mapping];
+
+            //$.each($scope.common.Mapping[provider], function (i) {
+            //    if ($scope.common.Mapping[provider][i].Name === mapping) {
+            //        $scope.common.Mapping[provider].splice(i, 1);
+            //        return false;
+            //    }
+            //});
+        }
+    }
 };
 
 //Modal Slideshow Controller

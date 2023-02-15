@@ -190,6 +190,8 @@ app.controller('articleListController', [
         $scope.active = 'null';
         $scope.smgactive = 'null';
 
+        $scope.publishchannelfilter = '';
+
         $scope.SelectedSmgTagName = '';
         $scope.SelectedSmgTagId = '';
 
@@ -250,7 +252,7 @@ app.controller('articleListController', [
                 sortby = '&rawsort=-ArticleDate'
             }
 
-            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter + sortby).success(function (result) {
+            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter + sortby).success(function (result) {
                 $scope.articles = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -283,6 +285,7 @@ app.controller('articleListController', [
 
             $scope.Datumvon = '';
             $scope.Datumbis = '';
+            $scope.publishchannelfilter = '';
 
             setSubTypeModel();
             setLanglistModel();

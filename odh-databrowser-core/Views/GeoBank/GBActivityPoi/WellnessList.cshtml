@@ -66,12 +66,7 @@
                     <input type="button" id="filterbutton" ng-click="applyFilter(1)" class="btn btn-info" value="Filter" />
                     <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
                 </div>
-
-                @*<div class="form-group col-sm-12">
-                        <h6>Name</h6>
-                        <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="filter" autofocus>
-                    </div>*@
-
+            
                 <div class="form-group col-sm-12" ng-controller="PoinameTypeAheadController">
                     <h6>Activity/Poi Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
                     <typeaheadpoi items="items" templateurl="PoiNameTemplate" prompt="Name" title="name" subtitle="typ" model="$parent.SelectedPoiName" idmodel="$parent.SelectedPoiId" on-select="onItemSelected()" />
@@ -157,6 +152,10 @@
                     </select>
                 </div>
 
+                <div class="form-group col-sm-12">
+                    <h6>PublishedOn<small class="btn-link pull-right" ng-click="clearPublishedOnFilter()">Clear</small></h6>                  
+                    <input type="text" class="form-control" id="publishchannelfilter" list="publishedonitems" placeholder="Publishedon Key" ng-model="publishchannelfilter" />                                           
+                </div>
 
                 <div class="form-group col-sm-12">
                     <br />
@@ -176,14 +175,14 @@
             <table class="table table-striped table-condensed">
                 <thead>
                     <tr>
-                        <th style="width:160px">MainImage</th>
-                        <th style="min-width: 80px;">Shortname</th>
-                        <th style="min-width: 80px;">Type</th>
-                        <th style="min-width: 80px;">Location</th>
-                        <th style="min-width: 80px;">Languages</th>
-                        <th style="min-width: 80px;">Source</th>
-                        <th style="min-width: 80px;">active on source</th>
-                        <th style="min-width: 80px;">active in ODH</th>
+                        <th style="width:160px">image</th>
+                        <th style="min-width: 80px;">name</th>
+                        <th style="min-width: 80px;">type</th>
+                        <th style="min-width: 80px;">location</th>
+                        <th style="min-width: 80px;">languages</th>
+                        <th style="min-width: 80px;">source</th>
+                            <th style="min-width: 80px;">active (source/ODH)</th>
+                            <th style="min-width: 80px;">published</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -220,12 +219,15 @@
                         <td>
                             <div class="glyphicon glyphicon-ok" ng-show="poi.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="poi.Active == false"></div>
-                        </td>
-                        <td>
+                        &nbsp;
                             <div class="glyphicon glyphicon-ok" ng-show="poi.SmgActive" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="poi.SmgActive == false" style="color:red"></div>
                         </td>
-
+                        <td>
+                             <div ng-repeat="publishchannel in poi.PublishedOn">
+                                <small>{{ publishchannel }}</small>
+                            </div>
+                        </td>
                         <td>
                             <div class="btn-group-vertical">
                                 @if (@ViewBag.globalmodify == true || @ViewBag.ODHPoiModify == true || @ViewBag.globaldetail == true)
@@ -462,6 +464,60 @@
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                                                        <tab heading="License">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputMetaLicense" class="col-sm-2 control-label">License</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="selectSource" ng-model="poi.LicenseInfo.License">
+                                                        <option>CC0</option>
+                                                        <option>CC-BY</option>
+                                                        <option>Closed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputMetaLicenseHolder" class="col-sm-2 control-label">License Holder</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMetaLicenseHolder" placeholder="LicenseHolder" ng-model="poi.LicenseInfo.LicenseHolder">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputMetaAuthor" class="col-sm-2 control-label">Author</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMetaAuthor" placeholder="Author" ng-model="poi.LicenseInfo.Author">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="checkboxMetaClosed" class="col-sm-2 control-label">Closed Data</label>
+                                                <div class="col-sm-10">
+                                                    <input type="checkbox" class="smallcheckbox" id="checkboxMetaClosed" ng-model="poi.LicenseInfo.ClosedData" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="checkboxMetaClosed" class="col-sm-2 control-label">Reduced Data</label>
+                                                <div class="col-sm-10">
+                                                    <input type="checkbox" class="smallcheckbox" id="checkboxMetaClosed" ng-model="poi._Meta.Reduced" readonly>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

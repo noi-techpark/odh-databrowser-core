@@ -233,6 +233,15 @@
 
                 </div>
                 <div class="modal-body">
+
+             <div class="row">
+                     <div class="col-sm-12">
+                           <div class="btn-group pull-left">
+                        <p>
+                            Available Languages:&nbsp;
+                            <label class="label label-default" ng-repeat="smgpoilang in common.HasLanguage">{{smgpoilang}}</label>
+                        </p>
+                    </div>
                     <div class="btn-group pull-right">
                         <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
                         <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
@@ -243,7 +252,10 @@
                         <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
                         <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
                     </div>
-                    <tabset>
+                 </div>
+            </div>
+               <div class="row"> <div class="col-sm-12">
+                           <tabset>
                         <tab heading="General">
                             <br />
                             <div class="row">
@@ -1074,12 +1086,7 @@
                                         <label class="col-sm-4 control-label"></label>
                                         <div class="col-sm-8 input-group">
                                             <input type="text" class="form-control notextareamaxwitdth" id="inputLinkTitle" list="publishedonitems" placeholder="Publishedon Key" ng-model="publishchannel" />
-                                                                
-                                            <datalist id="publishedonitems">
-                                                    <option value="idm-marketplace">
-                                                    <option value="sinfo">
-                                                </datalist>
-
+                                                                                                           
                                             <span class="input-group-btn" style="vertical-align:top">
                                                 <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>
                                             </span>
@@ -1103,6 +1110,8 @@
                         </tab>
 
                     </tabset>
+               </div></div>
+            
                 </div>
 
                 <div class="modal-footer">

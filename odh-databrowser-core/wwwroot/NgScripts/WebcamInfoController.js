@@ -85,6 +85,7 @@ app.controller('webcamListController', [
         $scope.active = 'null';
         $scope.smgactive = 'null';
         $scope.source = 'null';
+        $scope.publishchannelfilter = '';
 
         //Filter anwenden
         $scope.applyFilter = function (page, withoutrefresh) {
@@ -94,8 +95,8 @@ app.controller('webcamListController', [
            
             if ($scope.SelectedWebcamId != '')
                 $scope.webcamidfilter = $scope.SelectedWebcamId;
-      
-            $http.get($scope.basePath + '/v1/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&seed=' + $scope.Seed).success(function (result) {
+
+            $http.get($scope.basePath + '/v1/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.Seed).success(function (result) {
                 $scope.webcams = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -118,6 +119,7 @@ app.controller('webcamListController', [
             $scope.active = 'null';
             $scope.smgactive = 'null';
             $scope.source = 'null';
+            $scope.publishchannelfilter = '';
 
           
             $scope.page = 1;
@@ -161,6 +163,16 @@ app.controller('webcamListController', [
         $scope.clearSourceFilter = function () {
 
             $scope.source = 'null';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            $scope.$broadcast('LoadWebcamNamesList');
+        }
+
+        $scope.clearPublishedOnFilter = function () {
+
+            $scope.publishchannelfilter = '';
 
             $scope.page = 1;
             $scope.changePage(0);
@@ -394,6 +406,27 @@ var InfoModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     };
 }
 
+var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadController', function ($scope, $http) {
+
+    $scope.smgtagselected = false;
+
+    $scope.getSmgTagNameListModal = function (lang) {
+
+        $http({
+            method: 'Get',
+            url: $scope.basePath + '/v1/SmgTag/Reduced/' + lang + '/Common' //+ $scope.commontype
+        }).success(function (data) {
+            $scope.items = data;
+        });
+    }
+
+    $scope.getSmgTagNameListModal($scope.lang);
+
+    $scope.onItemSelected = function () {
+        $scope.smgtagselected = true;
+    }
+});
+
 //TODO REWRITE!!!
 
 var webcamtypeaheadcontroller = app.controller('WebcamTypeAheadController', function ($scope, $http) {
@@ -442,6 +475,46 @@ app.directive('typeaheadwebcam', function ($timeout) {
                 //alert(selectedItem + selectedTyp + selectedId);
 
                 scope.model = selectedItem;                
+                scope.idmodel = selectedId;
+                scope.current = 0;
+                scope.selected = true;
+                $timeout(function () {
+                    scope.onSelect();
+                }, 200);
+            };
+            scope.current = 0;
+            scope.selected = true;
+            scope.isCurrent = function (index) {
+                return scope.current == index;
+            };
+            scope.setCurrent = function (index) {
+                scope.current = index;
+            };
+        },
+        templateUrl: function (elem, attrs) {
+            //alert(attrs.templateurl);
+            return attrs.templateurl || 'default.html'
+        }
+        //templateUrl: 'HuetteTemplate2'
+    }
+});
+
+//Directive Typeahead
+app.directive('typeaheadsmgtag', function ($timeout) {
+    return {
+        restrict: 'AEC',
+        scope: {
+            items: '=',
+            prompt: '@',
+            title: '@',
+            name: '@',
+            model: '=',
+            idmodel: '=',
+            onSelect: '&'
+        },
+        link: function (scope, elem, attrs) {
+            scope.handleSelection = function (selectedItem, selectedId) {
+                scope.model = selectedItem;
                 scope.idmodel = selectedId;
                 scope.current = 0;
                 scope.selected = true;

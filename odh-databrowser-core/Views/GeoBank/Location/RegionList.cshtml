@@ -910,6 +910,40 @@
                         </div>
                     </tab>
             
+                        <tab heading="ODH Tags">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <label class="col-sm-4 control-label"></label>
+                                        <div class="col-sm-8 input-group">
+                                            <div ng-controller="SmgTagNameModalTypeAheadController">
+                                                <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="smgtag.smgtagname" idmodel="smgtag.smgtagid" on-select="onItemSelected()" />
+                                            </div>
+                                            <span class="input-group-btn" style="vertical-align:top">
+                                                <button type="button" class="btn btn-default" value="+" ng-click="addtag()"><i class="glyphicon glyphicon-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <div class="input-group" ng-repeat="tag in common.SmgTags">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="deletetag(tag)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            </span>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </tab>
+
                         <tab heading="Related Highlights">
                             <br />
                             <div class="row">

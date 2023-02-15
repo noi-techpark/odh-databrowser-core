@@ -208,6 +208,9 @@ app.controller('webcamListController', [
 //Modal Controller
 var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
+    $scope.mappingproperty = {};
+    $scope.smgtag = {};
+
     $scope.ok = function () {
         $modalInstance.dismiss('cancel');
     };
@@ -244,6 +247,140 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             alert("Invalid Data!");
         }
     };
+
+    //Add SMG Tagging
+    $scope.addtag = function () {
+
+        if ($scope.smgtag.smgtagid != "" && $scope.smgtag.smgtagid != undefined) {
+
+            var addToArray = true;
+
+
+            if ($scope.webcam.SmgTags != null) {
+
+                $.each($scope.webcam.SmgTags, function (i) {
+
+                    if ($scope.webcam.SmgTags[i] === $scope.smgtag.smgtagid) {
+
+                        alert('Already present!');
+                        addToArray = false;
+
+                        return false;
+                    }
+                });
+            }
+            else {
+                $scope.webcam.SmgTags = [];
+            }
+
+
+            if (addToArray) {
+
+                $scope.webcam.SmgTags.push($scope.smgtag.smgtagid);
+                $scope.smgtag.smgtagid = '';
+                $scope.smgtag.smgtagname = '';
+            }
+        }
+        else {
+            alert('Invalid Tag!');
+        }
+    }
+
+    //Remove SMG Tagging
+    $scope.deletetag = function (tag) {
+
+        $.each($scope.webcam.SmgTags, function (i) {
+            if ($scope.webcam.SmgTags[i] === tag) {
+                $scope.webcam.SmgTags.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
+    //Add Mapping Manually
+    $scope.addmapping = function () {
+
+        if ($scope.mappingproperty.Name != '' && $scope.mappingproperty.Value != '' && $scope.mappingproperty.Mappingkey != '') {
+            var addToArray = true;
+
+            var provider = $scope.mappingproperty.Mappingkey;
+
+            if ($scope.webcam.Mapping == null || $scope.webcam.Mapping == undefined) {
+                $scope.webcam.Mapping = {};
+            }
+
+            if ($scope.webcam.Mapping[provider] == null || $scope.webcam.Mapping[provider] == undefined) {
+
+                $scope.webcam.Mapping[provider] = {};
+            }
+
+            if ($scope.webcam.Mapping[provider] != null) {
+
+                //If value is present it will be overwritten....
+                Object.keys($scope.webcam.Mapping[provider]).forEach(function (key) {
+
+                    console.log(key, $scope.webcam.Mapping[provider][key]);
+                });
+
+                //$.each($scope.common.Mapping[provider], function (i) {
+
+                //    if ($scope.common.Mapping[provider][i] === $scope.mappingproperty.Name) {
+
+                //        alert('Already present!');
+                //        addToArray = false;
+
+                //        return false;
+                //    }
+                //});
+            }
+
+
+            if (addToArray) {
+                //var property = { Name: $scope.mappingproperty.Name, Value: $scope.mappingproperty.Value };
+
+                //$scope.common.Mapping[provider].push(property);
+
+                var dicttoadd = {};
+
+                if ($scope.webcam.Mapping[provider] != null && $scope.webcam.Mapping[provider] != undefined)
+                    dicttoadd = $scope.webcam.Mapping[provider];
+
+                dicttoadd[$scope.mappingproperty.Name] = $scope.mappingproperty.Value;
+
+                $scope.webcam.Mapping[provider] = dicttoadd;
+
+                console.log($scope.webcam.Mapping);
+
+                $scope.mappingproperty.Name = '';
+                $scope.mappingproperty.Value = '';
+            }
+        }
+    }
+
+    //Remove Maping
+    $scope.deletemapping = function (mapping, provider) {
+
+        if (mapping == 'all') {
+
+            var deleteconfirm = confirm('Are you sure you want to delete all keys from ' + provider);
+
+            if (deleteconfirm) {
+
+                delete $scope.webcam.Mapping[provider];
+            }
+        }
+        else {
+
+            delete $scope.webcam.Mapping[provider][mapping];
+
+            //$.each($scope.common.Mapping[provider], function (i) {
+            //    if ($scope.common.Mapping[provider][i].Name === mapping) {
+            //        $scope.common.Mapping[provider].splice(i, 1);
+            //        return false;
+            //    }
+            //});
+        }
+    }
 };
 
 //Modal Slideshow Controller

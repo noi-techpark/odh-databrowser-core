@@ -77,11 +77,15 @@
                         <td>
                             <div class="glyphicon glyphicon-ok" ng-show="common.Active"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="common.Active == false"></div>
-                        </td>
-                        <td>
+                        &nbsp;
                             <div class="glyphicon glyphicon-ok" ng-show="common.SmgActive" style="color:green"></div>
                             <div class="glyphicon glyphicon-remove" ng-show="common.SmgActive == false" style="color:red"></div>
                         </td>
+                            <td>
+                                <div ng-repeat="publishchannel in common.PublishedOn">
+                                    <small>{{ publishchannel }}</small>
+                                </div>
+                            </td>
                         <td align="right">
                             <div class="btn-group-vertical">
                                 @if (@ViewBag.globalmodify == true || @ViewBag.commonmodify == true || @ViewBag.globaldetail == true)

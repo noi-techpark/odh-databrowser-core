@@ -46,7 +46,7 @@ app.controller('weatherListController', [
                 templateUrl: 'CommonCrudModal.html',
                 controller: CrudModalInstanceCtrl,
                 scope: $scope,
-                size: 'lg',
+                windowClass: 'modal-wide',
                 backdrop: 'static'
             });
         };

@@ -24,44 +24,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
-                    @if (User.IsInRole("DataAdmin") || @ViewBag.UserManagementVisible == true || @ViewBag.RoleManagementVisible == true)
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                @if (User.IsInRole("DataAdmin") || @ViewBag.UserManagementVisible == true)
-                                {
-                                    <li>@Html.ActionLink("User Administration", "Index", "UserAdmin", new { area = "" }, null)</li>
-                                }
-                                @if (User.IsInRole("DataAdmin") || @ViewBag.RoleManagementVisible == true)
-                                {
-                                    <li>@Html.ActionLink("Roles Administration", "Index", "Role", new { area = "" }, null)</li>
-                                }
-                            </ul>
-                        </li>
-                    }
-                    @if (@ViewBag.GBConfigVisible == true || @ViewBag.LTSConfigVisible == true || @ViewBag.GBTagsAndTypesVisible == true)
-                    {
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Config<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                @if (@ViewBag.GBConfigVisible == true || @ViewBag.GBTagsAndTypesVisible == true)
-                                {
-
-                                    <li>@Html.ActionLink("ODH Data Types", "IDMTypeList", "GBConfig", new { area = "" }, null)</li>
-                                    <li>@Html.ActionLink("ODH Tags", "IDMTagList", "GBConfig", new { area = "" }, null)</li>
-                                    <li>@Html.ActionLink("App Suggestions", "AppSuggestionList", "GBConfig", new { area = "" }, null)</li>
-                                    @*<li>@Html.ActionLink("ODH SyncProfiles", "SyncProfileList", "GBConfig", new { area = "" }, null)</li>*@
-                                }
-                                @if (@ViewBag.GBConfigVisible == true || @ViewBag.LTSConfigVisible == true)
-                                {                                    
-                                    <li>@Html.ActionLink("LTS Marketinggroups", "LTSMarketingGroupList", "GBConfig", new { area = "" }, null)</li>
-                                }
-                            </ul>
-                        </li>
-
-                    }
+                
            
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODH Open Data<b class="caret"></b></a>
@@ -69,10 +32,10 @@
 
                             <li class="dropdown-submenu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Location</a>
-                                <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Regions", "RegionList", "GeoBank", new { area = "" }, null)</li>
+                                <ul class="dropdown-menu">                                    
                                     <li>@Html.ActionLink("MetaRegions", "MetaRegionList", "GeoBank", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("ExperienceaAreas", "ExperienceAreaList", "GeoBank", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("Regions", "RegionList", "GeoBank", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("Tourismassociation", "TourismVereinList", "GeoBank", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("Municipalities", "MunicipalityList", "GeoBank", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("Districts", "DistrictList", "GeoBank", new { area = "" }, null)</li>
@@ -107,25 +70,13 @@
                             </li>
 
                             <li class="dropdown-submenu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events & Venues</a>
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Events", "EventList", "GeoBank", new { area = "" }, null)</li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Venues</a>
-                                <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Venues", "VenueList", "ExternalDataSources", new { area = "" }, null)</li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown-submenu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events NOI</a>
-                                <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Events Eurac NOI", "EventShortList", "GeoBank", new { area = "" }, null)</li>
-                                    <li>@Html.ActionLink("NOI NewsFeed", "NewsfeedNoiList", "GeoBank", new { area = "" }, null)</li>
                                 </ul>
-                            </li>
+                            </li>                                                       
 
                             <li class="dropdown-submenu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Articles</a>
@@ -140,6 +91,14 @@
                                     <li>@Html.ActionLink("B2B Article", "B2BArticleList", "GeoBank", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("Content Article", "ContentArticleList", "GeoBank", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("SpecialAnnouncement", "SpecialAnnouncementList", "GeoBank", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("NOI NewsFeed", "NewsfeedNoiList", "GeoBank", new { area = "" }, null)</li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-submenu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">NOI Data</a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Events Eurac NOI", "EventShortList", "GeoBank", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("NOI NewsFeed", "NewsfeedNoiList", "GeoBank", new { area = "" }, null)</li>
                                 </ul>
                             </li>
@@ -166,7 +125,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Data</a>
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Wine Awards", "WineAwardList", "ExternalDataSources", new { area = "" }, null)</li>                                    
-                                    <li>@Html.ActionLink("ODH Tags", "IDMTagList", "GBConfig", new { area = "" }, null)</li>                              
+                                    <li>@Html.ActionLink("ODH Tags", "ODHTagList", "GeoBank", new { area = "" }, null)</li>                              
                                 </ul>
                             </li>
 

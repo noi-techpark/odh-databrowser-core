@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\GeoBank\NewFolder\" />
     <Folder Include="wwwroot\icons\" />
   </ItemGroup>
 

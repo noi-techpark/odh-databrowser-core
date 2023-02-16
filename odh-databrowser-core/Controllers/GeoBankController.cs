@@ -416,7 +416,16 @@ namespace SuedtirolManagerPG.Controllers
         }
 
         #endregion
-        
+
+        #region ODHTags
+
+        public ActionResult ODHTagList()
+        {
+            return View("~/Views/GeoBank/ODHTag/ODHTagList.cshtml");
+        }
+
+        #endregion
+
 
         #region PartialViews
 

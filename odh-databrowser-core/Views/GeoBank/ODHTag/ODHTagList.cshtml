@@ -1,0 +1,666 @@
+﻿@{
+    ViewBag.Title = "ODHTagList";
+}
+
+@section jumbotronsect {
+    <h2>ODHTag List</h2>
+}
+
+    @section infomodaltext {
+    <h2>ODHTags</h2>
+    <p>
+        All available Tags for the ODH Types.
+    </p>
+}
+
+    <div class="col-sm-12" ng-app="smgtagging" ng-controller="smgtagListController">
+        <div class="splash" ng-show="isloading">
+            <h2>
+                Loading
+            </h2>
+            <span>
+                <i class="fa fa-spinner fa-5x fa-spin active"></i>
+            </span>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-inline">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="query.Id" autofocus><p>&nbsp; {{ meinecommons.length }} ODH Tags</p>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="btn-group">
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                        <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                    </div>
+                </div>
+
+                <div class="pull-left">
+                    <h4><small class="btn-link pull-right" ng-click="query2 = null">Clear</small></h4>
+                    <br />
+                    <div class="btn-group">
+
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'common'">Common</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'accommodation'">Accommodation</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'package'">Package</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'gastronomy'">Gastronomy</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'activity'">Activity</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'poi'">Poi</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'odhactivitypoi'">ODH Activity Poi</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'article'">Article</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'event'">Event</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'venue'">Venue</label>
+                    </div>
+                </div>
+                <div class="pull-left" ng-show="query2.MainEntity == 'SmgPoi'">
+                    <h4><small class="btn-link pull-right" ng-click="query2 = null">Clear</small></h4>
+                    <br />
+                    <div class="btn-group">
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'wellness entspannung'">Wellness Entspannung</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'winter'">Winter</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'sommer'">Sommer</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'essen trinken'">Essen Trinken</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'anderes'">Anderes</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'kultur sehenswürdigkeiten'">Kultur Sehenswürdigkeiten</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'geschäfte und dienstleister'">Geschäfte und Dienstleister</label>
+                        <label class="btn btn-default" ng-model="query2.ValidForEntity" btn-radio="'mobilität'">Mobilität</label>
+                    </div>
+                </div>
+                <div class="pull-left">
+                    <h4><small class="btn-link pull-right" ng-click="query2 = null">Clear</small></h4>
+                    <br />
+                    <div class="btn-group">
+
+                        <label class="btn btn-default" ng-model="query2.Source" btn-radio="'ODHCategory'">ODH Category created on import</label>
+                        <label class="btn btn-default" ng-model="query2.Source" btn-radio="'LTSCategory'">Category defined by LTS</label>
+                        <label class="btn btn-default" ng-model="query2.Source" btn-radio="'IDMRedactionalCategory'">IDM Redactional Category</label>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-inline">
+                 @if (@ViewBag.globalcreate == true || @ViewBag.commoncreate == true)
+            {
+                <br />
+                <a ng-click="editsmgtag('new')" class="btn btn-small btn-info">New</a>
+                <br />
+            }
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 table-responsive">
+
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 15%;">identifier / title</th>                            
+                            <th style="min-width: 15%;">entity assignment</th>
+                            <th style="min-width: 15%;">source</th>
+                            <th style="min-width: 15%;">mapping </th>
+                            <th style="min-width: 15%;">showing as Category</th>
+                            <th style="min-width: 15%;">autopublish on</th>
+                            <th style="min-width: 10%;">published</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="smgtag in meinecommons = (smgtags | filter:query | filter:query2:true)">
+                            <td><b>{{ smgtag.Id }}</b> <br /> {{ smgtag.TagName[lang] }}</td>
+                            <td>       
+                                <ul class="list-group" style="margin-bottom:0px">
+                                    <li class="list-group-item" ng-repeat="myentity in smgtag.ValidForEntity">
+                                        {{ myentity }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group" style="margin-bottom:0px">
+                                    <li class="list-group-item" ng-repeat="mysource in smgtag.Source">
+                                        {{ mysource }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group" style="margin-bottom:0px">
+                                    <li class="list-group-item" ng-repeat="mappedtags in smgtag.MappedTagIds">
+                                        {{ mappedtags }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <div class="glyphicon glyphicon-ok" ng-show="smgtag.DisplayAsCategory"></div>
+                                <div class="glyphicon glyphicon-remove" ng-show="smgtag.DisplayAsCategory != true"></div>
+                            </td>
+                            <td>
+                                <div ng-repeat="autopublish in smgtag.AutoPublishOn">
+                                    <small>{{ autopublish }}</small>
+                                </div>
+                            <td>
+                                <div ng-repeat="publishchannel in article.PublishedOn">
+                                    <small>{{ publishchannel }}</small>
+                                </div>
+                            </td>
+                            </td>
+                            <td align="right">
+                                <div class="btn-group-vertical">
+                                @if (@ViewBag.globalmodify == true || @ViewBag.commonmodify == true || @ViewBag.globaldetail == true)
+                                {
+                                    <a ng-click="editsmgtag(smgtag)" class="btn btn-small btn-default">edit</a>
+                                }
+                                @if (@ViewBag.globaldelete == true || @ViewBag.commondelete == true)
+                                {
+                                    <a ng-click="deletesmgtag(smgtag.Id, smgtag.Source)" ng-disabled="false" class="btn btn-small btn-primary">delete</a>
+                                }
+                                <a ng-click="showInfoModal(smgtag)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pull-left">
+                @if (@ViewBag.globalcreate == true || @ViewBag.commoncreate == true)
+                {
+                    <a ng-click="editsmgtag('new')" class="btn btn-small btn-info">New</a>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/ng-template" id="SmgTagInfoModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancelslidemodal()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Details</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="form-group">
+                        <br />
+                        <h2>{{ smgtag.Id }}</h2>
+                    
+                    <p>
+                        <strong>Title</strong><br />
+                        {{ smgtag.TagName[lang] }}
+                    </p>
+
+                    <p>Valid for Entity
+
+                        <ul>
+                            <li ng-repeat="myentity in smgtag.ValidForEntity">{{ myentity }}</li>
+                        </ul>
+
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-info" ng-click="cancelInfoModal()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="mySmgTagModal.html">
+        <form name="smgtagform">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit</h4>
+            </div>
+            <div class="modal-body">
+                <div class="btn-group pull-right">
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'de'">de</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'it'">it</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'en'">en</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'nl'">nl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'cs'">cs</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'pl'">pl</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'fr'">fr</label>
+                    <label class="btn btn-default" ng-model="lang" btn-radio="'ru'">ru</label>
+                </div>
+                <tabset>
+                    <tab heading="Detail">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputId" class="col-sm-4 control-label">Id (Please use english id with no spaces and no special characters)</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputId" placeholder="Name" ng-model="smgtag.Id" ng-show="newsmgtag" required>
+                                            <input type="text" class="form-control" id="inputId" placeholder="Name" ng-model="smgtag.Id" ng-show="!newsmgtag" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputTagName" class="col-sm-4 control-label">Title</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputTagName" placeholder="Title" ng-model="smgtag.TagName[lang]">
+                                        </div>
+                                    </div>
+
+                                   @* <div class="form-group">
+                                        <label for="inputTagName" class="col-sm-4 control-label">Main Entity</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="selectEntity" ng-model="smgtag.MainEntity">
+                                                <option value="accommodation">Accommodation</option>
+                                                <option value="package">Package</option>
+                                                <option value="gastronomy">Gastronomy</option>
+                                                <option value="activity">Activity</option>
+                                                <option value="poi">Poi</option>
+                                                <option value="odhactivitypoi">ODHActivityPoi</option>
+                                                <option value="smgpoi">ODH Activity Poi</option>
+                                                <option value="article">Article</option>
+                                                <option value="event">Event</option>
+                                                <option value="common">Common</option>
+                                                <option value="venue">Venue</option>
+                                            </select>
+                                        </div>
+                                    </div>*@
+
+                                    <div class="form-group">
+                                        <label for="inputTagEntity" class="col-sm-4 control-label">valid for:</label>
+                                        <div class="col-sm-8">
+
+                                            <div class="input-group col-sm-8">
+                                                <select class="form-control" id="selectEntity" ng-model="EntityName">
+                                                    <option value="common">Common</option>
+                                                    <option value="accommodation">Accommodation</option>
+                                                    <option value="package">Package</option>
+                                                    <option value="gastronomy">Gastronomy</option>
+                                                    <option value="activity">Activity</option>
+                                                    <option value="poi">Poi</option>
+                                                    <option value="smgpoi">SmgPoi</option>
+                                                    <option value="odhactivitypoi">ODHActivityPoi</option>
+                                                    <option value="article">Article</option>
+                                                    <option value="event">Event</option>
+                                                    <option value="venue">Venue</option>
+
+                                                    <option value="wellness entspannung">ODHActivityPoi: Wellness</option>
+                                                    <option value="winter">ODHActivityPoi: Winter</option>
+                                                    <option value="sommer">ODHActivityPoi: Summer</option>
+                                                    <option value="kultur sehenswürdigkeiten">ODHActivityPoi: Culture</option>
+                                                    <option value="essen trinken">ODHActivityPoi: Gastronomy</option>
+                                                    <option value="anderes">ODHActivityPoi: Other</option>
+                                                    <option value="mobilität">ODHActivityPoi: Mobility</option>
+                                                    <option value="geschäfte und dienstleister">ODHActivityPoi: Shops and Services</option>
+
+                                                    <option value="basisartikel">Article: Base</option>
+                                                    <option value="rezeptartikel">Article: Recipe</option>
+                                                    <option value="veranstaltungsartikel">Article: Event</option>
+                                                    <option value="buchtippartikel">Article: Book</option>
+                                                    <option value="katalog">Article: Catalogue</option>
+                                                    <option value="reiseveranstalter">Article: Touroperator</option>
+                                                    <option value="presseartikel">Article: Pressbase</option>
+                                                    <option value="b2bartikel">Article: Pressmeeting</option>
+                                                    <option value="idmartikel">Article: IDM</option>
+                                                    <option value="contentartikel">Article: Content</option>
+                                                    <option value="specialannouncement">Article: SpecialAnnouncement</option>
+                                                    <option value="newsfeednoi">Article: NewsFeedNoi</option>
+
+                                                </select>
+                                                <span class="input-group-btn" style="vertical-align:top">
+                                                    <button type="button" class="btn btn-default" value="+" ng-click="addentity(EntityName)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                </span>
+                                            </div>
+
+                                            <div class="input-group col-sm-8" ng-repeat="myentity in smgtag.ValidForEntity">
+                                                <input type="text" class="form-control" id="inputEntity" placeholder="Entity" ng-model="myentity" readonly>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" value="-" ng-click="removeentity(myentity)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </span>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputTagEntity" class="col-sm-4 control-label">Source:</label>
+                                        <div class="col-sm-8">
+
+                                            <div class="input-group col-sm-8">
+                                                <select class="form-control" id="selectSource" ng-model="SourceName">
+                                                    <option value="ODHCategory">ODH Activity Poi Category</option>
+                                                    <option value="LTSCategory">LTS Category</option>
+                                                    <option value="IDMRedactionalCategory">IDM Redactional Category</option>
+                                                </select>
+                                                <span class="input-group-btn" style="vertical-align:top">
+                                                    <button type="button" class="btn btn-default" value="+" ng-click="addsource(SourceName)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                </span>
+                                            </div>
+
+
+
+                                            <div class="input-group col-sm-8" ng-repeat="mysource in smgtag.Source">
+                                                <input type="text" class="form-control" id="inputSource" placeholder="Source" ng-model="mysource" readonly>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" value="-" ng-click="removesource(mysource)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" ng-show="smgtag.Source.indexOf('ODHCategory') > -1 || smgtag.Source.indexOf('LTSCategory') > -1">
+                                        <label for="inputName" class="col-sm-4 control-label">Include as Category</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" class="smallcheckbox" id="checkboxDisplayAsCategory" ng-model="smgtag.DisplayAsCategory">
+                                            <span> (If checkbox is active, the Tag will be added in all languages as object.AdditionalInfo.Category)</span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="License">
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputMetaLicense" class="col-sm-2 control-label">License</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="selectSource" ng-model="smgtag.LicenseInfo.License">
+                                                        <option>CC0</option>
+                                                        <option>CC-BY</option>
+                                                        <option>Closed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputMetaLicenseHolder" class="col-sm-2 control-label">License Holder</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMetaLicenseHolder" placeholder="LicenseHolder" ng-model="smgtag.LicenseInfo.LicenseHolder">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="inputMetaAuthor" class="col-sm-2 control-label">Author</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMetaAuthor" placeholder="Author" ng-model="smgtag.LicenseInfo.Author">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="checkboxMetaClosed" class="col-sm-2 control-label">Closed Data</label>
+                                                <div class="col-sm-10">
+                                                    <input type="checkbox" class="smallcheckbox" id="checkboxMetaClosed" ng-model="smgtag.LicenseInfo.ClosedData" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="checkboxMetaClosed" class="col-sm-2 control-label">Reduced Data</label>
+                                                <div class="col-sm-10">
+                                                    <input type="checkbox" class="smallcheckbox" id="checkboxMetaClosed" ng-model="smgtag._Meta.Reduced" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                    <tab heading="Mapped Tags">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span>
+                                    Mapped Tags are assigned on import, example if Tag x has mapped Tag y, when data is imported and Tag x is present, Tag y is automatically assigned. At the moment only valid for LTSCategories
+                                </span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+                                        <div ng-controller="SmgTagNameModalTypeAheadController">
+                                            <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="smgtagmapped.smgtagname" idmodel="smgtagmapped.smgtagid" on-select="onItemSelected()" />
+                                        </div>
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addmappedtag()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="tag in smgtag.MappedTagIds">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletemappedtag(tag)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tag" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+                    <tab heading="Parent Tags">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span>
+                                    Displayed if a Tag has a Parent
+                                </span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <div class="form-group" @*ng-show="smgtag.Source.indexOf('LTSCategory') > -1"*@>
+
+                                    <label for="inputTagEntity" class="col-sm-4 control-label">Parent</label>
+                                    <div class="col-sm-8">
+
+                                        <div class="input-group col-sm-12" ng-repeat="(key, val) in smgtag.Mapping">
+
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputProperty" placeholder="Mapping Key" ng-model="key" readonly />
+                                            </div>
+                                            <div class="col-sm-8" ng-repeat="(key2, val2) in smgtag.Mapping[key]">
+
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputProperty" placeholder="Mapping Value" ng-model="key2" readonly />
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputProperty" placeholder="Mapping Value" ng-model="val2" readonly />
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </tab>
+                    <tab heading="AutoPublish">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span>
+                                    Auto Publish all Activities which have this Tag assigned on following channels
+                                </span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8 input-group">
+
+        @*<input type="text" class="form-control" id="inputPublishChannel" placeholder="Channel to publish" ng-model="publishedchannel.name">*@
+
+                                        <select class="form-control" id="selectSource" ng-model="publishedchannel.name">
+                                            <option value="idm-marketplace" selected>idm-marketplace</option>
+                                        </select>
+
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addpublishedchannel()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="input-group" ng-repeat="channel in smgtag.AutoPublishOn">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletepublishedchannel(channel)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputchannelsingle" placeholder="Tag" ng-model="channel" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tab>
+
+                       <tab heading="Mapping">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-sm-8" style="text-align:right;padding-left:0px;padding-right:0px;">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputNewMappingkey" placeholder="Mapping Key" ng-model="mappingproperty.Mappingkey">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputNewMappingproperty" placeholder="Mapping Property" ng-model="mappingproperty.Name">
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputNewMappingvalue" placeholder="Mapping Value" ng-model="mappingproperty.Value">
+                                    </div>
+                                    <div class="col-sm-4" style="padding-left:0px;padding-right:0px;">
+                                        <span class="input-group-btn" style="vertical-align:top">
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addmapping()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">&nbsp;</div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Inserted Mappings
+                                    </div>
+                                    <div class="form-group panel-body">
+                                        <div ng-repeat="(mappingkey,mappingvalue) in smgtag.Mapping">
+
+                                            <div class="col-sm-8" style="text-align:right;padding-left:0px;padding-right:0px;">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputMappingPropertykey" placeholder="Mapping Key" ng-model="mappingkey" readonly>
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left:0px;padding-right:0px;">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn" style="vertical-align:top;">
+                                                        <button type="button" class="btn btn-default" ng-click="deletemapping('all', mappingkey)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+
+                                            <div ng-repeat="(mappingpropkey, mappingpropvalue) in smgtag.Mapping[mappingkey]">
+                                                <div class="col-sm-8" style="text-align:right;padding-left:0px;padding-right:0px;">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMappingPropertykey" placeholder="Mapping Property" ng-model="mappingpropkey" readonly>
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputMappingPropertyvalue" placeholder="Mapping Value" ng-model="smgtag.Mapping[mappingkey][mappingpropkey]">
+                                                </div>
+                                                <div class="col-sm-4" style="padding-left:0px;padding-right:0px;">
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn" style="vertical-align:top;">
+                                                            <button type="button" class="btn btn-default" ng-click="deletemapping(mappingpropkey, mappingkey)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </tab>
+
+                            <tab heading="Publish">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <label class="col-sm-4 control-label"></label>
+                                        <div class="col-sm-8 input-group">
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLinkTitle" list="publishedonitems" placeholder="Publishedon Key" ng-model="publishchannel" />
+
+                                            <span class="input-group-btn" style="vertical-align:top">
+                                                <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <div class="input-group" ng-repeat="publishchannel in smgtag.PublishedOn">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="deletepublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            </span>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPublishedonsingle" placeholder="Publishedon" ng-model="publishchannel" readonly>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </tab>
+
+                </tabset>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success" ng-click="addsmgtag(smgtag,smgtagform.$valid)" ng-show="newsmgtag">Create</button>
+                <button class="btn btn-warning" ng-click="updatesmgtag(smgtag,smgtagform.$valid)" ng-show="!newsmgtag">Save</button>
+                <button class="btn btn-info" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </script>
+
+</div>
+
+
+    @section Styles{
+    <style type="text/css">
+    </style>
+
+}
+
+    @section Scripts {
+    @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
+    @*<script src="~/NgScripts/appfactory.js"></script>*@
+    <script src="~/NgScripts/appconfig.js"></script>
+    <script src="~/NgScripts/SmgTagController.js?ver=20191119"></script>
+    }

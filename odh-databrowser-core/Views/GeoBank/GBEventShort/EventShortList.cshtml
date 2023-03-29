@@ -180,6 +180,7 @@
             <table class="table table-striped table-condensed">
                 <thead>
                     <tr>
+                        <th style="width: 150px;">image</th>
                         <th style="min-width: 80px;">description</th>
                         <th style="min-width: 80px;">begin / enddate</th>
                         <th style="min-width: 80px;">location</th>
@@ -193,7 +194,11 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="eventshort in eventsshort track by $index">
-
+                        <td>
+                            <div style="max-width:150px;min-height:75px">
+                                <img class="img-thumbnail img-responsive" ng-src="{{  eventshort.ImageGallery[0] != NULL && eventshort.ImageGallery[0].ImageUrl + '&width=150' || '../img/noimage.png' }}" title="{{ eventshort.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(eventshort, lang)" />
+                            </div>
+                        </td>
                         <td>
                             <div>{{ eventshort.EventTitle[lang] }}</div>             
                             <br />

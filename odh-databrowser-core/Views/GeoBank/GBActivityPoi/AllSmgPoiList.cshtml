@@ -1917,7 +1917,6 @@
                 </div>
             </div>
 
-            @*Contactinfos*@
             <div class="row">
                 <div class="col-sm-6">
 
@@ -2073,6 +2072,27 @@
 
                 </div>
             </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    ODH Tags:<br />
+
+                    <span class="badge badge-secondary" ng-repeat="odhtag in poi.SmgTags">{{ odhtag }}</span>
+
+
+                </div>
+                <div class="col-sm-6">
+                    Tags (english keys with source):<br />
+                    
+                      <span class="badge badge-secondary" ng-repeat="tag in poi.Tags">{{ tag.Source }}.{{ tag.Id }}</span>
+
+
+
+                </div>
+
+            </div>
+
             <div class="row">
                 <div class="col-sm-12" ng-repeat="operationschedule in poi.OperationSchedule">
                     <h4>Öffnungszeiten</h4>
@@ -2092,6 +2112,8 @@
                     </div>
                 </div>
             </div>
+
+            
         </div>
 
 

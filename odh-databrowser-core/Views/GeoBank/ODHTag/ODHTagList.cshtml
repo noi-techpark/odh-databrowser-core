@@ -106,7 +106,7 @@
                             <th style="min-width: 15%;">source</th>
                             <th style="min-width: 15%;">mapping </th>
                             <th style="min-width: 15%;">showing as Category</th>
-                            <th style="min-width: 15%;">autopublish on</th>
+                            <th style="min-width: 15%;">publish data with tag</th>
                             <th style="min-width: 10%;">published</th>
                             <th></th>
                         </tr>
@@ -139,16 +139,16 @@
                                 <div class="glyphicon glyphicon-ok" ng-show="smgtag.DisplayAsCategory"></div>
                                 <div class="glyphicon glyphicon-remove" ng-show="smgtag.DisplayAsCategory != true"></div>
                             </td>
-                            <td>
-                                <div ng-repeat="autopublish in smgtag.AutoPublishOn">
-                                    <small>{{ autopublish }}</small>
+                             <td>
+                                <div ng-repeat="(key, val) in smgtag.PublishDataWithTagOn">
+                                    <small>{{ key }} </small><div class="glyphicon glyphicon-ok" ng-show="val"></div><div class="glyphicon glyphicon-remove" ng-show="val == false"></div>
                                 </div>
+                            </td>
                             <td>
                                 <div ng-repeat="publishchannel in smgtag.PublishedOn">
                                     <small>{{ publishchannel }}</small>
                                 </div>
-                            </td>
-                            </td>
+                            </td>                            
                             <td align="right">
                                 <div class="btn-group-vertical">
                                 @if (@ViewBag.globalmodify == true || @ViewBag.commonmodify == true || @ViewBag.globaldetail == true)
@@ -614,7 +614,11 @@
 
                                         <label class="col-sm-4 control-label"></label>
                                         <div class="col-sm-8 input-group">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLinkTitle" list="publishedonitems" placeholder="Publishedon Key" ng-model="publishchannel" />
+
+                                             <select class="form-control" id="selectSource" ng-model="publishedchannel.name">
+                                                <option value="idm-marketplace" selected>idm-marketplace</option>                                           
+                                            </select>
+                                            <input type="checkbox" class="smallcheckbox" id="checkBoxPublishonChannel" ng-model="publishedchannel.yesno">
 
                                             <span class="input-group-btn" style="vertical-align:top">
                                                 <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>
@@ -625,12 +629,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-horizontal">
 
-                                        <div class="input-group" ng-repeat="publishchannel in smgtag.PublishedOn">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="deletepublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-minus"></i></button>
-                                            </span>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPublishedonsingle" placeholder="Publishedon" ng-model="publishchannel" readonly>
-                                        </div>
+                                        <div class="input-group" ng-repeat="(key,val) in smgtag.PublishDataWithTagOn">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="deletepublishedchannel(key)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputchannelsingle" placeholder="Tag" ng-model="key" readonly>
+                                        <input type="checkbox" class="smallcheckbox" id="checkBoxPublishonChannelview" ng-model="val" readonly>
+
+                                    </div>
 
                                     </div>
                                 </div>
@@ -662,5 +668,5 @@
     @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
     @*<script src="~/NgScripts/appfactory.js"></script>*@
     <script src="~/NgScripts/appconfig.js"></script>
-    <script src="~/NgScripts/SmgTagController.js?ver=20191119"></script>
+    <script src="~/NgScripts/SmgTagController.js?ver=20230405"></script>
     }

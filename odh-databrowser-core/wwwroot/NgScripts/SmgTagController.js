@@ -262,28 +262,31 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
             var addToArray = true;
 
+            if ($scope.smgtag.PublishDataWithTagOn == null)
+                $scope.smgtag.PublishDataWithTagOn = {};
 
-            if ($scope.smgtag.AutoPublishOn != null) {
 
-                $.each($scope.smgtag.AutoPublishOn, function (i) {
+            //if ($scope.smgtag.AutoPublishOn != null) {
 
-                    if ($scope.smgtag.AutoPublishOn[i] === $scope.publishedchannel.name) {
+            //    $.each($scope.smgtag.AutoPublishOn, function (i) {
 
-                        alert('Already present!');
-                        addToArray = false;
+            //        if ($scope.smgtag.AutoPublishOn[i] === $scope.publishedchannel.name) {
 
-                        return false;
-                    }
-                });
-            }
-            else {
-                $scope.smgtag.AutoPublishOn = [];
-            }
+            //            alert('Already present!');
+            //            addToArray = false;
+
+            //            return false;
+            //        }
+            //    });
+            //}
+            //else {
+            //    $scope.smgtag.AutoPublishOn = [];
+            //}
 
 
             if (addToArray) {
 
-                $scope.smgtag.AutoPublishOn.push($scope.publishedchannel.name);
+                $scope.smgtag.PublishDataWithTagOn[$scope.publishedchannel.name] = $scope.publishedchannel.yesno;
                 $scope.publishedchannel.name = '';
             }
         }
@@ -295,12 +298,14 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     //Remove SMG Tagging
     $scope.deletepublishedchannel = function (channel) {
 
-        $.each($scope.smgtag.AutoPublishOn, function (i) {
-            if ($scope.smgtag.AutoPublishOn[i] === channel) {
-                $scope.smgtag.AutoPublishOn.splice(i, 1);
-                return false;
-            }
-        });
+        //$.each($scope.smgtag.AutoPublishOn, function (i) {
+        //    if ($scope.smgtag.AutoPublishOn[i] === channel) {
+        //        $scope.smgtag.AutoPublishOn.splice(i, 1);
+        //        return false;
+        //    }
+        //});
+
+        delete $scope.smgtag.PublishDataWithTagOn[channel];
     }
 
 

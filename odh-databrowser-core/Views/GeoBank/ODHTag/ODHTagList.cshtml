@@ -521,6 +521,8 @@
                                         <select class="form-control" id="selectSource" ng-model="publishedchannel.name">
                                             <option value="idm-marketplace" selected>idm-marketplace</option>
                                         </select>
+                                        <input type="checkbox" class="smallcheckbox" id="checkBoxPublishonChannel" ng-model="publishedchannel.yesno">
+
 
                                         <span class="input-group-btn" style="vertical-align:top">
                                             <button type="button" class="btn btn-default" value="+" ng-click="addpublishedchannel()"><i class="glyphicon glyphicon-plus"></i></button>
@@ -532,11 +534,13 @@
                             <div class="col-sm-6">
                                 <div class="form-horizontal">
 
-                                    <div class="input-group" ng-repeat="channel in smgtag.AutoPublishOn">
+                                     <div class="input-group" ng-repeat="(key,val) in smgtag.PublishDataWithTagOn">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="deletepublishedchannel(channel)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            <button type="button" class="btn btn-default" ng-click="deletepublishedchannel(key)"><i class="glyphicon glyphicon-minus"></i></button>
                                         </span>
-                                        <input type="text" class="form-control notextareamaxwitdth" id="inputchannelsingle" placeholder="Tag" ng-model="channel" readonly>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputchannelsingle" placeholder="Tag" ng-model="key" readonly>
+                                        <input type="checkbox" class="smallcheckbox" id="checkBoxPublishonChannelview" ng-model="val" readonly>
+
                                     </div>
 
                                 </div>
@@ -618,8 +622,7 @@
                                              <select class="form-control" id="selectSource" ng-model="publishedchannel.name">
                                                 <option value="idm-marketplace" selected>idm-marketplace</option>                                           
                                             </select>
-                                            <input type="checkbox" class="smallcheckbox" id="checkBoxPublishonChannel" ng-model="publishedchannel.yesno">
-
+                                            
                                             <span class="input-group-btn" style="vertical-align:top">
                                                 <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>
                                             </span>
@@ -629,12 +632,12 @@
                                 <div class="col-sm-6">
                                     <div class="form-horizontal">
 
-                                        <div class="input-group" ng-repeat="(key,val) in smgtag.PublishDataWithTagOn">
+                                    <div class="input-group" ng-repeat="publishchannel in smgtag.PublishedOn">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="deletepublishedchannel(key)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            <button type="button" class="btn btn-default" ng-click="deletepublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-minus"></i></button>
                                         </span>
-                                        <input type="text" class="form-control notextareamaxwitdth" id="inputchannelsingle" placeholder="Tag" ng-model="key" readonly>
-                                        <input type="checkbox" class="smallcheckbox" id="checkBoxPublishonChannelview" ng-model="val" readonly>
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputPublishedonsingle" placeholder="Publishedon" ng-model="publishchannel" readonly>
+                                    </div>
 
                                     </div>
 

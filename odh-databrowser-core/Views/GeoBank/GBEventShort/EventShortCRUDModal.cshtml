@@ -592,7 +592,9 @@
                                                     <span class="glyphicon glyphicon-upload"></span> Upload
                                                 </button>
                                             </div>
-
+                                            de<input type="checkbox" class="smallcheckbox col-sm" id="checkboxDocumentDE" ng-model="eventdocument.hasde" />
+                                            it<input type="checkbox" class="smallcheckbox col-sm" id="checkboxDocumentIT" ng-model="eventdocument.hasit" />
+                                            en<input type="checkbox" class="smallcheckbox col-sm" id="checkboxDocumentEN" ng-model="eventdocument.hasen" />
                                         </div>
 
                                     </div>
@@ -605,20 +607,32 @@
                         <div class="form-horizontal">
                             <h4>PDF Documents</h4>
 
-                            <div class="row" ng-repeat="esdocument in eventshort.EventDocument">
-                                <div class="col-sm-6" style="text-align:right">
-                                    <a ng-href="{{ esdocument.DocumentURL }}" target="_blank">Linked Document</a>
+                            <div class="row" ng-repeat="(key,value) in eventshort.Documents">
+
+                                <div class=col-sm-12>
+
+                                <div class="row" ng-repeat="esdocument in value">
+
+                                    <div class="col-sm-6" style="text-align:right">
+
+                                        <input type="text" class="form-control notextareamaxwitdth" id="inputBildCopyright" placeholder="Title" ng-model="esdocument.DocumentName">
+                                        <a ng-href="{{ esdocument.DocumentURL }}" target="_blank">Linked Document</a>
+                                    </div>
+                                    <div class="col-sm-4 input-group" style="padding-left:0px">
+                                        <select class="form-control notextareamaxwitdth" id="selectDocumentLanguage" ng-model="esdocument.Language" readonly>
+                                            <option value="de">de</option>
+                                            <option value="it">it</option>
+                                            <option value="en">en</option>
+                                        </select>
+                                        <span class="input-group-btn" style="vertical-align:top;">
+                                            <button type="button" class="btn btn-default" ng-click="deletedocument(esdocument.DocumentURL, esdocument.Language)"><i class="glyphicon glyphicon-minus"></i></button>
+                                        </span>
+                                    </div>
+
                                 </div>
-                                <div class="col-sm-4 input-group" style="padding-left:0px">
-                                    <select class="form-control notextareamaxwitdth" id="selectDocumentLanguage" ng-model="esdocument.Language">
-                                        <option value="de">de</option>
-                                        <option value="it">it</option>
-                                        <option value="en">en</option>
-                                    </select>
-                                    <span class="input-group-btn" style="vertical-align:top;">
-                                        <button type="button" class="btn btn-default" ng-click="deletedocument(esdocument.DocumentURL)"><i class="glyphicon glyphicon-minus"></i></button>
-                                    </span>
-                                </div>                               
+
+                                </div>
+                                                              
                             </div>
                         </div>
                     </div>

@@ -577,9 +577,9 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     }
 
     //Bild löschen
-    $scope.deletedocument = function (documenturl) {
+    $scope.deletedocument = function (documenturl, language) {
 
-        $.each($scope.eventshort.EventDocument, function (i) {
+        $.each($scope.eventshort.EventDocument[language], function (i) {
             if ($scope.eventshort.EventDocument[i].DocumentURL === documenturl) {
                 $scope.eventshort.EventDocument.splice(i, 1);
                 return false;
@@ -1103,40 +1103,67 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
         var hasit = false;
         var hasen = false;
 
-        //language check1
-        if ($scope.eventshort.EventDocument.length > 0) {
-            $.each($scope.eventshort.EventDocument, function (i) {
-                if ($scope.eventshort.EventDocument[i].Language === 'de') {
-                    hasde = true;
-                }
-                else if ($scope.eventshort.EventDocument[i].Language === 'it') {
-                    hasit = true;
-                }
-                else if ($scope.eventshort.EventDocument[i].Language === 'en') {
-                    hasen = true;
-                }
-            });
+        ////language check1
+        //if ($scope.eventshort.EventDocument.length > 0) {
+        //    $.each($scope.eventshort.EventDocument, function (i) {
+        //        if ($scope.eventshort.EventDocument[i].Language === 'de') {
+        //            hasde = true;
+        //        }
+        //        else if ($scope.eventshort.EventDocument[i].Language === 'it') {
+        //            hasit = true;
+        //        }
+        //        else if ($scope.eventshort.EventDocument[i].Language === 'en') {
+        //            hasen = true;
+        //        }
+        //    });
+        //}
+
+        //console.log('de ' + hasde);
+        //console.log('it ' + hasit);
+        //console.log('en ' + hasen);
+
+
+        //if (hasde && !hasit && !hasen)
+        //    languagetoset = 'it';
+        //if (hasde && hasit && !hasen)
+        //    languagetoset = 'en';
+
+        //if (hasde && hasit && hasen) {
+        //    alert('Documents in de/it/en already assigned');
+        //}
+        //else {
+
+        if ($scope.eventdocument.hasde) {
+            var UploadedPDF = { DocumentUrl: pdfurl, Language: "de", DocumentName: "" }
+
+            if ($scope.eventshort.Documents["de"] == undefined)
+                $scope.eventshort.Documents["de"] = [];
+
+            $scope.eventshort.Documents["de"].push(UploadedPDF);
+
+            alert('Document uploaded');
+
+            console.info('onSuccessItem', fileItem, response, status, headers);
         }
+        if ($scope.eventdocument.hasit) {
+            var UploadedPDF = { DocumentUrl: pdfurl, Language: "it", DocumentName: "" }
 
-        console.log('de ' + hasde);
-        console.log('it ' + hasit);
-        console.log('en ' + hasen);
+            if ($scope.eventshort.Documents["it"] == undefined)
+                $scope.eventshort.Documents["it"] = [];
 
+            $scope.eventshort.Documents["it"].push(UploadedPDF);
 
-        if (hasde && !hasit && !hasen)
-            languagetoset = 'it';
-        if (hasde && hasit && !hasen)
-            languagetoset = 'en';
+            alert('Document uploaded');
 
-        if (hasde && hasit && hasen) {
-            alert('Documents in de/it/en already assigned');
+            console.info('onSuccessItem', fileItem, response, status, headers);
         }
-        else {
-            var UploadedPDF = { DocumentUrl: pdfurl, Language: languagetoset }
+        if ($scope.eventdocument.hasen) {
+            var UploadedPDF = { DocumentUrl: pdfurl, Language: "en", DocumentName: "" }
 
-            console.log(pdfurl);
+            if ($scope.eventshort.Documents["en"] == undefined)
+                $scope.eventshort.Documents["en"] = [];
 
-            $scope.eventshort.EventDocument.push(UploadedPDF);
+            $scope.eventshort.Documents["en"].push(UploadedPDF);
 
             alert('Document uploaded');
 

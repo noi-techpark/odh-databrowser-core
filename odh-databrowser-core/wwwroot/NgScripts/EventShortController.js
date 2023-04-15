@@ -580,8 +580,8 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.deletedocument = function (documenturl, language) {
 
         $.each($scope.eventshort.EventDocument[language], function (i) {
-            if ($scope.eventshort.EventDocument[i].DocumentURL === documenturl) {
-                $scope.eventshort.EventDocument.splice(i, 1);
+            if ($scope.eventshort.EventDocument[language][i].DocumentURL === documenturl) {
+                $scope.eventshort.EventDocument[language].splice(i, 1);
                 return false;
             }
         });
@@ -1097,12 +1097,6 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
             counter = $scope.eventshort.EventDocument.length;
         }
 
-        var languagetoset = 'de';
-
-        var hasde = false;
-        var hasit = false;
-        var hasen = false;
-
         ////language check1
         //if ($scope.eventshort.EventDocument.length > 0) {
         //    $.each($scope.eventshort.EventDocument, function (i) {
@@ -1132,6 +1126,8 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
         //    alert('Documents in de/it/en already assigned');
         //}
         //else {
+
+        console.log(pdfurl);
 
         if ($scope.eventdocument.hasde) {
             var UploadedPDF = { DocumentUrl: pdfurl, Language: "de", DocumentName: "" }

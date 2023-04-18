@@ -310,6 +310,8 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.mappingproperty = {};
 
+    $scope.eventdocument = { hasde: true, hasit: true, hasen: true };
+
 	if ($scope.eventshort.Source == 'Content') {
 
         var roomloc = $scope.eventlocation;
@@ -1087,15 +1089,15 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
         var r = new RegExp('"', 'g');
         var pdfurl = response.replace(r, '');
         //Filename
-       
-        var counter = 0;
 
-        if ($scope.eventshort.EventDocument == null) {
-            $scope.eventshort.EventDocument = [];
-        }
-        else {
-            counter = $scope.eventshort.EventDocument.length;
-        }
+        //var counter = 0;
+
+        //if ($scope.eventshort.EventDocument == null) {
+        //    $scope.eventshort.EventDocument = [];
+        //}
+        //else {
+        //    counter = $scope.eventshort.EventDocument.length;
+        //}
 
         ////language check1
         //if ($scope.eventshort.EventDocument.length > 0) {
@@ -1127,7 +1129,11 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
         //}
         //else {
 
-        console.log(pdfurl);
+        //console.log(pdfurl);
+
+        if ($scope.eventshort.Documents == null || $scope.eventshort.Documents == undefined) {
+            $scope.eventshort.Documents = {};
+        }
 
         if ($scope.eventdocument.hasde) {
             var UploadedPDF = { DocumentUrl: pdfurl, Language: "de", DocumentName: "" }
@@ -1137,7 +1143,7 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
 
             $scope.eventshort.Documents["de"].push(UploadedPDF);
 
-            alert('Document uploaded');
+            //alert('Document uploaded');
 
             console.info('onSuccessItem', fileItem, response, status, headers);
         }
@@ -1149,7 +1155,7 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
 
             $scope.eventshort.Documents["it"].push(UploadedPDF);
 
-            alert('Document uploaded');
+            //alert('Document uploaded');
 
             console.info('onSuccessItem', fileItem, response, status, headers);
         }
@@ -1161,7 +1167,7 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
 
             $scope.eventshort.Documents["en"].push(UploadedPDF);
 
-            alert('Document uploaded');
+            //alert('Document uploaded');
 
             console.info('onSuccessItem', fileItem, response, status, headers);
         }

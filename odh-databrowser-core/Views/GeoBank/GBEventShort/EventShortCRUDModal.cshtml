@@ -126,7 +126,6 @@
                                 </span>
                             </div>
 
-
                             <div class="form-group" style="margin-bottom:0px">
                                 <label for="inputDate" class="col-sm-2 control-label">Date Start</label>
                                 <div class="col-sm-8" ng-controller="DatepickerDemoCtrl">
@@ -216,55 +215,7 @@
                                 </div>
                             </div>
 
-
-                            <div class="form-group">
-
-                                <label for="inputTyp" class="col-sm-2 control-label">Technology Field</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group" ng-controller="TechnologyfieldSelectController">
-                                        <select class="form-control notextareamaxwitdth" id="selectTechnologyFields" ng-model="technologyFieldId">
-                                            <option ng-repeat="option in technologyfieldslist" value="{{option.Key}}">{{option.Key}}</option>
-                                       </select>
-                                        <span class="input-group-btn" style="vertical-align:top">
-                                            <button type="button" class="btn btn-default" value="+" ng-click="addtechnologyfield(technologyFieldId)"><i class="glyphicon glyphicon-plus"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-8">
-                                    <div class="input-group" ng-repeat="tagfield in eventshort.TechnologyFields">
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="deletetechnologyfield(tagfield)"><i class="glyphicon glyphicon-minus"></i></button>
-                                        </span>
-                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tagfield" readonly>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                                                
-                                <label for="inputTyp" class="col-sm-2 control-label">Custom Tagging</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group" ng-controller="TagSelectController">
-                                        <select class="form-control notextareamaxwitdth" id="selectCustomTagFieldList" ng-model="taggingFieldId">
-                                            <option ng-repeat="option in taglist" value="{{option.Key}}">{{option.Key}}</option>
-                                        </select>
-                                        <span class="input-group-btn" style="vertical-align:top">
-                                            <button type="button" class="btn btn-default" value="+" ng-click="addcustomfield(taggingFieldId)"><i class="glyphicon glyphicon-plus"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-8">
-                                    <div class="input-group" ng-repeat="customtagfield in eventshort.CustomTagging">
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="deletecustomfield(customtagfield)"><i class="glyphicon glyphicon-minus"></i></button>
-                                        </span>
-                                        <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="customtagfield" readonly>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="form-group">
 
                                 <label for="inputSoldOut" class="col-sm-2 control-label">Sold Out</label>
@@ -476,6 +427,84 @@
 
 
                 </div>
+            </tab>
+
+            <tab heading="Tagging">
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="form-group">
+
+                            <label for="inputTyp" class="col-sm-4 control-label">Technologyfield</label>
+                            <div class="col-sm-8">
+                                <div class="input-group" ng-controller="TechnologyfieldSelectController">
+                                    <select class="form-control notextareamaxwitdth" id="selectTechnologyFields" ng-model="technologyFieldId">
+                                        <option ng-repeat="option in technologyfieldslist" value="{{option.Key}}">{{option.Key}}</option>
+                                    </select>
+                                    <span class="input-group-btn" style="vertical-align:top">
+                                        <button type="button" class="btn btn-default" value="+" ng-click="addtechnologyfield(technologyFieldId)"><i class="glyphicon glyphicon-plus"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <br />
+                            <label class="col-sm-4 control-label"></label>
+                            <div class="col-sm-8">
+                                <div class="input-group" ng-repeat="tagfield in eventshort.TechnologyFields">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="deletetechnologyfield(tagfield)"><i class="glyphicon glyphicon-minus"></i></button>
+                                    </span>
+                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="tagfield" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+
+                            <label for="inputTyp" class="col-sm-4 control-label">Tagging</label>
+                            <div class="col-sm-8">
+                                <div class="input-group" ng-controller="TagSelectController">
+                                    <select class="form-control notextareamaxwitdth" id="selectCustomTagFieldList" ng-model="taggingFieldId">
+                                        <option ng-repeat="option in taglist" value="{{option.Key}}">{{option.Key}}</option>
+                                    </select>
+                                    <span class="input-group-btn" style="vertical-align:top">
+                                        <button type="button" class="btn btn-default" value="+" ng-click="addcustomfield(taggingFieldId)"><i class="glyphicon glyphicon-plus"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <br />
+                            <label class="col-sm-4 control-label"></label>
+                            <div class="col-sm-8">
+                                <div class="input-group" ng-repeat="customtagfield in eventshort.CustomTagging">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="deletecustomfield(customtagfield)"><i class="glyphicon glyphicon-minus"></i></button>
+                                    </span>
+                                    <input type="text" class="form-control notextareamaxwitdth" id="inputTagsingle" placeholder="Tag" ng-model="customtagfield" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-horizontal">
+
+                            <div class="form-group" style="margin-bottom:0px">
+                                <label for="inputAgeFrom" class="col-sm-2 control-label">AgeFrom</label>
+                                <div class="col-sm-10">
+                                    <input type="number" id="inputAgeFrom" name="inputAgeFrom" class="form-control notextareamaxwitdth" placeholder="Age From" ng-model="eventshort.TypicalAgeRange.AgeFrom">
+                                </div>
+                                <label for="inputAgeTo" class="col-sm-2 control-label">AgeTo</label>
+                                <div class="col-sm-10">
+                                    <input type="number" id="inputAgeTo" name="inputAgeTo" class="form-control notextareamaxwitdth" placeholder="Age To" ng-model="eventshort.TypicalAgeRange.AgeTo">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </tab>
 
             <tab heading="Images">

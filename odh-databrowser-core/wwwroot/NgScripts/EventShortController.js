@@ -1202,3 +1202,29 @@ function getQueryVariable(url, variable) {
     }
     return (false);
 }
+
+//Tag Select controller
+var tagselectcontroller = app.controller('TagSelectController', function ($scope, $http) {
+
+    var mytagspath = $scope.basePath + '/v1/EventShortTypes?rawfilter=eq(Type,"CustomTagging")';
+    
+    $http({
+        method: 'Get',        
+        url: mytagspath
+    }).success(function (data) {
+        $scope.taglist = data;
+    });      
+});
+
+//Technology field Select controller
+var technologyfieldsselectcontroller = app.controller('TechnologyfieldSelectController', function ($scope, $http) {
+
+    var mytechnologyfieldsspath = $scope.basePath + '/v1/EventShortTypes?rawfilter=eq(Type,"TechnologyFields")';
+
+    $http({
+        method: 'Get',
+        url: mytechnologyfieldsspath
+    }).success(function (data) {
+        $scope.technologyfieldslist = data;
+    });
+});

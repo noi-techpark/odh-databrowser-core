@@ -310,6 +310,8 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
     $scope.mappingproperty = {};
 
+    $scope.eventdocument = { hasde: true, hasit: true, hasen: true };
+
 	if ($scope.eventshort.Source == 'Content') {
 
         var roomloc = $scope.eventlocation;
@@ -580,8 +582,8 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.deletedocument = function (documenturl, language) {
 
         $.each($scope.eventshort.EventDocument[language], function (i) {
-            if ($scope.eventshort.EventDocument[i].DocumentURL === documenturl) {
-                $scope.eventshort.EventDocument.splice(i, 1);
+            if ($scope.eventshort.EventDocument[language][i].DocumentURL === documenturl) {
+                $scope.eventshort.EventDocument[language].splice(i, 1);
                 return false;
             }
         });
@@ -1087,21 +1089,15 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
         var r = new RegExp('"', 'g');
         var pdfurl = response.replace(r, '');
         //Filename
-       
-        var counter = 0;
 
-        if ($scope.eventshort.EventDocument == null) {
-            $scope.eventshort.EventDocument = [];
-        }
-        else {
-            counter = $scope.eventshort.EventDocument.length;
-        }
+        //var counter = 0;
 
-        var languagetoset = 'de';
-
-        var hasde = false;
-        var hasit = false;
-        var hasen = false;
+        //if ($scope.eventshort.EventDocument == null) {
+        //    $scope.eventshort.EventDocument = [];
+        //}
+        //else {
+        //    counter = $scope.eventshort.EventDocument.length;
+        //}
 
         ////language check1
         //if ($scope.eventshort.EventDocument.length > 0) {
@@ -1133,6 +1129,12 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
         //}
         //else {
 
+        //console.log(pdfurl);
+
+        if ($scope.eventshort.Documents == null || $scope.eventshort.Documents == undefined) {
+            $scope.eventshort.Documents = {};
+        }
+
         if ($scope.eventdocument.hasde) {
             var UploadedPDF = { DocumentUrl: pdfurl, Language: "de", DocumentName: "" }
 
@@ -1141,7 +1143,7 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
 
             $scope.eventshort.Documents["de"].push(UploadedPDF);
 
-            alert('Document uploaded');
+            //alert('Document uploaded');
 
             console.info('onSuccessItem', fileItem, response, status, headers);
         }
@@ -1153,7 +1155,7 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
 
             $scope.eventshort.Documents["it"].push(UploadedPDF);
 
-            alert('Document uploaded');
+            //alert('Document uploaded');
 
             console.info('onSuccessItem', fileItem, response, status, headers);
         }
@@ -1165,7 +1167,7 @@ app.controller('FileUploadControllerPDF', ['$scope', 'FileUploader', function ($
 
             $scope.eventshort.Documents["en"].push(UploadedPDF);
 
-            alert('Document uploaded');
+            //alert('Document uploaded');
 
             console.info('onSuccessItem', fileItem, response, status, headers);
         }
@@ -1200,3 +1202,29 @@ function getQueryVariable(url, variable) {
     }
     return (false);
 }
+
+//Tag Select controller
+var tagselectcontroller = app.controller('TagSelectController', function ($scope, $http) {
+
+    var mytagspath = $scope.basePath + '/v1/EventShortTypes?rawfilter=eq(Type,"CustomTagging")';
+    
+    $http({
+        method: 'Get',        
+        url: mytagspath
+    }).success(function (data) {
+        $scope.taglist = data;
+    });      
+});
+
+//Technology field Select controller
+var technologyfieldsselectcontroller = app.controller('TechnologyfieldSelectController', function ($scope, $http) {
+
+    var mytechnologyfieldsspath = $scope.basePath + '/v1/EventShortTypes?rawfilter=eq(Type,"TechnologyFields")';
+
+    $http({
+        method: 'Get',
+        url: mytechnologyfieldsspath
+    }).success(function (data) {
+        $scope.technologyfieldslist = data;
+    });
+});

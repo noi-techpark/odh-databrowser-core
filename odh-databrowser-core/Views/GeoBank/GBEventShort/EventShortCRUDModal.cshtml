@@ -221,13 +221,9 @@
 
                                 <label for="inputTyp" class="col-sm-2 control-label">Technology Field</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group">
+                                    <div class="input-group" ng-controller="TechnologyfieldSelectController">
                                         <select class="form-control notextareamaxwitdth" id="selectTechnologyFields" ng-model="technologyFieldId">
-                                            <option value="Alpine">Alpine</option>
-                                            <option value="Automotive/Automation">Automotive/Automation</option>
-                                            <option value="Digital">Digital</option>
-                                            <option value="Food">Food</option>
-                                            <option value="Green">Green</option>
+                                            <option ng-repeat="option in technologyfieldslist" value="{{option.Key}}">{{option.Key}}</option>
                                        </select>
                                         <span class="input-group-btn" style="vertical-align:top">
                                             <button type="button" class="btn btn-default" value="+" ng-click="addtechnologyfield(technologyFieldId)"><i class="glyphicon glyphicon-plus"></i></button>
@@ -246,28 +242,19 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="inputTyp" class="col-sm-2 control-label">Tagging Field</label>
+                                                                
+                                <label for="inputTyp" class="col-sm-2 control-label">Custom Tagging</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <select class="form-control notextareamaxwitdth" id="selectCustomTagFields" ng-model="taggingFieldId">
-                                            <option value="Arts&Culture">Arts&Culture</option>
-                                            <option value="Square">Square</option>
-                                            <option value="Camp4Company">Camp4Company</option>
-                                            <option value="MiniNOI">MiniNOI</option>
-                                            <option value="Out of the Lab">Out of the Lab</option>
-                                            <option value="Summer at NOI">Summer at NOI</option>
-                                            <option value="Public">Public</option>
-                                            <option value="NOI Community">NOI Community</option>
-                                            <option value="Balboa x NOI Into Action">Balboa x NOI Into Action</option>
-                                            <option value="Companies">Companies</option>
-                                            <option value="Startups">Startups</option>
-                                            <option value="Researchers">Researchers</option>                                            
+                                    <div class="input-group" ng-controller="TagSelectController">
+                                        <select class="form-control notextareamaxwitdth" id="selectCustomTagFieldList" ng-model="taggingFieldId">
+                                            <option ng-repeat="option in taglist" value="{{option.Key}}">{{option.Key}}</option>
                                         </select>
                                         <span class="input-group-btn" style="vertical-align:top">
                                             <button type="button" class="btn btn-default" value="+" ng-click="addcustomfield(taggingFieldId)"><i class="glyphicon glyphicon-plus"></i></button>
                                         </span>
                                     </div>
                                 </div>
+
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-8">
                                     <div class="input-group" ng-repeat="customtagfield in eventshort.CustomTagging">

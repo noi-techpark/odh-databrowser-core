@@ -709,6 +709,50 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         }
     }
 
+    //Add Technology Field
+    $scope.addageinfo = function (agefrom, ageto) {
+
+        var addToArray = true;
+
+        if ($scope.eventshort.TypicalAgeRange != null) {
+
+            $.each($scope.eventshort.TypicalAgeRange, function (i) {
+
+                if ($scope.eventshort.TypicalAgeRange[i].AgeFrom === agefrom && $scope.eventshort.TypicalAgeRange[i].AgeTo === ageto) {
+
+                    alert('Already present!');
+
+                    addToArray = false;
+
+                    return false;
+                }
+            });
+        }
+        else {
+            $scope.eventshort.TypicalAgeRange = [];
+        }
+
+        if (agefrom == '' || agefrom == undefined || ageto == '' || ageto == undefined) {
+            addToArray = false;
+            alert('Please insert an age range');
+        }
+
+        if (addToArray) {
+            $scope.eventshort.TypicalAgeRange.push({ AgeFrom: agefrom, AgeTo: ageto });
+        }
+    }
+
+    //Remove Technologyfield
+    $scope.deleteageinfo = function (ageinfo) {
+
+        $.each($scope.eventshort.TypicalAgeRange, function (i) {
+            if ($scope.eventshort.TypicalAgeRange[i] === ageinfo) {
+                $scope.eventshort.TypicalAgeRange.splice(i, 1);
+                return false;
+            }
+        });
+    }
+
 };
 
 //Modal Slideshow Controller

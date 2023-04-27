@@ -1962,9 +1962,15 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
     $scope.getSmgTagNameListModal = function (lang) {
 
+        var typestofilter = '';
+        if (!isNaN($scope.poitype))
+            typestofilter = 'Wellness Entspannung,Winter,Sommer,Kultur Sehenswürdigkeiten,Anderes,Essen Trinken,Mobilität,Geschäfte und Dienstleister';
+        else
+            typestofilter = $scope.poitype;
+
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + $scope.poi.Type
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1985,12 +1991,13 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         var typestofilter = '';
         if (!isNaN($scope.poitype))
-            typestofilter = 'Wellness Entspannung,Winter,Sommer,Kultur Sehenswürdigkeiten,Anderes,Essen Trinken,';
-
+            typestofilter = 'Wellness Entspannung,Winter,Sommer,Kultur Sehenswürdigkeiten,Anderes,Essen Trinken,Mobilität,Geschäfte und Dienstleister';
+        else
+            typestofilter = $scope.poitype;
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter + $scope.poitype
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter
         }).success(function (data) {
             $scope.items = data;
         });

@@ -1970,7 +1970,7 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=SmgPoi,' + typestofilter
         }).success(function (data) {
             $scope.items = data;
         });
@@ -1997,7 +1997,7 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=' + typestofilter
+            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=SmgPoi,' + typestofilter
         }).success(function (data) {
             $scope.items = data;
         });

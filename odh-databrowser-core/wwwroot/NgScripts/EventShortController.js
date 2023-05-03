@@ -581,9 +581,9 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     //Bild löschen
     $scope.deletedocument = function (documenturl, language) {
 
-        $.each($scope.eventshort.EventDocument[language], function (i) {
-            if ($scope.eventshort.EventDocument[language][i].DocumentURL === documenturl) {
-                $scope.eventshort.EventDocument[language].splice(i, 1);
+        $.each($scope.eventshort.Documents[language], function (i) {
+            if ($scope.eventshort.Documents[language][i].DocumentURL === documenturl) {
+                $scope.eventshort.Documents[language].splice(i, 1);
                 return false;
             }
         });

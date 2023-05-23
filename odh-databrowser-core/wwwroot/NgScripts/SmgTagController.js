@@ -83,7 +83,7 @@ app.controller('smgtagListController', [
 //Modal Controller
 var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
-    $scope.smgtagmapped = '';
+    $scope.smgtagmapped = {};
     $scope.publishedchannel = {};
     $scope.publishedchannel.name = 'idm-marketplace';
 

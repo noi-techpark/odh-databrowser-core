@@ -309,17 +309,19 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     }
 
 
-    $scope.addpublishedonchannel = function (publishchannel) {
+    $scope.addpublishedonchannel = function () {
 
-        if (publishchannel != "" && publishchannel != undefined) {
+        //console.log(pulishchannel);
+
+        if ($scope.publishedchannel.name != "" && $scope.publishedchannel.name != undefined) {
 
             var addToArray = true;
 
-            if ($scope.poi.PublishedOn != null) {
+            if ($scope.smgtag.PublishedOn != null) {
 
-                $.each($scope.poi.PublishedOn, function (i) {
+                $.each($scope.smgtag.PublishedOn, function (i) {
 
-                    if ($scope.poi.PublishedOn[i] === publishchannel) {
+                    if ($scope.smgtag.PublishedOn[i] === $scope.publishedchannel.name) {
 
                         alert('Already present!');
                         addToArray = false;
@@ -329,13 +331,13 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 });
             }
             else {
-                $scope.poi.PublishedOn = [];
+                $scope.smgtag.PublishedOn = [];
             }
 
 
             if (addToArray) {
 
-                $scope.poi.PublishedOn.push(publishchannel);
+                $scope.smgtag.PublishedOn.push($scope.publishedchannel.name);
             }
         }
         else {
@@ -346,9 +348,9 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     //Remove SMG Tagging
     $scope.deletepublishedonchannel = function (publishchannel) {
         //alert(tag);
-        $.each($scope.poi.PublishedOn, function (i) {
-            if ($scope.poi.PublishedOn[i] === publishchannel) {
-                $scope.poi.PublishedOn.splice(i, 1);
+        $.each($scope.smgtag.PublishedOn, function (i) {
+            if ($scope.smgtag.PublishedOn[i] === publishchannel) {
+                $scope.smgtag.PublishedOn.splice(i, 1);
                 return false;
             }
         });

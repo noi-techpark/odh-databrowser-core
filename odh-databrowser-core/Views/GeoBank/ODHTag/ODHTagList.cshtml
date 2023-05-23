@@ -516,8 +516,7 @@
                                     <label class="col-sm-4 control-label"></label>
                                     <div class="col-sm-8 input-group">
 
-        @*<input type="text" class="form-control" id="inputPublishChannel" placeholder="Channel to publish" ng-model="publishedchannel.name">*@
-
+        
                                         <select class="form-control" id="selectSource" ng-model="publishedchannel.name">
                                             <option value="idm-marketplace" selected>idm-marketplace</option>
                                         </select>
@@ -624,7 +623,7 @@
                                             </select>
                                             
                                             <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel()"><i class="glyphicon glyphicon-plus"></i></button>
                                             </span>
                                         </div>
                                     </div>
@@ -632,18 +631,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-horizontal">
 
-                                    <div class="input-group" ng-repeat="publishchannel in smgtag.PublishedOn">
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="deletepublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-minus"></i></button>
-                                        </span>
-                                        <input type="text" class="form-control notextareamaxwitdth" id="inputPublishedonsingle" placeholder="Publishedon" ng-model="publishchannel" readonly>
-                                    </div>
-
-                                    </div>
-
+                                        <div class="input-group" ng-repeat="publishchannel in smgtag.PublishedOn">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="deletepublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            </span>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPublishedonsingle" placeholder="Publishedon" ng-model="publishchannel" readonly>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </tab>
 

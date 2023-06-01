@@ -1,4 +1,8 @@
-﻿var app = angular.module('licenseinfo', ['ui.bootstrap', 'appconfig', 'textAngular', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('licenseinfo', ['ui.bootstrap', 'appconfig', 'textAngular', 'pathconfig']);
 
 app.controller('licenseInfoController', [
     '$scope', '$http', '$modal', 'appconfig', 'apipath',

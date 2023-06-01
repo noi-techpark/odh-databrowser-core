@@ -1,4 +1,8 @@
-﻿var app = angular.module('article', ['ui.bootstrap', 'ngSanitize', 'angularFileUpload', 'appconfig', 'textAngular', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('article', ['ui.bootstrap', 'ngSanitize', 'angularFileUpload', 'appconfig', 'textAngular', 'pathconfig']);
 
 app.controller('articleListController', [
     '$scope', '$http', '$modal', 'appconfig', 'languageFactory', 'apipath',

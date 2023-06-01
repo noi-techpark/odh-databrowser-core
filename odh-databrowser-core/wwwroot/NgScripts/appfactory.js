@@ -1,4 +1,8 @@
-﻿var appfactory = angular.module('appfactory', ['pathconfig', 'angular-jwt']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var appfactory = angular.module('appfactory', ['pathconfig', 'angular-jwt']);
 
 appfactory.factory('authInterceptorService', ['$q', '$location', 'authserverpath', 'jwtHelper', function ($q, $location, authserverpath, jwtHelper) {
 

@@ -1,0 +1,24 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: odh-databrowser-core
+Upstream-Contact: NOI Techpark <digital@noi.bz.it>
+Source: https://github.com/noi-techpark/odh-databrowser-core
+
+Files: .github/* infrastructure/* .gitignore .dockerignore .env.example docker-compose.dcproj odh-databrowser-core.sln odh-databrowser-core/*.json odh-databrowser-core/Dockerfile odh-databrowser-core/odh-databrowser-core.csproj odh-databrowser-core/wwwroot/js/* odh-databrowser-core/wwwroot/img/* odh-databrowser-core/wwwroot/fonts/* odh-databrowser-core/wwwroot/icons/* odh-databrowser-core/wwwroot/css/* odh-databrowser-core/wwwroot/favicon.ico odh-databrowser-core/Views/* odh-databrowser-core/Properties/launchSettings.json
+Copyright: (c) NOI Techpark <digital@noi.bz.it>
+License: CC0-1.0
+
+Files: odh-databrowser-core/wwwroot/lib/bootstrap/*
+Copyright: 2011-2016 Twitter, Inc.
+License: MIT
+
+Files: odh-databrowser-core/wwwroot/lib/jquery/*
+Copyright: JS Foundation and other contributors
+License: MIT
+
+Files: odh-databrowser-core/wwwroot/lib/jquery-validation/*
+Copyright: 2017 Jörn Zaefferer
+License: MIT
+
+Files: odh-databrowser-core/wwwroot/lib/jquery-validation-unobtrusive/*
+Copyright: Microsoft Corporation. All rights reserved.
+License: MIT

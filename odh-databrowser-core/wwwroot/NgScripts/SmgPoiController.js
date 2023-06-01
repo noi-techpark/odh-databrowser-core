@@ -1,4 +1,8 @@
-﻿var app = angular.module('smgpoi', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'angularFileUpload', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('smgpoi', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'angularFileUpload', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('smgpoiListController', [
     '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',

@@ -21,7 +21,7 @@ SPDX-License-Identifier: CC0-1.0
 Test instance
 https://frontend.tourism.testingmachine.eu/  
 Production instance
-https://tourism.databrowser.opendatahub.bz.it
+https://tourism.databrowser.opendatahub.com
 
 ## Getting started:
 

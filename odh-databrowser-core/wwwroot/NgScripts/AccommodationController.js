@@ -508,7 +508,7 @@ app.controller('accommodationListController', [
             $scope.accommodations = [];
 
             if ($scope.checkonhgv == true) {
-                $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&seed=' + $scope.seed + '&availabilitycheck=true').success(function (result) {
+                $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&seed=' + $scope.seed + '&availabilitycheck=true').success(function (result) {
                     //$scope.accommodations = result.Items;
 
                     $.each(result.Items, function (i) {
@@ -530,13 +530,13 @@ app.controller('accommodationListController', [
 
             if ($scope.checkonlts == true) {
 
-                $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&seed=' + $scope.seed + '&availabilitycheck=true').success(function (resultlcs) {
+                $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&seed=' + $scope.seed + '&availabilitycheck=true').success(function (resultlcs) {
 
                     $.each(resultlcs.Items, function (i) {
                         $scope.accommodations.push(resultlcs.Items[i]);
                     });
 
-                    $scope.onlinecountlcs = resultlcs.OnlineResults;
+                    $scope.onlinecountlcs = resultlcs.AvailableOnRequest;
 
                     console.log("found on lcs: " + $scope.onlinecountlcs);
 

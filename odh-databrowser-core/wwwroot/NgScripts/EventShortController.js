@@ -1,4 +1,8 @@
-﻿var app = angular.module('eventshort', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'textAngular', 'angularFileUpload', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('eventshort', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'textAngular', 'angularFileUpload', 'pathconfig']);
 
 app.controller('eventshortListController', [
     '$scope', '$http', '$modal', 'appconfig', 'apipath',

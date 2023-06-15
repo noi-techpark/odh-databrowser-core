@@ -1,4 +1,8 @@
-﻿var app = angular.module('common', ['ui.bootstrap', 'angularFileUpload', 'ngSanitize', 'appconfig', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('common', ['ui.bootstrap', 'angularFileUpload', 'ngSanitize', 'appconfig', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('commonListController', [
     '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',

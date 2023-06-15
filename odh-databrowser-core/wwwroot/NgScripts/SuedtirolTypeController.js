@@ -1,4 +1,8 @@
-﻿var app = angular.module('suedtiroltype', ['ui.bootstrap', 'appconfig', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('suedtiroltype', ['ui.bootstrap', 'appconfig', 'pathconfig']);
 
 app.controller('suedtiroltypeListController', [
     '$scope', '$http', '$modal', 'appconfig', 'apipath',

@@ -23,7 +23,7 @@ app.controller('eventListController', [
 
         $scope.predefinedsource = false;
 
-
+    
         $scope.gbview = false;
 
         $scope.init = function (locfilter, locfiltertype, smgactive, source) {
@@ -164,7 +164,7 @@ app.controller('eventListController', [
         $scope.eventidfilter = 'null';
         $scope.locationfilter = 'null';
         $scope.topicfilter = "null";
-        $scope.rancfilter = "null";
+        $scope.rancfilter = 'null';
         $scope.typefilter = "null";
         $scope.orgridfilter = "null";
 
@@ -330,6 +330,16 @@ app.controller('eventListController', [
         $scope.clearPublishedOnFilter = function () {
 
             $scope.publishchannelfilter = '';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
+
+        $scope.clearRankFilter = function () {
+
+            $scope.rankfilter = 'null';
 
             $scope.page = 1;
             $scope.changePage(0);

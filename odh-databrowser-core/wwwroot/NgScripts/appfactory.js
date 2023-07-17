@@ -118,7 +118,7 @@ function getFragment() {
     }
 };
 
-appfactory.factory('leafletmapsimple', ['leafletData', function (leafletData) {
+appfactory.factory('leafletmapsimple', ['leafletData', 'apipath', function (leafletData, apipath) {
 
     var mylatitude = 46.655781;
     var mylongitude = 11.4296877;
@@ -137,7 +137,7 @@ appfactory.factory('leafletmapsimple', ['leafletData', function (leafletData) {
             var addstartmarker = false;
             var addgpxroute = false;
 
-
+          
             if (gps != undefined) {
 
                 $.each(gps, function (i) {
@@ -174,19 +174,19 @@ appfactory.factory('leafletmapsimple', ['leafletData', function (leafletData) {
                             source = 'lts';
                             gpstrackurl = gpstrack[i].GpxTrackUrl.replace('https://lcs.lts.it/downloads/gpx/', '');
 
-                            gpx = "/api/Activity/Gpx/" + encodeURI(gpstrackurl);
+                            gpx = apipath + "/v1/Activity/Gpx/" + encodeURI(gpstrackurl);
                         }
                         else if (gpstrack[i].GpxTrackUrl.startsWith('http://lcs.tourist.bz.it/downloads/gpx/')) {
                             source = 'lts';
                             gpstrackurl = gpstrack[i].GpxTrackUrl.replace('http://lcs.tourist.bz.it/downloads/gpx/', '');
 
-                            gpx = "/api/Activity/Gpx/" + encodeURI(gpstrackurl);
+                            gpx = apipath + "/v1/Activity/Gpx/" + encodeURI(gpstrackurl);
                         }
                         else if (gpstrack[i].GpxTrackUrl.startsWith('http://service.suedtirol.info/Gpx/')) {
                             source = 'smg';
                             gpstrackurl = gpstrack[i].GpxTrackUrl.replace('http://service.suedtirol.info/Gpx/', '');
 
-                            gpx = "/api/SmgPoiGpx/" + gpstrackid;
+                            gpx = apipath + "/v1/SmgPoiGpx/" + gpstrackid;
                         }
 
                         console.log("gpstrack found " + gpx);

@@ -201,7 +201,7 @@ app.controller('webcamListController', [
                 $scope.webcam = result;
                 $scope.isloading = false;
 
-                leafletmapsimple.preparemap($scope.poi.GpsInfo, $scope.poi.GpsTrack, ['Standpunkt', 'position', 'carparking', 'startingpoint', 'arrivalpoint', 'viewpoint', 'Talstation', 'Bergstation', 'startingandarrivalpoint'], 'webcamListController');
+                leafletmapsimple.preparemap($scope.webcam.GpsInfo, null, ['Standpunkt', 'position', 'carparking', 'startingpoint', 'arrivalpoint', 'viewpoint', 'Talstation', 'Bergstation', 'startingandarrivalpoint'], 'webcamListController');
                 
                 var slidemodalInstance = $modal.open({
                     templateUrl: 'myWebcamInfoModal.html',

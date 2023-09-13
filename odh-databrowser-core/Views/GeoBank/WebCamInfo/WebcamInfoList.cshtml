@@ -132,7 +132,7 @@
                     <tr ng-repeat="webcam in webcams | filter:query">
                         <td>
                             <div style="max-width:150px;min-height:75px">
-                                <img class="img-thumbnail img-responsive" ng-src="{{  webcam.Webcamurl || '../img/noimage.png' }}" title="{{ webcam.Shortname }}" ng-click="showInfoModal(webcam)" />
+                                <img class="img-thumbnail img-responsive" ng-src="{{  webcam.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ webcam.Shortname }}" ng-click="showInfoModal(webcam)" />
                             </div>
                         </td>
                         <td>{{ webcam.Webcamname[lang] }}</td>
@@ -988,7 +988,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div>
-                        <img data-ng-src="{{webcam.Webcamurl}}" style="margin:auto;max-width:420px" class="img-rounded">
+                        <img data-ng-src="{{ webcam.ImageGallery[0].ImageUrl }}" style="margin:auto;max-width:420px" class="img-rounded">
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -1004,7 +1004,7 @@
                     <h2>{{ webcam.Webcamname[lang] }}</h2>
 
                     <p ng-show="webcam.Source != ''">
-                        <strong>Zusatztext</strong><br />
+                        <strong>Source</strong><br />
                         {{ webcam.Source }}
                     </p>
 

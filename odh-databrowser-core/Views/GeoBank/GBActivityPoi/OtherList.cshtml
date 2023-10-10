@@ -264,6 +264,7 @@
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'sta'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'dss'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />                             
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'idm'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />                                
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'a22'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />                                
                             </div>
                         </td>
                         @*<td>{{ activity.Id }}</td>*@

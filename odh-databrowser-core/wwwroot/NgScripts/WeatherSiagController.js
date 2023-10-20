@@ -1,4 +1,8 @@
-﻿var app = angular.module('weathersiag', ['ui.bootstrap', 'appconfig', 'appfactory', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('weathersiag', ['ui.bootstrap', 'appconfig', 'appfactory', 'pathconfig']);
 
 app.controller('weathersiagListController', [
     '$scope', '$http', '$modal', 'appconfig', 'languageFactory', 'apipath',

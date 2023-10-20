@@ -1,4 +1,8 @@
-﻿var app = angular.module('smgpoi', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'angularFileUpload', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('smgpoi', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'angularFileUpload', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('smgpoiListController', [
     '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
@@ -1489,7 +1493,7 @@ var tourismvereinlistcontroller = app.controller('TourismVereinSelectController'
   
         $http({
             method: 'Get',
-            url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+            url: $scope.basePath + '/v1/Location?type=tvs&language=' + $scope.lang
             //url: $scope.basePath + '/v1/Common/TourismvereinList/Reduced/' + $scope.lang + '/100'  --> PRoblem mit Lowercase IDs
         }).success(function (data) {            
             $scope.tourismorganizationlist = data;
@@ -1586,14 +1590,16 @@ var tourismvereinlistcontroller = app.controller('TourismVereinSelectController'
         }
 });
 
+
+
 //District Select controller
 var districtlistcontroller = app.controller('DistrictSelectController', function ($scope, $http) {
 
-    var mydistrictserviceurl = $scope.basePath + '/json/LocInfoFrawithMun' + $scope.lang + '.json';
+    var mydistrictserviceurl = $scope.basePath + '/v1/Location?type=fra&language=' + $scope.lang;
     //Nur wenn TV ID gewählt ist
     if ($scope.poi.LocationInfo.TvInfo != null) {
         if ($scope.poi.LocationInfo.TvInfo.Id != null) {
-            mydistrictserviceurl = $scope.basePath + '/v1/Location/DistrictReducedbyTv/de/' + $scope.poi.LocationInfo.TvInfo.Id;
+            mydistrictserviceurl = $scope.basePath + '/v1/Location?type=fra&language=' + $scope.lang + '&locfilter=tvs' + $scope.poi.LocationInfo.TvInfo.Id;
         }
     }
 
@@ -1612,8 +1618,7 @@ var districtlistcontroller = app.controller('DistrictSelectController', function
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/Location/DistrictReducedbyTv/de/' + $scope.poi.LocationInfo.TvInfo.Id
-
+            url: $scope.basePath + '/v1/Location?type=fra&language=' + $scope.lang + '&locfilter=tvs' + $scope.poi.LocationInfo.TvInfo.Id
         }).success(function (data) {
             $scope.districtlist = data;
         });
@@ -1689,196 +1694,196 @@ var districtlistcontroller = app.controller('DistrictSelectController', function
     }
 });
 
-//Controller für Typen Maintype Subtype Poitype
-var TypeSelectController = app.controller('TypeSelectController', function ($scope, $http) {    
+////Controller für Typen Maintype Subtype Poitype
+//var TypeSelectController = app.controller('TypeSelectController', function ($scope, $http) {    
 
-    //geat et
-    //$scope.$on('AddNewMainTypeInfo', function (e) {
+//    //geat et
+//    //$scope.$on('AddNewMainTypeInfo', function (e) {
 
-    //    alert('onkemmen');
-    //    $scope.changemaintype($scope.poitype)
+//    //    alert('onkemmen');
+//    //    $scope.changemaintype($scope.poitype)
 
-    //});
+//    //});
 
 
-        $http({
-            method: 'Get',
-            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/v1/SuedtirolType/Filtered/null/0/SmgPoi'
-        }).success(function (data) {
-            $scope.maintypeslist = data;
-        });
+//        $http({
+//            method: 'Get',
+//            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+//            url: $scope.basePath + '/v1/SuedtirolType/Filtered/null/0/SmgPoi'
+//        }).success(function (data) {
+//            $scope.maintypeslist = data;
+//        });
         
-        $http({
-            method: 'Get',
-            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.poi.Type + '/1/SmgPoi'
-        }).success(function (data) {
-            $scope.subtypeslist = data;
-        });
+//        $http({
+//            method: 'Get',
+//            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+//            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.poi.Type + '/1/SmgPoi'
+//        }).success(function (data) {
+//            $scope.subtypeslist = data;
+//        });
 
-        $http({
-            method: 'Get',
-            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.poi.SubType + '/2/SmgPoi'
-        }).success(function (data) {
-            $scope.poitypeslist = data;
-        });
+//        $http({
+//            method: 'Get',
+//            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+//            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.poi.SubType + '/2/SmgPoi'
+//        }).success(function (data) {
+//            $scope.poitypeslist = data;
+//        });
    
     
        
    
 
-    $scope.changemaintype = function (selectedmaintype) {
+//    $scope.changemaintype = function (selectedmaintype) {
 
-        //console.log(selectedmaintype);
+//        //console.log(selectedmaintype);
 
-        $http({
-            method: 'Get',
-            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.poi.Type + '/1/SmgPoi'
-        }).success(function (data) {
-            $scope.subtypeslist = data;
-        });
+//        $http({
+//            method: 'Get',
+//            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+//            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.poi.Type + '/1/SmgPoi'
+//        }).success(function (data) {
+//            $scope.subtypeslist = data;
+//        });
 
-        //Cleare die Poi Poi Types und Subtypes
-        $scope.poitypeslist = [];
-        $scope.poi.SubType = '';
-        $scope.poi.PoiType = '';
+//        //Cleare die Poi Poi Types und Subtypes
+//        $scope.poitypeslist = [];
+//        $scope.poi.SubType = '';
+//        $scope.poi.PoiType = '';
 
-        $.each($scope.poi.AdditionalPoiInfos, function (i) {
-            $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].SubType = '';
-            $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].PoiType = '';
-        });        
+//        $.each($scope.poi.AdditionalPoiInfos, function (i) {
+//            $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].SubType = '';
+//            $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].PoiType = '';
+//        });        
 
         
 
-        //UNTERN Additional muassi des no setzen!
-        $http({
-            method: 'Get',
-            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/v1/SuedtirolType/Single/' + selectedmaintype + '/0/SmgPoi'
-        }).success(function (data) {
+//        //UNTERN Additional muassi des no setzen!
+//        $http({
+//            method: 'Get',
+//            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+//            url: $scope.basePath + '/v1/SuedtirolType/Single/' + selectedmaintype + '/0/SmgPoi'
+//        }).success(function (data) {
 
-            $.each($scope.poi.AdditionalPoiInfos, function (i) {
-                $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].MainType = data.TypeNames[$scope.poi.AdditionalPoiInfos[i].Language];                
-            });
+//            $.each($scope.poi.AdditionalPoiInfos, function (i) {
+//                $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].MainType = data.TypeNames[$scope.poi.AdditionalPoiInfos[i].Language];                
+//            });
 
-            //$scope.poi.AdditionalPoiInfos['de'].MainType = data.TypeNames['de'];
-            //$scope.poi.AdditionalPoiInfos['it'].MainType = data.TypeNames['it'];
-            //$scope.poi.AdditionalPoiInfos['en'].MainType = data.TypeNames['en'];
-            //$scope.poi.AdditionalPoiInfos['nl'].MainType = data.TypeNames['nl'];
-            //$scope.poi.AdditionalPoiInfos['cs'].MainType = data.TypeNames['cs'];
-            //$scope.poi.AdditionalPoiInfos['pl'].MainType = data.TypeNames['pl'];
-            //$scope.poi.AdditionalPoiInfos['fr'].MainType = data.TypeNames['fr'];
-            //$scope.poi.AdditionalPoiInfos['ru'].MainType = data.TypeNames['ru'];
-            var addtag = true;
-            $.each($scope.poi.SmgTags, function (i) {
-                if ($scope.poi.SmgTags[i] == data.Key)
-                    addtag = false;
-            });
-            if (addtag)
-                $scope.poi.SmgTags.push(data.Key);
+//            //$scope.poi.AdditionalPoiInfos['de'].MainType = data.TypeNames['de'];
+//            //$scope.poi.AdditionalPoiInfos['it'].MainType = data.TypeNames['it'];
+//            //$scope.poi.AdditionalPoiInfos['en'].MainType = data.TypeNames['en'];
+//            //$scope.poi.AdditionalPoiInfos['nl'].MainType = data.TypeNames['nl'];
+//            //$scope.poi.AdditionalPoiInfos['cs'].MainType = data.TypeNames['cs'];
+//            //$scope.poi.AdditionalPoiInfos['pl'].MainType = data.TypeNames['pl'];
+//            //$scope.poi.AdditionalPoiInfos['fr'].MainType = data.TypeNames['fr'];
+//            //$scope.poi.AdditionalPoiInfos['ru'].MainType = data.TypeNames['ru'];
+//            var addtag = true;
+//            $.each($scope.poi.SmgTags, function (i) {
+//                if ($scope.poi.SmgTags[i] == data.Key)
+//                    addtag = false;
+//            });
+//            if (addtag)
+//                $scope.poi.SmgTags.push(data.Key);
 
-        });
-    }
+//        });
+//    }
 
-    $scope.changesubtype = function (selectedsubtype) {        
+//    $scope.changesubtype = function (selectedsubtype) {        
 
-        $http({
-            method: 'Get',
-            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.poi.SubType + '/2/SmgPoi'
-        }).success(function (data) {
-            $scope.poitypeslist = data;
-        });
+//        $http({
+//            method: 'Get',
+//            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+//            url: $scope.basePath + '/v1/SuedtirolType/Filtered/' + $scope.poi.SubType + '/2/SmgPoi'
+//        }).success(function (data) {
+//            $scope.poitypeslist = data;
+//        });
 
-        //Cleare die Poi Poi Types und Subtypes        
-        $scope.poi.PoiType = '';
+//        //Cleare die Poi Poi Types und Subtypes        
+//        $scope.poi.PoiType = '';
 
-        //console.log($scope.poi.SubType);
-        //console.log($scope.$parent.poi.SubType);
+//        //console.log($scope.poi.SubType);
+//        //console.log($scope.$parent.poi.SubType);
 
-        //$scope.$emit('UpdateSubTypeFileUpload');
+//        //$scope.$emit('UpdateSubTypeFileUpload');
 
-        $.each($scope.poi.AdditionalPoiInfos, function (i) {            
-            $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].PoiType = '';
-        });
+//        $.each($scope.poi.AdditionalPoiInfos, function (i) {            
+//            $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].PoiType = '';
+//        });
 
 
-        //UNTERN Additional muassi des no setzen!
-        $http({
-            method: 'Get',
-            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/v1/SuedtirolType/Single/' + selectedsubtype + '/1/SmgPoi'
-        }).success(function (data) {
+//        //UNTERN Additional muassi des no setzen!
+//        $http({
+//            method: 'Get',
+//            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+//            url: $scope.basePath + '/v1/SuedtirolType/Single/' + selectedsubtype + '/1/SmgPoi'
+//        }).success(function (data) {
 
-            //$.each($scope.poi.HasLanguage, function (i) {
+//            //$.each($scope.poi.HasLanguage, function (i) {
 
-            //    $scope.poi.AdditionalPoiInfos[$scope.poi.HasLanguage[i]].SubType = data.TypeNames[$scope.poi.HasLanguage[i]];
-            //});
+//            //    $scope.poi.AdditionalPoiInfos[$scope.poi.HasLanguage[i]].SubType = data.TypeNames[$scope.poi.HasLanguage[i]];
+//            //});
 
-            $.each($scope.poi.AdditionalPoiInfos, function (i) {
-                $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].SubType = data.TypeNames[$scope.poi.AdditionalPoiInfos[i].Language];
-            });
+//            $.each($scope.poi.AdditionalPoiInfos, function (i) {
+//                $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].SubType = data.TypeNames[$scope.poi.AdditionalPoiInfos[i].Language];
+//            });
 
-            //$scope.poi.AdditionalPoiInfos['de'].SubType = data.TypeNames['de'];
-            //$scope.poi.AdditionalPoiInfos['it'].SubType = data.TypeNames['it'];
-            //$scope.poi.AdditionalPoiInfos['en'].SubType = data.TypeNames['en'];
-            //$scope.poi.AdditionalPoiInfos['nl'].SubType = data.TypeNames['nl'];
-            //$scope.poi.AdditionalPoiInfos['cs'].SubType = data.TypeNames['cs'];
-            //$scope.poi.AdditionalPoiInfos['pl'].SubType = data.TypeNames['pl'];
-            //$scope.poi.AdditionalPoiInfos['fr'].SubType = data.TypeNames['fr'];
-            //$scope.poi.AdditionalPoiInfos['ru'].SubType = data.TypeNames['ru'];
+//            //$scope.poi.AdditionalPoiInfos['de'].SubType = data.TypeNames['de'];
+//            //$scope.poi.AdditionalPoiInfos['it'].SubType = data.TypeNames['it'];
+//            //$scope.poi.AdditionalPoiInfos['en'].SubType = data.TypeNames['en'];
+//            //$scope.poi.AdditionalPoiInfos['nl'].SubType = data.TypeNames['nl'];
+//            //$scope.poi.AdditionalPoiInfos['cs'].SubType = data.TypeNames['cs'];
+//            //$scope.poi.AdditionalPoiInfos['pl'].SubType = data.TypeNames['pl'];
+//            //$scope.poi.AdditionalPoiInfos['fr'].SubType = data.TypeNames['fr'];
+//            //$scope.poi.AdditionalPoiInfos['ru'].SubType = data.TypeNames['ru'];
 
-            var addtag = true;
-            $.each($scope.poi.SmgTags, function (i) {
-                if ($scope.poi.SmgTags[i] == data.Key)
-                    addtag = false;
-            });
-            if (addtag)
-                $scope.poi.SmgTags.push(data.Key);
-        });
-    }
+//            var addtag = true;
+//            $.each($scope.poi.SmgTags, function (i) {
+//                if ($scope.poi.SmgTags[i] == data.Key)
+//                    addtag = false;
+//            });
+//            if (addtag)
+//                $scope.poi.SmgTags.push(data.Key);
+//        });
+//    }
 
-    $scope.changepoitype = function (selectedpoitype) {
+//    $scope.changepoitype = function (selectedpoitype) {
         
-        //UNTERN Additional muassi des no setzen!
-        $http({
-            method: 'Get',
-            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
-            url: $scope.basePath + '/v1/SuedtirolType/Single/' + selectedpoitype + '/2/SmgPoi'
-        }).success(function (data) {
+//        //UNTERN Additional muassi des no setzen!
+//        $http({
+//            method: 'Get',
+//            //url: $scope.basePath + '/json/LocInfoTvs' + $scope.lang + '.json'
+//            url: $scope.basePath + '/v1/SuedtirolType/Single/' + selectedpoitype + '/2/SmgPoi'
+//        }).success(function (data) {
 
-            //$.each($scope.poi.HasLanguage, function (i) {
+//            //$.each($scope.poi.HasLanguage, function (i) {
 
-            //    $scope.poi.AdditionalPoiInfos[$scope.poi.HasLanguage[i]].PoiType = data.TypeNames[$scope.poi.HasLanguage[i]];
-            //});
+//            //    $scope.poi.AdditionalPoiInfos[$scope.poi.HasLanguage[i]].PoiType = data.TypeNames[$scope.poi.HasLanguage[i]];
+//            //});
 
-            $.each($scope.poi.AdditionalPoiInfos, function (i) {
-                $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].PoiType = data.TypeNames[$scope.poi.AdditionalPoiInfos[i].Language];
-            });
+//            $.each($scope.poi.AdditionalPoiInfos, function (i) {
+//                $scope.poi.AdditionalPoiInfos[$scope.poi.AdditionalPoiInfos[i].Language].PoiType = data.TypeNames[$scope.poi.AdditionalPoiInfos[i].Language];
+//            });
 
-            //$scope.poi.AdditionalPoiInfos['de'].PoiType = data.TypeNames['de'];
-            //$scope.poi.AdditionalPoiInfos['it'].PoiType = data.TypeNames['it'];
-            //$scope.poi.AdditionalPoiInfos['en'].PoiType = data.TypeNames['en'];
-            //$scope.poi.AdditionalPoiInfos['nl'].PoiType = data.TypeNames['nl'];
-            //$scope.poi.AdditionalPoiInfos['cs'].PoiType = data.TypeNames['cs'];
-            //$scope.poi.AdditionalPoiInfos['pl'].PoiType = data.TypeNames['pl'];
-            //$scope.poi.AdditionalPoiInfos['fr'].PoiType = data.TypeNames['fr'];
-            //$scope.poi.AdditionalPoiInfos['ru'].PoiType = data.TypeNames['ru'];
+//            //$scope.poi.AdditionalPoiInfos['de'].PoiType = data.TypeNames['de'];
+//            //$scope.poi.AdditionalPoiInfos['it'].PoiType = data.TypeNames['it'];
+//            //$scope.poi.AdditionalPoiInfos['en'].PoiType = data.TypeNames['en'];
+//            //$scope.poi.AdditionalPoiInfos['nl'].PoiType = data.TypeNames['nl'];
+//            //$scope.poi.AdditionalPoiInfos['cs'].PoiType = data.TypeNames['cs'];
+//            //$scope.poi.AdditionalPoiInfos['pl'].PoiType = data.TypeNames['pl'];
+//            //$scope.poi.AdditionalPoiInfos['fr'].PoiType = data.TypeNames['fr'];
+//            //$scope.poi.AdditionalPoiInfos['ru'].PoiType = data.TypeNames['ru'];
 
-            var addtag = true;
-            $.each($scope.poi.SmgTags, function (i) {
-                if ($scope.poi.SmgTags[i] == data.Key)
-                    addtag = false;
-            });
-            if (addtag)
-                $scope.poi.SmgTags.push(data.Key);
-        });
-    }
+//            var addtag = true;
+//            $.each($scope.poi.SmgTags, function (i) {
+//                if ($scope.poi.SmgTags[i] == data.Key)
+//                    addtag = false;
+//            });
+//            if (addtag)
+//                $scope.poi.SmgTags.push(data.Key);
+//        });
+//    }
 
-});
+//});
 
 String.prototype.startsWith = function (prefix) {
     return this.indexOf(prefix) === 0;

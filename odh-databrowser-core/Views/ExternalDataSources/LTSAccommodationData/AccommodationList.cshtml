@@ -25,7 +25,7 @@
         <div class="col-sm-12 form-inline">
 
             <div class="pull-right">
-                <span class="btn btn-default" ng-show="onlinecount > 0">available online: {{onlinecount}}</span>
+                <span class="btn btn-default" ng-show="onlinecount > 0">available online (booking suedtirol): {{onlinecount}}</span>
                 <span class="btn btn-default" ng-show="onlinecountlcs > 0">available lts: {{onlinecountlcs}}</span>
                 <span class="btn btn-default" ng-show="onlinecount == 0 && onlinecountlcs == 0">No Accommodation available online</span>
                 <div ng-hide="onlinecount >= 0 || onlinecountlcs > 0">
@@ -635,5 +635,5 @@
     
     @*<script src="~/NgScripts/appfactory.js"></script>*@
     <script src="~/NgScripts/appconfig.js"></script>
-    <script src="~/NgScripts/AccommodationController.js"></script>    
+    <script src="~/NgScripts/AccommodationController.js?version=20230615"></script>    
 }

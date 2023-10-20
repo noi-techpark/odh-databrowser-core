@@ -74,9 +74,13 @@
                     <h6>Source<small class="btn-link pull-right" ng-click="clearSourceFilter()">Clear</small></h6>
                     <select class="form-control" id="selectTyp" ng-model="source">
                         <option value="null">all</option>
-                        <option value="LTS">LTS</option>
-                        <option value="Content">IDM Content</option>
-                        <option value="DSS">Dolomiti Superski</option>
+                        <option value="lts">LTS</option>
+                        <option value="content">IDM Content</option>
+                        <option value="dss">Dolomiti Superski</option>
+                        <option value="panomax">Panomax</option>
+                        <option value="panocloud">Panocloud</option>
+                        <option value="feratel">Feratel</option>
+                        <option value="a22">A22</option>
                     </select>
                 </div>
 
@@ -129,7 +133,7 @@
                     <tr ng-repeat="webcam in webcams | filter:query">
                         <td>
                             <div style="max-width:150px;min-height:75px">
-                                <img class="img-thumbnail img-responsive" ng-src="{{  webcam.Webcamurl || '../img/noimage.png' }}" title="{{ webcam.Shortname }}" ng-click="showInfoModal(webcam)" />
+                                <img class="img-thumbnail img-responsive" ng-src="{{  webcam.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ webcam.Shortname }}" ng-click="showInfoModal(webcam)" />
                             </div>
                         </td>
                         <td>{{ webcam.Webcamname[lang] }}</td>
@@ -256,8 +260,12 @@
                                     <div class="col-sm-8">
                                         <select class="form-control" id="selectTyp" ng-model="webcam.Source" disabled>
                                             <option value="null">None</option>
-                                            <option value="LTS">LTS</option>
-                                            <option value="Content">Content</option>
+                                            <option value="ltd">LTS</option>
+                                            <option value="content">Content</option>
+                                            <option value="dss">Dolomiti Superski</option>
+                                            <option value="panomax">Panomax</option>
+                                            <option value="panocloud">Panocloud</option>
+                                            <option value="feratel">Feratel</option>
                                         </select>
                                     </div>
                                 </div>
@@ -319,8 +327,254 @@
                             </div>
                         </div>
                     </tab>
-
+                    
                     <tab heading="Detail">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <div class="form-group">
+                                            <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputTitle" ng-model="webcam.Detail[lang].Title">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputHeader" class="col-sm-2 control-label">Header</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control notextareamaxwitdth" id="inputHeader" rows="2" ng-model="webcam.Detail[lang].Header"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputSubHeader" class="col-sm-2 control-label">SubHeader</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control notextareamaxwitdth" id="inputSubHeader" rows="2" ng-model="webcam.Detail[lang].SubHeader"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputMetaTitle" class="col-sm-2 control-label">Meta Title</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control notextareamaxwitdth" id="inputMetaTitle" rows="2" ng-model="webcam.Detail[lang].MetaTitle"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+
+                                        <div class="form-group">
+                                            <label for="inputGetThereText" class="col-sm-2 control-label">GetThere Text</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control notextareamaxwitdth" id="inputGetThereText" rows="3" ng-model="webcam.Detail[lang].GetThereText"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAdditionalText" class="col-sm-2 control-label">AdditionalText</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" rows="3" ng-model="webcam.Detail[lang].AdditionalText"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAdditionalText" class="col-sm-2 control-label">Meta Description</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control notextareamaxwitdth" id="inputAdditionalText" rows="3" ng-model="webcam.Detail[lang].MetaDesc"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputBaseText" class="col-sm-2 control-label">Introtext</label>
+
+
+                                            <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
+
+                                                <text-angular name="htmlcontentintro" ng-model="webcam.Detail[lang].IntroText">
+
+                                                </text-angular>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputBaseText" class="col-sm-2 control-label">Base Text</label>
+
+
+                                            <div ng-controller="wysiwygeditorCtrl" class="col-sm-10">
+
+                                                <text-angular name="htmlcontentbase" ng-model="webcam.Detail[lang].BaseText">
+
+                                                </text-angular>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </tab>
+
+                    <tab heading="Contact">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputContactCompName" class="col-sm-2 control-label">General Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputContactCompName" placeholder="Contact Name" ng-model="webcam.ContactInfos[lang].CompanyName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputGivenname" class="col-sm-2 control-label">Given Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputGivenname" placeholder="Contact Givenname" ng-model="webcam.ContactInfos[lang].Givenname">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputSurname" class="col-sm-2 control-label">Surname</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputSurname" placeholder="Contact Surname" ng-model="webcam.ContactInfos[lang].Surname">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputNamePrefix" class="col-sm-2 control-label">NamePrefix</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputNamePrefix" placeholder="Contact NamePrefix" ng-model="webcam.ContactInfos[lang].NamePrefix">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputVat" class="col-sm-2 control-label">Vat</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputVat" placeholder="Contact Vat" ng-model="webcam.ContactInfos[lang].Vat">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputTax" class="col-sm-2 control-label">Tax</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputTax" placeholder="Contact Tax" ng-model="webcam.ContactInfos[lang].Tax">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-controller="LogoFileUploadController">
+                                            <label for="inputLogoUrl" class="col-sm-2 control-label">Logo</label>
+                                            <div class="col-sm-10">
+                                                <img data-ng-src="{{webcam.ContactInfos[lang].LogoUrl}}" id="logourl" class="img-thumbnail" style="width:100px" ng-hide="webcam.ContactInfos[lang].LogoUrl == null" />
+                                                <input type="file" class="btn btn-default btn-file notextareamaxwitdth" nv-file-select="" uploader="uploader" />
+                                                <div>
+                                                    Upload progress:
+                                                    <div class="progress" style="height:100%">
+                                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width:60%"></div>
+        @*<button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length" style="float:right">
+                                                                <span class="glyphicon glyphicon-upload"></span> Upload
+                                                            </button>*@
+
+        @*Do isch a lei der gleiche kaas*@
+                                                        <div ng-repeat="item in uploader.queue">
+                                                            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                <span class="glyphicon glyphicon-upload"></span> Upload
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputAddress" placeholder="Contact Address" ng-model="webcam.ContactInfos[lang].Address">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputZipCode" class="col-sm-2 control-label">ZipCode</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputZipCode" placeholder="Contact ZipCode" ng-model="webcam.ContactInfos[lang].ZipCode">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputCity" class="col-sm-2 control-label">City</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputCity" placeholder="Contact City" ng-model="webcam.ContactInfos[lang].City">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputCountryname" class="col-sm-2 control-label">Country</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputCountryname" placeholder="Contact Countryname" ng-model="webcam.ContactInfos[lang].CountryName">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputCountrycode" placeholder="Contact Countrycode" ng-model="webcam.ContactInfos[lang].CountryCode">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputRegionname" class="col-sm-2 control-label">Region</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputRegionname" placeholder="Contact Regionname" ng-model="webcam.ContactInfos[lang].Region">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputRegioncode" placeholder="Contact Region code" ng-model="webcam.ContactInfos[lang].RegionCode">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputArea" class="col-sm-2 control-label">Area</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputArea" placeholder="Contact Area" ng-model="webcam.ContactInfos[lang].Area">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputEmail" placeholder="Contact Email" ng-model="webcam.ContactInfos[lang].Email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPhonenumber" class="col-sm-2 control-label">Phonenumber</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputPhonenumber" placeholder="Contact Phonenumber" ng-model="webcam.ContactInfos[lang].Phonenumber">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputFaxnumber" class="col-sm-2 control-label">Faxnumber</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputFaxnumber" placeholder="Contact Faxnumber" ng-model="webcam.ContactInfos[lang].Faxnumber">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputUrl" class="col-sm-2 control-label">Web Url</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control notextareamaxwitdth" id="inputUrl" placeholder="Contact Url" ng-model="webcam.ContactInfos[lang].Url">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+
+                    <tab heading="WebcamProperties">
                         <br />
                         <div class="row">
                             <div class="col-sm-6">
@@ -367,42 +621,203 @@
                     </tab>
 
                     <tab heading="Gps">
-                        <br />
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label for="inpuGpstype" class="col-sm-4 control-label">GPS Type</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inpuGpstype" placeholder="Gpstype" ng-model="webcam.GpsInfo.Gpstype" ng-show="webcam.Source == 'LTS'" readonly>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inpuGpstype" placeholder="Gpstype" ng-model="webcam.GpsInfo.Gpstype" ng-show="webcam.Source != 'LTS'" readonly>
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label for="selectGpsTyp" class="col-sm-4 control-label">GPS Type</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control notextareamaxwitdth" id="selectSchwierigkeit" ng-model="gps.typ">
+                                                        <option value="startingpoint">Starting Point</option>
+                                                        <option value="endingpoint">Ending Point</option>
+                                                        <option value="position" selected>Position</option>
+                                                        <option value="viewpoint">Viewpoint</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputGpsNorth" class="col-sm-4 control-label">Latitude</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputGpsNorth" placeholder="Latitude" ng-model="gps.latitude">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputGpsEast" class="col-sm-4 control-label">Longitude</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputGpsEast" placeholder="Longitude" ng-model="gps.longitude">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputGpsAltitude" class="col-sm-4 control-label">Altitude</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control notextareamaxwitdth" id="inputGpsAltitude" placeholder="Altitude" ng-model="gps.altitude">
+                                                </div>
+                                            </div>
+
+                                            <label class="col-sm-4 control-label"></label>
+                                            <div class="col-sm-8">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" value="+" ng-click="addgps(gps)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                </span>
+                                            </div>
+
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputLatitude" class="col-sm-4 control-label">Latitude</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLatitude" placeholder="Latitude" ng-model="webcam.GpsInfo.Latitude" ng-show="webcam.Source == 'LTS'" readonly>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLatitude" placeholder="Latitude" ng-model="webcam.GpsInfo.Latitude" ng-show="webcam.Source != 'LTS'">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputLongitude" class="col-sm-4 control-label">Longitude</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLongitude" placeholder="Longitude" ng-model="webcam.GpsInfo.Longitude" ng-show="webcam.Source == 'LTS'" readonly>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputLongitude" placeholder="Longitude" ng-model="webcam.GpsInfo.Longitude" ng-show="webcam.Source != 'LTS'">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputAltitude" class="col-sm-4 control-label">Altitude</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAltitude" placeholder="Altitude" ng-model="webcam.GpsInfo.Altitude" ng-show="webcam.Source == 'LTS'" readonly>
-                                            <input type="text" class="form-control notextareamaxwitdth" id="inputAltitude" placeholder="Altitude" ng-model="webcam.GpsInfo.Altitude" ng-show="webcam.Source != 'LTS'">
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+
+
+                                            <div class="input-group" ng-repeat="gps in webcam.GpsInfo">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="deletegps(gps.Gpstype)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                </span>
+
+                                                <span class="form-control">{{ gps.Gpstype }} - {{ gps.Latitude }} - {{ gps.Longitude }} - {{ gps.Altitude }}m</span>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
+                            </tab>
+
+                    <tab heading="Images">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-horizontal">
+                                        <div ng-controller="FileUploadController">
+                                            <h4>Upload Images</h4>
+                                            <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                                            <input type="file" class="btn btn-default btn-file " nv-file-select="" uploader="uploader" multiple /><br />
+
+                                            <p>Queue length: {{ uploader.queue.length }}</p>
+                                            <table class="table" style="font-size:smaller">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="50%">Name</th>
+                                                        <th ng-show="uploader.isHTML5">Size</th>
+                                                        <th ng-show="uploader.isHTML5">Progress</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in uploader.queue">
+                                                        <td>
+                                                            <strong>{{ item.file.name }}</strong>
+                                                            <!-- Image preview -->
+                                                            <!--auto height-->
+                                                            <!--<div ng-thumb="{ file: item.file, width: 100 }"></div>-->
+                                                            <!--auto width-->
+                                                            <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                            <!--fixed width and height -->
+                                                            <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
+                                                        </td>
+                                                        <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        <td ng-show="uploader.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                <span class="glyphicon glyphicon-upload"></span> @*Upload*@
+                                                            </button>
+                                                            <br />
+                                                            <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                                                <span class="glyphicon glyphicon-ban-circle"></span> @*Cancel*@
+                                                            </button>
+                                                            <br />
+                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> @*Remove*@
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                                <div>
+                                                    Queue progress:
+                                                    <div class="progress" style="">
+                                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                                                    <span class="glyphicon glyphicon-upload"></span> Upload all
+                                                </button>
+                                                <button type="button" class="btn btn-warning" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                                                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                                                </button>
+                                                <button type="button" class="btn btn-danger" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                                    <span class="glyphicon glyphicon-trash"></span> Remove all
+                                                </button>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8">
+                                    <div class="form-horizontal">
+                                        <h4>Image Gallery <small>Title, Description, Copyright, License, Position, Active</small></h4>
+                                        <div ng-repeat="bild in webcam.ImageGallery | orderBy: 'ListPosition'">
+                                            <div class="col-sm-2" style="text-align:right">
+                                                <img class="img-thumbnail" ng-src="{{ bild.ImageUrl }}" style="max-height:100px;" />
+                                                <div class="pull-right" ng-controller="FileUploadControllerSingle" ng-init="init(bild.ImageUrl)">
+                                                    <input type="file" class="btn btn-xs btn-default btn-file" style="width: 95px;" nv-file-select="" uploader="uploader" />
+                                                    <button type="button" class="btn btn-xs btn-success" style="width: 95px;" ng-click="uploader.uploadAll()" style="padding: 4px 8px;" ng-disabled="!uploader.getNotUploadedItems().length">
+                                                        <span class="glyphicon glyphicon-upload"></span> Change
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn" style="vertical-align:top;">
+                                                        <button type="button" class="btn btn-default" ng-click="deleteImage(bild.ImageName, bild.ImageUrl)"><i class="glyphicon glyphicon-minus"></i></button>
+                                                    </span>
+                                                    <div class="col-sm-12" style="padding-left:0px">
+                                                        <input type="text" class="form-control notextareamaxwitdth" id="inputBildTitel" placeholder="Title" ng-model="bild.ImageTitle[lang]">
+                                                    </div>
+                                                    <div class="col-sm-12" style="padding-left:0px">
+                                                        <textarea rows="2" class="form-control notextareamaxwitdth" id="inputBildBeschreibung" placeholder="Description" ng-model="bild.ImageDesc[lang]"></textarea>
+                                                    </div>
+                                                    <div class="col-sm-6" style="padding-left:0px">
+                                                        <input type="text" class="form-control col-sm-8 notextareamaxwitdth" id="inputBildCopyright" placeholder="CopyRight" ng-model="bild.CopyRight">
+                                                    </div>
+
+                                                    <div class="col-sm-6" style="padding-left:0px">
+                                                        <select class="form-control notextareamaxwitdth" id="selectImageLicenseType" ng-model="bild.License">
+                                                            <option value="" disabled>Select License</option>
+                                                            <option value="CC0">CC0</option>
+                                                            <option value="Proprietary">Proprietary</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-sm-2" style="padding-left:0px">
+                                                        <input type="number" class="form-control col-xs-2" id="inputBildListPosition" placeholder="Position" ng-model="bild.ListPosition">
+                                                    </div>
+                                                    <div class="col-sm-2" style="padding-left:0px">
+                                                        <input type="checkbox" class="smallcheckbox col-sm" id="checkboxActive" ng-model="bild.IsInGallery">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </tab>
+                        </tab>
 
                     <tab heading="Assigned on">
                         <br />
@@ -574,7 +989,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div>
-                        <img data-ng-src="{{webcam.Webcamurl}}" style="margin:auto;max-width:420px" class="img-rounded">
+                        <img data-ng-src="{{ webcam.ImageGallery[0].ImageUrl }}" style="margin:auto;max-width:420px" class="img-rounded">
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -590,7 +1005,7 @@
                     <h2>{{ webcam.Webcamname[lang] }}</h2>
 
                     <p ng-show="webcam.Source != ''">
-                        <strong>Zusatztext</strong><br />
+                        <strong>Source</strong><br />
                         {{ webcam.Source }}
                     </p>
 

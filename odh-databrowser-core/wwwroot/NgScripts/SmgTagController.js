@@ -1,4 +1,8 @@
-﻿var app = angular.module('smgtagging', ['ui.bootstrap', 'appconfig', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('smgtagging', ['ui.bootstrap', 'appconfig', 'pathconfig']);
 
 app.controller('smgtagListController', [
     '$scope', '$http', '$modal', 'appconfig', 'apipath',
@@ -37,8 +41,8 @@ app.controller('smgtagListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/v1/SmgTag/' + id).success(function (result) {
-                    alert("SmgTag deleted!");
+                $http.delete($scope.basePath + '/v1/ODHTag/' + id).success(function (result) {
+                    alert("ODHTag deleted!");
 
                     $.each($scope.smgtags, function (i) {
                         if ($scope.smgtags[i].Id === id) {
@@ -83,7 +87,7 @@ app.controller('smgtagListController', [
 //Modal Controller
 var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
-    $scope.smgtagmapped = '';
+    $scope.smgtagmapped = {};
     $scope.publishedchannel = {};
     $scope.publishedchannel.name = 'idm-marketplace';
 
@@ -100,7 +104,7 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/SmgTag', smgtag).success(function (result) {
+            $http.post($scope.basePath + '/v1/ODHTag', smgtag).success(function (result) {
                 alert("SmgTag added!");
                 $scope.smgtags.push(smgtag);
 
@@ -115,7 +119,7 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatesmgtag = function (smgtag, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/SmgTag/' + smgtag.Id, smgtag).success(function (result) {
+            $http.put($scope.basePath + '/v1/ODHTag/' + smgtag.Id, smgtag).success(function (result) {
                 alert("SmgTag updated!");
                 $modalInstance.close();
             });
@@ -309,17 +313,19 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     }
 
 
-    $scope.addpublishedonchannel = function (publishchannel) {
+    $scope.addpublishedonchannel = function () {
 
-        if (publishchannel != "" && publishchannel != undefined) {
+        //console.log(pulishchannel);
+
+        if ($scope.publishedchannel.name != "" && $scope.publishedchannel.name != undefined) {
 
             var addToArray = true;
 
-            if ($scope.poi.PublishedOn != null) {
+            if ($scope.smgtag.PublishedOn != null) {
 
-                $.each($scope.poi.PublishedOn, function (i) {
+                $.each($scope.smgtag.PublishedOn, function (i) {
 
-                    if ($scope.poi.PublishedOn[i] === publishchannel) {
+                    if ($scope.smgtag.PublishedOn[i] === $scope.publishedchannel.name) {
 
                         alert('Already present!');
                         addToArray = false;
@@ -329,13 +335,13 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 });
             }
             else {
-                $scope.poi.PublishedOn = [];
+                $scope.smgtag.PublishedOn = [];
             }
 
 
             if (addToArray) {
 
-                $scope.poi.PublishedOn.push(publishchannel);
+                $scope.smgtag.PublishedOn.push($scope.publishedchannel.name);
             }
         }
         else {
@@ -346,9 +352,9 @@ var SmgTagModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     //Remove SMG Tagging
     $scope.deletepublishedonchannel = function (publishchannel) {
         //alert(tag);
-        $.each($scope.poi.PublishedOn, function (i) {
-            if ($scope.poi.PublishedOn[i] === publishchannel) {
-                $scope.poi.PublishedOn.splice(i, 1);
+        $.each($scope.smgtag.PublishedOn, function (i) {
+            if ($scope.smgtag.PublishedOn[i] === publishchannel) {
+                $scope.smgtag.PublishedOn.splice(i, 1);
                 return false;
             }
         });

@@ -1,4 +1,8 @@
-﻿var app = angular.module('event', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'appfactory', 'textAngular', 'leaflet-directive', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('event', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'appfactory', 'textAngular', 'leaflet-directive', 'pathconfig']);
 
 app.controller('eventListController', [
     '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
@@ -19,7 +23,7 @@ app.controller('eventListController', [
 
         $scope.predefinedsource = false;
 
-
+    
         $scope.gbview = false;
 
         $scope.init = function (locfilter, locfiltertype, smgactive, source) {
@@ -160,7 +164,7 @@ app.controller('eventListController', [
         $scope.eventidfilter = 'null';
         $scope.locationfilter = 'null';
         $scope.topicfilter = "null";
-        $scope.rancfilter = "null";
+        $scope.rancfilter = 'null';
         $scope.typefilter = "null";
         $scope.orgridfilter = "null";
 
@@ -326,6 +330,16 @@ app.controller('eventListController', [
         $scope.clearPublishedOnFilter = function () {
 
             $scope.publishchannelfilter = '';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
+
+        $scope.clearRankFilter = function () {
+
+            $scope.rankfilter = 'null';
 
             $scope.page = 1;
             $scope.changePage(0);

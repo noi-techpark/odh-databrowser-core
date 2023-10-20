@@ -232,7 +232,8 @@
                     <tab heading="Detail">
                         <br />
                         <div class="row">
-                            <div class="col-sm-12">
+
+                            <div class="col-sm-6">
                                 <div class="form-horizontal">
                                     <div class="form-group">
                                         <label for="inputId" class="col-sm-4 control-label">Id (Please use english id with no spaces and no special characters)</label>
@@ -247,27 +248,14 @@
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" id="inputTagName" placeholder="Title" ng-model="smgtag.TagName[lang]">
                                         </div>
-                                    </div>
+                                    </div>                                    
 
-                                   @* <div class="form-group">
-                                        <label for="inputTagName" class="col-sm-4 control-label">Main Entity</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" id="selectEntity" ng-model="smgtag.MainEntity">
-                                                <option value="accommodation">Accommodation</option>
-                                                <option value="package">Package</option>
-                                                <option value="gastronomy">Gastronomy</option>
-                                                <option value="activity">Activity</option>
-                                                <option value="poi">Poi</option>
-                                                <option value="odhactivitypoi">ODHActivityPoi</option>
-                                                <option value="smgpoi">ODH Activity Poi</option>
-                                                <option value="article">Article</option>
-                                                <option value="event">Event</option>
-                                                <option value="common">Common</option>
-                                                <option value="venue">Venue</option>
-                                            </select>
-                                        </div>
-                                    </div>*@
+                                </div>
+                            </div>
 
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                               
                                     <div class="form-group">
                                         <label for="inputTagEntity" class="col-sm-4 control-label">valid for:</label>
                                         <div class="col-sm-8">
@@ -440,7 +428,7 @@
                                             <typeaheadsmgtag items="items" templateurl="SmgTagNameTemplate" prompt="Name" title="name" model="smgtagmapped.smgtagname" idmodel="smgtagmapped.smgtagid" on-select="onItemSelected()" />
                                         </div>
                                         <span class="input-group-btn" style="vertical-align:top">
-                                            <button type="button" class="btn btn-default" value="+" ng-click="addmappedtag()"><i class="glyphicon glyphicon-plus"></i></button>
+                                            <button type="button" class="btn btn-default" value="+" ng-click="addmappedtag(smgtagmapped)"><i class="glyphicon glyphicon-plus"></i></button>
                                         </span>
 
                                     </div>
@@ -515,18 +503,17 @@
 
                                     <label class="col-sm-4 control-label"></label>
                                     <div class="col-sm-8 input-group">
+                                      
+                                            <select class="form-control notextareamaxwitdth" id="selectSource" ng-model="publishedchannel.name">
+                                                <option value="idm-marketplace" selected>idm-marketplace</option>
+                                            </select>
+                                             <input type="checkbox" class="smallcheckbox" id="checkBoxPublishonChannel" ng-model="publishedchannel.yesno">
 
-        @*<input type="text" class="form-control" id="inputPublishChannel" placeholder="Channel to publish" ng-model="publishedchannel.name">*@
-
-                                        <select class="form-control" id="selectSource" ng-model="publishedchannel.name">
-                                            <option value="idm-marketplace" selected>idm-marketplace</option>
-                                        </select>
-                                        <input type="checkbox" class="smallcheckbox" id="checkBoxPublishonChannel" ng-model="publishedchannel.yesno">
-
-
-                                        <span class="input-group-btn" style="vertical-align:top">
+                                        <span class="input-group-addon" style="vertical-align:top">
                                             <button type="button" class="btn btn-default" value="+" ng-click="addpublishedchannel()"><i class="glyphicon glyphicon-plus"></i></button>
                                         </span>
+                                     
+                                     
 
                                     </div>
                                 </div>
@@ -535,7 +522,7 @@
                                 <div class="form-horizontal">
 
                                      <div class="input-group" ng-repeat="(key,val) in smgtag.PublishDataWithTagOn">
-                                        <span class="input-group-btn">
+                                        <span class="input-group-addon">
                                             <button type="button" class="btn btn-default" ng-click="deletepublishedchannel(key)"><i class="glyphicon glyphicon-minus"></i></button>
                                         </span>
                                         <input type="text" class="form-control notextareamaxwitdth" id="inputchannelsingle" placeholder="Tag" ng-model="key" readonly>
@@ -619,12 +606,12 @@
                                         <label class="col-sm-4 control-label"></label>
                                         <div class="col-sm-8 input-group">
 
-                                             <select class="form-control" id="selectSource" ng-model="publishedchannel.name">
+                                             <select class="form-control notextareamaxwitdth" id="selectSource" ng-model="publishedchannel.name">
                                                 <option value="idm-marketplace" selected>idm-marketplace</option>                                           
                                             </select>
                                             
                                             <span class="input-group-btn" style="vertical-align:top">
-                                                <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-plus"></i></button>
+                                                <button type="button" class="btn btn-default" value="+" ng-click="addpublishedonchannel()"><i class="glyphicon glyphicon-plus"></i></button>
                                             </span>
                                         </div>
                                     </div>
@@ -632,18 +619,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-horizontal">
 
-                                    <div class="input-group" ng-repeat="publishchannel in smgtag.PublishedOn">
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="deletepublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-minus"></i></button>
-                                        </span>
-                                        <input type="text" class="form-control notextareamaxwitdth" id="inputPublishedonsingle" placeholder="Publishedon" ng-model="publishchannel" readonly>
-                                    </div>
-
-                                    </div>
-
+                                        <div class="input-group" ng-repeat="publishchannel in smgtag.PublishedOn">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="deletepublishedonchannel(publishchannel)"><i class="glyphicon glyphicon-minus"></i></button>
+                                            </span>
+                                            <input type="text" class="form-control notextareamaxwitdth" id="inputPublishedonsingle" placeholder="Publishedon" ng-model="publishchannel" readonly>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </tab>
 

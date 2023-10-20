@@ -1,4 +1,8 @@
-﻿var app = angular.module('webcam', ['ui.bootstrap', 'ngSanitize', 'appconfig', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('webcam', ['ui.bootstrap', 'angularFileUpload', 'ngSanitize', 'appconfig', 'textAngular', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('webcamListController', [
     '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
@@ -17,7 +21,7 @@ app.controller('webcamListController', [
 
                 $scope.newwebcam = true;
                 $scope.webcam = {
-                    Id: '', Shortname: '', Source: 'Content', GpsInfo: { Gpstype: 'position' }, _Meta: { Id: '', Type: 'webcam', Source: 'noi' } };
+                    Id: '', Shortname: '', Source: 'Content', _Meta: { Id: '', Type: 'webcam', Source: 'noi' } };
 
                 var modalInstance = $modal.open({
                     templateUrl: 'myWebcamModal.html',
@@ -197,13 +201,7 @@ app.controller('webcamListController', [
                 $scope.webcam = result;
                 $scope.isloading = false;
 
-                var passedgps = [];
-
-                if ($scope.webcam.GpsInfo && $scope.webcam.GpsInfo.Latitude && $scope.webcam.GpsInfo.Longitude) {
-
-                    passedgps.push({ Gpstype: 'position', Latitude: $scope.webcam.GpsInfo.Latitude, Longitude: $scope.webcam.GpsInfo.Longitude });
-                    leafletmapsimple.preparemap(passedgps, null, ['position'], 'webcamListController');
-                }
+                leafletmapsimple.preparemap($scope.webcam.GpsInfo, null, ['Standpunkt', 'position', 'carparking', 'startingpoint', 'arrivalpoint', 'viewpoint', 'Talstation', 'Bergstation', 'startingandarrivalpoint'], 'webcamListController');
                 
                 var slidemodalInstance = $modal.open({
                     templateUrl: 'myWebcamInfoModal.html',
@@ -216,6 +214,12 @@ app.controller('webcamListController', [
 
         $scope.webcams = [];
     }]);
+
+var wysiwygeditorCtrl = function ($scope) {
+    $scope.htmlcontentbase = "<div></div>";
+    $scope.htmlcontentintro = "<div></div>";
+    $scope.disabled = false;
+};
 
 //Modal Controller
 var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
@@ -334,9 +338,9 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                     console.log(key, $scope.webcam.Mapping[provider][key]);
                 });
 
-                //$.each($scope.common.Mapping[provider], function (i) {
+                //$.each($scope.webcam.Mapping[provider], function (i) {
 
-                //    if ($scope.common.Mapping[provider][i] === $scope.mappingproperty.Name) {
+                //    if ($scope.webcam.Mapping[provider][i] === $scope.mappingproperty.Name) {
 
                 //        alert('Already present!');
                 //        addToArray = false;
@@ -350,7 +354,7 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             if (addToArray) {
                 //var property = { Name: $scope.mappingproperty.Name, Value: $scope.mappingproperty.Value };
 
-                //$scope.common.Mapping[provider].push(property);
+                //$scope.webcam.Mapping[provider].push(property);
 
                 var dicttoadd = {};
 
@@ -385,9 +389,9 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
             delete $scope.webcam.Mapping[provider][mapping];
 
-            //$.each($scope.common.Mapping[provider], function (i) {
-            //    if ($scope.common.Mapping[provider][i].Name === mapping) {
-            //        $scope.common.Mapping[provider].splice(i, 1);
+            //$.each($scope.webcam.Mapping[provider], function (i) {
+            //    if ($scope.webcam.Mapping[provider][i].Name === mapping) {
+            //        $scope.webcam.Mapping[provider].splice(i, 1);
             //        return false;
             //    }
             //});
@@ -544,3 +548,239 @@ app.filter('moment', function () {
         return moment(dateString).format(format);
     };
 });
+
+//Fileupload Test
+app.controller('FileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
+    var uploader = $scope.uploader = new FileUploader({
+        url: $scope.basePath + '/v1/FileUpload/webcam'
+    });
+
+
+    // FILTERS
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+
+    // CALLBACKS
+
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    uploader.onAfterAddingFile = function (fileItem) {
+        console.info('onAfterAddingFile', fileItem);
+    };
+    uploader.onAfterAddingAll = function (addedFileItems) {
+        console.info('onAfterAddingAll', addedFileItems);
+    };
+    uploader.onBeforeUploadItem = function (item) {
+        console.info('onBeforeUploadItem', item);
+    };
+    uploader.onProgressItem = function (fileItem, progress) {
+        console.info('onProgressItem', fileItem, progress);
+    };
+    uploader.onProgressAll = function (progress) {
+        console.info('onProgressAll', progress);
+    };
+    uploader.onSuccessItem = function (fileItem, response, status, headers) {
+
+        if ($scope.webcam.ImageGallery == null) {
+            $scope.webcam.ImageGallery = [];
+        }
+
+        console.log($scope.webcam.ImageGallery.length);
+
+        var currentimagescount = $scope.webcam.ImageGallery.length;
+
+        var r = new RegExp('"', 'g');
+        var imageurl = response.replace(r, '');
+
+        alert('added Image: ' + imageurl);
+
+        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'SMGManager', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++ }
+
+        $scope.webcam.ImageGallery.push(UploadedImage);
+
+
+        console.info('onSuccessItem', fileItem, response, status, headers);
+    };
+    uploader.onErrorItem = function (fileItem, response, status, headers) {
+
+        alert('error');
+        console.info('onErrorItem', fileItem, response, status, headers);
+    };
+    uploader.onCancelItem = function (fileItem, response, status, headers) {
+        console.info('onCancelItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteItem = function (fileItem, response, status, headers) {
+        console.info('onCompleteItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteAll = function () {
+        console.info('onCompleteAll');
+    };
+
+    console.info('uploader', uploader);
+}]);
+
+//Fileupload Logo
+app.controller('LogoFileUploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
+    var uploader = $scope.uploader = new FileUploader({
+        url: $scope.basePath + '/v1/FileUpload/webcam/Logo'
+    });
+
+
+    // FILTERS
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+
+    // CALLBACKS
+
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    uploader.onAfterAddingFile = function (fileItem) {
+        console.info('onAfterAddingFile', fileItem);
+        alert("file selected");
+    };
+    uploader.onAfterAddingAll = function (addedFileItems) {
+        console.info('onAfterAddingAll', addedFileItems);
+    };
+    uploader.onBeforeUploadItem = function (item) {
+        console.info('onBeforeUploadItem', item);
+    };
+    uploader.onProgressItem = function (fileItem, progress) {
+        console.info('onProgressItem', fileItem, progress);
+    };
+    uploader.onProgressAll = function (progress) {
+        console.info('onProgressAll', progress);
+    };
+    uploader.onSuccessItem = function (fileItem, response, status, headers) {
+
+        var r = new RegExp('"', 'g');
+        var imageurl = response.replace(r, '');
+
+        alert('added Logo Image: ' + imageurl);
+
+        var lang = $scope.lang;
+
+        $scope.webcam.ContactInfos[lang].LogoUrl = imageurl;
+
+        //alert($scope.webcam.ContactInfos[lang].LogoUrl);
+
+        console.info('onSuccessItem', fileItem, response, status, headers);
+    };
+    uploader.onErrorItem = function (fileItem, response, status, headers) {
+
+        alert('error');
+        console.info('onErrorItem', fileItem, response, status, headers);
+    };
+    uploader.onCancelItem = function (fileItem, response, status, headers) {
+        console.info('onCancelItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteItem = function (fileItem, response, status, headers) {
+        console.info('onCompleteItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteAll = function () {
+        console.info('onCompleteAll');
+    };
+
+    console.info('uploader', uploader);
+}]);
+
+//Fileupload Test
+app.controller('FileUploadControllerSingle', ['$scope', 'FileUploader', function ($scope, FileUploader) {
+
+    $scope.oldimageurl = "";
+
+    $scope.init = function (oldimageurl) {
+        $scope.oldimageurl = oldimageurl;
+    }
+
+    var uploader = $scope.uploader = new FileUploader({
+        url: $scope.basePath + '/v1/FileUpload/webcam'
+    });
+
+    // FILTERS
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+
+    // CALLBACKS
+
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    uploader.onAfterAddingFile = function (fileItem) {
+        console.info('onAfterAddingFile', fileItem);
+    };
+    uploader.onAfterAddingAll = function (addedFileItems) {
+        console.info('onAfterAddingAll', addedFileItems);
+    };
+    uploader.onBeforeUploadItem = function (item) {
+        console.info('onBeforeUploadItem', item);
+    };
+    uploader.onProgressItem = function (fileItem, progress) {
+        console.info('onProgressItem', fileItem, progress);
+    };
+    uploader.onProgressAll = function (progress) {
+        console.info('onProgressAll', progress);
+    };
+    uploader.onSuccessItem = function (fileItem, response, status, headers) {
+
+        var currentimagescount = $scope.webcam.ImageGallery.length;
+
+        var r = new RegExp('"', 'g');
+        var imageurl = response.replace(r, '');
+        //Filename
+        var imagename = imageurl.substring(imageurl.lastIndexOf('/') + 1);
+
+
+        alert('changed Image: ' + imageurl);
+
+        var UploadedImage = { ImageName: '', ImageUrl: imageurl, Width: 0, Height: 0, ImageSource: 'SMGManager', ImageTitle: { de: '', it: '', en: '', nl: '', cs: '', pl: '' }, ListPosition: currentimagescount++ }
+
+        //$scope.webcam.ImageGallery.push(UploadedImage);
+
+        $.each($scope.webcam.ImageGallery, function (i) {
+            if ($scope.webcam.ImageGallery[i].ImageUrl === $scope.oldimageurl) {
+
+                $scope.webcam.ImageGallery[i].ImageUrl = imageurl;
+                $scope.webcam.ImageGallery[i].ImageName = imagename;
+
+                //console.log("image changed from " + $scope.oldimageurl + " to " + imageurl);
+
+                return false;
+            }
+        });
+
+        console.info('onSuccessItem', fileItem, response, status, headers);
+    };
+    uploader.onErrorItem = function (fileItem, response, status, headers) {
+
+        alert('error');
+        console.info('onErrorItem', fileItem, response, status, headers);
+    };
+    uploader.onCancelItem = function (fileItem, response, status, headers) {
+        console.info('onCancelItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteItem = function (fileItem, response, status, headers) {
+        console.info('onCompleteItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteAll = function () {
+        console.info('onCompleteAll');
+    };
+
+    //console.info('uploader', uploader);
+}]);

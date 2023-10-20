@@ -149,6 +149,9 @@
                         <option value="SuedtirolWein">Südtirol Wein</option>
                         <option value="VerticalLife">Vertical Life</option>
                         <option value="ArchApp">Archapp</option>
+                        <option value="Sta">Sta</option>
+                        <option value="DSS">Dolomiti Superski</option>
+                        <option value="A22">A22</option>
                     </select>
                 </div>
 
@@ -200,6 +203,7 @@
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'sta'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'dss'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />                             
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'idm'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />                                
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'a22'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                             </div>
                         </td>
                         @*<td>{{ activity.Id }}</td>*@
@@ -313,7 +317,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputCustomId" class="col-sm-4 control-label">Custom Id</label>
+                                                <label for="inputCustomId" class="col-sm-4 control-label">Source Id</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control notextareamaxwitdth" id="inputCustomId" ng-model="poi.CustomId" readonly>
                                                 </div>
@@ -405,7 +409,18 @@
                                                 </div>
                                             </div>
 
-                                            <div ng-controller="TypeSelectController">
+                                            <div ng-controller="TourismVereinSelectController">
+                                                <div class="form-group">
+                                                    <label for="inputTourismorganization" class="col-sm-4 control-label">Owner (TV that inserted data)</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control notextareamaxwitdth" ng-model="poi.OwnerRid" disabled>
+                                                            <option ng-repeat="option in tourismorganizationlist | orderBy:'name'" value="{{option.id}}" ng-selected="option.id == poi.OwnerRid">{{option.name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+
+                                            @*<div ng-controller="TypeSelectController">
 
                                                 <div class="form-group">
                                                     <label for="inputMainType" class="col-sm-4 control-label">MainType</label>
@@ -432,7 +447,7 @@
                                                     </div>
                                                 </div>
 
-                                            </div>
+                                            </div>*@
 
 
 
@@ -1981,7 +1996,7 @@
     @*<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>*@
     @*<script src="~/NgScripts/appfactory.js"></script>*@
     <script src="~/NgScripts/appconfig.js"></script>
-    <script src="~/NgScripts/SmgPoiController.js?ver=20230427"></script>
+    <script src="~/NgScripts/SmgPoiController.js?ver=20230510"></script>
     @*<script src="~/Scripts/angular-route.min.js"></script>
         <script src="~/Scripts/file-Upload/angular-file-upload.min.js"></script>*@
 

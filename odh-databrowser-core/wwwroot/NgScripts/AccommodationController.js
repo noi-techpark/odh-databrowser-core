@@ -1,4 +1,8 @@
-﻿var app = angular.module('accommodation', ['ui.bootstrap', 'ngSanitize', 'ui-rangeSlider', 'appconfig', 'appfactory', 'leaflet-directive', 'pathconfig']);
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+var app = angular.module('accommodation', ['ui.bootstrap', 'ngSanitize', 'ui-rangeSlider', 'appconfig', 'appfactory', 'leaflet-directive', 'pathconfig']);
 
 app.controller('accommodationListController', [
     '$scope', '$http', '$modal', 'appconfig', 'leafletData', 'leafletmapsimple', 'languageFactory', 'apipath',
@@ -19,6 +23,7 @@ app.controller('accommodationListController', [
         $scope.globallocfilterType = '';
 
         $scope.checkonlts = false;
+        $scope.checkonhgv = false;
         $scope.onlinecountlcs = 0;
 
         $scope.themefilter = 'null';
@@ -330,8 +335,15 @@ app.controller('accommodationListController', [
                 //    $scope.bookfilter = $scope.bookfilter + "pos,"
             }
 
-            if ($scope.bookfilter == "")
-                $scope.bookfilter = "null";
+            console.log($scope.bookfilter);
+
+            if ($scope.bookfilter == "") {
+                $scope.checkonhgv = false;
+            }
+            else {
+                $scope.checkonhgv = true;
+            }
+                
 
             //alert($scope.bookfilter);
 
@@ -480,45 +492,88 @@ app.controller('accommodationListController', [
             $scope.setFilters();
 
             var bokfilter = $scope.bookfilter;
-            
+
+            $scope.hgvfinished = false;
+            $scope.ltsfinished = false;
 
             //console.log($scope.basePath + '/v1/Accommodation/Available/' + $scope.page + '/20/' + $scope.lang + '/' + $scope.categoryfilter + '/' + $scope.typefilter + '/' + $scope.boardfilter + '/' + $scope.featurefilter + '/' + $scope.themefilter + '/' + $scope.badgefilter + '/' + $scope.accoidfilter + '/' + $scope.locfilter + '/' + $scope.smgtagfilter + '/' + datefrom + '/' + dateto + '/' + roominfo + '/' + bokfilter + '/' + $scope.seed);
 
-            $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&seed=' + $scope.seed + '&availabilitycheck=true').success(function (result) {
-                $scope.accommodations = result.Items;
-                $scope.totalpages = result.TotalPages;
-                $scope.totalcount = result.TotalResults;
-                $scope.onlinecount = result.OnlineResults;
-                $scope.seed = result.Seed;
-                
-                console.log("found on mss: " + $scope.onlinecount);
+            console.log("check on hgv " + $scope.checkonhgv);
+            console.log("check on lts " + $scope.checkonlts);
 
-                if ($scope.checkonlts == true) {
+            if ($scope.checkonhgv == false && $scope.checkonlts == false) {
+                $scope.stopisloading(true, true, true, true)
+            }
 
-                    $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&seed=' + $scope.seed + '&availabilitycheck=true').success(function (resultlcs) {
+            $scope.accommodations = [];
 
+            if ($scope.checkonhgv == true) {
+                $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=' + bokfilter + '&seed=' + $scope.seed + '&availabilitycheck=true').success(function (result) {
+                    //$scope.accommodations = result.Items;
 
-
-                        $.each(resultlcs.Items, function (i) {
-                            $scope.accommodations.push(resultlcs.Items[i]);
-                        });
-
-
-                        $scope.onlinecountlcs = resultlcs.OnlineResults;
-
-                        console.log("found on lcs: " + $scope.onlinecountlcs);
-
-                        //console.log($scope.accommodations);
-
-                        $scope.isloading = false;
+                    $.each(result.Items, function (i) {
+                        $scope.accommodations.push(result.Items[i]);
                     });
 
+                    $scope.totalpages = result.TotalPages;
+                    $scope.totalcount = result.TotalResults;
+                    $scope.onlinecount = result.OnlineResults;
+                    $scope.seed = result.Seed;
+
+                    console.log("found on mss: " + $scope.onlinecount);
+
+                    $scope.hgvfinished = true;
+
+                    $scope.stopisloading($scope.checkonhgv, $scope.checkonlts, $scope.hgvfinished, $scope.ltsfinished)
+                });
+            }
+
+            if ($scope.checkonlts == true) {
+
+                $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&pagenumber=' + $scope.page + '&availabilitychecklanguage=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&boardfilter=' + $scope.boardfilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&arrival=' + datefrom + '&departure=' + dateto + '&roominfo=' + roominfo + '&bokfilter=lts&seed=' + $scope.seed + '&availabilitycheck=true').success(function (resultlcs) {
+
+                    $.each(resultlcs.Items, function (i) {
+                        $scope.accommodations.push(resultlcs.Items[i]);
+                    });
+
+                    $scope.onlinecountlcs = resultlcs.AvailableOnRequest;
+
+                    console.log("found on lcs: " + $scope.onlinecountlcs);
+
+                    $scope.ltsfinished = true;
+
+                    $scope.stopisloading($scope.checkonhgv, $scope.checkonlts, $scope.hgvfinished, $scope.ltsfinished)
+                });
+            }
+
+            $scope.stopisloading = function(checkonhgv, checkonlts, hgvfinished, ltsfinished){
+
+                if (checkonhgv && checkonlts) {
+                    if (hgvfinished && ltsfinished) {
+                        $scope.isloading = false;
+
+                        console.log("hgv and lts finished");
+                    }
                 }
                 else {
-                    $scope.isloading = false;
+                    if (checkonhgv && hgvfinished) {
+                        $scope.isloading = false;
+
+                        console.log("hgv finished");
+                    }
+                    if (checkonlts && ltsfinished) {
+                        $scope.isloading = false;
+
+                        console.log("lts finished");
+                    }
                 }
 
-            });
+                
+            }
+
+                
+
+           
         }
 
         $scope.editaccommodation = function (accommodation) {
@@ -657,7 +712,7 @@ app.controller('accommodationListController', [
 
             //$scope.SelectedHotelName = '';
             $scope.checkonlts = false;
-
+            $scope.checkonhgv = false;
             
             $scope.SelectedSmgTagName = '';
             $scope.SelectedSmgTagId = '';

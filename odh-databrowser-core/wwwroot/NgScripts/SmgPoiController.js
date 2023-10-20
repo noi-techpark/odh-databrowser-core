@@ -2023,7 +2023,7 @@ var relatedcontentsmgpoitypeaheadcontroller = app.controller('SmgRelatedContentA
     
     $http({
         method: 'Get',
-        url: $scope.basePath + '/v1/SmgPoi/ReducedRelatedContentAsync/de/Sommer,Winter,Anderes,Wellness Entspannung,Kultur Sehenswürdigkeiten/null/null/null/null/null/true/null/null'
+        url: $scope.basePath + '/v1/ODHActivityPoi?odhtagfilter=Sommer,Winter&fields=Id,Detail.de.Title,_Meta.Type&active=true'
     }).success(function (data) {
         //alert('data gekriag' + data.length);
 
@@ -2041,7 +2041,7 @@ var relatedcontentgastrotypeaheadcontroller = app.controller('SmgRelatedContentG
 
     $http({
         method: 'Get',
-        url: $scope.basePath + '/v1/SmgPoi/ReducedEssenTrinkenRelatedContentAsync/de/Essen Trinken/null/null/null/null/null/true/null/null'
+        url: $scope.basePath + '/v1/ODHActivityPoi?odhtagfilter=Essen Trinken&fields=Id,Detail.de.Title,_Meta.Type&active=true'
     }).success(function (data) {
         //alert('data gekriag' + data.length);
 
@@ -2059,7 +2059,7 @@ var relatedcontenteventtypeaheadcontroller = app.controller('SmgRelatedContentEv
 
     $http({
         method: 'Get',
-        url: $scope.basePath + '/v1/SmgPoi/ReducedEventRelatedContentAsync/de/true/true/null'
+        url: $scope.basePath + '/v1/Event?fields=Id,Detail.de.Title,_Meta.Type&pagesize=1&active=true&begindate='
     }).success(function (data) {
         //alert('data gekriag' + data.length);
 
@@ -2078,7 +2078,7 @@ var relatedcontentwebcamtypeaheadcontroller = app.controller('SmgRelatedContentW
 
     $http({
         method: 'Get',
-        url: $scope.basePath + '/v1/SmgPoi/ReducedWebcamInfoRelatedContentAsync/de/true/true/null'
+        url: $scope.basePath + '/v1/WebcamInfo?fields=Id,Detail.de.Title,_Meta.Type&pagesize=0&active=true'
     }).success(function (data) {
         //alert('data gekriag' + data.length);
 

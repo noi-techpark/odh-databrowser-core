@@ -1576,7 +1576,7 @@ var relatedcontentwebcamtypeaheadcontroller = app.controller('SmgRelatedContentW
 
     $http({
         method: 'Get',
-        url: $scope.basePath + '/v1/WebcamInfo?fields=Id,Detail.de.Title,_Meta.Type'
+        url: $scope.basePath + '/v1/WebcamInfo?fields=Id,Detail.de.Title,_Meta.Type&pagesize=0'
     }).success(function (data) {
         //alert('data gekriag' + data.length);
 

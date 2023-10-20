@@ -134,6 +134,7 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.relatedcontent = {};
     $scope.relatedcontentgastro = {};
     $scope.relatedcontentevent = {};
+    $scope.relatedcontentwebcam = {};
 
     $scope.mappingproperty = {};
 
@@ -765,9 +766,9 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 $scope.relatedcontentevent.Name = '';
                 $scope.relatedcontentevent.Type = '';
 
-                //$scope.relatedcontentwine.Id = '';
-                //$scope.relatedcontentwine.Name = '';
-                //$scope.relatedcontentwine.Type = '';
+                $scope.relatedcontentwebcam.Id = '';
+                $scope.relatedcontentwebcam.Name = '';
+                $scope.relatedcontentwebcam.Type = '';
             }
         }
         else {
@@ -1565,65 +1566,83 @@ var relatedcontentsmgpoitypeaheadcontroller = app.controller('SmgRelatedContentA
     }
 });
 
-//Directive Typeahead
-app.directive('typeaheadwebcam', function ($timeout) {
-    return {
-        restrict: 'AEC',
-        scope: {
-            items: '=',
-            prompt: '@',
-            title: '@',
-            name: '@',
-            model: '=',
-            idmodel: '=',
-            onSelect: '&'
-        },
-        link: function (scope, elem, attrs) {
-            scope.handleSelection = function (selectedItem, selectedId) {
-                scope.model = selectedItem;
-                scope.idmodel = selectedId;
-                scope.current = 0;
-                scope.selected = true;
-                $timeout(function () {
-                    scope.onSelect();
-                }, 200);
-            };
-            scope.current = 0;
-            scope.selected = true;
-            scope.isCurrent = function (index) {
-                return scope.current == index;
-            };
-            scope.setCurrent = function (index) {
-                scope.current = index;
-            };
-        },
-        templateUrl: function (elem, attrs) {
-            //alert(attrs.templateurl);
-            return attrs.templateurl || 'default.html'
-        }
-        //templateUrl: 'HuetteTemplate2'
-    }
-});
+var relatedcontentwebcamtypeaheadcontroller = app.controller('SmgRelatedContentWebcamTypeAheadController', function ($scope, $http) {
 
-var webcamtypeaheadcontroller = app.controller('WebcamTypeAheadController', function ($scope, $http) {
+    $scope.relatedcontenttypeaheadselected = false;
 
-    $scope.webcamtypeaheadselected = false;
+    $http({
+        method: 'Get',
+        url: $scope.basePath + '/v1/WebcamInfo?fields=Id,Detail.de.Title,_Meta.Type'
+    }).success(function (data) {
+        //alert('data gekriag' + data.length);
 
-    $scope.getRelatedContent = function () {
-        $http({
-            method: 'Get',
-            url: $scope.basePath + '/api/WebcamInfoReduced' + '?language=' + $scope.lang
-        }).success(function (data) {
-            $scope.items = data;
-        });
-    }
+        $scope.items = data;
+    });
 
     $scope.onItemSelected = function () {
-        $scope.webcamtypeaheadselected = true;
+        $scope.relatedcontenttypeaheadselected = true;
     }
-
-    $scope.getRelatedContent();
 });
+
+////Directive Typeahead
+//app.directive('typeaheadwebcam', function ($timeout) {
+//    return {
+//        restrict: 'AEC',
+//        scope: {
+//            items: '=',
+//            prompt: '@',
+//            title: '@',
+//            name: '@',
+//            model: '=',
+//            idmodel: '=',
+//            onSelect: '&'
+//        },
+//        link: function (scope, elem, attrs) {
+//            scope.handleSelection = function (selectedItem, selectedId) {
+//                scope.model = selectedItem;
+//                scope.idmodel = selectedId;
+//                scope.current = 0;
+//                scope.selected = true;
+//                $timeout(function () {
+//                    scope.onSelect();
+//                }, 200);
+//            };
+//            scope.current = 0;
+//            scope.selected = true;
+//            scope.isCurrent = function (index) {
+//                return scope.current == index;
+//            };
+//            scope.setCurrent = function (index) {
+//                scope.current = index;
+//            };
+//        },
+//        templateUrl: function (elem, attrs) {
+//            //alert(attrs.templateurl);
+//            return attrs.templateurl || 'default.html'
+//        }
+//        //templateUrl: 'HuetteTemplate2'
+//    }
+//});
+
+//var webcamtypeaheadcontroller = app.controller('WebcamTypeAheadController', function ($scope, $http) {
+
+//    $scope.webcamtypeaheadselected = false;
+
+//    $scope.getRelatedContent = function () {
+//        $http({
+//            method: 'Get',
+//            url: $scope.basePath + '/api/WebcamInfoReduced' + '?language=' + $scope.lang
+//        }).success(function (data) {
+//            $scope.items = data;
+//        });
+//    }
+
+//    $scope.onItemSelected = function () {
+//        $scope.webcamtypeaheadselected = true;
+//    }
+
+//    $scope.getRelatedContent();
+//});
 
 
 //var relatedcontentgastrotypeaheadcontroller = app.controller('SmgRelatedContentGastronomyTypeAheadController', function ($scope, $http) {

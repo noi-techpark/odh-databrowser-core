@@ -821,6 +821,8 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.relatedcontent = {};
     $scope.relatedcontentgastro = {};
     $scope.relatedcontentevent = {};
+    $scope.relatedcontentwebcam = {};
+    
     $scope.webcam = {};
     $scope.webcaminfo = {};
     $scope.mappingproperty = {};
@@ -1038,9 +1040,9 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 $scope.relatedcontentevent.Name = '';
                 $scope.relatedcontentevent.Type = '';
 
-                //$scope.relatedcontentwine.Id = '';
-                //$scope.relatedcontentwine.Name = '';
-                //$scope.relatedcontentwine.Type = '';
+                $scope.relatedcontentwebcam.Id = '';
+                $scope.relatedcontentwebcam.Name = '';
+                $scope.relatedcontentwebcam.Type = '';
             }
         }
         else {
@@ -2064,6 +2066,24 @@ var relatedcontenteventtypeaheadcontroller = app.controller('SmgRelatedContentEv
     }
 });
 
+
+var relatedcontentwebcamtypeaheadcontroller = app.controller('SmgRelatedContentWebcamTypeAheadController', function ($scope, $http) {
+
+    $scope.relatedcontenttypeaheadselected = false;
+
+    $http({
+        method: 'Get',
+        url: $scope.basePath + '/v1/SmgPoi/ReducedWebcamInfoRelatedContentAsync/de/true/true/null'
+    }).success(function (data) {
+        //alert('data gekriag' + data.length);
+
+        $scope.items = data;
+    });
+
+    $scope.onItemSelected = function () {
+        $scope.relatedcontenttypeaheadselected = true;
+    }
+});
 
 
 //Directive Typeahead

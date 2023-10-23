@@ -1557,7 +1557,7 @@ var relatedcontentsmgpoitypeaheadcontroller = app.controller('SmgRelatedContentA
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/SmgPoi/ReducedRelatedContentAsync/de/Sommer,Winter,Anderes,Wellness Entspannung,Kultur Sehenswürdigkeiten/null/null/' + $scope.relatedcontentlocfilter + '/null/null/true/null/null'
+            url: $scope.basePath + '/v1/ODHActivityPoi?type=233&fields=Id,Detail.de.Title,_Meta.Type&active=true&pagesize=0&locfilter=' + $scope.relatedcontentlocfilter
         }).success(function (data) {
             //alert('data gekriag' + data.length);
 

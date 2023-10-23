@@ -2023,7 +2023,7 @@ var relatedcontentsmgpoitypeaheadcontroller = app.controller('SmgRelatedContentA
     
     $http({
         method: 'Get',
-        url: $scope.basePath + '/v1/ODHActivityPoi?odhtagfilter=Sommer,Winter&fields=Id,Detail.de.Title,_Meta.Type&active=true'
+        url: $scope.basePath + '/v1/ODHActivityPoi?type=233&fields=Id,Detail.de.Title,_Meta.Type&active=true&pagesize=0'
     }).success(function (data) {
         //alert('data gekriag' + data.length);
 
@@ -2041,7 +2041,7 @@ var relatedcontentgastrotypeaheadcontroller = app.controller('SmgRelatedContentG
 
     $http({
         method: 'Get',
-        url: $scope.basePath + '/v1/ODHActivityPoi?odhtagfilter=Essen Trinken&fields=Id,Detail.de.Title,_Meta.Type&active=true'
+        url: $scope.basePath + '/v1/ODHActivityPoi?type=32&fields=Id,Detail.de.Title,_Meta.Type&active=true&pagesize=0'
     }).success(function (data) {
         //alert('data gekriag' + data.length);
 
@@ -2057,9 +2057,12 @@ var relatedcontenteventtypeaheadcontroller = app.controller('SmgRelatedContentEv
 
     $scope.relatedcontenttypeaheadselected = false;
 
+    var today = new Date();
+    const now = today.getFullYear() + "-" + parseInt(today.getMonth() + 1) + "-" + today.getDate();
+
     $http({
         method: 'Get',
-        url: $scope.basePath + '/v1/Event?fields=Id,Detail.de.Title,_Meta.Type&pagesize=1&active=true&begindate='
+        url: $scope.basePath + '/v1/Event?fields=Id,Detail.de.Title,_Meta.Type&pagesize=0&active=true&begindate=' + now
     }).success(function (data) {
         //alert('data gekriag' + data.length);
 

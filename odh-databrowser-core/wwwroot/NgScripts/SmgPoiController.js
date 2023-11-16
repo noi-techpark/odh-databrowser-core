@@ -205,8 +205,8 @@ app.controller('smgpoiListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/SmgPoi/' + id).success(function (result) {
-                    alert("SmgPoi deleted!");
+                $http.delete($scope.basePath + '/v1/ODHActivityPoi/' + id).success(function (result) {
+                    alert("ODHActivityPoi deleted!");
 
                     //Noamol holen
                     $scope.applyFilter($scope.page);

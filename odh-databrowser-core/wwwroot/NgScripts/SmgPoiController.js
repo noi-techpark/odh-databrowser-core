@@ -206,7 +206,7 @@ app.controller('smgpoiListController', [
 
             if (deleteconfirm) {
                 $http.delete($scope.basePath + '/v1/ODHActivityPoi/' + id).success(function (result) {
-                    alert("SmgPoi deleted!");
+                    alert("ODHActivityPoi deleted!");
 
                     //Noamol holen
                     $scope.applyFilter($scope.page);

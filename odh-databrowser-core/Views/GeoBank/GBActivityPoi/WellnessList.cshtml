@@ -139,19 +139,20 @@
                     <h6>Source <small class="btn-link pull-right" ng-click="clearSourceFilter()">Clear</small></h6>
                     <select class="form-control" id="selectSource" ng-model="source">
                         <option value="null">all</option>
-                        <option value="None">created Content</option>
-                        <option value="Magnolia">imported from Magnolia</option>
-                        <option value="ActivityData">LTS ActivityData</option>
-                        <option value="PoiData">LTS PoiData</option>
-                        <option value="BeaconData">LTS BeaconData</option>
-                        <option value="MuseumData">SIAG MuseumData</option>
-                        <option value="GastronomicData">LTS GastronomicData</option>
-                        <option value="SuedtirolWein">Südtirol Wein</option>
-                        <option value="VerticalLife">Vertical Life</option>
-                        <option value="ArchApp">Archapp</option>
-                        <option value="Sta">Sta</option>
-                        <option value="DSS">Dolomiti Superski</option>
-                        <option value="A22">A22</option>
+                        <option value="none">created Content</option>
+                        <option value="magnolia">imported from Magnolia</option>
+                        <option value="activitydata">LTS ActivityData</option>
+                        <option value="poidata">LTS PoiData</option>
+                        <option value="beacondata">LTS BeaconData</option>
+                        <option value="museumdata">SIAG MuseumData</option>
+                        <option value="gastronomicdata">LTS GastronomicData</option>
+                        <option value="suedtirolwein">Südtirol Wein</option>
+                        <option value="verticallife">Vertical Life</option>
+                        <option value="archapp">Archapp</option>
+                        <option value="sta">Sta</option>
+                        <option value="dss">Dolomiti Superski</option>
+                        <option value="a22">A22</option>
+                        <option value="noi">NOI Content</option>
                     </select>
                 </div>
 
@@ -193,7 +194,8 @@
                     <tr ng-repeat="poi in pois | filter:query">
                         <td>
                            <div style="max-width:150px;min-height:75px">
-                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'lts'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&W=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />                               
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source != 'lts' && poi.Source != 'magnolia' && poi.Source != 'content' && poi.Source != 'siag' && poi.Source != 'verticallife' && poi.Source != 'archapp' && poi.Source != 'suedtirolwein' && poi.Source != 'sta' && poi.Source != 'dss' && poi.Source != 'idm' && poi.Source != 'a22'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
+                                <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'lts'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&W=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'magnolia'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'content'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&Width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
                                 <img class="img-thumbnail img-responsive" ng-if="poi.Source == 'siag'" ng-src="{{  poi.ImageGallery[0] != NULL && poi.ImageGallery[0].ImageUrl + '&width=150' || '../img/noimage.png' }}" title="{{ poi.ImageGallery[0].ImageDesc['de']}}" ng-click="showInfoModal(poi)" />
@@ -342,6 +344,7 @@
                                                         <option>sta</option>
                                                         <option>idm</option>
                                                         <option>dss</option>
+                                                        <option>noi</option>
                                                     </select>
                                                 </div>
 
@@ -365,6 +368,7 @@
                                                         <option>archapp</option>
                                                         <option>dssliftbase</option>
                                                         <option>dssslopebase</option>
+                                                        <option>noi</option>
                                                     </select>
                                                 </div>
 

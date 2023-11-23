@@ -205,7 +205,7 @@ app.controller('smgpoiListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/SmgPoi/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/ODHActivityPoi/' + id).success(function (result) {
                     alert("SmgPoi deleted!");
 
                     //Noamol holen
@@ -849,7 +849,7 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/SmgPoi', poi).success(function (result) {
+            $http.post($scope.basePath + '/v1/ODHActivityPoi', poi).success(function (result) {
                 alert("Poi added!");
                 $scope.pois.push(poi);
 
@@ -864,7 +864,7 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatepoi = function (poi, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/SmgPoi/' + poi.Id, poi).success(function (result) {
+            $http.put($scope.basePath + '/v1/ODHActivityPoi/' + poi.Id, poi).success(function (result) {
                 alert("Poi updated!");
                 $modalInstance.close();
 

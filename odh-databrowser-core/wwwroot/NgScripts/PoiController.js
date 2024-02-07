@@ -946,9 +946,14 @@ var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', functi
 
          $http({
              method: 'Get',
-             url: $scope.basePath + '/v1/PoiReduced?language=' + lang + '&poitype=' + poitype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+             url: $scope.basePath + '/v1/Poi?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&poitype=' + poitype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
         }).success(function (data) {
-            $scope.items = data;
+            var idandnames = [];
+            $.each(data.Items, function (i) {
+                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
+            });
+
+            $scope.items = idandnames; 
         });
     }
     $scope.$on('LoadPoiNamesList', function (e) {

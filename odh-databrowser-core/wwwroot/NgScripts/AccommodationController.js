@@ -1209,15 +1209,26 @@ var hoteltypeaheadcontroller = app.controller('HotelnameTypeAheadController', fu
     $scope.getHotelFilteredList = function (filtered) {        
 
         if (!filtered) {
-            $http.get($scope.basePath + '/v1/AccommodationReduced?language=' + $scope.lang).success(function (data) {
-                $scope.hotelitems = data;
+            $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&fields=Id,AccoDetail.' + lang + '.Name&language=' + $scope.lang).success(function (data) {
+                var idandnames = [];
+                $.each(data.Items, function (i) {
+                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["AccoDetail." + lang + ".Name"] });
+                });
+
+                $scope.hotelitems = idandnames; 
             });
         }
         else {
             $scope.setFilters();
 
-            $http.get($scope.basePath + '/v1/AccommodationReduced?language=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter).success(function (data) {
-             $scope.hotelitems = data;
+            $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&fields=Id,Detail.' + lang + '.Name&language=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter).success(function (data) {
+             //$scope.hotelitems = data;
+                var idandnames = [];
+                $.each(data.Items, function (i) {
+                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["AccoDetail." + lang + ".Name"] });
+                });
+
+                $scope.hotelitems = idandnames; 
             });             
         }        
     }    

@@ -6,7 +6,7 @@
             @*<tr ng-repeat="item in items | filter:{ name:model , district:submodel } | limitTo: 50  track by $index" ng-click="handleSelection(item)" style="cursor:pointer" ng-class="{active:isCurrent($index)}" ng-mouseenter="setCurrent($index)">*@
             <td style="width:100%">
                 <div class="title">&nbsp;{{ item.Name }}</div>
-                <div class="title">&nbsp;{{ item.Id }}</div>
+                <div class="title">&nbsp;{{ item.Id }}</div>                
             </td>
         </tr>
     </table>

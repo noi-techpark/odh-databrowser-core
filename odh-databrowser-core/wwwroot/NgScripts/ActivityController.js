@@ -1109,10 +1109,15 @@ var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', functi
         
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ActivityReduced?language=' + lang + '&activitytype=' + activitytype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&distancefilter=' + distancerangefilter + '&altitudefilter=' + altituderangefilter + '&durationfilter=' + durationrangefilter + '&highlight=' + highlightfilter + '&difficultyfilter=' + difficultyfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+            url: $scope.basePath + '/v1/Activity?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&activitytype=' + activitytype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&distancefilter=' + distancerangefilter + '&altitudefilter=' + altituderangefilter + '&durationfilter=' + durationrangefilter + '&highlight=' + highlightfilter + '&difficultyfilter=' + difficultyfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
             //url: '/json/' + $scope.activitytype + 'Info.json'
         }).success(function (data) {
-            $scope.items = data;
+            var idandnames = [];
+            $.each(data.Items, function (i) {
+                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
+            });
+
+            $scope.items = idandnames; 
         });
     }
     $scope.$on('LoadPoiNamesList', function (e) {

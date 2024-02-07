@@ -803,9 +803,16 @@ var eventtypeaheadcontroller = app.controller('EventTypeAheadController', functi
 
 		$http({
 			method: 'Get',
-			url: $scope.basePath + '/v1/EventShort/Reduced?language=' + language + queryfilter
-		}).success(function (data) {
-			$scope.items = data;
+            url: $scope.basePath + '/v1/EventShort?pagesize=0&fields=Id,EventTitle.' + language + '&language=' + language + queryfilter
+        }).success(function (data) {
+
+            var idandnames = [];
+            $.each(data.Items, function (i) {
+                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["EventTitle." + language] });                
+            });
+
+            $scope.items = idandnames; 
+            
 		});
 
 	}

@@ -840,10 +840,15 @@ var gastrotypeaheadcontroller = app.controller('GastronameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/GastronomyReduced?language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+            url: $scope.basePath + '/v1/Gastronomy?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
             //url: '/json/' + $scope.activitytype + 'Info.json'
         }).success(function (data) {
-            $scope.items = data;
+            var idandnames = [];
+            $.each(data.Items, function (i) {
+                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
+            });
+
+            $scope.items = idandnames; 
         });
 
         //if (locationfilter != "null" || categorycodefilter != "null" || capacityceremonyfilter != "null" || facilitycodefilter != "null" || dishcodefilter != "null" || smgtagfilter != "null" || smgactive != "null" || active != "null") {

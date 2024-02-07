@@ -799,9 +799,14 @@ var eventtypeaheadcontroller = app.controller('EventTypeAheadController', functi
        
             $http({
                 method: 'Get',
-                url: $scope.basePath + '/v1/EventReduced?language=' + lang + '&locfilter=' + locationfilter + '&rancfilter=' + rancfilter + '&typefilter=' + typefilter + '&topicfilter=' + topicfilter + '&orgfilter=' + orgridfilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + '&begindate=' + datumvon + '&enddate=' + datumbis + '&source=' + source
+                url: $scope.basePath + '/v1/Event?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&locfilter=' + locationfilter + '&rancfilter=' + rancfilter + '&typefilter=' + typefilter + '&topicfilter=' + topicfilter + '&orgfilter=' + orgridfilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + '&begindate=' + datumvon + '&enddate=' + datumbis + '&source=' + source
             }).success(function (data) {
-                $scope.items = data;
+                var idandnames = [];
+                $.each(data.Items, function (i) {
+                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
+                });
+
+                $scope.items = idandnames; 
             });
         
     }

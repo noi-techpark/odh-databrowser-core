@@ -1945,7 +1945,7 @@ var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', functi
         
          $http({
              method: 'Get',
-             url: $scope.basePath + '/v1/ODHActivityPoi?pagesize=0&fields=Id,Detail.' + language + '.Title&language=' + lang + '&type=' + poitype + '&subtype=' + subtypefilter + '&poitype=' + poitypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&odhactive=' + smgactive + '&active=' + active + '&source=' + source + '&odhtagfilter=' + smgtagfilter
+             url: $scope.basePath + '/v1/ODHActivityPoi?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&type=' + poitype + '&subtype=' + subtypefilter + '&poitype=' + poitypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&odhactive=' + smgactive + '&active=' + active + '&source=' + source + '&odhtagfilter=' + smgtagfilter
         }).success(function (data) {
             //$scope.items = data;
 

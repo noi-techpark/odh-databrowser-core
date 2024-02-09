@@ -426,7 +426,15 @@ app.controller('accommodationListController', [
 
             $scope.setFilters();
 
-            $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&pagesize=20&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.seed).success(function (result) {
+            var searchfilter = '';
+            if ($scope.SelectedAccoName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedAccoName;
+            }
+            else
+                searchfilter = '';
+
+
+            $http.get($scope.basePath + '/v1/Accommodation?pagenumber=' + $scope.page + '&pagesize=20&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&idfilter=' + $scope.accoidfilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.seed + searchfilter).success(function (result) {
                 $scope.accommodations = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -435,8 +443,8 @@ app.controller('accommodationListController', [
                 $scope.isloading = false;
             });
 
-            if (withoutrefresh != true)
-                $scope.$broadcast('LoadAccoNamesList');
+            //if (withoutrefresh != true)
+            //    $scope.$broadcast('LoadAccoNamesList');
         }
         
         //Seite Wechseln
@@ -719,9 +727,6 @@ app.controller('accommodationListController', [
             $scope.onlinecount = -1;
 
             //Reset the locfilter only if there is no globallocfilter
-
-
-
             if ($scope.globallocfilter == '')
             {
                 $scope.SelectedLocationName = '';
@@ -767,7 +772,7 @@ app.controller('accommodationListController', [
             });
 
             //Calling method in Child Method to clear the Filter of Accommodation Name list
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
 
             $scope.page = 1;
             $scope.changePage(0);
@@ -781,7 +786,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearLocationFilter = function () {
@@ -794,7 +799,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearTagFilter = function () {
@@ -804,7 +809,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearActiveFilter = function () {
@@ -814,7 +819,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearTICActiveFilter = function () {
@@ -824,7 +829,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearTypeFilter = function () {
@@ -834,7 +839,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearThemeFilter = function () {
@@ -845,7 +850,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearBadgeFilter = function () {
@@ -856,7 +861,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearAusstattungFilter = function () {
@@ -867,7 +872,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearCategoryFilter = function () {
@@ -878,7 +883,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
         $scope.clearPublishedOnFilter = function () {
@@ -888,7 +893,7 @@ app.controller('accommodationListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('clearAcconamesFilter');
+            //$scope.$broadcast('clearAcconamesFilter');
         }
 
        
@@ -1201,65 +1206,65 @@ app.filter('xmlTObr', function () {
     };
 });
 
-//Accommodation Typeahead Gschichten
-var hoteltypeaheadcontroller = app.controller('HotelnameTypeAheadController', function ($scope, $http) {
+////Accommodation Typeahead Gschichten
+//var hoteltypeaheadcontroller = app.controller('HotelnameTypeAheadController', function ($scope, $http) {
 
-    $scope.hotelnametypeaheadselected = false;
+//    $scope.hotelnametypeaheadselected = false;
 
-    $scope.getHotelFilteredList = function (filtered) {        
+//    $scope.getHotelFilteredList = function (filtered) {        
 
-        if (!filtered) {
-            $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&fields=Id,AccoDetail.' + $scope.lang + '.Name&language=' + $scope.lang).success(function (data) {
-                var idandnames = [];
-                $.each(data.Items, function (i) {
-                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["AccoDetail." + $scope.lang + ".Name"] });
-                });
+//        if (!filtered) {
+//            $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&fields=Id,AccoDetail.' + $scope.lang + '.Name&language=' + $scope.lang).success(function (data) {
+//                var idandnames = [];
+//                $.each(data.Items, function (i) {
+//                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["AccoDetail." + $scope.lang + ".Name"] });
+//                });
 
-                $scope.hotelitems = idandnames; 
-            });
-        }
-        else {
-            $scope.setFilters();
+//                $scope.items = idandnames; 
+//            });
+//        }
+//        else {
+//            $scope.setFilters();
 
-            $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&fields=Id,Detail.' + $scope.lang + '.Name&language=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter).success(function (data) {
-             //$scope.hotelitems = data;
-                var idandnames = [];
-                $.each(data.Items, function (i) {
-                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["AccoDetail." + $scope.lang + ".Name"] });
-                });
+//            $http.get($scope.basePath + '/v1/Accommodation?pagesize=0&fields=Id,Detail.' + $scope.lang + '.Name&language=' + $scope.lang + '&categoryfilter=' + $scope.categoryfilter + '&typefilter=' + $scope.typefilter + '&featurefilter=' + $scope.featurefilter + '&themefilter=' + $scope.themefilter + '&badgefilter=' + $scope.badgefilter + '&locfilter=' + $scope.locfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter).success(function (data) {
+//             //$scope.hotelitems = data;
+//                var idandnames = [];
+//                $.each(data.Items, function (i) {
+//                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["AccoDetail." + $scope.lang + ".Name"] });
+//                });
 
-                $scope.hotelitems = idandnames; 
-            });             
-        }        
-    }    
+//                $scope.items = idandnames; 
+//            });             
+//        }        
+//    }    
 
-    $scope.$on('LoadAccoNamesList', function (e) {
-        //alert("onkemmen");
-        $scope.getHotelFilteredList(true);
-    });
+//    $scope.$on('LoadAccoNamesList', function (e) {
+//        //alert("onkemmen");
+//        $scope.getHotelFilteredList(true);
+//    });
 
-    $scope.$on('clearAcconamesFilter', function (e) {
-        //alert("clearen");
+//    $scope.$on('clearAcconamesFilter', function (e) {
+//        //alert("clearen");
 
-        if ($scope.globallocfilter == '')
-            $scope.getHotelFilteredList(false);
-        else
-            $scope.getHotelFilteredList(true);
-    });
+//        if ($scope.globallocfilter == '')
+//            $scope.getHotelFilteredList(false);
+//        else
+//            $scope.getHotelFilteredList(true);
+//    });
     
-    //Logik der vorgefilterten Liste
+//    //Logik der vorgefilterten Liste
 
-    if ($scope.globallocfilter == '')
-        $scope.getHotelFilteredList(false);
-    else
-        $scope.getHotelFilteredList(true);
+//    if ($scope.globallocfilter == '')
+//        $scope.getHotelFilteredList(false);
+//    else
+//        $scope.getHotelFilteredList(true);
 
-    $scope.SelectedHotelName = "";
+//    $scope.SelectedHotelName = "";
 
-    $scope.onItemSelected = function () {
-        $scope.hotelnametypeaheadselected = true;     
-    }    
-});
+//    $scope.onItemSelected = function () {
+//        $scope.hotelnametypeaheadselected = true;     
+//    }    
+//});
 
 var locationlistcontroller = app.controller('LocationTypeAheadController', function ($scope, $http) {
 
@@ -1351,45 +1356,45 @@ app.directive('typeaheadloc', function ($timeout) {
     }
 });
 
-app.directive('typeaheadhotel', function ($timeout) {
-    return {
-        restrict: 'AEC',
-        scope: {
-            items: '=',
-            prompt: '@',
-            title: '@',
-            //subtitle: '@',
-            //bild: '@',
-            name: '@',
-            model: '=',
-            idmodel: '=',
-            onSelect: '&'
-        },
-        link: function (scope, elem, attrs) {
-            scope.handleSelection = function (selectedItem, selectedId) {
-                scope.model = selectedItem;
-                scope.idmodel = selectedId;
-                scope.current = 0;
-                scope.selected = true;
-                $timeout(function () {
-                    scope.onSelect();
-                }, 200);
-            };
-            scope.current = 0;
-            scope.selected = true;
-            scope.isCurrent = function (index) {
-                return scope.current == index;
-            };
-            scope.setCurrent = function (index) {
-                scope.current = index;
-            };
-        },
-        templateUrl: function (elem, attrs) {
-            //alert(attrs.templateurl);
-            return attrs.templateurl || 'default.html'
-        }
-   }
-});
+//app.directive('typeaheadhotel', function ($timeout) {
+//    return {
+//        restrict: 'AEC',
+//        scope: {
+//            items: '=',
+//            prompt: '@',
+//            title: '@',
+//            //subtitle: '@',
+//            //bild: '@',
+//            name: '@',
+//            model: '=',
+//            idmodel: '=',
+//            onSelect: '&'
+//        },
+//        link: function (scope, elem, attrs) {
+//            scope.handleSelection = function (selectedItem, selectedId) {
+//                scope.model = selectedItem;
+//                scope.idmodel = selectedId;
+//                scope.current = 0;
+//                scope.selected = true;
+//                $timeout(function () {
+//                    scope.onSelect();
+//                }, 200);
+//            };
+//            scope.current = 0;
+//            scope.selected = true;
+//            scope.isCurrent = function (index) {
+//                return scope.current == index;
+//            };
+//            scope.setCurrent = function (index) {
+//                scope.current = index;
+//            };
+//        },
+//        templateUrl: function (elem, attrs) {
+//            //alert(attrs.templateurl);
+//            return attrs.templateurl || 'default.html'
+//        }
+//   }
+//});
 
 //DatePicker controller
 var DatepickerDemoCtrl = function ($scope) {
@@ -1458,9 +1463,15 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Accommodation'
-     }).success(function (data) {
-            $scope.items = data;
+            url: $scope.basePath + '/v1/ODHTag?fields=Id,TagName.' + lang + '&pagesize=0&language=' + lang + '&validforentity=Accommodation'
+        }).success(function (data) {
+
+            var idandnames = [];
+            $.each(data, function (i) {
+                idandnames.push({ Id: data[i].Id, Name: data[i]["TagName." + $scope.lang] });
+            });
+
+            $scope.items = idandnames; 
         });
     }
 
@@ -1479,9 +1490,15 @@ var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', 
 
         $http({
             method: 'Get',
-            url: $scope.basePath + '/v1/ODHTagReduced?localizationlanguage=' + lang + '&validforentity=Accommodation'
+            url: $scope.basePath + '/v1/ODHTag?fields=Id,TagName.' + lang + '&pagesize=0&language=' + lang + '&validforentity=Accommodation'
         }).success(function (data) {
-            $scope.items = data;
+
+            var idandnames = [];
+            $.each(data, function (i) {
+                idandnames.push({ Id: data[i].Id, Name: data[i]["TagName." + $scope.lang] });
+            });
+
+            $scope.items = idandnames; 
         });
     }
 

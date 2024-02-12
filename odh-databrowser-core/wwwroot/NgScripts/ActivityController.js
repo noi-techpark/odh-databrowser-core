@@ -262,12 +262,20 @@ app.controller('activityListController', [
             if ($scope.SelectedSkiAreaIds != '')
                 $scope.areafilter = $scope.SelectedSkiAreaTyp + $scope.SelectedSkiAreaIds
 
+
+            var searchfilter = '';
+            if ($scope.SelectedActivityName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedActivityName;
+            }
+            else
+                searchfilter = '';
+
             //alert('/api/Activity/Filtered/' + $scope.page + '/20/' + $scope.activitytype + '/' + $scope.subtypefilter + '/' + myactivitynameIdfilter + '/' + $scope.locationfilter + '/' + $scope.seed);
             //alert($scope.arefilter);
 
             //console.log($scope.basePath + '/v1/Activity/Filtered/' + $scope.page + '/20/' + $scope.activitytype + '/' + $scope.subtypefilter + '/' + $scope.activityidfilter + '/' + $scope.locationfilter + '/' + $scope.areafilter + '/' + $scope.distancerangefilter + '/' + $scope.altituderangefilter + '/' + $scope.durationrangefilter + '/' + $scope.difficultyfilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter + '/' + $scope.seed);
 
-            $http.get($scope.basePath + '/v1/Activity?pagenumber=' + $scope.page + '&pagesize=20&activitytype=' + $scope.activitytype + '&subtype=' + $scope.subtypefilter + '&idlist=' + $scope.activityidfilter + '&locfilter=' + $scope.locationfilter + '&areafilter=' + $scope.areafilter + '&distancefilter=' + $scope.distancerangefilter + '&altitudefilter=' + $scope.altituderangefilter + '&durationfilter=' + $scope.durationrangefilter + '&highlight=' + $scope.highlightfilter + '&difficultyfilter=' + $scope.difficultyfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Activity?pagenumber=' + $scope.page + '&pagesize=20&activitytype=' + $scope.activitytype + '&subtype=' + $scope.subtypefilter + '&idlist=' + $scope.activityidfilter + '&locfilter=' + $scope.locationfilter + '&areafilter=' + $scope.areafilter + '&distancefilter=' + $scope.distancerangefilter + '&altitudefilter=' + $scope.altituderangefilter + '&durationfilter=' + $scope.durationrangefilter + '&highlight=' + $scope.highlightfilter + '&difficultyfilter=' + $scope.difficultyfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed + searchfilter).success(function (result) {
                 $scope.activities = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -276,8 +284,8 @@ app.controller('activityListController', [
                 $scope.filtered = true;
             });
 
-            if (withoutrefresh != true)
-                $scope.$broadcast('LoadPoiNamesList');
+            //if (withoutrefresh != true)
+            //    $scope.$broadcast('LoadPoiNamesList');
         }
 
         //Filter Löschen
@@ -391,7 +399,7 @@ app.controller('activityListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadPoiNamesList');
+            /*$scope.$broadcast('LoadPoiNamesList');*/
         }
 
         $scope.clearActiveFilter = function () {
@@ -1101,36 +1109,36 @@ var skiarealistcontroller = app.controller('SkiAreaTypeAheadController', functio
     }
 });
 
-var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', function ($scope, $http) {
+//var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', function ($scope, $http) {
 
-    $scope.poinametypeaheadselected = false;       
+//    $scope.poinametypeaheadselected = false;       
     
-    $scope.getPoinamesFilteredList = function (lang, activitytype, subtypefilter, locationfilter, areafilter, distancerangefilter, altituderangefilter, durationrangefilter, highlightfilter, difficultyfilter, active, smgactive, smgtagfilter) {
+//    $scope.getPoinamesFilteredList = function (lang, activitytype, subtypefilter, locationfilter, areafilter, distancerangefilter, altituderangefilter, durationrangefilter, highlightfilter, difficultyfilter, active, smgactive, smgtagfilter) {
         
-        $http({
-            method: 'Get',
-            url: $scope.basePath + '/v1/Activity?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&activitytype=' + activitytype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&distancefilter=' + distancerangefilter + '&altitudefilter=' + altituderangefilter + '&durationfilter=' + durationrangefilter + '&highlight=' + highlightfilter + '&difficultyfilter=' + difficultyfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
-            //url: '/json/' + $scope.activitytype + 'Info.json'
-        }).success(function (data) {
-            var idandnames = [];
-            $.each(data.Items, function (i) {
-                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
-            });
+//        $http({
+//            method: 'Get',
+//            url: $scope.basePath + '/v1/Activity?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&activitytype=' + activitytype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&distancefilter=' + distancerangefilter + '&altitudefilter=' + altituderangefilter + '&durationfilter=' + durationrangefilter + '&highlight=' + highlightfilter + '&difficultyfilter=' + difficultyfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+//            //url: '/json/' + $scope.activitytype + 'Info.json'
+//        }).success(function (data) {
+//            var idandnames = [];
+//            $.each(data.Items, function (i) {
+//                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
+//            });
 
-            $scope.items = idandnames; 
-        });
-    }
-    $scope.$on('LoadPoiNamesList', function (e) {
+//            $scope.items = idandnames; 
+//        });
+//    }
+//    $scope.$on('LoadPoiNamesList', function (e) {
         
-        $scope.getPoinamesFilteredList($scope.lang, $scope.activitytype, $scope.subtypefilter, $scope.locationfilter, $scope.areafilter, $scope.distancerangefilter, $scope.altituderangefilter, $scope.durationrangefilter, $scope.highlightfilter, $scope.difficultyfilter, $scope.active, $scope.smgactive, $scope.smgtagfilter);
-    });
+//        $scope.getPoinamesFilteredList($scope.lang, $scope.activitytype, $scope.subtypefilter, $scope.locationfilter, $scope.areafilter, $scope.distancerangefilter, $scope.altituderangefilter, $scope.durationrangefilter, $scope.highlightfilter, $scope.difficultyfilter, $scope.active, $scope.smgactive, $scope.smgtagfilter);
+//    });
 
-    $scope.getPoinamesFilteredList($scope.lang, $scope.activitytype, $scope.subtypefilter, $scope.locationfilter, $scope.areafilter, $scope.distancerangefilter, $scope.altituderangefilter, $scope.durationrangefilter, $scope.highlightfilter, $scope.difficultyfilter, $scope.active, $scope.smgactive, $scope.smgtagfilter);
+//    $scope.getPoinamesFilteredList($scope.lang, $scope.activitytype, $scope.subtypefilter, $scope.locationfilter, $scope.areafilter, $scope.distancerangefilter, $scope.altituderangefilter, $scope.durationrangefilter, $scope.highlightfilter, $scope.difficultyfilter, $scope.active, $scope.smgactive, $scope.smgtagfilter);
 
-    $scope.onItemSelected = function () {
-        $scope.poinametypeaheadselected = true;
-    }
-});
+//    $scope.onItemSelected = function () {
+//        $scope.poinametypeaheadselected = true;
+//    }
+//});
 
 var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadController', function ($scope, $http) {
 

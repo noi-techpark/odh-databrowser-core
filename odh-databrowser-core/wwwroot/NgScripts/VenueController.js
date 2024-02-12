@@ -199,7 +199,14 @@ app.controller('venueListController', [
             if ($scope.publishchannelfilter != "")
                 publishedonfilterqs = "&publishedon=" + $scope.publishchannelfilter;
 
-            $http.get($scope.basePath + '/v1/Venue?destinationdataformat=true&pagenumber=' + $scope.page + '&pagesize=20' + venueidfilterqs + locfilterqs + catfilterqs + featfilterqs + typefilterqs + activefilterqs + odhactivefilterqs + odhtagfilterqs + capacityfilterqs + roomcountfilterqs + publishedonfilterqs).success(function (result) {
+            var searchfilter = '';
+            if ($scope.SelectedVenueName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedVenueName;
+            }
+            else
+                searchfilter = '';
+
+            $http.get($scope.basePath + '/v1/Venue?destinationdataformat=true&pagenumber=' + $scope.page + '&pagesize=20' + venueidfilterqs + locfilterqs + catfilterqs + featfilterqs + typefilterqs + activefilterqs + odhactivefilterqs + odhtagfilterqs + capacityfilterqs + roomcountfilterqs + publishedonfilterqs + searchfilter).success(function (result) {
                 $scope.venues = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -264,7 +271,7 @@ app.controller('venueListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
         }
 
         function setFilters() {
@@ -295,7 +302,6 @@ app.controller('venueListController', [
             {
                 $scope.catfilter = flagcounter;
             }
-
 
             //Features:
             $scope.featfilter = "null";
@@ -377,7 +383,7 @@ app.controller('venueListController', [
         $scope.changePage = function (pageskip) {
 
             $scope.page = $scope.page + pageskip;
-            $scope.isloading = true;
+            $scope.isloading = true;            
 
             if ($scope.filtered || $scope.globallocfilter != '') {
                 $scope.applyFilter($scope.page);
@@ -405,7 +411,7 @@ app.controller('venueListController', [
 			$scope.page = 1;
             $scope.changePage(0);		
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
 		}
 
 		$scope.clearLocationFilter = function () {
@@ -418,7 +424,7 @@ app.controller('venueListController', [
 			$scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
 		}
 
 		$scope.clearTagFilter = function () {
@@ -428,7 +434,7 @@ app.controller('venueListController', [
 			$scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
 		}
 
 		$scope.clearCatFilter = function () {
@@ -439,7 +445,7 @@ app.controller('venueListController', [
 			$scope.page = 1;
             $scope.changePage(0);	
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
         }
 
         $scope.clearFeatFilter = function () {
@@ -450,7 +456,7 @@ app.controller('venueListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
         }
 
         $scope.clearTypeFilter = function () {
@@ -461,7 +467,7 @@ app.controller('venueListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
         }
 
 		$scope.clearActiveFilter = function () {
@@ -471,7 +477,7 @@ app.controller('venueListController', [
 			$scope.page = 1;
             $scope.changePage(0);	
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
 		}
 
 		$scope.clearTICActiveFilter = function () {
@@ -481,7 +487,7 @@ app.controller('venueListController', [
 			$scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
         }
 
         $scope.clearPublishedOnFilter = function () {
@@ -491,7 +497,7 @@ app.controller('venueListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
         }
 
         $scope.clearCapacityFilter = function () {
@@ -502,7 +508,7 @@ app.controller('venueListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
         }
 
         $scope.clearRoomCountFilter = function () {
@@ -513,7 +519,7 @@ app.controller('venueListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadVenueNamesList');
+            //$scope.$broadcast('LoadVenueNamesList');
         }
 
         //Modal anzeigen

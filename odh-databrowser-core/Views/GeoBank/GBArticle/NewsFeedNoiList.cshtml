@@ -81,9 +81,10 @@
                 </div>
 
 
-                <div class="form-group col-sm-12" ng-controller="ArticleNameTypeAheadController">
+                <div class="form-group col-sm-12">
                     <h6>Name</h6>
-                    <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="$parent.SelectedArticleName" idmodel="$parent.SelectedArticleId" on-select="onItemSelected()" />
+                    <input id="selectedapoiname" class="form-control" type="text" ng-model="SelectedArticleName" placeholder="Poi to filter" />
+                    @* <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="$parent.SelectedArticleName" idmodel="$parent.SelectedArticleId" on-select="onItemSelected()" /> *@
                 </div>
 
                 <div class="form-group col-sm-12">

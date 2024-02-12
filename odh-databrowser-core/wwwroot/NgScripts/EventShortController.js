@@ -155,17 +155,24 @@ app.controller('eventshortListController', [
 			$scope.filtered = true;
 			$scope.page = page;
 
-			setFilters();
+            setFilters();
 
-			$http.get($scope.basePath + '/v1/EventShort?pagenumber=' + page + '&pagesize=' + '20' + $scope.queryfilter).success(function (result) {
+            var searchfilter = '';
+            if ($scope.SelectedEventName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedEventName;
+            }
+            else
+                searchfilter = '';
+
+			$http.get($scope.basePath + '/v1/EventShort?pagenumber=' + page + '&pagesize=' + '20' + $scope.queryfilter + searchfilter).success(function (result) {
 				$scope.eventsshort = result.Items;
 				$scope.totalpages = result.TotalPages;
 				$scope.totalcount = result.TotalResults;
 				$scope.isloading = false;
 			});
 
-            if (withoutrefresh != true)
-                $scope.$broadcast('LoadEventNamesList');
+            //if (withoutrefresh != true)
+            //    $scope.$broadcast('LoadEventNamesList');
 		}
 
 		//Filter Löschen
@@ -795,43 +802,43 @@ function objectFindByKey(array, key, value) {
 	return null;
 }
 
-var eventtypeaheadcontroller = app.controller('EventTypeAheadController', function ($scope, $http) {
+//var eventtypeaheadcontroller = app.controller('EventTypeAheadController', function ($scope, $http) {
 
-	$scope.eventnametypeaheadselected = false;
+//	$scope.eventnametypeaheadselected = false;
 
-	$scope.getEventnamesFilteredList = function (language, queryfilter) {
+//	$scope.getEventnamesFilteredList = function (language, queryfilter) {
 
-		$http({
-			method: 'Get',
-            url: $scope.basePath + '/v1/EventShort?pagesize=0&fields=Id,EventTitle.' + language + '&language=' + language + queryfilter
-        }).success(function (data) {
+//		$http({
+//			method: 'Get',
+//            url: $scope.basePath + '/v1/EventShort?pagesize=0&fields=Id,EventTitle.' + language + '&language=' + language + queryfilter
+//        }).success(function (data) {
 
-            var idandnames = [];
-            $.each(data.Items, function (i) {
-                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["EventTitle." + language] });                
-            });
+//            var idandnames = [];
+//            $.each(data.Items, function (i) {
+//                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["EventTitle." + language] });                
+//            });
 
-            $scope.items = idandnames; 
+//            $scope.items = idandnames; 
             
-		});
+//		});
 
-	}
+//	}
 
-	$scope.$on('LoadEventNamesList', function (e) {
+//	$scope.$on('LoadEventNamesList', function (e) {
 
-		$scope.queryfilterreduced = $scope.onlyactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
+//		$scope.queryfilterreduced = $scope.onlyactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
 
-		$scope.getEventnamesFilteredList($scope.lang, $scope.queryfilterreduced);
-	});
+//		$scope.getEventnamesFilteredList($scope.lang, $scope.queryfilterreduced);
+//	});
 
-	$scope.queryfilterreduced = $scope.onlyactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
+//	$scope.queryfilterreduced = $scope.onlyactivefilter + $scope.sourcefilter + $scope.eventlocationfilter + $scope.datumvonfilter + $scope.datumbisfilter;
 
-	$scope.getEventnamesFilteredList($scope.lang, $scope.queryfilterreduced);
+//	$scope.getEventnamesFilteredList($scope.lang, $scope.queryfilterreduced);
 
-	$scope.onItemSelected = function () {
-		$scope.eventnametypeaheadselected = true;
-	}
-});
+//	$scope.onItemSelected = function () {
+//		$scope.eventnametypeaheadselected = true;
+//	}
+//});
 
 //Directive Typeahead
 app.directive('typeaheadevent', function ($timeout) {

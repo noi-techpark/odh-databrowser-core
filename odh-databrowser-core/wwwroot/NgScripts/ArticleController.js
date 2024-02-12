@@ -256,7 +256,14 @@ app.controller('articleListController', [
                 sortby = '&rawsort=-ArticleDate'
             }
 
-            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter + sortby).success(function (result) {
+            var searchfilter = '';
+            if ($scope.SelectedArticleName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedArticleName;
+            }
+            else
+                searchfilter = '';
+
+            $http.get($scope.basePath + '/v1/Article?pagenumber=' + $scope.page + '&pagesize=20&articletype=' + $scope.articletype + '&articlesubtype=' + $scope.subtypefilter + '&idlist=' + $scope.articlefilter + '&langfilter=' + $scope.langlistfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&smgtagfilter=' + $scope.smgtagfilter + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.seed + $scope.datumvonfilter + $scope.datumbisfilter + sortby + searchfilter).success(function (result) {
                 $scope.articles = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -959,31 +966,31 @@ var InfoModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     //});
 }
 
-var articletypeaheadcontroller = app.controller('ArticleNameTypeAheadController', function ($scope, $http) {
+//var articletypeaheadcontroller = app.controller('ArticleNameTypeAheadController', function ($scope, $http) {
     
-    $scope.articlenametypeaheadselected = false;
+//    $scope.articlenametypeaheadselected = false;
 
-    $scope.getArticleNameList = function (lang, articletype, smgtagfilter, active, smgactive, datumvonfilter, datumbisfilter) {
+//    $scope.getArticleNameList = function (lang, articletype, smgtagfilter, active, smgactive, datumvonfilter, datumbisfilter) {
 
-        $http({
-            method: 'Get',
-            url: $scope.basePath + '/v1/ArticleReduced?language=' + lang + '&articletype=' + articletype + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + datumvonfilter + datumbisfilter
-        }).success(function (data) {
-            $scope.items = data;
-        });
-    }   
+//        $http({
+//            method: 'Get',
+//            url: $scope.basePath + '/v1/ArticleReduced?language=' + lang + '&articletype=' + articletype + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + datumvonfilter + datumbisfilter
+//        }).success(function (data) {
+//            $scope.items = data;
+//        });
+//    }   
 
-    $scope.getArticleNameList($scope.lang, $scope.articletype, $scope.smgtagfilter, $scope.active, $scope.smgactive, $scope.datumvonfilter, $scope.datumbisfilter);
+//    $scope.getArticleNameList($scope.lang, $scope.articletype, $scope.smgtagfilter, $scope.active, $scope.smgactive, $scope.datumvonfilter, $scope.datumbisfilter);
 
-    $scope.$on('LoadArticleNamesList', function (e) {
-        //alert("onkemmen");
-        $scope.getArticleNameList($scope.lang, $scope.articletype, $scope.smgtagfilter, $scope.active, $scope.smgactive);
-    });
+//    $scope.$on('LoadArticleNamesList', function (e) {
+//        //alert("onkemmen");
+//        $scope.getArticleNameList($scope.lang, $scope.articletype, $scope.smgtagfilter, $scope.active, $scope.smgactive);
+//    });
 
-    $scope.onItemSelected = function () {
-        $scope.articlenametypeaheadselected = true;
-    }
-});
+//    $scope.onItemSelected = function () {
+//        $scope.articlenametypeaheadselected = true;
+//    }
+//});
 
 var smgtagtypeaheadcontroller = app.controller('SmgTagNameTypeAheadController', function ($scope, $http) {
 

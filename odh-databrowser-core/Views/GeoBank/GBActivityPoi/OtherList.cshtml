@@ -68,9 +68,10 @@
                     <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
                 </div>
 
-                <div class="form-group col-sm-12" ng-controller="PoinameTypeAheadController">
+                <div class="form-group col-sm-12">
                     <h6>Activity/Poi Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
-                    <typeaheadpoi items="items" templateurl="PoiNameTemplate" prompt="Name" title="name" subtitle="typ" model="$parent.SelectedPoiName" idmodel="$parent.SelectedPoiId" on-select="onItemSelected()" />
+                    @* <typeaheadpoi items="items" templateurl="PoiNameTemplate" prompt="Name" title="name" subtitle="typ" model="$parent.SelectedPoiName" idmodel="$parent.SelectedPoiId" on-select="onItemSelected()" /> *@
+                    <input id="selectedapoiname" class="form-control" type="text" ng-model="SelectedPoiName" placeholder="Poi to filter" />
                 </div>
 
                 <div class="form-group col-sm-12" ng-controller="LocationTypeAheadController">

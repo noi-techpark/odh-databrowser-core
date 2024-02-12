@@ -65,9 +65,10 @@
                     <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
                 </div>
 
-                <div class="form-group col-sm-12" ng-controller="WebcamTypeAheadController">
+                <div class="form-group col-sm-12">
                     <h6>Webcam Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
-                    <typeaheadwebcam items="items" templateurl="WebcamNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedWebcamName" idmodel="$parent.SelectedWebcamId" on-select="onItemSelected()" />
+                    <input id="selectedapoiname" class="form-control" type="text" ng-model="SelectedWebcamName" placeholder="Webcam to filter" />
+                    @* <typeaheadwebcam items="items" templateurl="WebcamNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedWebcamName" idmodel="$parent.SelectedWebcamId" on-select="onItemSelected()" /> *@
                 </div>
 
                 <div class="form-group col-sm-12">

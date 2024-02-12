@@ -63,9 +63,11 @@
                     <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
                 </div>
 
-                <div class="form-group col-sm-12" ng-controller="EventTypeAheadController">
+                <div class="form-group col-sm-12">
+                    @* ng-controller="EventTypeAheadController" *@
                     <h6>Event Name</h6>
-                    <typeaheadevent items="items" templateurl="EventShortNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedEventName" idmodel="$parent.SelectedEventId" on-select="onItemSelected()" />
+                    @* <typeaheadevent items="items" templateurl="EventShortNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedEventName" idmodel="$parent.SelectedEventId" on-select="onItemSelected()" /> *@
+                    <input id="SelectedEventId" class="form-control" type="text" ng-model="SelectedEventName" placeholder="Eventname to filter" />
                 </div>
 
                 <div class="form-group col-sm-12">

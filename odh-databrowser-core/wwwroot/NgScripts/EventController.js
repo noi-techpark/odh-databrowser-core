@@ -49,7 +49,7 @@ app.controller('eventListController', [
 
             if (source != "" && source != undefined) {
 
-                console.log(source);
+                //console.log(source);
 
                 $scope.source = source;
                 $scope.predefinedsource = true;
@@ -72,7 +72,7 @@ app.controller('eventListController', [
         $scope.changeLanguage = function () {
 
             languageFactory.setLanguage($scope.lang);
-            console.log(languageFactory.getLanguage());
+            //console.log(languageFactory.getLanguage());
 
             //Reload Entire PAge (Hack)
             location.reload();
@@ -196,7 +196,14 @@ app.controller('eventListController', [
                           
             setFilters();            
 
-            $http.get($scope.basePath + '/v1/Event?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.eventidfilter + '&locfilter=' + $scope.locationfilter + '&rancfilter=' + $scope.rancfilter + '&typefilter=' + $scope.typefilter + '&topicfilter=' + $scope.topicfilter + '&orgfilter=' + $scope.orgridfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&begindate=' + $scope.datumvonfilter + '&enddate=' + $scope.datumbisfilter + '&source=' + $scope.source + '&sort=' + $scope.sortdescfilter + '&langfilter=' + $scope.lang + '&publishedon=' + $scope.publishchannelfilter).success(function (result) {
+            var searchfilter = '';
+            if ($scope.SelectedEventName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedEventName;
+            }
+            else
+                searchfilter = '';
+
+            $http.get($scope.basePath + '/v1/Event?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.eventidfilter + '&locfilter=' + $scope.locationfilter + '&rancfilter=' + $scope.rancfilter + '&typefilter=' + $scope.typefilter + '&topicfilter=' + $scope.topicfilter + '&orgfilter=' + $scope.orgridfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&begindate=' + $scope.datumvonfilter + '&enddate=' + $scope.datumbisfilter + '&source=' + $scope.source + '&sort=' + $scope.sortdescfilter + '&langfilter=' + $scope.lang + '&publishedon=' + $scope.publishchannelfilter + searchfilter).success(function (result) {
                 $scope.events = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -204,8 +211,8 @@ app.controller('eventListController', [
                 $scope.isloading = false;
             });
 
-            if (withoutrefresh != true)
-                $scope.$broadcast('LoadEventNamesList');
+            //if (withoutrefresh != true)
+            //    $scope.$broadcast('LoadEventNamesList');
         }
 
         //Filter Löschen
@@ -790,38 +797,40 @@ function objectFindByKey(array, key, value) {
     return null;
 }
 
-var eventtypeaheadcontroller = app.controller('EventTypeAheadController', function ($scope, $http) {
+//var eventtypeaheadcontroller = app.controller('EventTypeAheadController', function ($scope, $http) {
 
-    $scope.eventnametypeaheadselected = false;
+//    $scope.eventnametypeaheadselected = false;
 
-    $scope.getEventnamesFilteredList = function (lang, locationfilter, rancfilter, typefilter, topicfilter, orgridfilter, smgtagfilter, active, smgactive, datumvon, datumbis, source) {
+//    $scope.getEventnamesFilteredList = function (lang, locationfilter, rancfilter, typefilter, topicfilter, orgridfilter, smgtagfilter, active, smgactive, datumvon, datumbis, source) {
       
        
-            $http({
-                method: 'Get',
-                url: $scope.basePath + '/v1/Event?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&locfilter=' + locationfilter + '&rancfilter=' + rancfilter + '&typefilter=' + typefilter + '&topicfilter=' + topicfilter + '&orgfilter=' + orgridfilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + '&begindate=' + datumvon + '&enddate=' + datumbis + '&source=' + source
-            }).success(function (data) {
-                var idandnames = [];
-                $.each(data.Items, function (i) {
-                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
-                });
+//            $http({
+//                method: 'Get',
+//                url: $scope.basePath + '/v1/Event?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&locfilter=' + locationfilter + '&rancfilter=' + rancfilter + '&typefilter=' + typefilter + '&topicfilter=' + topicfilter + '&orgfilter=' + orgridfilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter + '&begindate=' + datumvon + '&enddate=' + datumbis + '&source=' + source
+//            }).success(function (data) {
+//                var idandnames = [];
+//                $.each(data.Items, function (i) {
+//                    idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
+//                });
 
-                $scope.items = idandnames; 
-            });
+//                $scope.items = idandnames; 
+//            });
         
-    }
+//    }
 
-    $scope.$on('LoadEventNamesList', function (e) {
+//    $scope.$on('LoadEventNamesList', function (e) {
 
-        $scope.getEventnamesFilteredList($scope.lang, $scope.locationfilter, $scope.rancfilter, $scope.typefilter, $scope.topicfilter, $scope.orgridfilter, $scope.smgtagfilter, $scope.active, $scope.smgactive, $scope.datumvonfilter, $scope.datumbisfilter, $scope.source);
-    });
+//        $scope.getEventnamesFilteredList($scope.lang, $scope.locationfilter, $scope.rancfilter, $scope.typefilter, $scope.topicfilter, $scope.orgridfilter, $scope.smgtagfilter, $scope.active, $scope.smgactive, $scope.datumvonfilter, $scope.datumbisfilter, $scope.source);
+//    });
 
-    $scope.getEventnamesFilteredList($scope.lang, $scope.locationfilter, $scope.rancfilter, $scope.typefilter, $scope.topicfilter, $scope.orgridfilter, $scope.smgtagfilter, $scope.active, $scope.smgactive, $scope.datumvonfilter, $scope.datumbisfilter, $scope.source);
+//    $scope.getEventnamesFilteredList($scope.lang, $scope.locationfilter, $scope.rancfilter, $scope.typefilter, $scope.topicfilter, $scope.orgridfilter, $scope.smgtagfilter, $scope.active, $scope.smgactive, $scope.datumvonfilter, $scope.datumbisfilter, $scope.source);
 
-    $scope.onItemSelected = function () {
-        $scope.eventnametypeaheadselected = true;
-    }
-});
+//    $scope.onItemSelected = function () {
+//        $scope.eventnametypeaheadselected = true;
+//    }
+//});
+
+
 
 //Directive Typeahead
 app.directive('typeaheadevent', function ($timeout) {

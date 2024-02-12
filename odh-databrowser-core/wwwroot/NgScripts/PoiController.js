@@ -233,9 +233,14 @@ app.controller('poiListController', [
 
             setSubFilter();                        
 
-            //alert('/api/Poi/Filtered/' + $scope.poitype + '/' + $scope.page + '/20/' + mypoinamefilter + '/' + $scope.subtypefilter + '/' + mypoilocationfilter);
+            var searchfilter = '';
+            if ($scope.SelectedPoiName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedPoiName;
+            }
+            else
+                searchfilter = '';
 
-            $http.get($scope.basePath + '/v1/Poi?pagenumber=' + $scope.page + '&pagesize=20&poitype=' + $scope.poitype + '&subtype=' + $scope.subtypefilter + '&idlist=' + $scope.poiidfilter + '&locfilter=' + $scope.locationfilter + '&highlight=' + $scope.highlightfilter + '&active=' + $scope.active + '&smgactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Poi?pagenumber=' + $scope.page + '&pagesize=20&poitype=' + $scope.poitype + '&subtype=' + $scope.subtypefilter + '&idlist=' + $scope.poiidfilter + '&locfilter=' + $scope.locationfilter + '&highlight=' + $scope.highlightfilter + '&active=' + $scope.active + '&smgactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.seed + searchfilter).success(function (result) {
                 $scope.pois = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -941,9 +946,7 @@ var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', functi
     $scope.poinametypeaheadselected = false;
 
     $scope.getPoinamesFilteredList = function (lang, poitype, subtypefilter, locationfilter, areafilter, highlightfilter, active, smgactive, smgtagfilter) {
-
         
-
          $http({
              method: 'Get',
              url: $scope.basePath + '/v1/Poi?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&poitype=' + poitype + '&subtype=' + subtypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&active=' + active + '&smgactive=' + smgactive + '&odhtagfilter=' + smgtagfilter

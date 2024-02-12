@@ -248,7 +248,14 @@ app.controller('smgpoiListController', [
             var seedqs = 'seed=' + $scope.seed;
             var publishedonqs = 'publishedon=' + $scope.publishchannelfilter;
 
-            $http.get($scope.basePath + '/v1/ODHActivityPoi?' + pagenumberqs + '&' + pagesizeqs + '&' + typeqs + '&' + subtypeqs + '&' + poitypeqs + '&' + pioidqs + '&' + langlistqs + '&' + locfilterqs + '&' + highlightqs + '&' + activeqs + '&' + smgactiveqs + '&' + sourceqs + '&' + smgtagqs + '&' + publishedonqs + '&' + seedqs).success(function (result) {
+            var searchfilter = '';
+            if ($scope.SelectedPoiName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedPoiName;
+            }
+            else
+                searchfilter = '';
+
+            $http.get($scope.basePath + '/v1/ODHActivityPoi?' + pagenumberqs + '&' + pagesizeqs + '&' + typeqs + '&' + subtypeqs + '&' + poitypeqs + '&' + pioidqs + '&' + langlistqs + '&' + locfilterqs + '&' + highlightqs + '&' + activeqs + '&' + smgactiveqs + '&' + sourceqs + '&' + smgtagqs + '&' + publishedonqs + '&' + seedqs + searchfilter).success(function (result) {
                 $scope.pois = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -257,8 +264,8 @@ app.controller('smgpoiListController', [
                 $scope.filtered = true;
             });
 
-            if (withoutrefresh != true)
-                $scope.$broadcast('LoadPoiNamesList');
+            //if (withoutrefresh != true)
+            //    $scope.$broadcast('LoadPoiNamesList');
         }
 
         //Filter Löschen
@@ -1937,38 +1944,40 @@ function objectFindByKey(array, key, value) {
     return null;
 }
 
-var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', function ($scope, $http) {
+//var poitypeaheadcontroller = app.controller('PoinameTypeAheadController', function ($scope, $http) {
 
-    $scope.poinametypeaheadselected = false;
+//    $scope.poinametypeaheadselected = false;
 
-    $scope.getPoinamesFilteredList = function (lang, poitype, subtypefilter, poitypefilter, locationfilter, areafilter, highlightfilter, smgactive, source, smgtagfilter, active) {
+
+
+//    $scope.getPoinamesFilteredList = function (lang, poitype, subtypefilter, poitypefilter, locationfilter, areafilter, highlightfilter, smgactive, source, smgtagfilter, active) {
         
-         $http({
-             method: 'Get',
-             url: $scope.basePath + '/v1/ODHActivityPoi?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&type=' + poitype + '&subtype=' + subtypefilter + '&poitype=' + poitypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&odhactive=' + smgactive + '&active=' + active + '&source=' + source + '&odhtagfilter=' + smgtagfilter
-        }).success(function (data) {
-            //$scope.items = data;
+//         $http({
+//             method: 'Get',
+//             url: $scope.basePath + '/v1/ODHActivityPoi?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&type=' + poitype + '&subtype=' + subtypefilter + '&poitype=' + poitypefilter + '&locfilter=' + locationfilter + '&areafilter=' + areafilter + '&highlight=' + highlightfilter + '&odhactive=' + smgactive + '&active=' + active + '&source=' + source + '&odhtagfilter=' + smgtagfilter
+//        }).success(function (data) {
+//            //$scope.items = data;
 
-            var idandnames = [];
-            $.each(data.Items, function (i) {
-                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
-            });
+//            var idandnames = [];
+//            $.each(data.Items, function (i) {
+//                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
+//            });
 
-            $scope.items = idandnames; 
-        });
-    }
+//            $scope.items = idandnames; 
+//        });
+//    }
 
-    $scope.$on('LoadPoiNamesList', function (e) {        
+//    $scope.$on('LoadPoiNamesList', function (e) {        
 
-        $scope.getPoinamesFilteredList($scope.lang, $scope.poitype, $scope.subtypefilter, 'null', $scope.locationfilter, 'null', $scope.highlightfilter, $scope.smgactive, $scope.source, $scope.smgtagfilter, $scope.active);
-    });
+//        $scope.getPoinamesFilteredList($scope.lang, $scope.poitype, $scope.subtypefilter, 'null', $scope.locationfilter, 'null', $scope.highlightfilter, $scope.smgactive, $scope.source, $scope.smgtagfilter, $scope.active);
+//    });
 
-    $scope.getPoinamesFilteredList($scope.lang, $scope.poitype, $scope.subtypefilter, 'null', $scope.locationfilter, 'null', $scope.highlightfilter, $scope.smgactive, $scope.source, $scope.smgtagfilter, $scope.active);
+//    $scope.getPoinamesFilteredList($scope.lang, $scope.poitype, $scope.subtypefilter, 'null', $scope.locationfilter, 'null', $scope.highlightfilter, $scope.smgactive, $scope.source, $scope.smgtagfilter, $scope.active);
 
-    $scope.onItemSelected = function () {
-        $scope.poinametypeaheadselected = true;
-    }    
-});
+//    $scope.onItemSelected = function () {
+//        $scope.poinametypeaheadselected = true;
+//    }    
+//});
 
 var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadController', function ($scope, $http) {
 

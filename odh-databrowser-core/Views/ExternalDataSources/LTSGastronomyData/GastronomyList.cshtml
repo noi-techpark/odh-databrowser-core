@@ -64,9 +64,10 @@
                         <h6>Name</h6>
                         <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="filter" autofocus>
                     </div>*@
-                <div class="form-group col-sm-12" ng-controller="GastronameTypeAheadController">
+                <div class="form-group col-sm-12">
                     <h6>Gastronomy Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
-                    <typeaheadgastro items="items" templateurl="GastroNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedGastroName" idmodel="$parent.SelectedGastroId" on-select="onItemSelected()" />
+                    <input id="selectedagastroname" class="form-control" type="text" ng-model="SelectedGastroName" placeholder="Gastronomy to filter" />
+                    @* <typeaheadgastro items="items" templateurl="GastroNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedGastroName" idmodel="$parent.SelectedGastroId" on-select="onItemSelected()" /> *@
                 </div>
                 <div class="form-group col-sm-12" ng-controller="LocationTypeAheadController">
                     <h6>Location<small class="btn-link pull-right" ng-click="clearLocationFilter()">Clear</small></h6>

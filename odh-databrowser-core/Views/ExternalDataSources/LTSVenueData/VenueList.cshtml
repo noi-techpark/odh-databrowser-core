@@ -68,9 +68,11 @@
                     <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
                 </div>
 
-                <div class="form-group col-sm-12" ng-controller="VenueTypeAheadController">
+                <div class="form-group col-sm-12">
                     <h6>Venue Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
-                    <typeaheadvenue items="items" templateurl="VenueNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedVenueName" idmodel="$parent.SelectedVenueId" on-select="onItemSelected()" />
+                    <input id="selectedapoiname" class="form-control" type="text" ng-model="SelectedVenueName" placeholder="Venue to filter" />
+
+                    @* <typeaheadvenue items="items" templateurl="VenueNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedVenueName" idmodel="$parent.SelectedVenueId" on-select="onItemSelected()" /> *@
                 </div>
                 <div class="form-group col-sm-12" ng-controller="LocationTypeAheadController">
                     <h6>Location<small class="btn-link pull-right" ng-click="clearLocationFilter()">Clear</small></h6>

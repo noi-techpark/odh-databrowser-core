@@ -182,9 +182,14 @@ app.controller('gastronomyListController', [
             if ($scope.SelectedLocationId != '')
                 $scope.locationfilter = $scope.SelectedLocationTyp + $scope.SelectedLocationId;
 
-            //console.log($scope.locationfilter);
+            var searchfilter = '';
+            if ($scope.SelectedAccoName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedAccoName;
+            }
+            else
+                searchfilter = '';
 
-            $http.get($scope.basePath + '/v1/Gastronomy?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.gastroidfilter + '&locfilter=' + $scope.locationfilter + '&dishcodefilter=' + $scope.dishcodefilter + '&ceremonycodefilter=' + $scope.ceremonycodefilter + '&categorycodefilter=' + $scope.categorycodefilter + '&facilitycodefilter=' + $scope.facilitycodefilter + '&cuisinecodefilter=' + $scope.cuisinecodefilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.Seed).success(function (result) {
+            $http.get($scope.basePath + '/v1/Gastronomy?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.gastroidfilter + '&locfilter=' + $scope.locationfilter + '&dishcodefilter=' + $scope.dishcodefilter + '&ceremonycodefilter=' + $scope.ceremonycodefilter + '&categorycodefilter=' + $scope.categorycodefilter + '&facilitycodefilter=' + $scope.facilitycodefilter + '&cuisinecodefilter=' + $scope.cuisinecodefilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&seed=' + $scope.Seed + searchfilter).success(function (result) {
                 $scope.gastronomies = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -193,8 +198,8 @@ app.controller('gastronomyListController', [
                 $scope.filtered = true;
             });
 
-            if (withoutrefresh != true)
-                $scope.$broadcast('LoadGastroNamesList');
+            //if (withoutrefresh != true)
+            //    $scope.$broadcast('LoadGastroNamesList');
         }
 
         //Filter Löschen
@@ -832,59 +837,59 @@ var locationlistcontroller = app.controller('LocationTypeAheadController', funct
     }
 });
 
-var gastrotypeaheadcontroller = app.controller('GastronameTypeAheadController', function ($scope, $http) {
+//var gastrotypeaheadcontroller = app.controller('GastronameTypeAheadController', function ($scope, $http) {
 
-    $scope.gastronametypeaheadselected = false;
+//    $scope.gastronametypeaheadselected = false;
 
-    $scope.getGastronamesFilteredList = function (lang, locationfilter, categorycodefilter, capacityceremonyfilter, facilitycodefilter, dishcodefilter, cuisinecodefilter, smgtagfilter, active, smgactive) {
+//    $scope.getGastronamesFilteredList = function (lang, locationfilter, categorycodefilter, capacityceremonyfilter, facilitycodefilter, dishcodefilter, cuisinecodefilter, smgtagfilter, active, smgactive) {
 
-        $http({
-            method: 'Get',
-            url: $scope.basePath + '/v1/Gastronomy?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
-            //url: '/json/' + $scope.activitytype + 'Info.json'
-        }).success(function (data) {
-            var idandnames = [];
-            $.each(data.Items, function (i) {
-                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
-            });
+//        $http({
+//            method: 'Get',
+//            url: $scope.basePath + '/v1/Gastronomy?pagesize=0&fields=Id,Detail.' + lang + '.Title&language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+//            //url: '/json/' + $scope.activitytype + 'Info.json'
+//        }).success(function (data) {
+//            var idandnames = [];
+//            $.each(data.Items, function (i) {
+//                idandnames.push({ Id: data.Items[i].Id, Name: data.Items[i]["Detail." + lang + ".Title"] });
+//            });
 
-            $scope.items = idandnames; 
-        });
+//            $scope.items = idandnames; 
+//        });
 
-        //if (locationfilter != "null" || categorycodefilter != "null" || capacityceremonyfilter != "null" || facilitycodefilter != "null" || dishcodefilter != "null" || smgtagfilter != "null" || smgactive != "null" || active != "null") {
+//        //if (locationfilter != "null" || categorycodefilter != "null" || capacityceremonyfilter != "null" || facilitycodefilter != "null" || dishcodefilter != "null" || smgtagfilter != "null" || smgactive != "null" || active != "null") {
             
-        //    $http({
-        //        method: 'Get',
-        //        url: $scope.basePath + '/v1/GastronomyReduced?language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
-        //        //url: '/json/' + $scope.activitytype + 'Info.json'
-        //    }).success(function (data) {
-        //        $scope.items = data;
-        //    });
-        //}
-        //else
-        //{
-        //    $http({
-        //        method: 'Get',
-        //        url: $scope.basePath + '/json/GastroInfo' + $scope.lang + '.json'
-        //    }).success(function (data) {
-        //        $scope.items = data;
-        //    });
-        //}
-    }
+//        //    $http({
+//        //        method: 'Get',
+//        //        url: $scope.basePath + '/v1/GastronomyReduced?language=' + lang + '&locfilter=' + locationfilter + '&dishcodefilter=' + dishcodefilter + '&ceremonycodefilter=' + capacityceremonyfilter + '&categorycodefilter=' + categorycodefilter + '&facilitycodefilter=' + facilitycodefilter + '&cuisinecodefilter=' + cuisinecodefilter + '&active=' + active + '&odhactive=' + smgactive + '&odhtagfilter=' + smgtagfilter
+//        //        //url: '/json/' + $scope.activitytype + 'Info.json'
+//        //    }).success(function (data) {
+//        //        $scope.items = data;
+//        //    });
+//        //}
+//        //else
+//        //{
+//        //    $http({
+//        //        method: 'Get',
+//        //        url: $scope.basePath + '/json/GastroInfo' + $scope.lang + '.json'
+//        //    }).success(function (data) {
+//        //        $scope.items = data;
+//        //    });
+//        //}
+//    }
 
-    $scope.$on('LoadGastroNamesList', function (e) {
+//    $scope.$on('LoadGastroNamesList', function (e) {
 
-        //alert("onkemmen");
+//        //alert("onkemmen");
 
-        $scope.getGastronamesFilteredList($scope.lang, $scope.locationfilter, $scope.categorycodefilter, $scope.ceremonycodefilter, $scope.facilitycodefilter, $scope.dishcodefilter, $scope.cuisinecodefilter, $scope.smgtagfilter, $scope.active, $scope.smgactive);
-    });   
+//        $scope.getGastronamesFilteredList($scope.lang, $scope.locationfilter, $scope.categorycodefilter, $scope.ceremonycodefilter, $scope.facilitycodefilter, $scope.dishcodefilter, $scope.cuisinecodefilter, $scope.smgtagfilter, $scope.active, $scope.smgactive);
+//    });   
 
-    $scope.getGastronamesFilteredList($scope.lang, $scope.locationfilter, $scope.categorycodefilter, $scope.ceremonycodefilter, $scope.facilitycodefilter, $scope.dishcodefilter, $scope.cuisinecodefilter, $scope.smgtagfilter, $scope.active, $scope.smgactive);
+//    $scope.getGastronamesFilteredList($scope.lang, $scope.locationfilter, $scope.categorycodefilter, $scope.ceremonycodefilter, $scope.facilitycodefilter, $scope.dishcodefilter, $scope.cuisinecodefilter, $scope.smgtagfilter, $scope.active, $scope.smgactive);
 
-    $scope.onItemSelected = function () {
-        $scope.gastronametypeaheadselected = true;
-    }
-});
+//    $scope.onItemSelected = function () {
+//        $scope.gastronametypeaheadselected = true;
+//    }
+//});
 
 function objectFindByKey(array, key, value) {
     for (var i = 0; i < array.length; i++) {

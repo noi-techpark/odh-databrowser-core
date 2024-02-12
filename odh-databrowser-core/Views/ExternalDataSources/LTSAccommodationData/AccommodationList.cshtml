@@ -196,9 +196,11 @@
                     <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
                 </div>
 
-                <div class="form-group col-sm-12" ng-controller="HotelnameTypeAheadController">
+                <div class="form-group col-sm-12">
+                    @* ng-controller="HotelnameTypeAheadController" *@
                     <h6>Accommodation Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
-                    <typeaheadhotel items="hotelitems" templateurl="AccoNameTemplate" prompt="Hotelname" title="name" model="$parent.SelectedAccoName" idmodel="$parent.SelectedAccoId" on-select="onItemSelected()" />
+                    <input id="selectedacconame" class="form-control" type="text" ng-model="SelectedAccoName" placeholder="Hotelname to filter" />
+                    @* <typeaheadhotel items="hotelitems" templateurl="AccoNameTemplate" prompt="Hotelname" title="name" model="$parent.SelectedAccoName" idmodel="$parent.SelectedAccoId" on-select="onItemSelected()" /> *@
                 </div>
 
                 <div class="form-group col-sm-12" ng-controller="LocationTypeAheadController">

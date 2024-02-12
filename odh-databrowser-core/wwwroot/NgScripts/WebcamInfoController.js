@@ -100,7 +100,14 @@ app.controller('webcamListController', [
             if ($scope.SelectedWebcamId != '')
                 $scope.webcamidfilter = $scope.SelectedWebcamId;
 
-            $http.get($scope.basePath + '/v1/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.Seed).success(function (result) {
+            var searchfilter = '';
+            if ($scope.SelectedWebcamName != '') {
+                searchfilter = '&searchfilter=' + $scope.SelectedWebcamName;
+            }
+            else
+                searchfilter = '';
+
+            $http.get($scope.basePath + '/v1/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.Seed + searchfilter).success(function (result) {
                 $scope.webcams = result.Items;
                 $scope.totalpages = result.TotalPages;
                 $scope.totalcount = result.TotalResults;
@@ -109,8 +116,8 @@ app.controller('webcamListController', [
                 $scope.filtered = true;
             });
 
-            if (withoutrefresh != true)
-                $scope.$broadcast('LoadWebcamNamesList');
+            //if (withoutrefresh != true)
+            //    $scope.$broadcast('LoadWebcamNamesList');
         }
 
         //Filter Löschen
@@ -130,7 +137,7 @@ app.controller('webcamListController', [
             $scope.filtered = false;
             $scope.changePage(0);
             
-            $scope.$broadcast('LoadWebcamNamesList');
+            //$scope.$broadcast('LoadWebcamNamesList');
         }
 
         //Clear single Filters
@@ -141,7 +148,7 @@ app.controller('webcamListController', [
             $scope.page = 1;
             $scope.applyFilter(0);
 
-            $scope.$broadcast('LoadWebcamNamesList');
+            //$scope.$broadcast('LoadWebcamNamesList');
         }
    
         $scope.clearActiveFilter = function () {
@@ -151,7 +158,7 @@ app.controller('webcamListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadWebcamNamesList');
+            //$scope.$broadcast('LoadWebcamNamesList');
         }
 
         $scope.clearTICActiveFilter = function () {
@@ -161,7 +168,7 @@ app.controller('webcamListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadWebcamNamesList');
+            //$scope.$broadcast('LoadWebcamNamesList');
         }
 
         $scope.clearSourceFilter = function () {
@@ -171,7 +178,7 @@ app.controller('webcamListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadWebcamNamesList');
+            //$scope.$broadcast('LoadWebcamNamesList');
         }
 
         $scope.clearPublishedOnFilter = function () {
@@ -181,7 +188,7 @@ app.controller('webcamListController', [
             $scope.page = 1;
             $scope.changePage(0);
 
-            $scope.$broadcast('LoadWebcamNamesList');
+            //$scope.$broadcast('LoadWebcamNamesList');
         }
 
         //Seite Wechseln
@@ -433,32 +440,34 @@ var smgtagmodaltypeaheadcontroller = app.controller('SmgTagNameModalTypeAheadCon
 
 //TODO REWRITE!!!
 
-var webcamtypeaheadcontroller = app.controller('WebcamTypeAheadController', function ($scope, $http) {
+//var webcamtypeaheadcontroller = app.controller('WebcamTypeAheadController', function ($scope, $http) {
 
-    $scope.webcamtypeaheadselected = false;
+//    $scope.webcamtypeaheadselected = false;
 
-    $scope.getWebcamFilteredList = function (lang, active, smgactive, source) {
+//    $scope.getWebcamFilteredList = function (lang, active, smgactive, source) {
+
+
+
+//            $http({
+//                method: 'Get',
+//                url: $scope.basePath + '/v1/WebcamInfoReduced?language=' + lang + '&active=' + active + '&odhactive=' + smgactive + '&source=' + source
+//                //url: '/json/' + $scope.activitytype + 'Info.json'
+//            }).success(function (data) {
+//                $scope.items = data;
+//            });       
+//    }
+
+//    $scope.$on('LoadWebcamNamesList', function (e) {
         
-            $http({
-                method: 'Get',
-                url: $scope.basePath + '/v1/WebcamInfoReduced?language=' + lang + '&active=' + active + '&odhactive=' + smgactive + '&source=' + source
-                //url: '/json/' + $scope.activitytype + 'Info.json'
-            }).success(function (data) {
-                $scope.items = data;
-            });       
-    }
+//        $scope.getWebcamFilteredList($scope.lang, $scope.active, $scope.smgactive, $scope.source);
+//    });   
 
-    $scope.$on('LoadWebcamNamesList', function (e) {
-        
-        $scope.getWebcamFilteredList($scope.lang, $scope.active, $scope.smgactive, $scope.source);
-    });   
+//    $scope.getWebcamFilteredList($scope.lang, $scope.active, $scope.smgactive, $scope.source);
 
-    $scope.getWebcamFilteredList($scope.lang, $scope.active, $scope.smgactive, $scope.source);
-
-    $scope.onItemSelected = function () {
-        $scope.webcamtypeaheadselected = true;
-    }
-});
+//    $scope.onItemSelected = function () {
+//        $scope.webcamtypeaheadselected = true;
+//    }
+//});
 
 //Directive Typeahead
 app.directive('typeaheadwebcam', function ($timeout) {

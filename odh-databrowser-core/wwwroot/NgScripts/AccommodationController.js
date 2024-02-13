@@ -612,7 +612,7 @@ app.controller('accommodationListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/v1/Accommodation/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Accommodation/' + id).then(function (result) {
                     alert("Accommodation deleted!");
 
                     $.each($scope.accommodations, function (i) {
@@ -621,8 +621,8 @@ app.controller('accommodationListController', [
                             return false;
                         }
                     });
-                }).error(function (data) {
-                    alert("ERROR:" + data);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }
         };
@@ -937,11 +937,13 @@ var AccommodationModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/Accommodation', accommodation).success(function (result) {
+            $http.post($scope.basePath + '/v1/Accommodation', accommodation).then(function (result) {
                 alert("Accommodation added!");
                 $scope.accommodations.push(accommodation);
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -952,9 +954,11 @@ var AccommodationModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updateaccommodation = function (accommodation, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/Accommodation/' + accommodation.Id, accommodation).success(function (result) {
+            $http.put($scope.basePath + '/v1/Accommodation/' + accommodation.Id, accommodation).then(function (result) {
                 alert("Accommodation updated!");
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

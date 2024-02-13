@@ -205,7 +205,7 @@ app.controller('smgpoiListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/ODHActivityPoi/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/ODHActivityPoi/' + id).then(function (result) {
                     alert("ODHActivityPoi deleted!");
 
                     //Noamol holen
@@ -218,8 +218,8 @@ app.controller('smgpoiListController', [
                     //        return false;
                     //    }
                     //});
-                }).error(function (data) {
-                    alert("ERROR:" + data);
+                }, function (error) {
+                    alert("ERROR:" + error.status);
                 });
             }
         };
@@ -856,11 +856,13 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/ODHActivityPoi', poi).success(function (result) {
+            $http.post($scope.basePath + '/v1/ODHActivityPoi', poi).then(function (result) {
                 alert("Poi added!");
                 $scope.pois.push(poi);
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -871,12 +873,14 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatepoi = function (poi, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/ODHActivityPoi/' + poi.Id, poi).success(function (result) {
+            $http.put($scope.basePath + '/v1/ODHActivityPoi/' + poi.Id, poi).then(function (result) {
                 alert("Poi updated!");
                 $modalInstance.close();
 
                 //I ersetz iatz die Parent Liste mit der Updgedatetn
                 $scope.$parent.updateDatainList(poi);
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

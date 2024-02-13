@@ -294,7 +294,12 @@
                         </td>*@
                         <td>
                             <div class="btn-group-vertical">
-                                @if (@ViewBag.globalmodify == true || @ViewBag.gastromodify == true || @ViewBag.globaldetail == true)
+                                
+                                <a ng-click="showInfoModal(gastronomy)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                                <a ng-click="editgastronomy(gastronomy)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
+                                <a ng-click="deletegastronomy(gastronomy.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
+
+                                @* @if (@ViewBag.globalmodify == true || @ViewBag.gastromodify == true || @ViewBag.globaldetail == true)
                                 {
                                     <a ng-click="editgastronomy(gastronomy)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
                                 }
@@ -306,7 +311,7 @@
                                 {
                                     <a ng-click="updategastronomy(gastronomy.Id)" class="btn btn-responsive btn-warning" style="width:70px;">Update</a>
                                 }
-                                <a ng-click="showInfoModal(gastronomy)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                                 *@
                             </div>
                         </td>
                     </tr>

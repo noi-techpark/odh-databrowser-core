@@ -181,15 +181,20 @@
                             </div>
                         </td>
                         <td class="btn-group-vertical">
-                            @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
+
+                            <a ng-click="showInfoModal(article)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                            <a ng-click="editarticle(article)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
+                            <a ng-click="deletearticle(article.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
+
+                            @* @if (@ViewBag.globalmodify == true || @ViewBag.articlemodify == true || @ViewBag.globaldetail == true)
                             {
                                 <a ng-click="editarticle(article)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
                             }
                             @if (@ViewBag.globaldelete == true || @ViewBag.articledelete == true)
                             {
                                 <a ng-click="deletearticle(article.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
-                            }
-                            <a ng-click="showInfoModal(article)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                            } *@
+                            
                         </td>
                     </tr>
                 </tbody>

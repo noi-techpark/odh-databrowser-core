@@ -104,13 +104,16 @@ app.controller('eventshortListController', [
                     var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
                     if (deleteconfirm) {
-                        $http.delete($scope.basePath + '/v1/EventShort/' + eventshort.Id).success(function (result) {
+                        $http.delete($scope.basePath + '/v1/EventShort/' + eventshort.Id).then(function (result) {
+
+                            console.log("hallo");
+
                             alert("Event deleted!");
 
                             $scope.applyFilter($scope.page);
 
-                        }).error(function (data) {
-                            alert("ERROR:" + data);
+                        }, function (error) {
+                            alert("Error " + error.status);
                         });
                     }
                 }
@@ -370,13 +373,15 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                     //console.log(eventshort.StartDate);
                     //console.log(eventshort.EndDate);
 
-                    $http.post($scope.basePath + '/v1/EventShort', eventshort).success(function (result) {
+                    $http.post($scope.basePath + '/v1/EventShort', eventshort).then(function (result) {
                         alert("Event added!");
                         $scope.eventsshort.push(eventshort);
 
                         $modalInstance.close();
 
                         $scope.$parent.applyFilter($scope.page);
+                    }, function (error) {
+                        alert("Error " + error.status);
                     });
                 }
             }		
@@ -406,11 +411,14 @@ var EventShortModalInstanceCtrl = function ($scope, $modalInstance, $http) {
                 //else
                 //    eventshort.Display1 = "N";
 
-                $http.put($scope.basePath + '/v1/EventShort/' + eventshort.Id, eventshort).success(function (result) {
+                $http.put($scope.basePath + '/v1/EventShort/' + eventshort.Id, eventshort).then(function (result) {
+
                     alert("Event updated!");
                     $modalInstance.close();
 
                     $scope.$parent.applyFilter($scope.page);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }
 		}

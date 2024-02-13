@@ -153,7 +153,12 @@
                         </td>
                         <td>
                             <div class="btn-group-vertical">
-                                @if (@ViewBag.globalmodify == true || @ViewBag.webcammodify == true || @ViewBag.globaldetail == true)
+                                
+                                <a ng-click="showInfoModal(webcam)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                                <a ng-click="editwebcam(webcam)" class="btn btn-responsive btn-default" style="width:70px;">edit</a>
+                                <a ng-click="deletewebcam(webcam.Id)" class="btn btn-responsive btn-primary" ng-show="webcam.Source == 'Content'" style="width:70px;">delete</a>
+
+                                @* @if (@ViewBag.globalmodify == true || @ViewBag.webcammodify == true || @ViewBag.globaldetail == true)
                                 {
                                     <a ng-click="editwebcam(webcam)" class="btn btn-responsive btn-default" style="width:70px;">edit</a>
                                 }
@@ -164,7 +169,9 @@
                                 @if (@ViewBag.globalupdate == true || @ViewBag.webcamupdate == true)
                                 {
                                     <a ng-click="updatewebcam(webcam.Id)" class="btn btn-responsive btn-warning" ng-show="webcam.Source == 'LTS'" style="width:70px;">Update</a>
-                                }
+                                } *@
+
+                                
                             </div>
                         </td>
                     </tr>

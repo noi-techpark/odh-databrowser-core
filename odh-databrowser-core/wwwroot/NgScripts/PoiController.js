@@ -86,7 +86,7 @@ app.controller('poiListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/Poi/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Poi/' + id).then(function (result) {
                     alert("Poi deleted!");
 
                     $scope.applyFilter($scope.page);
@@ -97,8 +97,8 @@ app.controller('poiListController', [
                     //        return false;
                     //    }
                     //});
-                }).error(function (data) {
-                    alert("ERROR:" + data);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }
         };
@@ -622,11 +622,13 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/Poi', poi).success(function (result) {
+            $http.post($scope.basePath + '/v1/Poi', poi).then(function (result) {
                 alert("Poi added!");
                 $scope.pois.push(poi);
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -637,9 +639,11 @@ var PoiModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatepoi = function (poi, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/Poi/' + poi.Id, poi).success(function (result) {
+            $http.put($scope.basePath + '/v1/Poi/' + poi.Id, poi).then(function (result) {
                 alert("Poi updated!");
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

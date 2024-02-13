@@ -256,18 +256,24 @@
                         </td>
                         <td>
                             <div class="btn-group-vertical">
-                                @if (@ViewBag.globalmodify == true || @ViewBag.venuemodify == true || @ViewBag.globaldetail == true)
+                                <a ng-click="showInfoModal(venue)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+
+                                <a ng-click="updatevenue(venue)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
+                                <a ng-click="deletevenue(venue.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
+
+
+                               @*  @if (@ViewBag.globalmodify == true || @ViewBag.venuemodify == true || @ViewBag.globaldetail == true)
                                 {
                                     <a ng-click="editvenue(venue)" class="btn btn-small btn-default" style="width:70px;">edit</a>
                                 }
                                 @if (@ViewBag.globaldelete == true || @ViewBag.venuedelete == true)
                                 {
-                                    @*<a ng-click="deletevenue(venue.Id)" class="btn btn-small btn-primary" style="width:70px;">delete</a>*@
+                                    <a ng-click="deletevenue(venue.Id)" class="btn btn-small btn-primary" style="width:70px;">delete</a>
                                 }
                                 @if (@ViewBag.globalupdate == true || @ViewBag.venueupdate == true)
                                 {
-                                    @*<a ng-click="updatevenue(venue.Id)" class="btn btn-responsive btn-warning" style="width:70px;">Update</a>*@
-                                }
+                                    <a ng-click="updatevenue(venue.Id)" class="btn btn-responsive btn-warning" style="width:70px;">Update</a>
+                                } *@
                             </div>
                         </td>
                     </tr>

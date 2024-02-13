@@ -263,7 +263,12 @@
                         </td>
                         <td>
                             <div class="btn-group-vertical">
-                                @if (@ViewBag.globalmodify == true || @ViewBag.eventmodify == true || @ViewBag.globaldetail == true)
+                                <a ng-click="showInfoModal(event)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                                <a ng-click="editevent(event)" class="btn btn-small btn-default" style="width:70px;">edit</a>
+                                <a ng-click="deleteevent(event.Id)" class="btn btn-small btn-danger" style="width:70px;">delete</a>
+                                @* <a ng-click="updateevent(event.Id)" class="btn btn-responsive btn-warning" style="width:70px;">Update</a> *@
+
+                                @* @if (@ViewBag.globalmodify == true || @ViewBag.eventmodify == true || @ViewBag.globaldetail == true)
                                 {
                                     <a ng-click="editevent(event)" class="btn btn-small btn-default" style="width:70px;">edit</a>
                                 }
@@ -274,8 +279,7 @@
                                 @if (@ViewBag.globalupdate == true || @ViewBag.eventupdate == true)
                                 {
                                     <a ng-click="updateevent(event.Id)" class="btn btn-responsive btn-warning" style="width:70px;">Update</a>
-                                }
-                                <a ng-click="showInfoModal(event)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                                } *@                                
                             </div>
                         </td>
                     </tr>

@@ -120,7 +120,7 @@ app.controller('articleListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/v1/Article/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Article/' + id).then(function (result) {
                     alert("Article deleted!");
 
                     //$.each($scope.articles, function (i) {
@@ -132,8 +132,8 @@ app.controller('articleListController', [
 
                     $scope.applyFilter($scope.page);
 
-                }).error(function (data) {
-                    alert("ERROR:" + data);
+                }), function (error) {
+                    alert("Error " + error.status);
                 });
             }
         };
@@ -525,7 +525,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
             if (article.ArticleDateTo != null && article.ArticleDateTo != undefined && article.ArticleDateTo instanceof Date)
                 article.ArticleDateTo = article.ArticleDateTo.toDateString();
 
-            $http.post($scope.basePath + '/v1/Article', article).success(function (result) {
+            $http.post($scope.basePath + '/v1/Article', article).then(function (result) {
                 alert("Article added!");
 
                 console.log(article);
@@ -536,9 +536,9 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
                 $scope.$parent.applyFilter($scope.page);
 
-            }).error(function (data) {
-                console.log("ERROR:" + data);
-            });                
+            }), function (error) {
+                alert("Error " + error.status);
+            });              
         }
         else {
             alert("Invalid Data!");
@@ -560,12 +560,14 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
 
 
-            $http.put($scope.basePath + '/v1/Article/' + article.Id, article).success(function (result) {
+            $http.put($scope.basePath + '/v1/Article/' + article.Id, article).then(function (result) {
                 alert("Article updated!");
                 $modalInstance.close();
 
                 //$scope.$parent.updateDatainList(article);
                 $scope.$parent.applyFilter($scope.page);
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

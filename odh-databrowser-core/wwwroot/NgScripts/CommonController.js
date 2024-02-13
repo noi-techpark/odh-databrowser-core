@@ -67,7 +67,7 @@ app.controller('commonListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/' + commontype + '/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/' + commontype + '/' + id).then(function (result) {
                     alert(commontype + " deleted!");
 
                     $.each($scope.commons, function (i) {
@@ -76,8 +76,8 @@ app.controller('commonListController', [
                             return false;
                         }
                     });
-                }).error(function (data) {
-                    alert("ERROR:" + data);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }           
         };               
@@ -154,11 +154,13 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
         if (isvalid) {
            
 
-            $http.post($scope.basePath + '/v1/' + $scope.commontype, common).success(function (result) {
+            $http.post($scope.basePath + '/v1/' + $scope.commontype, common).then(function (result) {
                 alert($scope.commontype + " added!");
                 $scope.activities.push(activity);
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -172,9 +174,11 @@ var CrudModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
             console.log(common.OperationSchedule);
 
-            $http.put($scope.basePath + '/v1/' + $scope.commontype + '/' + common.Id, common).success(function (result) {
+            $http.put($scope.basePath + '/v1/' + $scope.commontype + '/' + common.Id, common).then(function (result) {
                 alert($scope.commontype + " updated!");
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

@@ -106,7 +106,7 @@ app.controller('gastronomyListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/Gastronomy/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Gastronomy/' + id).then(function (result) {
                     alert("Gastronomy deleted!");
 
                     //$.each($scope.gastronomies, function (i) {
@@ -119,6 +119,8 @@ app.controller('gastronomyListController', [
                     //});
 
                     $scope.applyFilter($scope.page);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }
         };
@@ -624,11 +626,13 @@ var GastronomyModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/Gastronomy', gastronomy).success(function (result) {
+            $http.post($scope.basePath + '/v1/Gastronomy', gastronomy).then(function (result) {
                 alert("Gastronomy added!");
                 $scope.gastronomies.push(gastronomy);
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -639,9 +643,11 @@ var GastronomyModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updategastronomy = function (gastronomy, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/Gastronomy/' + gastronomy.Id, gastronomy).success(function (result) {
+            $http.put($scope.basePath + '/v1/Gastronomy/' + gastronomy.Id, gastronomy).then(function (result) {
                 alert("Gastronomy updated!");
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

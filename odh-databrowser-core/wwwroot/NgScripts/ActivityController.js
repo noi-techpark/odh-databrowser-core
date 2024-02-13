@@ -108,7 +108,7 @@ app.controller('activityListController', [
 
             if (deleteconfirm) {
 
-                $http.delete($scope.basePath + '/v1/Activity/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Activity/' + id).then(function (result) {
                     alert("Activity deleted!");
 
                     $.each($scope.activities, function (i) {
@@ -117,8 +117,8 @@ app.controller('activityListController', [
                             return false;
                         }
                     });
-                }).error(function (data) {
-                    alert("ERROR:" + data);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }
         };
@@ -762,13 +762,15 @@ var ActivityModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/Activity', activity).success(function (result) {
+            $http.post($scope.basePath + '/v1/Activity', activity).then(function (result) {
                 alert("Activity added!");
                 $scope.activities.push(activity);
 
 
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -779,9 +781,11 @@ var ActivityModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updateactivity = function (activity, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/Activity/' + activity.Id, activity).success(function (result) {
+            $http.put($scope.basePath + '/v1/Activity/' + activity.Id, activity).then(function (result) {
                 alert("Activity updated!");
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

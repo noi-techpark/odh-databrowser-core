@@ -54,10 +54,12 @@ app.controller('webcamListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/WebcamInfo/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/WebcamInfo/' + id).then(function (result) {
                     alert("Webcam deleted!");
 
                     $scope.applyFilter($scope.page);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }
         };
@@ -246,11 +248,13 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/WebcamInfo', webcam).success(function (result) {
+            $http.post($scope.basePath + '/v1/WebcamInfo', webcam).then(function (result) {
                 alert("Webcam added!");
                 $scope.webcams.push(webcam);
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -261,9 +265,11 @@ var WebcamModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatewebcam = function (webcam, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/WebcamInfo/' + webcam.Id, webcam).success(function (result) {
+            $http.put($scope.basePath + '/v1/WebcamInfo/' + webcam.Id, webcam).then(function (result) {
                 alert("Webcam updated!");
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

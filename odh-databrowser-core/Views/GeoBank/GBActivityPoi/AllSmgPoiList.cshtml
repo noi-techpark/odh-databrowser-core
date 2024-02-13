@@ -250,15 +250,20 @@
                         </td>
                         <td>
                             <div class="btn-group-vertical">
-                                @if (@ViewBag.globalmodify == true || @ViewBag.ODHPoiModify == true || @ViewBag.globaldetail == true)
+                                
+                                <a ng-click="showInfoModal(poi)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                                <a ng-click="editpoi(poi)" class="btn btn-responsive btn-info">edit</a>
+                                <a ng-click="deletepoi(poi.Id)" class="btn btn-responsive btn-danger">delete</a>
+
+                                @* @if (@ViewBag.globalmodify == true || @ViewBag.ODHPoiModify == true || @ViewBag.globaldetail == true)
                                 {
                                     <a ng-click="editpoi(poi)" class="btn btn-responsive btn-info">edit</a>
                                 }
                                 @if (@ViewBag.globaldelete == true || @ViewBag.ODHPoiDelete == true)
                                 {
                                     <a ng-click="deletepoi(poi.Id)" class="btn btn-responsive btn-danger">delete</a>
-                                }
-                                <a ng-click="showInfoModal(poi)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                                } *@
+                                
                             </div>
                         </td>
                     </tr>

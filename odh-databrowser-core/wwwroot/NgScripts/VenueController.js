@@ -62,7 +62,7 @@ app.controller('venueListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/Venue/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Venue/' + id).then(function (result) {
                     alert("Venue deleted!");
 
                     //$.each($scope.events, function (i) {
@@ -73,8 +73,8 @@ app.controller('venueListController', [
                     //});
                     $scope.applyFilter($scope.page);
 
-                }).error(function (data) {
-                    alert("ERROR:" + data);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }
         };
@@ -568,11 +568,13 @@ var VenueModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/Venue', venue).success(function (result) {
+            $http.post($scope.basePath + '/v1/Venue', venue).then(function (result) {
                 alert("venue added!");
                 $scope.venues.push(venue);
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -583,9 +585,11 @@ var VenueModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updatevenue = function (venue, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/Venue/' + venue.Id, venue).success(function (result) {
+            $http.put($scope.basePath + '/v1/Venue/' + venue.Id, venue).then(function (result) {
                 alert("venue updated!");
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

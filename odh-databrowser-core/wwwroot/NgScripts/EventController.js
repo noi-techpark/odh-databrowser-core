@@ -105,7 +105,7 @@ app.controller('eventListController', [
             var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
             if (deleteconfirm) {
-                $http.delete($scope.basePath + '/v1/Event/' + id).success(function (result) {
+                $http.delete($scope.basePath + '/v1/Event/' + id).then(function (result) {
                     alert("Event deleted!");
 
                     //$.each($scope.events, function (i) {
@@ -116,8 +116,8 @@ app.controller('eventListController', [
                     //});
                     $scope.applyFilter($scope.page);
 
-                }).error(function (data) {
-                    alert("ERROR:" + data);
+                }, function (error) {
+                    alert("Error " + error.status);
                 });
             }
         };
@@ -529,11 +529,13 @@ var EventModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
         if (isvalid) {
 
-            $http.post($scope.basePath + '/v1/Event', event).success(function (result) {
+            $http.post($scope.basePath + '/v1/Event', event).then(function (result) {
                 alert("Event added!");
                 $scope.events.push(event);
 
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {
@@ -544,9 +546,11 @@ var EventModalInstanceCtrl = function ($scope, $modalInstance, $http) {
     $scope.updateevent = function (event, isvalid) {
 
         if (isvalid) {
-            $http.put($scope.basePath + '/v1/Event/' + event.Id, event).success(function (result) {
+            $http.put($scope.basePath + '/v1/Event/' + event.Id, event).then(function (result) {
                 alert("Event updated!");
                 $modalInstance.close();
+            }, function (error) {
+                alert("Error " + error.status);
             });
         }
         else {

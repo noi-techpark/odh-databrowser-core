@@ -93,32 +93,25 @@ app.controller('eventshortListController', [
 			});
 		};
 
-		$scope.deleteeventshort = function (eventshort) {
+        $scope.deleteeventshort = function (eventshort) {
 
-            if (eventshort.Source != "EBMS") {
 
-                if ($scope.virtualvillagemanager && eventshort.EventLocation != "VV") {
-                    alert("User can only insert Virtual Village Events");
-                }
-                else {
-                    var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
+            var deleteconfirm = confirm('Are you absolutely sure you want to delete?');
 
-                    if (deleteconfirm) {
-                        $http.delete($scope.basePath + '/v1/EventShort/' + eventshort.Id).then(function (result) {
+            if (deleteconfirm) {
+                $http.delete($scope.basePath + '/v1/EventShort/' + eventshort.Id).then(function (result) {
 
-                            console.log("hallo");
+                    
+                    alert("Event deleted!" + result.status);
 
-                            alert("Event deleted!");
+                    $scope.applyFilter($scope.page);
 
-                            $scope.applyFilter($scope.page);
+                }, function (error) {
+                    alert("Error " + error.status);
+                });
 
-                        }, function (error) {
-                            alert("Error " + error.status);
-                        });
-                    }
-                }
-			}
-		};		
+            }
+        };		
 
 		$scope.page = 1;
 		$scope.totalpages = 0;

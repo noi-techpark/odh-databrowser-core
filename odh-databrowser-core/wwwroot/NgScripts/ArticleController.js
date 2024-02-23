@@ -132,7 +132,7 @@ app.controller('articleListController', [
 
                     $scope.applyFilter($scope.page);
 
-                }), function (error) {
+                }, function (error) {
                     alert("Error " + error.status);
                 });
             }

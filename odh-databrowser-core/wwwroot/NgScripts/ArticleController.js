@@ -536,7 +536,7 @@ var ArticleModalInstanceCtrl = function ($scope, $modalInstance, $http) {
 
                 $scope.$parent.applyFilter($scope.page);
 
-            }), function (error) {
+            }, function (error) {
                 alert("Error " + error.status);
             });              
         }

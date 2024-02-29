@@ -203,6 +203,14 @@ app.controller('eventListController', [
             else
                 searchfilter = '';
 
+            if ($scope.SelectedEventId != '') {
+                $scope.eventidfilter = $scope.SelectedEventId;
+            }
+            else {
+                $scope.eventidfilter = 'null';
+            }
+                
+
             $http.get($scope.basePath + '/v1/Event?pagenumber=' + $scope.page + '&pagesize=20&idlist=' + $scope.eventidfilter + '&locfilter=' + $scope.locationfilter + '&rancfilter=' + $scope.rancfilter + '&typefilter=' + $scope.typefilter + '&topicfilter=' + $scope.topicfilter + '&orgfilter=' + $scope.orgridfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&odhtagfilter=' + $scope.smgtagfilter + '&begindate=' + $scope.datumvonfilter + '&enddate=' + $scope.datumbisfilter + '&source=' + $scope.source + '&sort=' + $scope.sortdescfilter + '&langfilter=' + $scope.lang + '&publishedon=' + $scope.publishchannelfilter + searchfilter).success(function (result) {
                 $scope.events = result.Items;
                 $scope.totalpages = result.TotalPages;
@@ -271,7 +279,14 @@ app.controller('eventListController', [
 
         //single Clear Filter
         $scope.clearNameFilter = function () {
-            $scope.SelectedEventName = '';
+            $scope.SelectedEventName = '';            
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
+
+        $scope.clearIdFilter = function () {
             $scope.SelectedEventId = '';
             $scope.eventidfilter = 'null';
             $scope.page = 1;

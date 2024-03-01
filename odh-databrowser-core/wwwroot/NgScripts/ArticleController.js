@@ -261,6 +261,7 @@ app.controller('articleListController', [
             }
             else {
                 $scope.articlefilter = 'null';
+            }
 
             var searchfilter = '';
             if ($scope.SelectedArticleName != '') {

@@ -237,6 +237,7 @@ app.controller('smgpoiListController', [
             }
             else {
                 $scope.poiidfilter = 'null';
+            }
 
             var pagenumberqs = 'pagenumber=' + $scope.page;
             var pagesizeqs = 'pagesize=20';

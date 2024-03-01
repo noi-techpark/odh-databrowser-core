@@ -153,6 +153,8 @@ app.controller('eventshortListController', [
 
             setFilters();
 
+            
+
             var searchfilter = '';
             if ($scope.SelectedEventName != '') {
                 searchfilter = '&searchfilter=' + $scope.SelectedEventName;
@@ -208,6 +210,25 @@ app.controller('eventshortListController', [
 
 			//$scope.$broadcast('LoadEventNamesList');
 		}
+
+        $scope.clearIdFilter = function () {
+            $scope.SelectedEventId = '';
+            $scope.eventidfilter = 'null';
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
+
+
+        //Clear single Filters
+        $scope.clearNameFilter = function () {
+            $scope.SelectedEventName = '';
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadPoiNamesList');
+        }
 
 		function setFilters() {
 

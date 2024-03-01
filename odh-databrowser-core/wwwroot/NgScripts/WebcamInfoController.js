@@ -109,6 +109,13 @@ app.controller('webcamListController', [
             else
                 searchfilter = '';
 
+            if ($scope.SelectedWebcamId != '') {
+                $scope.webcamidfilter = $scope.SelectedWebcamId;
+            }
+            else {
+                $scope.webcamidfilter = 'null';
+            }
+
             $http.get($scope.basePath + '/v1/WebcamInfo?pagenumber=' + $scope.page + '&pagesize=20&source=' + $scope.source + '&idlist=' + $scope.webcamidfilter + '&active=' + $scope.active + '&odhactive=' + $scope.smgactive + '&publishedon=' + $scope.publishchannelfilter + '&seed=' + $scope.Seed + searchfilter).success(function (result) {
                 $scope.webcams = result.Items;
                 $scope.totalpages = result.TotalPages;
@@ -145,12 +152,20 @@ app.controller('webcamListController', [
         //Clear single Filters
         $scope.clearNameFilter = function () {
             $scope.SelectedWebcamName = '';
-            $scope.SelectedWebcamId = '';
-            $scope.webcamidfilter = 'null';
             $scope.page = 1;
             $scope.applyFilter(0);
 
             //$scope.$broadcast('LoadWebcamNamesList');
+        }
+
+        $scope.clearIdFilter = function () {
+            $scope.SelectedWebcamId = '';
+            $scope.webcamidfilter = 'null';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
         }
    
         $scope.clearActiveFilter = function () {

@@ -265,12 +265,19 @@ app.controller('gastronomyListController', [
         //Clear single Filters
         $scope.clearNameFilter = function () {
             $scope.SelectedGastroName = '';
-            $scope.SelectedGastroId = '';
-            $scope.gastroidfilter = 'null';
             $scope.page = 1;
             $scope.applyFilter(0);
 
             //$scope.$broadcast('LoadGastroNamesList');
+        }
+
+        $scope.clearIdFilter = function () {
+            $scope.SelectedGastroId = '';
+            $scope.gastroidfilter = 'null';
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
         }
 
         $scope.clearLocationFilter = function () {

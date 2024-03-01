@@ -403,7 +403,11 @@ app.controller('hgvpackageListController', [
 
             setSubFilter();
 
-            console.log($scope.smgactive);
+            if ($scope.SelectedPackageId != '') {
+                $scope.packageidfilter = $scope.SelectedPackageId;
+            }
+            else {
+                $scope.packageidfilter = 'null';
 
             $http.get($scope.basePath + '/v1/Package/Filtered/' + $scope.page + '/20' + '/' + $scope.packageidfilter + '/' + $scope.accoidfilter + '/' + $scope.locationfilter + '/' + $scope.servicefilter + '/' + $scope.themefilter + '/' + $scope.validfrom + '/' + $scope.validto + '/' + $scope.longshortstayfilter + '/' + $scope.active + '/' + $scope.smgactive + '/' + $scope.smgtagfilter).success(function (result) {
                 $scope.hgvpackages = result.Items;
@@ -416,6 +420,25 @@ app.controller('hgvpackageListController', [
 
             if (withoutrefresh != true)
                 $scope.$broadcast('LoadPackageNamesList');
+
+        }
+
+        $scope.clearIdFilter = function () {
+            $scope.SelectedPackageId = '';
+            $scope.packageidfilter = 'null';
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
+
+        //Clear single Filters
+        $scope.clearNameFilter = function () {
+            $scope.SelectedPackageName = '';
+            $scope.page = 1;
+            $scope.applyFilter(0);
+
+            //$scope.$broadcast('LoadGastroNamesList');
         }
 
         //Filter Löschen

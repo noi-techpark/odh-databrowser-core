@@ -406,13 +406,22 @@ app.controller('venueListController', [
 		//single Clear Filter
 		$scope.clearNameFilter = function () {
 			$scope.SelectedVenueName = '';
-			$scope.SelectedVenueId = '';
-			$scope.venueidfilter = 'null';
+			
 			$scope.page = 1;
             $scope.changePage(0);		
 
             //$scope.$broadcast('LoadVenueNamesList');
-		}
+        }
+
+        $scope.clearIdFilter = function () {
+            $scope.SelectedVenueId = '';
+            $scope.venueidfilter = 'null';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
 
 		$scope.clearLocationFilter = function () {
 			

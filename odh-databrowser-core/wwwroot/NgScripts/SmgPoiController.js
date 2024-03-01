@@ -230,7 +230,13 @@ app.controller('smgpoiListController', [
             $scope.isloading = true;            
             $scope.page = page;
 
-            setSubFilter();                        
+            setSubFilter();
+
+            if ($scope.SelectedPoiId != '') {
+                $scope.poiidfilter = $scope.SelectedPoiId;
+            }
+            else {
+                $scope.poiidfilter = 'null';
 
             var pagenumberqs = 'pagenumber=' + $scope.page;
             var pagesizeqs = 'pagesize=20';
@@ -254,6 +260,8 @@ app.controller('smgpoiListController', [
             }
             else
                 searchfilter = '';
+
+
 
             $http.get($scope.basePath + '/v1/ODHActivityPoi?' + pagenumberqs + '&' + pagesizeqs + '&' + typeqs + '&' + subtypeqs + '&' + poitypeqs + '&' + pioidqs + '&' + langlistqs + '&' + locfilterqs + '&' + highlightqs + '&' + activeqs + '&' + smgactiveqs + '&' + sourceqs + '&' + smgtagqs + '&' + publishedonqs + '&' + seedqs + searchfilter).success(function (result) {
                 $scope.pois = result.Items;
@@ -329,12 +337,20 @@ app.controller('smgpoiListController', [
 
         $scope.clearNameFilter = function () {
             $scope.SelectedPoiName = '';
-            $scope.SelectedPoiId = '';            
-            $scope.poiidfilter = 'null';
             $scope.page = 1;
             $scope.changePage(0);
 
             //$scope.$broadcast('LoadPoiNamesList');
+        }
+
+        $scope.clearIdFilter = function () {
+            $scope.SelectedPoiId = '';
+            $scope.poiidfilter = 'null';
+
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
         }
 
         $scope.clearLocationFilter = function () {            

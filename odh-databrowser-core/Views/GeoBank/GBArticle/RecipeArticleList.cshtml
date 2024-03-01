@@ -68,6 +68,11 @@
                 </div>
 
                 <div class="form-group col-sm-12">
+                    <h6>Article ID<small class="btn-link pull-right" ng-click="clearIdFilter()">Clear</small></h6>
+                    <input id="selectedapoiid" class="form-control" type="text" ng-model="SelectedArticleId" placeholder="Article ID to filter" />
+                </div>
+
+                <div class="form-group col-sm-12">
                     <h6>Name</h6>
                     <input id="selectedapoiname" class="form-control" type="text" ng-model="SelectedArticleName" placeholder="Poi to filter" />
                     @* <typeaheadarticle items="items" templateurl="ArticleNameTemplate" prompt="Name" title="name" model="$parent.SelectedArticleName" idmodel="$parent.SelectedArticleId" on-select="onItemSelected()" /> *@

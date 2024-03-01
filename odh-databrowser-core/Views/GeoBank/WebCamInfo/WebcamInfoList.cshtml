@@ -66,6 +66,11 @@
                 </div>
 
                 <div class="form-group col-sm-12">
+                    <h6>Webcam ID<small class="btn-link pull-right" ng-click="clearIdFilter()">Clear</small></h6>
+                    <input id="selectedapoiid" class="form-control" type="text" ng-model="SelectedWebcamId" placeholder="Webcam ID to filter" />
+                </div>
+
+                <div class="form-group col-sm-12">
                     <h6>Webcam Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
                     <input id="selectedapoiname" class="form-control" type="text" ng-model="SelectedWebcamName" placeholder="Webcam to filter" />
                     @* <typeaheadwebcam items="items" templateurl="WebcamNameTemplate" prompt="Name" title="Name" subtitle="Id" model="$parent.SelectedWebcamName" idmodel="$parent.SelectedWebcamId" on-select="onItemSelected()" /> *@

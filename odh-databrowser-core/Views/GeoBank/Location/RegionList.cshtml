@@ -95,15 +95,17 @@
                             </td>
                             <td align="right">
                                 <div class="btn-group-vertical">
-                                    @if (@ViewBag.globalmodify == true || @ViewBag.commonmodify == true || @ViewBag.globaldetail == true)
+                                 @*    @if (@ViewBag.globalmodify == true || @ViewBag.commonmodify == true || @ViewBag.globaldetail == true)
                                     {
                                         <a ng-click="editCommon(common)" class="btn btn-responsive btn-info">edit</a>
                                     }
                                     @if (@ViewBag.globaldelete == true || @ViewBag.commondelete == true)
                                     {
                                         <a ng-click="deleteCommon(common.Id,'Region')" ng-disabled="true" class="btn btn-responsive btn-danger">delete</a>
-                                    }
+                                    } *@
                                     <a ng-click="showInfoModal(common)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
+                                <a ng-click="editCommon(common)" class="btn btn-responsive btn-info">edit</a>
+                                <a ng-click="deleteCommon(common.Id,'Region')" ng-disabled="true" class="btn btn-responsive btn-danger">delete</a>
                                 </div>
                             </td>
                         </tr>

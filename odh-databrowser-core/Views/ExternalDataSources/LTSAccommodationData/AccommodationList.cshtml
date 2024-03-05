@@ -197,6 +197,11 @@
                 </div>
 
                 <div class="form-group col-sm-12">
+                    <h6>Accommodation ID<small class="btn-link pull-right" ng-click="clearIdFilter()">Clear</small></h6>
+                    <input id="selectedapoiid" class="form-control" type="text" ng-model="SelectedAccoId" placeholder="Accommodation ID to filter" />
+                </div>
+
+                <div class="form-group col-sm-12">
                     @* ng-controller="HotelnameTypeAheadController" *@
                     <h6>Accommodation Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
                     <input id="selectedacconame" class="form-control" type="text" ng-model="SelectedAccoName" placeholder="Hotelname to filter" />

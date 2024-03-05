@@ -347,11 +347,19 @@ app.controller('activityListController', [
             //$scope.$broadcast('LoadPoiNamesList');
         }
 
-        //Clear single Filters
-        $scope.clearNameFilter = function () {
-            $scope.SelectedActivityName = '';
+
+        $scope.clearIdFilter = function () {
             $scope.SelectedActivityId = '';
             $scope.activityidfilter = 'null';
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
+
+        //Clear single Filters
+        $scope.clearNameFilter = function () {
+            $scope.SelectedActivityName = '';            
             $scope.page = 1;
             $scope.changePage(0);
 

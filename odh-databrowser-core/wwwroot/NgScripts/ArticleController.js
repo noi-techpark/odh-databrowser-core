@@ -256,6 +256,13 @@ app.controller('articleListController', [
                 sortby = '&rawsort=-ArticleDate'
             }
 
+            if ($scope.SelectedArticleId != '') {
+                $scope.articlefilter = $scope.SelectedArticleId;
+            }
+            else {
+                $scope.articlefilter = 'null';
+            }
+
             var searchfilter = '';
             if ($scope.SelectedArticleName != '') {
                 searchfilter = '&searchfilter=' + $scope.SelectedArticleName;
@@ -305,6 +312,24 @@ app.controller('articleListController', [
 
             $scope.changePage(0);
             //$scope.$broadcast('LoadArticleNamesList');
+        }
+
+        $scope.clearIdFilter = function () {
+            $scope.SelectedArticleId = '';
+            $scope.articlefilter = 'null';
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadEventNamesList');
+        }
+
+        //Clear single Filters
+        $scope.clearNameFilter = function () {
+            $scope.SelectedArticleName = '';
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadPoiNamesList');
         }
 
         //Seite Wechseln

@@ -231,7 +231,13 @@ app.controller('poiListController', [
             $scope.isloading = true;            
             $scope.page = page;
 
-            setSubFilter();                        
+            setSubFilter();
+
+            if ($scope.SelectedPoiId != '') {
+                $scope.poiidfilter = $scope.SelectedPoiId;
+            }
+            else {
+                $scope.poiidfilter = 'null';
 
             var searchfilter = '';
             if ($scope.SelectedPoiName != '') {
@@ -302,13 +308,20 @@ app.controller('poiListController', [
 
         //Clear single Filters
         $scope.clearNameFilter = function () {
-            $scope.SelectedPoiName = '';
+            $scope.SelectedPoiName = '';            
+            $scope.page = 1;
+            $scope.changePage(0);
+
+            //$scope.$broadcast('LoadPoiNamesList');
+        }
+
+        $scope.clearIdFilter = function () {
             $scope.SelectedPoiId = '';
             $scope.poiidfilter = 'null';
             $scope.page = 1;
             $scope.changePage(0);
 
-            //$scope.$broadcast('LoadPoiNamesList');
+            //$scope.$broadcast('LoadEventNamesList');
         }
 
         $scope.clearLocationFilter = function () {

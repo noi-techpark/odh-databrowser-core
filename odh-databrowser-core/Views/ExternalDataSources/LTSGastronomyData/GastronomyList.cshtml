@@ -60,10 +60,10 @@
                     <input type="button" id="filterbutton" ng-click="applyFilter(1)" class="btn btn-info" value="Filter" />
                     <input type="button" id="clearfilterbutton" ng-click="clearFilter()" class="btn btn-default" value="Clear" />
                 </div>
-                @*<div class="form-group col-sm-12">
-                        <h6>Name</h6>
-                        <input type="text" class="form-control" id="filterName" placeholder="Filter" ng-model="filter" autofocus>
-                    </div>*@
+                 <div class="form-group col-sm-12">
+                    <h6>Gastronomy ID<small class="btn-link pull-right" ng-click="clearIdFilter()">Clear</small></h6>
+                    <input id="selectedapoiid" class="form-control" type="text" ng-model="SelectedGastronomyId" placeholder="Gastronomy ID to filter" />
+                </div>
                 <div class="form-group col-sm-12">
                     <h6>Gastronomy Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
                     <input id="selectedagastroname" class="form-control" type="text" ng-model="SelectedGastroName" placeholder="Gastronomy to filter" />

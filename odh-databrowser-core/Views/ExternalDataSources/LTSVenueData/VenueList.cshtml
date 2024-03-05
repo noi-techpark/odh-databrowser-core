@@ -69,6 +69,11 @@
                 </div>
 
                 <div class="form-group col-sm-12">
+                    <h6>Venue ID<small class="btn-link pull-right" ng-click="clearIdFilter()">Clear</small></h6>
+                    <input id="selectedapoiid" class="form-control" type="text" ng-model="SelectedVenueId" placeholder="Venue ID to filter" />
+                </div>
+
+                <div class="form-group col-sm-12">
                     <h6>Venue Name<small class="btn-link pull-right" ng-click="clearNameFilter()">Clear</small></h6>
                     <input id="selectedapoiname" class="form-control" type="text" ng-model="SelectedVenueName" placeholder="Venue to filter" />
 
@@ -258,7 +263,7 @@
                             <div class="btn-group-vertical">
                                 <a ng-click="showInfoModal(venue)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
 
-                                <a ng-click="updatevenue(venue)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
+                                <a ng-click="editvenue(venue)" class="btn btn-responsive btn-info" style="width:70px;">edit</a>
                                 <a ng-click="deletevenue(venue.Id)" class="btn btn-responsive btn-danger" style="width:70px;">delete</a>
 
 

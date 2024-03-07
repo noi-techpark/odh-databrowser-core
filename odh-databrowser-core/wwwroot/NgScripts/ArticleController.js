@@ -369,8 +369,7 @@ app.controller('articleListController', [
         }
 
         $scope.canPushed = function (smgtags) {
-
-            //console.log(smgtags);
+           
             if (smgtags != undefined && smgtags != null) {
 
              

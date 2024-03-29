@@ -223,7 +223,26 @@ app.controller('smgpoiListController', [
                 });
             }
         };
-     
+
+        $scope.pushdata = function (id, publishedon) {
+
+            var pushconfirm = confirm('Are you sure you want to push?');
+
+            if (pushconfirm) {
+
+                console.log(id);
+                console.log(publishedon);
+
+                $http.post($scope.basePath + '/v1/PushData/' + id + '/odhactivitypoi/' + publishedon.toString()).then(function (result) {
+                    alert(result.Result);
+                }, function (error) {
+                    console.log(error.Result);
+                    alert("ERROR:" + error.Result);
+                });
+            }
+        };
+
+
         //Filter anwenden
         $scope.applyFilter = function (page, withoutrefresh) {
 

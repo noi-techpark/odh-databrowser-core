@@ -255,6 +255,8 @@
                                 <a ng-click="editpoi(poi)" class="btn btn-responsive btn-info">edit</a>
                                 <a ng-click="deletepoi(poi.Id)" class="btn btn-responsive btn-danger">delete</a>
 
+                                <a ng-click="pushdata(poi.Id,poi.PublishedOn)" class="btn btn-responsive btn-warning">push</a>
+
                                 @* @if (@ViewBag.globalmodify == true || @ViewBag.ODHPoiModify == true || @ViewBag.globaldetail == true)
                                 {
                                     <a ng-click="editpoi(poi)" class="btn btn-responsive btn-info">edit</a>

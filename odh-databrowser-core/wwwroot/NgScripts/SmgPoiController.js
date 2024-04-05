@@ -234,7 +234,7 @@ app.controller('smgpoiListController', [
                 console.log(publishedon);
 
                 $http.post($scope.basePath + '/v1/PushData/' + id + '/odhactivitypoi/' + publishedon.toString()).then(function (result) {
-                    alert(result.Result);
+                    alert("Success:" + result.data[publishedon].Result.Success + " \n Message: " + result.data[publishedon].Result.Response);
                 }, function (error) {
                     console.log(error.Result);
                     alert("ERROR:" + error.Result);

@@ -199,6 +199,7 @@
                         <th style="min-width: 80px;">active (source/ODH)</th>
                         <th style="min-width: 80px;">published</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -254,9 +255,6 @@
                                 <a ng-click="showInfoModal(poi)" class="btn btn-responsive btn-success" style="width:70px;">Detail</a>
                                 <a ng-click="editpoi(poi)" class="btn btn-responsive btn-info">edit</a>
                                 <a ng-click="deletepoi(poi.Id)" class="btn btn-responsive btn-danger">delete</a>
-
-                                <a ng-click="pushdata(poi.Id,poi.PublishedOn)" class="btn btn-responsive btn-warning">push</a>
-
                                 @* @if (@ViewBag.globalmodify == true || @ViewBag.ODHPoiModify == true || @ViewBag.globaldetail == true)
                                 {
                                     <a ng-click="editpoi(poi)" class="btn btn-responsive btn-info">edit</a>
@@ -265,6 +263,16 @@
                                 {
                                     <a ng-click="deletepoi(poi.Id)" class="btn btn-responsive btn-danger">delete</a>
                                 } *@
+                                
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group-vertical">
+                                
+                              <div ng-repeat="publisher in poi.PublishedOn" class="btn-group">
+                                  <small>{{ publisher }}</small>
+                                <a ng-click="pushdata(poi.Id,publisher)" class="btn btn-responsive btn-warning">push</a>
+                              </div>
                                 
                             </div>
                         </td>

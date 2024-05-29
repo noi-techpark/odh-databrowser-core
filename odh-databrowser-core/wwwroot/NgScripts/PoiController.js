@@ -238,6 +238,7 @@ app.controller('poiListController', [
             }
             else {
                 $scope.poiidfilter = 'null';
+            }
 
             var searchfilter = '';
             if ($scope.SelectedPoiName != '') {

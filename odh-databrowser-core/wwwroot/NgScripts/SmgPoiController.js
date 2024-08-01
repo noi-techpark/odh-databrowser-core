@@ -2077,14 +2077,14 @@ var relatedcontentsmgpoitypeaheadcontroller = app.controller('SmgRelatedContentA
 
     $scope.relatedcontenttypeaheadselected = false;
     
-    $http({
-        method: 'Get',
-        url: $scope.basePath + '/v1/ODHActivityPoi?type=233&fields=Id,Detail.de.Title,_Meta.Type&active=true&pagesize=0'
-    }).success(function (data) {
-        //alert('data gekriag' + data.length);
+    //$http({
+    //    method: 'Get',
+    //    url: $scope.basePath + '/v1/ODHActivityPoi?type=233&fields=Id,Detail.de.Title,_Meta.Type&active=true&pagesize=0'
+    //}).success(function (data) {
+    //    //alert('data gekriag' + data.length);
 
-        $scope.items = data;
-    });
+    //    $scope.items = data;
+    //});
     
     $scope.onItemSelected = function () {
         $scope.relatedcontenttypeaheadselected = true;
@@ -2095,14 +2095,14 @@ var relatedcontentgastrotypeaheadcontroller = app.controller('SmgRelatedContentG
 
     $scope.relatedcontenttypeaheadselected = false;
 
-    $http({
-        method: 'Get',
-        url: $scope.basePath + '/v1/ODHActivityPoi?type=32&fields=Id,Detail.de.Title,_Meta.Type&active=true&pagesize=0'
-    }).success(function (data) {
-        //alert('data gekriag' + data.length);
+    //$http({
+    //    method: 'Get',
+    //    url: $scope.basePath + '/v1/ODHActivityPoi?type=32&fields=Id,Detail.de.Title,_Meta.Type&active=true&pagesize=0'
+    //}).success(function (data) {
+    //    //alert('data gekriag' + data.length);
 
-        $scope.items = data;
-    });
+    //    $scope.items = data;
+    //});
 
     $scope.onItemSelected = function () {
         $scope.relatedcontenttypeaheadselected = true;
@@ -2113,17 +2113,17 @@ var relatedcontenteventtypeaheadcontroller = app.controller('SmgRelatedContentEv
 
     $scope.relatedcontenttypeaheadselected = false;
 
-    var today = new Date();
-    const now = today.getFullYear() + "-" + parseInt(today.getMonth() + 1) + "-" + today.getDate();
+    //var today = new Date();
+    //const now = today.getFullYear() + "-" + parseInt(today.getMonth() + 1) + "-" + today.getDate();
 
-    $http({
-        method: 'Get',
-        url: $scope.basePath + '/v1/Event?fields=Id,Detail.de.Title,_Meta.Type&pagesize=0&active=true&begindate=' + now
-    }).success(function (data) {
-        //alert('data gekriag' + data.length);
+    //$http({
+    //    method: 'Get',
+    //    url: $scope.basePath + '/v1/Event?fields=Id,Detail.de.Title,_Meta.Type&pagesize=0&active=true&begindate=' + now
+    //}).success(function (data) {
+    //    //alert('data gekriag' + data.length);
 
-        $scope.items = data;
-    });
+    //    $scope.items = data;
+    //});
 
     $scope.onItemSelected = function () {
         $scope.relatedcontenttypeaheadselected = true;
@@ -2135,14 +2135,14 @@ var relatedcontentwebcamtypeaheadcontroller = app.controller('SmgRelatedContentW
 
     $scope.relatedcontenttypeaheadselected = false;
 
-    $http({
-        method: 'Get',
-        url: $scope.basePath + '/v1/WebcamInfo?fields=Id,Detail.de.Title,_Meta.Type&pagesize=0&active=true'
-    }).success(function (data) {
-        //alert('data gekriag' + data.length);
+    //$http({
+    //    method: 'Get',
+    //    url: $scope.basePath + '/v1/WebcamInfo?fields=Id,Detail.de.Title,_Meta.Type&pagesize=0&active=true'
+    //}).success(function (data) {
+    //    //alert('data gekriag' + data.length);
 
-        $scope.items = data;
-    });
+    //    $scope.items = data;
+    //});
 
     $scope.onItemSelected = function () {
         $scope.relatedcontenttypeaheadselected = true;
